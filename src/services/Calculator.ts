@@ -1,4 +1,4 @@
-import {DataProvider, IceBankMeasurements, WaterBankMeasurements} from "./DataProvider";
+import {DataProvider, IceWaterBankMeasurements, TapWaterBankMeasurements} from "./DataProvider";
 import {TapWaterBankEntity} from "../entities/TapWaterBankEntity";
 import {IceWaterBankEntity} from "../entities/IceWaterBankEntity";
 import {CauldronEntity} from "../entities/CauldronEntity";
@@ -7,9 +7,10 @@ export class Calculator {
   cauldronEntities: CauldronEntity[];
   tapWaterBankEntity: TapWaterBankEntity;
   iceWaterBankEntity: IceWaterBankEntity;
-  tapWaterBankMeasurements: WaterBankMeasurements;
-  iceWaterBankMeasurements: IceBankMeasurements;
+  tapWaterBankMeasurements?: TapWaterBankMeasurements;
+  iceWaterBankMeasurements?: IceWaterBankMeasurements;
   result = 0;
+  dataProvider;
 
   constructor(
     cauldronEntities: CauldronEntity[],
@@ -20,9 +21,10 @@ export class Calculator {
     this.tapWaterBankEntity = tapWaterBankEntity;
     this.iceWaterBankEntity = iceWaterBankEntity;
 
-    const { iceWaterBankMeasurements, tapWaterBankMeasurements } = new DataProvider();
-    this.tapWaterBankMeasurements = tapWaterBankMeasurements;
-    this.iceWaterBankMeasurements = iceWaterBankMeasurements;
+    this.dataProvider = new DataProvider(
+      tapWaterBankEntity,
+      iceWaterBankEntity
+    );
 
     this.calculateResult();
   }
@@ -30,12 +32,16 @@ export class Calculator {
   calculateResult() {
     this.result = 0;
 
-    for (const cauldronEntity of this.cauldronEntities) {
-      this.result += cauldronEntity.sizeLitres;
-    }
-
-    this.result += this.tapWaterBankEntity.waterLitreCost + this.tapWaterBankEntity.waterLitreCo2;
-    this.result += this.iceWaterBankEntity.kwHourCo2 + this.iceWaterBankEntity.kwHourCost;
+    const { iceWaterBankMeasurements, tapWaterBankMeasurements } = this.dataProvider.fetch();
+    this.tapWaterBankMeasurements = tapWaterBankMeasurements;
+    this.iceWaterBankMeasurements = iceWaterBankMeasurements;
+    console.log(this.tapWaterBankMeasurements, this.iceWaterBankMeasurements)
+    // for (const cauldronEntity of this.cauldronEntities) {
+    //   this.result += cauldronEntity.sizeLitres;
+    // }
+    //
+    // this.result += this.tapWaterBankEntity.waterLitreCHF + this.tapWaterBankEntity.waterLitreCo2;
+    // this.result += this.iceWaterBankEntity.kwHourCo2 + this.iceWaterBankEntity.kwHourCHF;
 
     return this.result;
   }

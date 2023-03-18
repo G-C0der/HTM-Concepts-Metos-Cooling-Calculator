@@ -17,9 +17,14 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
+  const handleKwHourChange = (e: any) => {
+    const kwHour = +e.target.value;
+    iceWaterBankEntity.kwHour = kwHour;
+  };
+
   const handleKwHourCostChange = (e: any) => {
-    const kwHourCost = +e.target.value;
-    iceWaterBankEntity.kwHourCost = kwHourCost;
+    const kwHourCHF = +e.target.value;
+    iceWaterBankEntity.kwHourCHF = kwHourCHF;
   };
 
   const handleKwHourCo2Change = (e: any) => {
@@ -73,15 +78,26 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
 
           <Grid item xs={12} md={2}>
             <TextField
-              disabled
               style={{ width: "200px", margin: "5px" }}
+              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
-              label="Leistung"
+              label="kw/h"
               variant="outlined"
-              value={0}
+              onChange={handleKwHourChange}
             />
           </Grid>
+          {/*<Grid item xs={12} md={2}>*/}
+          {/*  <TextField*/}
+          {/*    disabled*/}
+          {/*    style={{ width: "200px", margin: "5px" }}*/}
+          {/*    type="number"*/}
+          {/*    inputProps={{ type: 'number' }}*/}
+          {/*    label="Leistung"*/}
+          {/*    variant="outlined"*/}
+          {/*    value={iceWaterBankEntity.kw}*/}
+          {/*  />*/}
+          {/*</Grid>*/}
 
           <Grid item xs={12} md={2}>
             <TextField
@@ -91,7 +107,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
               inputProps={{ type: 'number' }}
               label="Eis kg"
               variant="outlined"
-              value={0}
+              value={iceWaterBankEntity.iceKg}
             />
           </Grid>
         </Grid>

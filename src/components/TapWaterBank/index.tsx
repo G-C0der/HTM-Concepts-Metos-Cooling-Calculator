@@ -18,8 +18,8 @@ const Container = styled('div')(({ theme }) => ({
 
 export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
   const handleWaterLitreCostChange = (e: any) => {
-    const waterLitreCost = +e.target.value;
-    tapWaterBankEntity.waterLitreCost = waterLitreCost;
+    const waterLitreCHF = +e.target.value;
+    tapWaterBankEntity.waterLitreCHF = waterLitreCHF;
   };
 
   const handleWaterLitreCo2Change = (e: any) => {

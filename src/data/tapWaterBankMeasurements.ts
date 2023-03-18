@@ -1,6 +1,6 @@
 export const tapWaterBankMeasurements =
-  'Temp/Food,Zeit/Min,Wasser/l\n' +
-  '96,0,Liter\n' +
+  'Food/Temp,Zeit/Min,Wasser/l\n' +
+  '96,0,0\n' +
   ',1,16\n' +
   ',2,32\n' +
   ',3,48\n' +
