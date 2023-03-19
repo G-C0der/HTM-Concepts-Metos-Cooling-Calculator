@@ -21,8 +21,6 @@ const getFields = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurem
   
   if (DataProvider.isATapWaterBankMeasurement(measurements)) fields = tapWaterBankFields;
   if (DataProvider.isAnIceWaterBankMeasurement(measurements)) fields = iceWaterBankFields;
-  console.log('fields', fields)
-  console.log('measurements', measurements)
 
   return fields;
 };

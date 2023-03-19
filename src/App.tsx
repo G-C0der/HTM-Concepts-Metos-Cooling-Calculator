@@ -20,13 +20,12 @@ import Grid from "@mui/material/Grid";
 function App() {
   const [cauldronCount, setCauldronCount] = useState<CauldronCount>(1);
   const [cauldronEntities, setCauldronEntities] = useState<CauldronEntity[]>([new CauldronEntity()]);
+  const [tapWaterBankEntity] = useState<TapWaterBankEntity>(new TapWaterBankEntity());
+  const [iceWaterBankEntity] = useState<IceWaterBankEntity>(new IceWaterBankEntity());
   const [tapWaterBankMeasurements, setTapWaterBankMeasurements] = useState<TapWaterBankMeasurements>();
   const [iceWaterBankMeasurements, setIceWaterBankMeasurements] = useState<IceWaterBankMeasurements>();
 
   const [result, setResult] = useState(0);
-
-  const tapWaterBankEntity = new TapWaterBankEntity();
-  const iceWaterBankEntity = new IceWaterBankEntity();
 
   const dataProvider = new DataProvider(
     tapWaterBankEntity,
