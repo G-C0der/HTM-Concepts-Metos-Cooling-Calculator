@@ -3,7 +3,6 @@ import {iceWaterBankMeasurements} from "../data/iceWaterBankMeasurements";
 import {tapWaterBankMeasurements} from "../data/tapWaterBankMeasurements";
 import {TapWaterBankEntity} from "../entities/TapWaterBankEntity";
 import {IceWaterBankEntity} from "../entities/IceWaterBankEntity";
-import {round} from "../utils/math";
 
 // Tap water bank fields
 const FIELD_WATER_LITRE = 'Wasser/l';
@@ -68,6 +67,7 @@ interface IceWaterBankMainMeasurements extends Array<IceWaterBankMainMeasurement
 interface TapWaterBankMeasurement extends TapWaterBankMainMeasurement {
   [FIELD_LITRE_CHF]: number;
   [FIELD_LITRE_CO2_GRAMS]: number;
+  target?: boolean;
 }
 interface TapWaterBankMeasurements extends Array<TapWaterBankMeasurement> {}
 
@@ -76,6 +76,7 @@ interface IceWaterBankMeasurement extends IceWaterBankMainMeasurement {
   [FIELD_KW_HOUR_CHF]: number;
   [FIELD_KW_HOUR_CO2_GRAMS]: number;
   [FIELD_ICE_INCREASE_KG]: number;
+  target?: boolean;
 }
 interface IceWaterBankMeasurements extends Array<IceWaterBankMeasurement> {}
 
@@ -94,21 +95,14 @@ class DataProvider {
   }
   
   fetch = () => {
-    // this.clear();
-    
     this.setTapWaterBankMeasurements(csvToJSON(tapWaterBankMeasurements));
     this.setIceWaterBankMeasurements(csvToJSON(iceWaterBankMeasurements));
     
     return {
       tapWaterBankMeasurements: (this.tapWaterBankMeasurements as TapWaterBankMeasurements),
       iceWaterBankMeasurements: (this.iceWaterBankMeasurements as IceWaterBankMeasurements)
-    }
+    };
   };
-  
-  // private clear = () => {
-  //   this.tapWaterBankMeasurements = undefined;
-  //   this.iceWaterBankMeasurements = undefined;
-  // };
   
   private setTapWaterBankMeasurements = (tapWaterBankMainMeasurements: TapWaterBankMainMeasurements) => {
     this.tapWaterBankMeasurements = tapWaterBankMainMeasurements;
@@ -121,13 +115,13 @@ class DataProvider {
       const isFirstRow = i === 0;
 
       // Set calculated fields
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = round(isFirstRow
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = isFirstRow
         ? litreCHFFactor
-        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE], DECIMALS);
+        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
 
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = round(isFirstRow
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = isFirstRow
         ? litreCo2GramsFactor
-        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE], DECIMALS);
+        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
     }
   };
 
@@ -147,13 +141,13 @@ class DataProvider {
       if (isFirstRow) foodTempMinuend = iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP];
 
       // Set calculated fields
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = round(isFirstRow
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
         ? kwHourFactor
-        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]), DECIMALS);
+        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]);
 
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = round(isFirstRow
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
         ? kwHourCHFFactor
-        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR], DECIMALS);
+        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR];
 
       // iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
       //   ? kwHourCo2GramsFactor
@@ -187,7 +181,9 @@ export {
   FIELD_KW_HOUR,
   FIELD_KW_HOUR_CHF,
   FIELD_KW_HOUR_CO2_GRAMS,
-  FIELD_ICE_INCREASE_KG
+  FIELD_ICE_INCREASE_KG,
+
+  DECIMALS
 };
 
 export type {

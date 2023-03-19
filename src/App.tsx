@@ -7,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {getEnumMinMax} from "./utils/enum";
 import {CauldronEntity} from "./entities/CauldronEntity";
-import Box from "@mui/material/Box";
 import {Calculator} from "./services/Calculator";
 import {WaterBank} from "./components/TapWaterBank";
 import {IceWaterBankEntity} from "./entities/IceWaterBankEntity";
@@ -16,7 +15,7 @@ import {IceBank} from "./components/IceWaterBank";
 import {DataProvider, IceWaterBankMeasurements, TapWaterBankMeasurements} from "./services/DataProvider";
 import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
-import {round} from "./utils/math";
+import Box from "@mui/material/Box";
 
 function App() {
   const [cauldronCount, setCauldronCount] = useState<CauldronCount>(1);
@@ -26,17 +25,13 @@ function App() {
   const [tapWaterBankMeasurements, setTapWaterBankMeasurements] = useState<TapWaterBankMeasurements>();
   const [iceWaterBankMeasurements, setIceWaterBankMeasurements] = useState<IceWaterBankMeasurements>();
 
-  const [result, setResult] = useState(0);
-
   const dataProvider = new DataProvider(
     tapWaterBankEntity,
     iceWaterBankEntity
   );
 
   const calculator = new Calculator(
-    cauldronEntities,
-    tapWaterBankMeasurements,
-    iceWaterBankMeasurements
+    cauldronEntities
   );
 
   const handleAddCauldronClick = () => {
@@ -45,8 +40,6 @@ function App() {
     if (cauldronCount >= maxCauldronCount) return;
 
     setCauldronEntities([...cauldronEntities, new CauldronEntity()]);
-
-    setResult(calculator.calculateResult());
 
     setCauldronCount(cauldronCount + 1);
   };
@@ -58,13 +51,16 @@ function App() {
   };
 
   const handleRefreshClick = () => {
-    // setResult(calculator.calculateResult());
-
     // Fetch newest measurements
-    const { tapWaterBankMeasurements, iceWaterBankMeasurements } = dataProvider.fetch();
-    setTapWaterBankMeasurements(tapWaterBankMeasurements);
-    setIceWaterBankMeasurements(iceWaterBankMeasurements);
-    // console.log(iceWaterBankMeasurements, tapWaterBankMeasurements)
+    let { tapWaterBankMeasurements, iceWaterBankMeasurements } = dataProvider.fetch();
+    calculator.setTapWaterBankMeasurements(tapWaterBankMeasurements);
+    calculator.setIceWaterBankMeasurements(iceWaterBankMeasurements);
+
+    // Set target row (row with smallest cost difference)
+    // ({ tapWaterBankMeasurements, iceWaterBankMeasurements } = calculator.setTargetRow()); // TODO: check why this not works
+    const res = calculator.setTargetRow();
+    setTapWaterBankMeasurements(res?.tapWaterBankMeasurements);
+    setIceWaterBankMeasurements(res?.iceWaterBankMeasurements);
   };
 
   return (
@@ -106,7 +102,7 @@ function App() {
             margin: '0 0 25px'
           }}
         >
-          {result}
+          {0}
         </Box>
 
         <Grid container sx={{ gap: 50, ml: 65, mr: 0 }}>

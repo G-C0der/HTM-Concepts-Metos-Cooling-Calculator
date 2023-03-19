@@ -4,11 +4,12 @@ import {
   iceWaterBankFields,
   tapWaterBankFields,
   IceWaterBankMeasurements,
-  TapWaterBankMeasurements, FIELD_TIME_MIN, TapWaterBankField, IceWaterBankField
+  TapWaterBankMeasurements, FIELD_TIME_MIN, TapWaterBankField, IceWaterBankField, DECIMALS
 } from "../../services/DataProvider";
 import {styled} from "@mui/material/styles";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import {round} from "../../utils/math";
 
 interface MeasurementsGridProps {
   measurements: TapWaterBankMeasurements | IceWaterBankMeasurements;
@@ -55,7 +56,7 @@ export const MeasurementsGrid = ({ measurements, title, width }: MeasurementsGri
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 {fields.map(field => (
-                  <TableCell align="right" key={field}>{/*(field in row) && */row[field]}</TableCell> // TODO: remove row any type and check why this is not working
+                  <TableCell sx={row.target ? { backgroundColor: '#ce8989' } : {}} align="right" key={field}>{/*(field in row) && */round(row[field], DECIMALS)}</TableCell> // TODO: remove row any type and check why this is not working
                 ))}
               </TableRow>
             ))}
