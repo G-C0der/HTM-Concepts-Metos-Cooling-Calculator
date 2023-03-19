@@ -3,6 +3,7 @@ import {iceWaterBankMeasurements} from "../data/iceWaterBankMeasurements";
 import {tapWaterBankMeasurements} from "../data/tapWaterBankMeasurements";
 import {TapWaterBankEntity} from "../entities/TapWaterBankEntity";
 import {IceWaterBankEntity} from "../entities/IceWaterBankEntity";
+import {round} from "../utils/math";
 
 // Tap water bank fields
 const FIELD_WATER_LITRE = 'Wasser/l';
@@ -35,6 +36,8 @@ const iceWaterBankFields: IceWaterBankField[] = [
   // FIELD_KW_HOUR_CO2_GRAMS,
   // FIELD_ICE_INCREASE_KG
 ];
+
+const DECIMALS = 4;
 
 type TapWaterBankField = typeof FIELD_FOOD_TEMP
   | typeof FIELD_TIME_MIN
@@ -117,13 +120,14 @@ class DataProvider {
       const tapWaterBankMeasurementsRow = (this.tapWaterBankMeasurements as TapWaterBankMeasurements)[i];
       const isFirstRow = i === 0;
 
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = isFirstRow
+      // Set calculated fields
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = round(isFirstRow
         ? litreCHFFactor
-        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
+        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE], DECIMALS);
 
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = isFirstRow
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = round(isFirstRow
         ? litreCo2GramsFactor
-        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
+        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE], DECIMALS);
     }
   };
 
@@ -142,13 +146,14 @@ class DataProvider {
 
       if (isFirstRow) foodTempMinuend = iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP];
 
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
+      // Set calculated fields
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = round(isFirstRow
         ? kwHourFactor
-        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]);
+        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]), DECIMALS);
 
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = round(isFirstRow
         ? kwHourCHFFactor
-        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR];
+        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR], DECIMALS);
 
       // iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
       //   ? kwHourCo2GramsFactor
