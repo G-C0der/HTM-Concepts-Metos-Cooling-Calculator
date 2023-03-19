@@ -13,7 +13,7 @@ export function CauldronContainer({ cauldronEntities, handleCauldronDeleteClick 
   let cauldronNr = 1;
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 2000, minWidth: 2000, margin: '0 0 35px 74px' }}>
+    <Box sx={{ flexGrow: 1, maxWidth: 2000, minWidth: 2000, margin: '0 0 0 74px' }}>
       <Grid container spacing={2}>
         {cauldronEntities.map(cauldronEntity => (
           <Grid item xs={12} md={2} key={cauldronNr++} >

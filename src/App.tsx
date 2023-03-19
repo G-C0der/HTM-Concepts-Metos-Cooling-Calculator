@@ -84,28 +84,7 @@ function App() {
           backgroundColor: "white",
         }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
 
-        <Box
-          component="div"
-          sx={{
-            display: 'inline',
-            p: 1,
-            m: 1,
-            bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
-            color: (theme) =>
-              theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800',
-            border: '1px solid',
-            borderColor: (theme) =>
-              theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
-            borderRadius: 2,
-            fontSize: '0.875rem',
-            fontWeight: '700',
-            margin: '0 0 25px'
-          }}
-        >
-          {0}
-        </Box>
-
-        <Grid container sx={{ gap: 50, ml: 65, mr: 0 }}>
+        <Grid container sx={{ gap: 50, mt: 10, ml: 65, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
               tapWaterBankMeasurements &&

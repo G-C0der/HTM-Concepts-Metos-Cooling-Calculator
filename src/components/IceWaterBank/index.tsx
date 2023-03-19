@@ -33,7 +33,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
   };
 
   return (
-    <Container>
+    <Container sx={{ mt: 4 }}>
       <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
         Eiswasserbank
       </Typography>
@@ -49,6 +49,18 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
               label="Nachladegeschwindigkeit kw/h"
               variant="outlined"
               value={IceWaterBankEntity.rechargeRateKwPerHour}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={2}>
+            <TextField
+              style={{ width: "200px", margin: "5px" }}
+              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              type="number"
+              inputProps={{ type: 'number' }}
+              label="kw/h"
+              variant="outlined"
+              onChange={handleKwHourChange}
             />
           </Grid>
 
@@ -76,17 +88,6 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="kw/h"
-              variant="outlined"
-              onChange={handleKwHourChange}
-            />
-          </Grid>
           {/*<Grid item xs={12} md={2}>*/}
           {/*  <TextField*/}
           {/*    disabled*/}
