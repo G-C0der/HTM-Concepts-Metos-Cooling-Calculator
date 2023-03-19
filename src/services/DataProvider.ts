@@ -4,43 +4,77 @@ import {tapWaterBankMeasurements} from "../data/tapWaterBankMeasurements";
 import {TapWaterBankEntity} from "../entities/TapWaterBankEntity";
 import {IceWaterBankEntity} from "../entities/IceWaterBankEntity";
 
-// Tap water bank calculated fields
-const FIELD_KEY_WATER_LITRE = 'Wasser/l';
-const FIELD_KEY_LITRE_CHF = 'l/CHF';
-const FIELD_KEY_LITRE_CO2_GRAMS = 'l/Co2/g';
+// Tap water bank fields
+const FIELD_WATER_LITRE = 'Wasser/l';
+const FIELD_LITRE_CHF = 'l/CHF';
+const FIELD_LITRE_CO2_GRAMS = 'l/Co2/g';
 
-// Ice water bank calculated fields
-const FIELD_KEY_KW_HOUR = 'kw/h';
-const FIELD_KEY_KW_HOUR_CHF = 'kw/h/CHF';
-const FIELD_KEY_KW_HOUR_CO2_GRAMS = 'kw/h/Co2/g';
-const FIELD_KEY_ICE_INCREASE_KG = 'EisAufbau/kg';
+// Ice water bank fields
+const FIELD_KW_HOUR = 'kw/h';
+const FIELD_KW_HOUR_CHF = 'kw/h/CHF';
+const FIELD_KW_HOUR_CO2_GRAMS = 'kw/h/Co2/g';
+const FIELD_ICE_INCREASE_KG = 'EisAufbau/kg';
 
-// Shared calculated fields
-const FIELD_KEY_FOOD_TEMP = 'Food/Temp';
-const FIELD_KEY_TIME_MIN = 'Zeit/Min';
+// Shared fields
+const FIELD_FOOD_TEMP = 'Food/Temp';
+const FIELD_TIME_MIN = 'Zeit/Min';
 
-type TapWaterBankMainMeasurements = {
-  [FIELD_KEY_FOOD_TEMP]?: number,
-  [FIELD_KEY_TIME_MIN]: number,
-  [FIELD_KEY_WATER_LITRE]: number
-}[];
+const tapWaterBankFields: TapWaterBankField[] = [
+  FIELD_FOOD_TEMP,
+  FIELD_TIME_MIN,
+  FIELD_WATER_LITRE,
+  FIELD_LITRE_CHF,
+  FIELD_LITRE_CO2_GRAMS
+];
 
-type IceWaterBankMainMeasurements = {
-  [FIELD_KEY_FOOD_TEMP]: number,
-  [FIELD_KEY_TIME_MIN]: number
-}[];
+const iceWaterBankFields: IceWaterBankField[] = [
+  FIELD_FOOD_TEMP,
+  FIELD_TIME_MIN,
+  FIELD_KW_HOUR,
+  FIELD_KW_HOUR_CHF,
+  // FIELD_KW_HOUR_CO2_GRAMS,
+  // FIELD_ICE_INCREASE_KG
+];
 
-type TapWaterBankMeasurements = TapWaterBankMainMeasurements & {
-  [FIELD_KEY_LITRE_CHF]: number,
-  [FIELD_KEY_LITRE_CO2_GRAMS]: number
-}[];
+type TapWaterBankField = typeof FIELD_FOOD_TEMP
+  | typeof FIELD_TIME_MIN
+  | typeof FIELD_WATER_LITRE
+  | typeof FIELD_LITRE_CHF
+  | typeof FIELD_LITRE_CO2_GRAMS;
 
-type IceWaterBankMeasurements = IceWaterBankMainMeasurements & {
-  [FIELD_KEY_KW_HOUR]: number,
-  [FIELD_KEY_KW_HOUR_CHF]: number,
-  [FIELD_KEY_KW_HOUR_CO2_GRAMS]: number,
-  [FIELD_KEY_ICE_INCREASE_KG]: number
-}[];
+type IceWaterBankField = typeof FIELD_FOOD_TEMP
+  | typeof FIELD_TIME_MIN
+  | typeof FIELD_KW_HOUR
+  | typeof FIELD_KW_HOUR_CHF
+  | typeof FIELD_KW_HOUR_CO2_GRAMS
+  | typeof FIELD_ICE_INCREASE_KG;
+
+interface TapWaterBankMainMeasurement {
+  [FIELD_FOOD_TEMP]?: number;
+  [FIELD_TIME_MIN]: number;
+  [FIELD_WATER_LITRE]: number;
+}
+interface TapWaterBankMainMeasurements extends Array<TapWaterBankMainMeasurement> {}
+
+interface IceWaterBankMainMeasurement {
+  [FIELD_FOOD_TEMP]: number;
+  [FIELD_TIME_MIN]: number;
+}
+interface IceWaterBankMainMeasurements extends Array<IceWaterBankMainMeasurement> {}
+
+interface TapWaterBankMeasurement extends TapWaterBankMainMeasurement {
+  [FIELD_LITRE_CHF]: number;
+  [FIELD_LITRE_CO2_GRAMS]: number;
+}
+interface TapWaterBankMeasurements extends Array<TapWaterBankMeasurement> {}
+
+interface IceWaterBankMeasurement extends IceWaterBankMainMeasurement {
+  [FIELD_KW_HOUR]: number;
+  [FIELD_KW_HOUR_CHF]: number;
+  [FIELD_KW_HOUR_CO2_GRAMS]: number;
+  [FIELD_ICE_INCREASE_KG]: number;
+}
+interface IceWaterBankMeasurements extends Array<IceWaterBankMeasurement> {}
 
 class DataProvider {
   tapWaterBankMeasurements?: TapWaterBankMainMeasurements | TapWaterBankMeasurements;
@@ -57,7 +91,7 @@ class DataProvider {
   }
   
   fetch = () => {
-    this.clear();
+    // this.clear();
     
     this.setTapWaterBankMeasurements(csvToJSON(tapWaterBankMeasurements));
     this.setIceWaterBankMeasurements(csvToJSON(iceWaterBankMeasurements));
@@ -68,29 +102,28 @@ class DataProvider {
     }
   };
   
-  private clear = () => {
-    this.tapWaterBankMeasurements = undefined;
-    this.iceWaterBankMeasurements = undefined;
-  };
+  // private clear = () => {
+  //   this.tapWaterBankMeasurements = undefined;
+  //   this.iceWaterBankMeasurements = undefined;
+  // };
   
   private setTapWaterBankMeasurements = (tapWaterBankMainMeasurements: TapWaterBankMainMeasurements) => {
     this.tapWaterBankMeasurements = tapWaterBankMainMeasurements;
     
     const litreCHFFactor = this.tapWaterBankEntity.waterLitreCHF;
     const litreCo2GramsFactor = this.tapWaterBankEntity.waterLitreCo2;
-    console.log(this.tapWaterBankEntity.waterLitreCHF, this.tapWaterBankEntity.waterLitreCo2,this.iceWaterBankEntity.kwHour )
 
     for (let i = 0; i < this.tapWaterBankMeasurements.length; i++) {
       const tapWaterBankMeasurementsRow = (this.tapWaterBankMeasurements as TapWaterBankMeasurements)[i];
       const isFirstRow = i === 0;
 
-      tapWaterBankMeasurementsRow[FIELD_KEY_LITRE_CHF] = isFirstRow
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = isFirstRow
         ? litreCHFFactor
-        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_KEY_WATER_LITRE];
+        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
 
-      tapWaterBankMeasurementsRow[FIELD_KEY_LITRE_CO2_GRAMS] = isFirstRow
+      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = isFirstRow
         ? litreCo2GramsFactor
-        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_KEY_WATER_LITRE];
+        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
     }
   };
 
@@ -107,28 +140,55 @@ class DataProvider {
       const iceWaterBankMeasurementsRow = (this.iceWaterBankMeasurements as IceWaterBankMeasurements)[i];
       const isFirstRow = i === 0;
 
-      if (isFirstRow) foodTempMinuend = iceWaterBankMeasurementsRow[FIELD_KEY_FOOD_TEMP];
+      if (isFirstRow) foodTempMinuend = iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP];
 
-      iceWaterBankMeasurementsRow[FIELD_KEY_KW_HOUR] = isFirstRow
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
         ? kwHourFactor
-        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_KEY_FOOD_TEMP]);
+        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]);
 
-      iceWaterBankMeasurementsRow[FIELD_KEY_KW_HOUR_CHF] = isFirstRow
+      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
         ? kwHourCHFFactor
-        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KEY_KW_HOUR];
+        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR];
 
-      // iceWaterBankMeasurementsRow[FIELD_KEY_KW_HOUR_CO2_GRAMS] = isFirstRow
+      // iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
       //   ? kwHourCo2GramsFactor
       //   : kwHourCo2GramsFactor * iceWaterBankMeasurementsRow[FIELDKEY]
     }
   };
+
+  static isATapWaterBankMeasurement = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurements) => {
+    const firstRow = measurements[0];
+
+    return tapWaterBankFields.every(field => field in firstRow);
+  }
+
+  static isAnIceWaterBankMeasurement = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurements) => {
+    const firstRow = measurements[0];
+
+    return iceWaterBankFields.every(field => field in firstRow);
+  }
 }
 
 export {
-  DataProvider
+  DataProvider,
+
+  tapWaterBankFields,
+  iceWaterBankFields,
+  FIELD_FOOD_TEMP,
+  FIELD_TIME_MIN,
+  FIELD_WATER_LITRE,
+  FIELD_LITRE_CHF,
+  FIELD_LITRE_CO2_GRAMS,
+  FIELD_KW_HOUR,
+  FIELD_KW_HOUR_CHF,
+  FIELD_KW_HOUR_CO2_GRAMS,
+  FIELD_ICE_INCREASE_KG
 };
 
 export type {
   TapWaterBankMeasurements,
-  IceWaterBankMeasurements
+  IceWaterBankMeasurements,
+
+  TapWaterBankField,
+  IceWaterBankField
 };

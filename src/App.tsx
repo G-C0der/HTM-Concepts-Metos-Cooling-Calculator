@@ -13,18 +13,30 @@ import {WaterBank} from "./components/TapWaterBank";
 import {IceWaterBankEntity} from "./entities/IceWaterBankEntity";
 import {TapWaterBankEntity} from "./entities/TapWaterBankEntity";
 import {IceBank} from "./components/IceWaterBank";
+import {DataProvider, IceWaterBankMeasurements, TapWaterBankMeasurements} from "./services/DataProvider";
+import {MeasurementsGrid} from "./components/MeasurementsGrid";
+import Grid from "@mui/material/Grid";
 
 function App() {
   const [cauldronCount, setCauldronCount] = useState<CauldronCount>(1);
   const [cauldronEntities, setCauldronEntities] = useState<CauldronEntity[]>([new CauldronEntity()]);
-  const [tapWaterBankEntity] = useState(new TapWaterBankEntity());
-  const [iceWaterBankEntity] = useState(new IceWaterBankEntity());
+  const [tapWaterBankMeasurements, setTapWaterBankMeasurements] = useState<TapWaterBankMeasurements>();
+  const [iceWaterBankMeasurements, setIceWaterBankMeasurements] = useState<IceWaterBankMeasurements>();
+
   const [result, setResult] = useState(0);
+
+  const tapWaterBankEntity = new TapWaterBankEntity();
+  const iceWaterBankEntity = new IceWaterBankEntity();
+
+  const dataProvider = new DataProvider(
+    tapWaterBankEntity,
+    iceWaterBankEntity
+  );
 
   const calculator = new Calculator(
     cauldronEntities,
-    tapWaterBankEntity,
-    iceWaterBankEntity
+    tapWaterBankMeasurements,
+    iceWaterBankMeasurements
   );
 
   const handleAddCauldronClick = () => {
@@ -46,7 +58,13 @@ function App() {
   };
 
   const handleRefreshClick = () => {
-    setResult(calculator.calculateResult());
+    // setResult(calculator.calculateResult());
+
+    // Fetch newest measurements
+    const { tapWaterBankMeasurements, iceWaterBankMeasurements } = dataProvider.fetch();
+    setTapWaterBankMeasurements(tapWaterBankMeasurements);
+    setIceWaterBankMeasurements(iceWaterBankMeasurements);
+    // console.log(iceWaterBankMeasurements, tapWaterBankMeasurements)
   };
 
   return (
@@ -90,6 +108,30 @@ function App() {
         >
           {result}
         </Box>
+
+        <Grid container sx={{ gap: 50, ml: 65, mr: 0 }}>
+          <Grid item xs={12} md={2}>
+            {
+              tapWaterBankMeasurements &&
+              <MeasurementsGrid
+                measurements={tapWaterBankMeasurements}
+                title='Frischwasserbank Messungen'
+                width={800}
+              />
+            }
+          </Grid>
+
+          <Grid item xs={12} md={2}>
+            {
+              iceWaterBankMeasurements &&
+              <MeasurementsGrid
+                measurements={iceWaterBankMeasurements}
+                title='Eiswasserbank Messungen'
+                width={1200}
+              />
+            }
+          </Grid>
+        </Grid>
       </header>
     </div>
   );

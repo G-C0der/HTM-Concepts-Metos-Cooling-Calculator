@@ -15,13 +15,11 @@ export function CauldronContainer({ cauldronEntities, handleCauldronDeleteClick 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 2000, minWidth: 2000, margin: '0 0 35px 74px' }}>
       <Grid container spacing={2}>
-        {cauldronEntities.map(cauldronEntity => {
-          return (
-            <Grid item xs={12} md={2} key={cauldronNr++} >
-              <Cauldron cauldronEntity={cauldronEntity} number={cauldronNr} handleCauldronDeleteClick={handleCauldronDeleteClick} />
-            </Grid>
-          );
-        })}
+        {cauldronEntities.map(cauldronEntity => (
+          <Grid item xs={12} md={2} key={cauldronNr++} >
+            <Cauldron cauldronEntity={cauldronEntity} number={cauldronNr} handleCauldronDeleteClick={handleCauldronDeleteClick} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
