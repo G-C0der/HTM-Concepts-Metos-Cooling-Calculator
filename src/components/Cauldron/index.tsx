@@ -42,11 +42,11 @@ export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: 
 
   return (
     <Container>
-      <Typography sx={{ mt: 4, mb: 1 }} variant="h6" component="div" style={{ color: "black" }}>
+      <Typography sx={{ mt: 4, mb: -2, pt: 2, pl: 2 }} variant="h6" component="div" style={{ color: "black" }}>
         Kessel {number}
       </Typography>
 
-      <IconButton onClick={() => handleCauldronDeleteClick(number)}>
+      <IconButton sx={{ mt: -9, ml: 24 }} onClick={() => handleCauldronDeleteClick(number)}>
         <CloseIcon />
       </IconButton>
 

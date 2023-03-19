@@ -12,8 +12,8 @@ interface IceBankProps {
 const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
-  width: 1882,
-  height: 170
+  width: 1881,
+  height: 180
 }));
 
 export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
@@ -34,7 +34,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
 
   return (
     <Container>
-      <Typography sx={{ mt: 4, mb: 1 }} variant="h6" component="div" style={{ color: "black" }}>
+      <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
         Eiswasserbank
       </Typography>
 
