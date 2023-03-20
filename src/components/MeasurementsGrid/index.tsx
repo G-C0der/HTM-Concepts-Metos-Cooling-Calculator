@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   DataProvider,
-  iceWaterBankFields,
-  tapWaterBankFields,
-  IceWaterBankMeasurements,
-  TapWaterBankMeasurements, FIELD_TIME_MIN, TapWaterBankField, IceWaterBankField, DECIMALS
+  iceWaterCoolingFields,
+  tapWaterCoolingFields,
+  IceWaterCoolingMeasurements,
+  TapWaterCoolingMeasurements, FIELD_TIME_MIN, TapWaterCoolingField, IceWaterCoolingField, DECIMALS
 } from "../../services/DataProvider";
 import {styled} from "@mui/material/styles";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
@@ -12,16 +12,16 @@ import Typography from "@mui/material/Typography";
 import {round} from "../../utils/math";
 
 interface MeasurementsGridProps {
-  measurements: TapWaterBankMeasurements | IceWaterBankMeasurements;
+  measurements: TapWaterCoolingMeasurements | IceWaterCoolingMeasurements;
   title: string;
   width: number;
 }
 
-const getFields = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurements) => {
-  let fields: TapWaterBankField[] | IceWaterBankField[] = [];
+const getFields = (measurements: TapWaterCoolingMeasurements | IceWaterCoolingMeasurements) => {
+  let fields: TapWaterCoolingField[] | IceWaterCoolingField[] = [];
   
-  if (DataProvider.isATapWaterBankMeasurement(measurements)) fields = tapWaterBankFields;
-  if (DataProvider.isAnIceWaterBankMeasurement(measurements)) fields = iceWaterBankFields;
+  if (DataProvider.isATapWaterCoolingMeasurement(measurements)) fields = tapWaterCoolingFields;
+  if (DataProvider.isAnIceWaterCoolingMeasurement(measurements)) fields = iceWaterCoolingFields;
 
   return fields;
 };

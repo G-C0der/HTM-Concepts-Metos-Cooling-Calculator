@@ -8,26 +8,25 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {getEnumMinMax} from "./utils/enum";
 import {CauldronEntity} from "./entities/CauldronEntity";
 import {Calculator} from "./services/Calculator";
-import {WaterBank} from "./components/TapWaterBank";
-import {IceWaterBankEntity} from "./entities/IceWaterBankEntity";
-import {TapWaterBankEntity} from "./entities/TapWaterBankEntity";
-import {IceBank} from "./components/IceWaterBank";
-import {DataProvider, IceWaterBankMeasurements, TapWaterBankMeasurements} from "./services/DataProvider";
+import {WaterCooling} from "./components/TapWaterCooling";
+import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
+import {TapWaterCoolingEntity} from "./entities/TapWaterCoolingEntity";
+import {IceCooling} from "./components/IceWaterCooling";
+import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
 import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 
 function App() {
   const [cauldronCount, setCauldronCount] = useState<CauldronCount>(1);
   const [cauldronEntities, setCauldronEntities] = useState<CauldronEntity[]>([new CauldronEntity()]);
-  const [tapWaterBankEntity] = useState<TapWaterBankEntity>(new TapWaterBankEntity());
-  const [iceWaterBankEntity] = useState<IceWaterBankEntity>(new IceWaterBankEntity());
-  const [tapWaterBankMeasurements, setTapWaterBankMeasurements] = useState<TapWaterBankMeasurements>();
-  const [iceWaterBankMeasurements, setIceWaterBankMeasurements] = useState<IceWaterBankMeasurements>();
+  const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
+  const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
+  const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
+  const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
 
   const dataProvider = new DataProvider(
-    tapWaterBankEntity,
-    iceWaterBankEntity
+    tapWaterCoolingEntity,
+    iceWaterCoolingEntity
   );
 
   const calculator = new Calculator(
@@ -52,15 +51,15 @@ function App() {
 
   const handleRefreshClick = () => {
     // Fetch newest measurements
-    let { tapWaterBankMeasurements, iceWaterBankMeasurements } = dataProvider.fetch();
-    calculator.setTapWaterBankMeasurements(tapWaterBankMeasurements);
-    calculator.setIceWaterBankMeasurements(iceWaterBankMeasurements);
+    let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
+    calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
+    calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
     // Set target row (row with smallest cost difference)
-    // ({ tapWaterBankMeasurements, iceWaterBankMeasurements } = calculator.setTargetRow()); // TODO: check why this not works
+    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.setTargetRow()); // TODO: check why this not works
     const res = calculator.setTargetRow();
-    setTapWaterBankMeasurements(res?.tapWaterBankMeasurements);
-    setIceWaterBankMeasurements(res?.iceWaterBankMeasurements);
+    setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
+    setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
   };
 
   return (
@@ -72,11 +71,11 @@ function App() {
           backgroundColor: "white",
         }} variant="outlined" onClick={handleAddCauldronClick}><AddIcon /></Button>
 
-        <WaterBank tapWaterBankEntity={tapWaterBankEntity} />
+        <WaterCooling tapWaterCoolingEntity={tapWaterCoolingEntity} />
 
         <CauldronContainer cauldronEntities={cauldronEntities} handleCauldronDeleteClick={handleCauldronDeleteClick} />
 
-        <IceBank iceWaterBankEntity={iceWaterBankEntity} />
+        <IceCooling iceWaterCoolingEntity={iceWaterCoolingEntity} />
 
         <Button style={{
           margin: '40px 0 0',
@@ -87,9 +86,9 @@ function App() {
         <Grid container sx={{ gap: 50, mt: 10, ml: 65, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
-              tapWaterBankMeasurements &&
+              tapWaterCoolingMeasurements &&
               <MeasurementsGrid
-                measurements={tapWaterBankMeasurements}
+                measurements={tapWaterCoolingMeasurements}
                 title='Tap Water Cooling Measurements'
                 width={800}
               />
@@ -98,9 +97,9 @@ function App() {
 
           <Grid item xs={12} md={2}>
             {
-              iceWaterBankMeasurements &&
+              iceWaterCoolingMeasurements &&
               <MeasurementsGrid
-                measurements={iceWaterBankMeasurements}
+                measurements={iceWaterCoolingMeasurements}
                 title='Ice Water Cooling Measurements'
                 width={1200}
               />

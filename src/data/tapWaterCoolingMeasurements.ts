@@ -1,4 +1,4 @@
-export const tapWaterBankMeasurements =
+export const tapWaterCoolingMeasurements =
   'Food/Temp,Zeit/Min,Wasser/l\n' +
   '96,0,0\n' +
   ',1,16\n' +

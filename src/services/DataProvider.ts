@@ -1,8 +1,8 @@
 import {csvToJSON} from "../utils/csv";
-import {iceWaterBankMeasurements} from "../data/iceWaterBankMeasurements";
-import {tapWaterBankMeasurements} from "../data/tapWaterBankMeasurements";
-import {TapWaterBankEntity} from "../entities/TapWaterBankEntity";
-import {IceWaterBankEntity} from "../entities/IceWaterBankEntity";
+import {iceWaterCoolingMeasurements} from "../data/iceWaterCoolingMeasurements";
+import {tapWaterCoolingMeasurements} from "../data/tapWaterCoolingMeasurements";
+import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
+import {IceWaterCoolingEntity} from "../entities/IceWaterCoolingEntity";
 
 // Tap water bank fields
 const FIELD_WATER_LITRE = 'Wasser/l';
@@ -19,7 +19,7 @@ const FIELD_ICE_INCREASE_KG = 'EisAufbau/kg';
 const FIELD_FOOD_TEMP = 'Food/Temp';
 const FIELD_TIME_MIN = 'Zeit/Min';
 
-const tapWaterBankFields: TapWaterBankField[] = [
+const tapWaterCoolingFields: TapWaterCoolingField[] = [
   FIELD_FOOD_TEMP,
   FIELD_TIME_MIN,
   FIELD_WATER_LITRE,
@@ -27,7 +27,7 @@ const tapWaterBankFields: TapWaterBankField[] = [
   FIELD_LITRE_CO2_GRAMS
 ];
 
-const iceWaterBankFields: IceWaterBankField[] = [
+const iceWaterCoolingFields: IceWaterCoolingField[] = [
   FIELD_FOOD_TEMP,
   FIELD_TIME_MIN,
   FIELD_KW_HOUR,
@@ -38,141 +38,141 @@ const iceWaterBankFields: IceWaterBankField[] = [
 
 const DECIMALS = 4;
 
-type TapWaterBankField = typeof FIELD_FOOD_TEMP
+type TapWaterCoolingField = typeof FIELD_FOOD_TEMP
   | typeof FIELD_TIME_MIN
   | typeof FIELD_WATER_LITRE
   | typeof FIELD_LITRE_CHF
   | typeof FIELD_LITRE_CO2_GRAMS;
 
-type IceWaterBankField = typeof FIELD_FOOD_TEMP
+type IceWaterCoolingField = typeof FIELD_FOOD_TEMP
   | typeof FIELD_TIME_MIN
   | typeof FIELD_KW_HOUR
   | typeof FIELD_KW_HOUR_CHF
   | typeof FIELD_KW_HOUR_CO2_GRAMS
   | typeof FIELD_ICE_INCREASE_KG;
 
-interface TapWaterBankMainMeasurement {
+interface TapWaterCoolingMainMeasurement {
   [FIELD_FOOD_TEMP]?: number;
   [FIELD_TIME_MIN]: number;
   [FIELD_WATER_LITRE]: number;
 }
-interface TapWaterBankMainMeasurements extends Array<TapWaterBankMainMeasurement> {}
+interface TapWaterCoolingMainMeasurements extends Array<TapWaterCoolingMainMeasurement> {}
 
-interface IceWaterBankMainMeasurement {
+interface IceWaterCoolingMainMeasurement {
   [FIELD_FOOD_TEMP]: number;
   [FIELD_TIME_MIN]: number;
 }
-interface IceWaterBankMainMeasurements extends Array<IceWaterBankMainMeasurement> {}
+interface IceWaterCoolingMainMeasurements extends Array<IceWaterCoolingMainMeasurement> {}
 
-interface TapWaterBankMeasurement extends TapWaterBankMainMeasurement {
+interface TapWaterCoolingMeasurement extends TapWaterCoolingMainMeasurement {
   [FIELD_LITRE_CHF]: number;
   [FIELD_LITRE_CO2_GRAMS]: number;
   target?: boolean;
 }
-interface TapWaterBankMeasurements extends Array<TapWaterBankMeasurement> {}
+interface TapWaterCoolingMeasurements extends Array<TapWaterCoolingMeasurement> {}
 
-interface IceWaterBankMeasurement extends IceWaterBankMainMeasurement {
+interface IceWaterCoolingMeasurement extends IceWaterCoolingMainMeasurement {
   [FIELD_KW_HOUR]: number;
   [FIELD_KW_HOUR_CHF]: number;
   [FIELD_KW_HOUR_CO2_GRAMS]: number;
   [FIELD_ICE_INCREASE_KG]: number;
   target?: boolean;
 }
-interface IceWaterBankMeasurements extends Array<IceWaterBankMeasurement> {}
+interface IceWaterCoolingMeasurements extends Array<IceWaterCoolingMeasurement> {}
 
 class DataProvider {
-  tapWaterBankMeasurements?: TapWaterBankMainMeasurements | TapWaterBankMeasurements;
-  iceWaterBankMeasurements?: IceWaterBankMainMeasurements | IceWaterBankMeasurements;
-  tapWaterBankEntity: TapWaterBankEntity;
-  iceWaterBankEntity: IceWaterBankEntity;
+  tapWaterCoolingMeasurements?: TapWaterCoolingMainMeasurements | TapWaterCoolingMeasurements;
+  iceWaterCoolingMeasurements?: IceWaterCoolingMainMeasurements | IceWaterCoolingMeasurements;
+  tapWaterCoolingEntity: TapWaterCoolingEntity;
+  iceWaterCoolingEntity: IceWaterCoolingEntity;
 
   constructor(
-    tapWaterBankEntity: TapWaterBankEntity,
-    iceWaterBankEntity: IceWaterBankEntity
+    tapWaterCoolingEntity: TapWaterCoolingEntity,
+    iceWaterCoolingEntity: IceWaterCoolingEntity
   ) {
-    this.tapWaterBankEntity = tapWaterBankEntity;
-    this.iceWaterBankEntity = iceWaterBankEntity;
+    this.tapWaterCoolingEntity = tapWaterCoolingEntity;
+    this.iceWaterCoolingEntity = iceWaterCoolingEntity;
   }
   
   fetch = () => {
-    this.setTapWaterBankMeasurements(csvToJSON(tapWaterBankMeasurements));
-    this.setIceWaterBankMeasurements(csvToJSON(iceWaterBankMeasurements));
+    this.setTapWaterCoolingMeasurements(csvToJSON(tapWaterCoolingMeasurements));
+    this.setIceWaterCoolingMeasurements(csvToJSON(iceWaterCoolingMeasurements));
     
     return {
-      tapWaterBankMeasurements: (this.tapWaterBankMeasurements as TapWaterBankMeasurements),
-      iceWaterBankMeasurements: (this.iceWaterBankMeasurements as IceWaterBankMeasurements)
+      tapWaterCoolingMeasurements: (this.tapWaterCoolingMeasurements as TapWaterCoolingMeasurements),
+      iceWaterCoolingMeasurements: (this.iceWaterCoolingMeasurements as IceWaterCoolingMeasurements)
     };
   };
   
-  private setTapWaterBankMeasurements = (tapWaterBankMainMeasurements: TapWaterBankMainMeasurements) => {
-    this.tapWaterBankMeasurements = tapWaterBankMainMeasurements;
+  private setTapWaterCoolingMeasurements = (tapWaterCoolingMainMeasurements: TapWaterCoolingMainMeasurements) => {
+    this.tapWaterCoolingMeasurements = tapWaterCoolingMainMeasurements;
     
-    const litreCHFFactor = this.tapWaterBankEntity.waterLitreCHF;
-    const litreCo2GramsFactor = this.tapWaterBankEntity.waterLitreCo2;
+    const litreCHFFactor = this.tapWaterCoolingEntity.waterLitreCHF;
+    const litreCo2GramsFactor = this.tapWaterCoolingEntity.waterLitreCo2;
 
-    for (let i = 0; i < this.tapWaterBankMeasurements.length; i++) {
-      const tapWaterBankMeasurementsRow = (this.tapWaterBankMeasurements as TapWaterBankMeasurements)[i];
+    for (let i = 0; i < this.tapWaterCoolingMeasurements.length; i++) {
+      const tapWaterCoolingMeasurementsRow = (this.tapWaterCoolingMeasurements as TapWaterCoolingMeasurements)[i];
       const isFirstRow = i === 0;
 
       // Set calculated fields
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CHF] = isFirstRow
+      tapWaterCoolingMeasurementsRow[FIELD_LITRE_CHF] = isFirstRow
         ? litreCHFFactor
-        : litreCHFFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
+        : litreCHFFactor * tapWaterCoolingMeasurementsRow[FIELD_WATER_LITRE];
 
-      tapWaterBankMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = isFirstRow
+      tapWaterCoolingMeasurementsRow[FIELD_LITRE_CO2_GRAMS] = isFirstRow
         ? litreCo2GramsFactor
-        : litreCo2GramsFactor * tapWaterBankMeasurementsRow[FIELD_WATER_LITRE];
+        : litreCo2GramsFactor * tapWaterCoolingMeasurementsRow[FIELD_WATER_LITRE];
     }
   };
 
-  private setIceWaterBankMeasurements = (iceWaterBankMainMeasurements: IceWaterBankMainMeasurements) => {
-    this.iceWaterBankMeasurements = iceWaterBankMainMeasurements;
+  private setIceWaterCoolingMeasurements = (iceWaterCoolingMainMeasurements: IceWaterCoolingMainMeasurements) => {
+    this.iceWaterCoolingMeasurements = iceWaterCoolingMainMeasurements;
 
-    const kwHourFactor = this.iceWaterBankEntity.kwHour;
-    const kwHourCHFFactor = this.iceWaterBankEntity.kwHourCHF;
-    const kwHourCo2GramsFactor = this.iceWaterBankEntity.kwHourCo2;
-    // const iceIncreaseFactor = this.iceWaterBankEntity.
+    const kwHourFactor = this.iceWaterCoolingEntity.kwHour;
+    const kwHourCHFFactor = this.iceWaterCoolingEntity.kwHourCHF;
+    const kwHourCo2GramsFactor = this.iceWaterCoolingEntity.kwHourCo2;
+    // const iceIncreaseFactor = this.iceWaterCoolingEntity.
     let foodTempMinuend: number; // Food temp of first row
 
-    for (let i = 0; i < this.iceWaterBankMeasurements.length; i++) {
-      const iceWaterBankMeasurementsRow = (this.iceWaterBankMeasurements as IceWaterBankMeasurements)[i];
+    for (let i = 0; i < this.iceWaterCoolingMeasurements.length; i++) {
+      const iceWaterCoolingMeasurementsRow = (this.iceWaterCoolingMeasurements as IceWaterCoolingMeasurements)[i];
       const isFirstRow = i === 0;
 
-      if (isFirstRow) foodTempMinuend = iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP];
+      if (isFirstRow) foodTempMinuend = iceWaterCoolingMeasurementsRow[FIELD_FOOD_TEMP];
 
       // Set calculated fields
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
+      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
         ? kwHourFactor
-        : kwHourFactor * (foodTempMinuend! - iceWaterBankMeasurementsRow[FIELD_FOOD_TEMP]);
+        : kwHourFactor * (foodTempMinuend! - iceWaterCoolingMeasurementsRow[FIELD_FOOD_TEMP]);
 
-      iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
+      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
         ? kwHourCHFFactor
-        : kwHourCHFFactor * iceWaterBankMeasurementsRow[FIELD_KW_HOUR];
+        : kwHourCHFFactor * iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR];
 
-      // iceWaterBankMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
+      // iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
       //   ? kwHourCo2GramsFactor
-      //   : kwHourCo2GramsFactor * iceWaterBankMeasurementsRow[FIELDKEY]
+      //   : kwHourCo2GramsFactor * iceWaterCoolingMeasurementsRow[FIELDKEY]
     }
   };
 
-  static isATapWaterBankMeasurement = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurements) => {
+  static isATapWaterCoolingMeasurement = (measurements: TapWaterCoolingMeasurements | IceWaterCoolingMeasurements) => {
     const firstRow = measurements[0];
 
-    return tapWaterBankFields.every(field => field in firstRow);
+    return tapWaterCoolingFields.every(field => field in firstRow);
   }
 
-  static isAnIceWaterBankMeasurement = (measurements: TapWaterBankMeasurements | IceWaterBankMeasurements) => {
+  static isAnIceWaterCoolingMeasurement = (measurements: TapWaterCoolingMeasurements | IceWaterCoolingMeasurements) => {
     const firstRow = measurements[0];
 
-    return iceWaterBankFields.every(field => field in firstRow);
+    return iceWaterCoolingFields.every(field => field in firstRow);
   }
 }
 
 export {
   DataProvider,
 
-  tapWaterBankFields,
-  iceWaterBankFields,
+  tapWaterCoolingFields,
+  iceWaterCoolingFields,
   FIELD_FOOD_TEMP,
   FIELD_TIME_MIN,
   FIELD_WATER_LITRE,
@@ -187,9 +187,9 @@ export {
 };
 
 export type {
-  TapWaterBankMeasurements,
-  IceWaterBankMeasurements,
+  TapWaterCoolingMeasurements,
+  IceWaterCoolingMeasurements,
 
-  TapWaterBankField,
-  IceWaterBankField
+  TapWaterCoolingField,
+  IceWaterCoolingField
 };

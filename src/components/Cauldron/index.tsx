@@ -14,7 +14,7 @@ interface CauldronProps {
 }
 
 const Container = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: 'rgba(245,243,243,0.55)',
   padding: '0 35px 10px 10px',
   maxWidth: 200
 }));

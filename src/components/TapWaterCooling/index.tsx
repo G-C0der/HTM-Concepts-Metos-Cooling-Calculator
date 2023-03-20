@@ -1,12 +1,12 @@
 import React from 'react';
-import {TapWaterBankEntity} from "../../entities/TapWaterBankEntity";
+import {TapWaterCoolingEntity} from "../../entities/TapWaterCoolingEntity";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {FormControl, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-interface WaterBankProps {
-  tapWaterBankEntity: TapWaterBankEntity;
+interface TapWaterCoolingProps {
+  tapWaterCoolingEntity: TapWaterCoolingEntity;
 }
 
 const Container = styled('div')(({ theme }) => ({
@@ -16,15 +16,15 @@ const Container = styled('div')(({ theme }) => ({
   height: 180
 }));
 
-export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
+export const WaterCooling = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) => {
   const handleWaterLitreCostChange = (e: any) => {
     const waterLitreCHF = +e.target.value;
-    tapWaterBankEntity.waterLitreCHF = waterLitreCHF;
+    tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
   };
 
   const handleWaterLitreCo2Change = (e: any) => {
     const waterLitreCo2 = +e.target.value;
-    tapWaterBankEntity.waterLitreCo2 = waterLitreCo2;
+    tapWaterCoolingEntity.waterLitreCo2 = waterLitreCo2;
   };
 
   return (
@@ -34,7 +34,7 @@ export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
       </Typography>
 
       <FormControl>
-        <Grid container sx={{ gap: 13, ml: 13 }}>
+        <Grid container sx={{ gap: 18, ml: 13 }}>
           <Grid item xs={12} md={2}>
             <TextField
               style={{ width: "200px", margin: "5px" }}

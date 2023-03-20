@@ -1,4 +1,4 @@
-export const iceWaterBankMeasurements =
+export const iceWaterCoolingMeasurements =
   'Food/Temp,Zeit/Min\n' +
   '96,0\n' +
   '92,1\n' +

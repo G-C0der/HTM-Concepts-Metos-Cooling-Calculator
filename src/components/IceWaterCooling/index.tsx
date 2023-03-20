@@ -1,12 +1,12 @@
 import React from 'react';
-import {IceWaterBankEntity} from "../../entities/IceWaterBankEntity";
+import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {FormControl, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-interface IceBankProps {
-  iceWaterBankEntity: IceWaterBankEntity;
+interface IceWaterCoolingProps {
+  iceWaterCoolingEntity: IceWaterCoolingEntity;
 }
 
 const Container = styled('div')(({ theme }) => ({
@@ -16,20 +16,20 @@ const Container = styled('div')(({ theme }) => ({
   height: 180
 }));
 
-export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
+export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
   const handleKwHourChange = (e: any) => {
     const kwHour = +e.target.value;
-    iceWaterBankEntity.kwHour = kwHour;
+    iceWaterCoolingEntity.kwHour = kwHour;
   };
 
   const handleKwHourCostChange = (e: any) => {
     const kwHourCHF = +e.target.value;
-    iceWaterBankEntity.kwHourCHF = kwHourCHF;
+    iceWaterCoolingEntity.kwHourCHF = kwHourCHF;
   };
 
   const handleKwHourCo2Change = (e: any) => {
     const kwHourCo2 = +e.target.value;
-    iceWaterBankEntity.kwHourCo2 = kwHourCo2;
+    iceWaterCoolingEntity.kwHourCo2 = kwHourCo2;
   };
 
   return (
@@ -84,7 +84,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
           {/*    inputProps={{ type: 'number' }}*/}
           {/*    label="Leistung"*/}
           {/*    variant="outlined"*/}
-          {/*    value={iceWaterBankEntity.kw}*/}
+          {/*    value={iceWaterCoolingEntity.kw}*/}
           {/*  />*/}
           {/*</Grid>*/}
         </Grid>
