@@ -39,19 +39,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
       </Typography>
 
       <FormControl sx={{ width: 1500 }}>
-        <Grid container sx={{ gap: 1, ml: 14 }}>
-          <Grid item xs={12} md={2}>
-            <TextField
-              disabled
-              style={{ width: "200px", margin: "5px" }}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="Nachladegeschwindigkeit kw/h"
-              variant="outlined"
-              value={IceWaterBankEntity.rechargeRateKwPerHour}
-            />
-          </Grid>
-
+        <Grid container sx={{ gap: 1, ml: 46 }}>
           <Grid item xs={12} md={2}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
@@ -99,18 +87,6 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
           {/*    value={iceWaterBankEntity.kw}*/}
           {/*  />*/}
           {/*</Grid>*/}
-
-          <Grid item xs={12} md={2}>
-            <TextField
-              disabled
-              style={{ width: "200px", margin: "5px" }}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="Eis kg"
-              variant="outlined"
-              value={iceWaterBankEntity.iceKg}
-            />
-          </Grid>
         </Grid>
       </FormControl>
     </Container>

@@ -37,18 +37,6 @@ export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
         <Grid container sx={{ gap: 13, ml: 13 }}>
           <Grid item xs={12} md={2}>
             <TextField
-              disabled
-              style={{ width: "200px", margin: "5px" }}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="Wasser °C"
-              variant="outlined"
-              value={TapWaterBankEntity.waterTemperatureDegreeCelsius}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={2}>
-            <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"

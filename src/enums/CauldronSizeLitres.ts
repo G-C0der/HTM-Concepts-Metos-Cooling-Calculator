@@ -7,5 +7,4 @@ export enum CauldronSizeLitres {
   CauldronSizeLitres200 = 200,
   CauldronSizeLitres300 = 300,
   CauldronSizeLitres400 = 400,
-  CauldronSizeLitres500 = 500,
 }
