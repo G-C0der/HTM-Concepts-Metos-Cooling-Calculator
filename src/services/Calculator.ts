@@ -1,15 +1,15 @@
 import {FIELD_KW_HOUR_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
-import {CauldronEntity} from "../entities/CauldronEntity";
+import {KettleEntity} from "../entities/KettleEntity";
 
 export class Calculator {
-  cauldronEntities: CauldronEntity[];
+  kettleEntities: KettleEntity[];
   tapWaterCoolingMeasurements?: TapWaterCoolingMeasurements;
   iceWaterCoolingMeasurements?: IceWaterCoolingMeasurements;
 
   constructor(
-    cauldronEntities: CauldronEntity[]
+    kettleEntities: KettleEntity[]
   ) {
-    this.cauldronEntities = cauldronEntities;
+    this.kettleEntities = kettleEntities;
   }
 
   setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) => {

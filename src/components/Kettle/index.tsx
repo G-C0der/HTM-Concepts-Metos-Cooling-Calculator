@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {CauldronEntity} from "../../entities/CauldronEntity";
+import {KettleEntity} from "../../entities/KettleEntity";
 import {FormControl, IconButton, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import {CauldronSizeLitres} from "../../enums/CauldronSizeLitres";
+import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues} from "../../utils/enum";
 import CloseIcon from '@mui/icons-material/Close';
 
-interface CauldronProps {
-  cauldronEntity: CauldronEntity;
+interface KettleProps {
+  kettleEntity: KettleEntity;
   number: number;
-  handleCauldronDeleteClick: (cauldronNr: number) => void;
+  handleKettleDeleteClick: (kettleNr: number) => void;
 }
 
 const Container = styled('div')(({ theme }) => ({
@@ -19,25 +19,25 @@ const Container = styled('div')(({ theme }) => ({
   maxWidth: 200
 }));
 
-export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: CauldronProps) => {
-  const [sizeLitres, setSizeLitres] = useState<CauldronSizeLitres>(CauldronSizeLitres.CauldronSizeLitres200);
+export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
+  const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [foodLitres, setFoodLitres] = useState(0);
 
   useEffect(() => {
-    setSizeLitres(cauldronEntity.sizeLitres);
-    setFoodLitres(cauldronEntity.foodLitres);
+    setSizeLitres(kettleEntity.sizeLitres);
+    setFoodLitres(kettleEntity.foodLitres);
   });
 
-  const handleCauldronSizeChange = (e: any) => {
+  const handleKettleSizeChange = (e: any) => {
     const sizeLitres = +e.target.value;
     setSizeLitres(sizeLitres);
-    cauldronEntity.sizeLitres = sizeLitres;
+    kettleEntity.sizeLitres = sizeLitres;
   };
 
-  const handleCauldronFoodLitresChange = (e: any) => {
+  const handleKettleFoodLitresChange = (e: any) => {
     const foodLitres = +e.target.value;
     setFoodLitres(foodLitres);
-    cauldronEntity.foodLitres = foodLitres;
+    kettleEntity.foodLitres = foodLitres;
   };
 
   return (
@@ -46,7 +46,7 @@ export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: 
         Kettle {number}
       </Typography>
 
-      <IconButton sx={{ mt: -9, ml: 24 }} onClick={() => handleCauldronDeleteClick(number)}>
+      <IconButton sx={{ mt: -9, ml: 24 }} onClick={() => handleKettleDeleteClick(number)}>
         <CloseIcon />
       </IconButton>
 
@@ -56,11 +56,11 @@ export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: 
           style={{ width: "200px", margin: "5px" }}
           value={sizeLitres}
           label="Grösse"
-          onChange={handleCauldronSizeChange}
+          onChange={handleKettleSizeChange}
         >
-          {getEnumNumericValues(CauldronSizeLitres).map((cauldronSize: CauldronSizeLitres) => {
+          {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
             return (
-              <MenuItem value={cauldronSize} key={cauldronSize}>{cauldronSize}</MenuItem>
+              <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
             );
           })}
         </Select>
@@ -73,7 +73,7 @@ export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: 
           inputProps={{ type: 'number' }}
           label="Essen Liter"
           variant="outlined"
-          onChange={handleCauldronFoodLitresChange}
+          onChange={handleKettleFoodLitresChange}
         />
       </FormControl>
     </Container>

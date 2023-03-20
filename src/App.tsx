@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './App.css';
-import {CauldronCount} from "./enums/CauldronCount";
-import {CauldronContainer} from "./components/CauldronContainer";
+import {KettleCount} from "./enums/KettleCount";
+import {KettleContainer} from "./components/KettleContainer";
 import {Button} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {getEnumMinMax} from "./utils/enum";
-import {CauldronEntity} from "./entities/CauldronEntity";
+import {KettleEntity} from "./entities/KettleEntity";
 import {Calculator} from "./services/Calculator";
 import {WaterCooling} from "./components/TapWaterCooling";
 import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
@@ -17,8 +17,8 @@ import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
 
 function App() {
-  const [cauldronCount, setCauldronCount] = useState<CauldronCount>(1);
-  const [cauldronEntities, setCauldronEntities] = useState<CauldronEntity[]>([new CauldronEntity()]);
+  const [kettleCount, setKettleCount] = useState<KettleCount>(1);
+  const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
@@ -30,23 +30,23 @@ function App() {
   );
 
   const calculator = new Calculator(
-    cauldronEntities
+    kettleEntities
   );
 
-  const handleAddCauldronClick = () => {
-    const maxCauldronCount = getEnumMinMax(CauldronCount)[1];
+  const handleAddKettleClick = () => {
+    const maxKettleCount = getEnumMinMax(KettleCount)[1];
 
-    if (cauldronCount >= maxCauldronCount) return;
+    if (kettleCount >= maxKettleCount) return;
 
-    setCauldronEntities([...cauldronEntities, new CauldronEntity()]);
+    setKettleEntities([...kettleEntities, new KettleEntity()]);
 
-    setCauldronCount(cauldronCount + 1);
+    setKettleCount(kettleCount + 1);
   };
 
-  const handleCauldronDeleteClick = (cauldronNr: number) => {
-    setCauldronEntities(cauldronEntities.filter((_, idx) => idx + 1 !== cauldronNr));
+  const handleKettleDeleteClick = (kettleNr: number) => {
+    setKettleEntities(kettleEntities.filter((_, idx) => idx + 1 !== kettleNr));
 
-    setCauldronCount(cauldronCount - 1);
+    setKettleCount(kettleCount - 1);
   };
 
   const handleRefreshClick = () => {
@@ -69,11 +69,11 @@ function App() {
           margin: '40px',
           padding: '15px 0 15px 0',
           backgroundColor: "white",
-        }} variant="outlined" onClick={handleAddCauldronClick}><AddIcon /></Button>
+        }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
         <WaterCooling tapWaterCoolingEntity={tapWaterCoolingEntity} />
 
-        <CauldronContainer cauldronEntities={cauldronEntities} handleCauldronDeleteClick={handleCauldronDeleteClick} />
+        <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
 
         <IceCooling iceWaterCoolingEntity={iceWaterCoolingEntity} />
 
