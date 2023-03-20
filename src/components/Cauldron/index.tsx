@@ -14,7 +14,7 @@ interface CauldronProps {
 }
 
 const Container = styled('div')(({ theme }) => ({
-  backgroundColor: 'rgba(245,243,243,0.55)',
+  backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
   maxWidth: 200
 }));
@@ -43,7 +43,7 @@ export const Cauldron = ({ cauldronEntity, number, handleCauldronDeleteClick }: 
   return (
     <Container>
       <Typography sx={{ mt: 4, mb: -2, pt: 2, pl: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-        Cauldron {number}
+        Kettle {number}
       </Typography>
 
       <IconButton sx={{ mt: -9, ml: 24 }} onClick={() => handleCauldronDeleteClick(number)}>

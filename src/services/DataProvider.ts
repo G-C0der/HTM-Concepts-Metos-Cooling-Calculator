@@ -32,8 +32,7 @@ const iceWaterCoolingFields: IceWaterCoolingField[] = [
   FIELD_TIME_MIN,
   FIELD_KW_HOUR,
   FIELD_KW_HOUR_CHF,
-  // FIELD_KW_HOUR_CO2_GRAMS,
-  // FIELD_ICE_INCREASE_KG
+  FIELD_KW_HOUR_CO2_GRAMS
 ];
 
 const DECIMALS = 4;
@@ -149,9 +148,9 @@ class DataProvider {
         ? kwHourCHFFactor
         : kwHourCHFFactor * iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR];
 
-      // iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
-      //   ? kwHourCo2GramsFactor
-      //   : kwHourCo2GramsFactor * iceWaterCoolingMeasurementsRow[FIELDKEY]
+      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
+        ? kwHourCo2GramsFactor
+        : kwHourCo2GramsFactor * iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR]
     }
   };
 

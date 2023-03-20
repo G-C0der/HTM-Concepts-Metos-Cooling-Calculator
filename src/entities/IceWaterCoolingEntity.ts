@@ -6,5 +6,4 @@ export class IceWaterCoolingEntity {
   kwHour: number = 0;
   kwHourCHF: number = 0;
   kwHourCo2: number = 0;
-  iceKg: number = 0;
 }

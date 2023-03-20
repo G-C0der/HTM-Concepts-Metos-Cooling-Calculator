@@ -75,18 +75,6 @@ export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
               onChange={handleKwHourCo2Change}
             />
           </Grid>
-
-          {/*<Grid item xs={12} md={2}>*/}
-          {/*  <TextField*/}
-          {/*    disabled*/}
-          {/*    style={{ width: "200px", margin: "5px" }}*/}
-          {/*    type="number"*/}
-          {/*    inputProps={{ type: 'number' }}*/}
-          {/*    label="Leistung"*/}
-          {/*    variant="outlined"*/}
-          {/*    value={iceWaterCoolingEntity.kw}*/}
-          {/*  />*/}
-          {/*</Grid>*/}
         </Grid>
       </FormControl>
     </Container>
