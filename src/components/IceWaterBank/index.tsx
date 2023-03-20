@@ -35,7 +35,7 @@ export const IceBank = ({ iceWaterBankEntity }: IceBankProps) => {
   return (
     <Container sx={{ mt: 4 }}>
       <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-        Eiswasserbank
+        Ice Water Cooling
       </Typography>
 
       <FormControl sx={{ width: 1500 }}>

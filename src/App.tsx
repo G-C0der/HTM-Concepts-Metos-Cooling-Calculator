@@ -90,7 +90,7 @@ function App() {
               tapWaterBankMeasurements &&
               <MeasurementsGrid
                 measurements={tapWaterBankMeasurements}
-                title='Frischwasserbank Messungen'
+                title='Tap Water Cooling Measurements'
                 width={800}
               />
             }
@@ -101,7 +101,7 @@ function App() {
               iceWaterBankMeasurements &&
               <MeasurementsGrid
                 measurements={iceWaterBankMeasurements}
-                title='Eiswasserbank Messungen'
+                title='Ice Water Cooling Measurements'
                 width={1200}
               />
             }

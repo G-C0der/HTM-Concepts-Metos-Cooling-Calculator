@@ -30,7 +30,7 @@ export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
   return (
     <Container>
       <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-        Frischwasserbank
+        Tap Water Cooling
       </Typography>
 
       <FormControl>
@@ -41,7 +41,7 @@ export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
-              label="CHF/Liter"
+              label="CHF/litres"
               variant="outlined"
               onChange={handleWaterLitreCostChange}
             />
@@ -53,7 +53,7 @@ export const WaterBank = ({ tapWaterBankEntity }: WaterBankProps) => {
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
-              label="Co2/Liter"
+              label="Co2/litres"
               variant="outlined"
               onChange={handleWaterLitreCo2Change}
             />
