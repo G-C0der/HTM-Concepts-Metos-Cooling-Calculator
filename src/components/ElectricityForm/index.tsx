@@ -38,45 +38,43 @@ export const ElectricityForm = ({ iceWaterCoolingEntity }: ElectricityFormProps)
         Electricity
       </Typography>
 
-      <FormControl>
-        <Grid container sx={{ gap: 0, ml: 0 }}>
-          <Grid item xs={12} md={10}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="kw/h"
-              variant="outlined"
-              onChange={handleKwHourChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={10}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="CHF/kw/h"
-              variant="outlined"
-              onChange={handleKwHourCostChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={10}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="Co2/kw/h"
-              variant="outlined"
-              onChange={handleKwHourCo2Change}
-            />
-          </Grid>
+      <Grid container sx={{ gap: 0, ml: 0 }}>
+        <Grid item xs={12} md={10}>
+          <TextField
+            style={{ width: "200px", margin: "5px" }}
+            // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+            type="number"
+            inputProps={{ type: 'number' }}
+            label="kw/h"
+            variant="outlined"
+            onChange={handleKwHourChange}
+          />
         </Grid>
-      </FormControl>
+
+        <Grid item xs={12} md={10}>
+          <TextField
+            style={{ width: "200px", margin: "5px" }}
+            // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+            type="number"
+            inputProps={{ type: 'number' }}
+            label="CHF/kw/h"
+            variant="outlined"
+            onChange={handleKwHourCostChange}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={10}>
+          <TextField
+            style={{ width: "200px", margin: "5px" }}
+            // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+            type="number"
+            inputProps={{ type: 'number' }}
+            label="Co2/kw/h"
+            variant="outlined"
+            onChange={handleKwHourCo2Change}
+          />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

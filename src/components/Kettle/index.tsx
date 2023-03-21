@@ -54,54 +54,48 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
         Kettle {number}
       </Typography>
 
-      <IconButton sx={{ mt: -9, ml: 23 }} onClick={() => handleKettleDeleteClick(number)}>
+      <IconButton sx={{ mt: -9, ml: 22.5 }} onClick={() => handleKettleDeleteClick(number)}>
         <CloseIcon />
       </IconButton>
 
-      <FormControl>
-        <InputLabel className='form-input-label'>Grösse</InputLabel>
-        <Select
-          style={{ width: "200px", margin: "5px" }}
-          value={sizeLitres}
-          label="Grösse"
-          onChange={handleKettleSizeChange}
-        >
-          {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
-            return (
-              <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+      <InputLabel className='form-input-label'>Grösse</InputLabel>
+      <Select
+        style={{ width: "200px", margin: "5px" }}
+        value={sizeLitres}
+        label="Grösse"
+        onChange={handleKettleSizeChange}
+      >
+        {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
+          return (
+            <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
+          );
+        })}
+      </Select>
 
-      <FormControl>
-        <TextField
-          style={{ width: "200px", margin: "5px" }}
-          value={foodLitres}
-          error={foodLitres > sizeLitres/* || /[0-9]/.test(foodLitres.toString())*/}
-          type="number"
-          inputProps={{ type: 'number' }}
-          label="Essen Liter"
-          variant="outlined"
-          onChange={handleKettleFoodLitresChange}
-        />
-      </FormControl>
+      <TextField
+        style={{ width: "200px", margin: "5px" }}
+        value={foodLitres}
+        error={foodLitres > sizeLitres/* || /[0-9]/.test(foodLitres.toString())*/}
+        type="number"
+        inputProps={{ type: 'number' }}
+        label="Essen Liter"
+        variant="outlined"
+        onChange={handleKettleFoodLitresChange}
+      />
 
-      <FormControl>
-        <InputLabel className='form-input-label'>Kühlmodus</InputLabel>
-        <Select
-          style={{ width: "200px", margin: "5px" }}
-          value={coolingMode}
-          label="Kühlmodus"
-          onChange={handleKettleCoolingModeChange}
-        >
-          {getEnumValues(KettleCoolingModes).map((coolingMode: KettleCoolingModes) => {
-            return (
-              <MenuItem value={coolingMode} key={coolingMode}>{coolingMode}</MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+      <InputLabel className='form-input-label'>Kühlmodus</InputLabel>
+      <Select
+        style={{ width: "200px", margin: "5px" }}
+        value={coolingMode}
+        label="Kühlmodus"
+        onChange={handleKettleCoolingModeChange}
+      >
+        {getEnumValues(KettleCoolingModes).map((coolingMode: KettleCoolingModes) => {
+          return (
+            <MenuItem value={coolingMode} key={coolingMode}>{coolingMode}</MenuItem>
+          );
+        })}
+      </Select>
     </Container>
   );
 };

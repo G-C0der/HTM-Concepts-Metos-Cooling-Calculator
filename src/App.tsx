@@ -15,7 +15,7 @@ import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
 import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -45,6 +45,8 @@ function App() {
   };
 
   const handleKettleDeleteClick = (kettleNr: number) => {
+    if (kettleCount <= 1) return;
+
     setKettleEntities(kettleEntities.filter((_, idx) => idx + 1 !== kettleNr));
 
     setKettleCount(kettleCount - 1);
@@ -79,6 +81,10 @@ function App() {
 
           <Grid item xs={12} md={2}>
             <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+          </Grid>
+
+          <Grid item xs={12} md={2}>
+            <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
           </Grid>
         </Grid>
 

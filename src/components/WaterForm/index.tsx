@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import {FormControl, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-interface TapWaterCoolingProps {
+interface WaterFormProps {
   tapWaterCoolingEntity: TapWaterCoolingEntity;
 }
 
@@ -16,7 +16,7 @@ const Container = styled('div')(({ theme }) => ({
   height: 210
 }));
 
-export const WaterForm = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) => {
+export const WaterForm = ({ tapWaterCoolingEntity }: WaterFormProps) => {
   const handleWaterLitreCostChange = (e: any) => {
     const waterLitreCHF = +e.target.value;
     tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
@@ -33,33 +33,31 @@ export const WaterForm = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) => {
         Water
       </Typography>
 
-      <FormControl>
-        <Grid container sx={{ gap: 0, ml: 0 }}>
-          <Grid item xs={12} md={10}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="CHF/litres"
-              variant="outlined"
-              onChange={handleWaterLitreCostChange}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={10}>
-            <TextField
-              style={{ width: "200px", margin: "5px" }}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
-              label="Co2/litres"
-              variant="outlined"
-              onChange={handleWaterLitreCo2Change}
-            />
-          </Grid>
+      <Grid container sx={{ gap: 0, ml: 0 }}>
+        <Grid item xs={12} md={10}>
+          <TextField
+            style={{ width: "200px", margin: "5px" }}
+            // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+            type="number"
+            inputProps={{ type: 'number' }}
+            label="CHF/litres"
+            variant="outlined"
+            onChange={handleWaterLitreCostChange}
+          />
         </Grid>
-      </FormControl>
+
+        <Grid item xs={12} md={10}>
+          <TextField
+            style={{ width: "200px", margin: "5px" }}
+            // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+            type="number"
+            inputProps={{ type: 'number' }}
+            label="Co2/litres"
+            variant="outlined"
+            onChange={handleWaterLitreCo2Change}
+          />
+        </Grid>
+      </Grid>
     </Container>
   );
 }
