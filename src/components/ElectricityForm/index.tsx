@@ -5,18 +5,18 @@ import Typography from "@mui/material/Typography";
 import {FormControl, TextField} from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-interface IceWaterCoolingProps {
+interface ElectricityFormProps {
   iceWaterCoolingEntity: IceWaterCoolingEntity;
 }
 
 const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
-  width: 1881,
-  height: 180
+  width: 185,
+  height: 275
 }));
 
-export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
+export const ElectricityForm = ({ iceWaterCoolingEntity }: ElectricityFormProps) => {
   const handleKwHourChange = (e: any) => {
     const kwHour = +e.target.value;
     iceWaterCoolingEntity.kwHour = kwHour;
@@ -33,14 +33,14 @@ export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
   };
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-        Ice Water Cooling
+    <Container>
+      <Typography sx={{ mt: 2, mb: 1, pt: 2, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+        Electricity
       </Typography>
 
-      <FormControl sx={{ width: 1500 }}>
-        <Grid container sx={{ gap: 1, ml: 46 }}>
-          <Grid item xs={12} md={2}>
+      <FormControl>
+        <Grid container sx={{ gap: 0, ml: 0 }}>
+          <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
@@ -52,7 +52,7 @@ export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
@@ -64,7 +64,7 @@ export const IceCooling = ({ iceWaterCoolingEntity }: IceWaterCoolingProps) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}

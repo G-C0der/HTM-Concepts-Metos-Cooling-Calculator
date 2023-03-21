@@ -17,7 +17,7 @@ interface KettleProps {
 const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
-  maxWidth: 200
+  maxWidth: 185
 }));
 
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
@@ -54,7 +54,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
         Kettle {number}
       </Typography>
 
-      <IconButton sx={{ mt: -9, ml: 24 }} onClick={() => handleKettleDeleteClick(number)}>
+      <IconButton sx={{ mt: -9, ml: 23 }} onClick={() => handleKettleDeleteClick(number)}>
         <CloseIcon />
       </IconButton>
 

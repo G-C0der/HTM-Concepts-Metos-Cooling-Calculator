@@ -8,13 +8,14 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {getEnumMinMax} from "./utils/enum";
 import {KettleEntity} from "./entities/KettleEntity";
 import {Calculator} from "./services/Calculator";
-import {WaterCooling} from "./components/TapWaterCooling";
+import {WaterForm} from "./components/WaterForm";
 import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./entities/TapWaterCoolingEntity";
-import {IceCooling} from "./components/IceWaterCooling";
+import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
 import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -71,11 +72,17 @@ function App() {
           backgroundColor: "white",
         }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
-        <WaterCooling tapWaterCoolingEntity={tapWaterCoolingEntity} />
+        <Grid container sx={{ gap: 10, mt: 5, mb: 5,  ml: 163, mr: 0, minWidth: 2000 }}>
+          <Grid item xs={12} md={2}>
+            <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
+          </Grid>
+
+          <Grid item xs={12} md={2}>
+            <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+          </Grid>
+        </Grid>
 
         <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
-
-        <IceCooling iceWaterCoolingEntity={iceWaterCoolingEntity} />
 
         <Button style={{
           margin: '40px 0 0',

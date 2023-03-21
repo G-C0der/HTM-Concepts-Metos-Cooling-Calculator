@@ -12,11 +12,11 @@ interface TapWaterCoolingProps {
 const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
-  width: 1881,
-  height: 180
+  maxWidth: 185,
+  height: 210
 }));
 
-export const WaterCooling = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) => {
+export const WaterForm = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) => {
   const handleWaterLitreCostChange = (e: any) => {
     const waterLitreCHF = +e.target.value;
     tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
@@ -29,13 +29,13 @@ export const WaterCooling = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) =>
 
   return (
     <Container>
-      <Typography sx={{ mt: 4, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-        Tap Water Cooling
+      <Typography sx={{ mt: 2, mb: 1, pt: 2, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+        Water
       </Typography>
 
       <FormControl>
-        <Grid container sx={{ gap: 18, ml: 13 }}>
-          <Grid item xs={12} md={2}>
+        <Grid container sx={{ gap: 0, ml: 0 }}>
+          <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
@@ -47,7 +47,7 @@ export const WaterCooling = ({ tapWaterCoolingEntity }: TapWaterCoolingProps) =>
             />
           </Grid>
 
-          <Grid item xs={12} md={2}>
+          <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
