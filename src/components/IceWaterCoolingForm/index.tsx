@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
-import Grid from "@mui/material/Grid";
 import {styled} from "@mui/material/styles";
 import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 
@@ -29,32 +28,15 @@ export const IceWaterCoolingForm = ({ iceWaterCoolingEntity }: IceWaterCoolingFo
 
   const handleType4CountChange = (e: any) => {
     const type4Count = e.target.value;
-    setType1Count(type4Count);
+    setType4Count(type4Count);
     iceWaterCoolingEntity.type4Count = type4Count;
   };
-
-  // const [used, setUsed] = useState(true);
-  //
-  // const handleUsedChange = (e: any) => {
-  //   const used = e.target.checked;
-  //   setUsed(used);
-  //   iceWaterCoolingEntity.used = used;
-  // };
 
   return (
     <Container>
       <Typography sx={{ mt: 2, mb: 1, pt: 2, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
         Ice Water Cooling
       </Typography>
-
-      {/*<FormControlLabel*/}
-      {/*  sx={{ color: 'black' }}*/}
-      {/*  checked={used}*/}
-      {/*  control={<Checkbox />}*/}
-      {/*  label="Used"*/}
-      {/*  labelPlacement="start"*/}
-      {/*  onChange={handleUsedChange}*/}
-      {/*/>*/}
 
       <TextField
         style={{ width: "200px", margin: "5px" }}
