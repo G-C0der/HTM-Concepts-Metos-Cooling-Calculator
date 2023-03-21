@@ -3,11 +3,16 @@ const getEnumMinMax = (e: object) => {
   return [values[0], values[values.length - 1]];
 };
 
+const getEnumValues = (e: object) => {
+  return Object.keys(e) as Array<keyof typeof e>;
+};
+
 const getEnumNumericValues = (e: object) => {
-  return Object.keys(e).filter(key => !isNaN(+key)) as Array<keyof typeof e>;
+  return getEnumValues(e).filter(key => !isNaN(+key));
 };
 
 export {
   getEnumMinMax,
+  getEnumValues,
   getEnumNumericValues
 };
