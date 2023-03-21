@@ -83,7 +83,7 @@ function App() {
           backgroundColor: "white",
         }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
 
-        <Grid container sx={{ gap: 50, mt: 10, ml: 65, mr: 0 }}>
+        <Grid container sx={{ gap: 50, mt: 10, ml: 10, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
               tapWaterCoolingMeasurements &&
