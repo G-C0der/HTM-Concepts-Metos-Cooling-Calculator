@@ -8,7 +8,7 @@ import {getEnumNumericValues, getEnumValues} from "../../utils/enum";
 import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 
-interface KettleProps {
+interface KettleFormProps {
   kettleEntity: KettleEntity;
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
@@ -20,7 +20,7 @@ const Container = styled('div')(({ theme }) => ({
   maxWidth: 185
 }));
 
-export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
+export const KettleForm = ({ kettleEntity, number, handleKettleDeleteClick }: KettleFormProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [foodLitres, setFoodLitres] = useState(0);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
@@ -58,19 +58,21 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
         <CloseIcon />
       </IconButton>
 
-      <InputLabel className='form-input-label'>Grösse</InputLabel>
-      <Select
-        style={{ width: "200px", margin: "5px" }}
-        value={sizeLitres}
-        label="Grösse"
-        onChange={handleKettleSizeChange}
-      >
-        {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
-          return (
-            <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
-          );
-        })}
-      </Select>
+      <FormControl>
+        <InputLabel className='form-input-label'>Grösse</InputLabel>
+        <Select
+          style={{ width: "200px", margin: "5px" }}
+          value={sizeLitres}
+          label="Grösse"
+          onChange={handleKettleSizeChange}
+        >
+          {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
+            return (
+              <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
 
       <TextField
         style={{ width: "200px", margin: "5px" }}
@@ -83,19 +85,21 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
         onChange={handleKettleFoodLitresChange}
       />
 
-      <InputLabel className='form-input-label'>Kühlmodus</InputLabel>
-      <Select
-        style={{ width: "200px", margin: "5px" }}
-        value={coolingMode}
-        label="Kühlmodus"
-        onChange={handleKettleCoolingModeChange}
-      >
-        {getEnumValues(KettleCoolingModes).map((coolingMode: KettleCoolingModes) => {
-          return (
-            <MenuItem value={coolingMode} key={coolingMode}>{coolingMode}</MenuItem>
-          );
-        })}
-      </Select>
+      <FormControl>
+        <InputLabel className='form-input-label'>Kühlmodus</InputLabel>
+        <Select
+          style={{ width: "200px", margin: "5px" }}
+          value={coolingMode}
+          label="Kühlmodus"
+          onChange={handleKettleCoolingModeChange}
+        >
+          {getEnumValues(KettleCoolingModes).map((coolingMode: KettleCoolingModes) => {
+            return (
+              <MenuItem value={coolingMode} key={coolingMode}>{coolingMode}</MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
     </Container>
   );
 };

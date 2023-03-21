@@ -13,7 +13,7 @@ const Container = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   padding: '0 35px 10px 10px',
   maxWidth: 185,
-  height: 210
+  height: 210,
 }));
 
 export const WaterForm = ({ tapWaterCoolingEntity }: WaterFormProps) => {

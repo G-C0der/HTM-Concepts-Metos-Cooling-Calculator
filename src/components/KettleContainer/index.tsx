@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import {Kettle} from "../Kettle";
+import {KettleForm} from "../KettleForm";
 import {KettleEntity} from "../../entities/KettleEntity";
 
 interface KettleContainerProps {
@@ -17,7 +17,7 @@ export function KettleContainer({ kettleEntities, handleKettleDeleteClick }: Ket
       <Grid container spacing={2}>
         {kettleEntities.map(kettleEntity => (
           <Grid item xs={12} md={2} key={kettleNr++} >
-            <Kettle kettleEntity={kettleEntity} number={kettleNr} handleKettleDeleteClick={handleKettleDeleteClick} />
+            <KettleForm kettleEntity={kettleEntity} number={kettleNr} handleKettleDeleteClick={handleKettleDeleteClick} />
           </Grid>
         ))}
       </Grid>

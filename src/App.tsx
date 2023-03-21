@@ -16,7 +16,12 @@ import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} 
 import {MeasurementsGrid} from "./components/MeasurementsGrid";
 import Grid from "@mui/material/Grid";
 import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
+import {styled} from "@mui/material/styles";
 
+const FormContainer = styled('div')(({ theme }) => ({
+  backgroundColor: '#E4E4E4',
+  padding: '0 10px 2px 2px'
+}));
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
@@ -74,19 +79,21 @@ function App() {
           backgroundColor: "white",
         }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
-        <Grid container sx={{ gap: 10, mt: 5, mb: 5,  ml: 163, mr: 0, minWidth: 2000 }}>
-          <Grid item xs={12} md={2}>
-            <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
-          </Grid>
+        <FormContainer>
+          <Grid container sx={{ gap: 40, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
+            <Grid item xs={12} md={2}>
+              <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
+            </Grid>
 
-          <Grid item xs={12} md={2}>
-            <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
-          </Grid>
+            <Grid item xs={12} md={2}>
+              <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+            </Grid>
 
-          <Grid item xs={12} md={2}>
-            <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+            <Grid item xs={12} md={2}>
+              <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+            </Grid>
           </Grid>
-        </Grid>
+        </FormContainer>
 
         <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
 
