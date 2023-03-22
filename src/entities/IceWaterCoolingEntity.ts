@@ -8,4 +8,12 @@ export class IceWaterCoolingEntity {
   // used: boolean = true;
   type1Count: number = 0;
   type4Count: number = 0;
+
+  getPowerKw: () => number = () => {
+    return (this.type1Count * 40) + (this.type4Count * 50);
+  };
+
+  getRechargeRateKw: () => number = () => {
+    return (this.type1Count * 7) + (this.type4Count * 14);
+  };
 }
