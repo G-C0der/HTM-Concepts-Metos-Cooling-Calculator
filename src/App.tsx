@@ -13,15 +13,18 @@ import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./entities/TapWaterCoolingEntity";
 import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
-import {MeasurementsGrid} from "./components/MeasurementsGrid";
+import {MeasurementsTable} from "./components/MeasurementsTable";
 import Grid from "@mui/material/Grid";
 import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
+import {TimeDataGrid} from "./components/TimeDataGrid";
+import Box from "@mui/material/Box";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
   padding: '0 10px 2px 2px'
 }));
+
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
@@ -29,6 +32,16 @@ function App() {
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
+  const [timeRows, setTimeRows] = useState<object[]>(() => {
+    const rows = [];
+
+    for (let i = 0; i <= 23; i++) {
+      const prefix = (i.toString().length === 1) ? '0' : '';
+      rows.push({ id: i, time: `${prefix}${i}:00`, powerKW: '100%' });
+    }
+
+    return rows;
+  });
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -73,41 +86,51 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Button style={{
-          margin: '40px',
-          padding: '15px 0 15px 0',
-          backgroundColor: "white",
-        }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
-
-        <FormContainer>
-          <Grid container sx={{ gap: 40, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
-            <Grid item xs={12} md={2}>
-              <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
-            </Grid>
-
-            <Grid item xs={12} md={2}>
-              <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
-            </Grid>
-
-            <Grid item xs={12} md={2}>
-              <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
-            </Grid>
+        <Grid container sx={{ gap: 0, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
+          <Grid item xs={2} sx={{ mt: 6 }}>
+            <TimeDataGrid rows={timeRows} />
           </Grid>
-        </FormContainer>
 
-        <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
+          <Grid item xs={10}>
+            <Box sx={{ maxWidth: 1400 }}>
+              <Button style={{
+                margin: '40px',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
-        <Button style={{
-          margin: '40px 0 0',
-          padding: '15px 0 15px 0',
-          backgroundColor: "white",
-        }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+              <FormContainer>
+                <Grid container sx={{ gap: 40, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
+                  <Grid item xs={12} md={2}>
+                    <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
+                  </Grid>
+
+                  <Grid item xs={12} md={2}>
+                    <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                  </Grid>
+
+                  <Grid item xs={12} md={2}>
+                    <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                  </Grid>
+                </Grid>
+              </FormContainer>
+
+              <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
+
+              <Button style={{
+                margin: '40px 0 0',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+            </Box>
+          </Grid>
+        </Grid>
 
         <Grid container sx={{ gap: 50, mt: 10, ml: 10, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
               tapWaterCoolingMeasurements &&
-              <MeasurementsGrid
+              <MeasurementsTable
                 measurements={tapWaterCoolingMeasurements}
                 title='Tap Water Cooling Measurements'
                 width={800}
@@ -118,7 +141,7 @@ function App() {
           <Grid item xs={12} md={2}>
             {
               iceWaterCoolingMeasurements &&
-              <MeasurementsGrid
+              <MeasurementsTable
                 measurements={iceWaterCoolingMeasurements}
                 title='Ice Water Cooling Measurements'
                 width={1200}

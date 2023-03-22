@@ -11,7 +11,7 @@ import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow}
 import Typography from "@mui/material/Typography";
 import {round} from "../../utils/math";
 
-interface MeasurementsGridProps {
+interface MeasurementsTableProps {
   measurements: TapWaterCoolingMeasurements | IceWaterCoolingMeasurements;
   title: string;
   width: number;
@@ -26,7 +26,7 @@ const getFields = (measurements: TapWaterCoolingMeasurements | IceWaterCoolingMe
   return fields;
 };
 
-export const MeasurementsGrid = ({ measurements, title, width }: MeasurementsGridProps) => {
+export const MeasurementsTable = ({ measurements, title, width }: MeasurementsTableProps) => {
   const Container = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     width
@@ -54,6 +54,7 @@ export const MeasurementsGrid = ({ measurements, title, width }: MeasurementsGri
               <TableRow
                 key={row[FIELD_TIME_MIN]}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                hover
               >
                 {fields.map(field => (
                   <TableCell sx={row.target ? { backgroundColor: '#ce8989' } : {}} align="right" key={field}>{/*(field in row) && */round(row[field], DECIMALS)}</TableCell> // TODO: remove row any type and check why this is not working
