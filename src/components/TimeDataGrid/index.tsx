@@ -13,7 +13,7 @@ export const TimeDataGrid = ({ rows }: TimeDataGridProps) => {
   ];
 
   return (
-    <Box sx={{ height: 960, width: 200 }}>
+    <Box sx={{ height: 980, width: 200 }}>
       <DataGrid
         rows={rows}
         columns={columns}

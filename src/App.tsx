@@ -85,14 +85,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Grid container sx={{ gap: 0, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
+      <header className="App-body">
+        <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
             <TimeDataGrid rows={timeRows} />
           </Grid>
 
           <Grid item xs={10}>
-            <Box sx={{ maxWidth: 1400 }}>
+            <Box sx={{ maxWidth: 1400, ml: -15 }}>
               <Button style={{
                 margin: '40px',
                 padding: '15px 0 15px 0',
@@ -126,7 +126,7 @@ function App() {
           </Grid>
         </Grid>
 
-        <Grid container sx={{ gap: 50, mt: 10, ml: 10, mr: 0 }}>
+        <Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
               tapWaterCoolingMeasurements &&
