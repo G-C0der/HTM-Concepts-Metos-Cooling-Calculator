@@ -38,6 +38,10 @@
   }
 }
 
+label {
+  color: black;
+}
+
 .form-input-label {
   display: inline-block;
   margin: 5px 0 0 4px;

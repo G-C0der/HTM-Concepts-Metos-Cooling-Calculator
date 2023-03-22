@@ -2,11 +2,11 @@ import React from 'react';
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 
-interface TimeDataGridProps {
+interface TimePowerDataGridProps {
   rows: object[];
 }
 
-export const TimeDataGrid = ({ rows }: TimeDataGridProps) => {
+export const TimePowerDataGrid = ({ rows }: TimePowerDataGridProps) => {
   const columns: GridColDef[] = [
     { field: 'time', headerName: 'Zeit', width: 115 },
     { field: 'powerKW', headerName: 'Power kW', width: 80 }

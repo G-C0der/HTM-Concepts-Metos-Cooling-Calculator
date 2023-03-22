@@ -47,4 +47,8 @@ export class Calculator {
       iceWaterCoolingMeasurements: (this.iceWaterCoolingMeasurements as IceWaterCoolingMeasurements)
     };
   };
+
+  setTimeTablePowerPercentages = () => {
+
+  };
 }

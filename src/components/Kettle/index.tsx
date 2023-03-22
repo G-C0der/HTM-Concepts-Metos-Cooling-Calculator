@@ -7,8 +7,11 @@ import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils/enum";
 import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
+import {UpwardCollapse} from "../UpwardCollapse";
+import Box from "@mui/material/Box";
+import {KettleTimeTransferList} from "../KettleTimeTransferLIst";
 
-interface KettleFormProps {
+interface KettleProps {
   kettleEntity: KettleEntity;
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
@@ -20,7 +23,7 @@ const Container = styled('div')(({ theme }) => ({
   maxWidth: 185
 }));
 
-export const KettleForm = ({ kettleEntity, number, handleKettleDeleteClick }: KettleFormProps) => {
+export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [foodLitres, setFoodLitres] = useState(0);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
@@ -100,6 +103,12 @@ export const KettleForm = ({ kettleEntity, number, handleKettleDeleteClick }: Ke
           })}
         </Select>
       </FormControl>
+
+      <Box sx={{ ml: 3 }}>
+        <UpwardCollapse>
+          <KettleTimeTransferList kettleEntity={kettleEntity} />
+        </UpwardCollapse>
+      </Box>
     </Container>
   );
 };

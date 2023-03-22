@@ -17,12 +17,13 @@ import {MeasurementsTable} from "./components/MeasurementsTable";
 import Grid from "@mui/material/Grid";
 import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
-import {TimeDataGrid} from "./components/TimeDataGrid";
+import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
+import {getHoursOfDay} from "./utils/time";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
-  padding: '0 10px 2px 2px'
+  padding: '0 0 1px 10px'
 }));
 
 function App() {
@@ -32,12 +33,11 @@ function App() {
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
-  const [timeRows, setTimeRows] = useState<object[]>(() => {
+  const [timePowerPercentageRows, setTimePowerPercentageRows] = useState<object[]>(() => {
     const rows = [];
 
-    for (let i = 0; i <= 23; i++) {
-      const prefix = (i.toString().length === 1) ? '0' : '';
-      rows.push({ id: i, time: `${prefix}${i}:00`, powerKW: '100%' });
+    for (const hour of getHoursOfDay()) {
+      rows.push({ id: hour, time: hour, powerKW: '100%' });
     }
 
     return rows;
@@ -88,7 +88,7 @@ function App() {
       <header className="App-body">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
-            <TimeDataGrid rows={timeRows} />
+            <TimePowerDataGrid rows={timePowerPercentageRows} />
           </Grid>
 
           <Grid item xs={10}>
