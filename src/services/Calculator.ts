@@ -1,6 +1,7 @@
 import {FIELD_KWH_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
 import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
+import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
@@ -67,26 +68,38 @@ export class Calculator {
 
     const maxPowerKW = this.iceWaterCoolingEntity.getMaxPowerKW();
     const rechargeRateKW = this.iceWaterCoolingEntity.getRechargeRateKW();
-    const timePowerMap: { time: string, powerKW: number }[] = [];
+    const timeUsedPowerMap: { time: string, usedPowerKW: number }[] = [];
 
-    for (const kettleEntity of this.kettleEntities) {
+    const electricCoolingModes = [KettleCoolingModes.C3, KettleCoolingModes.C5i];
+    const electricCoolingModeKettleEntities = this.kettleEntities
+      .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.coolingMode));
+    for (const kettleEntity of electricCoolingModeKettleEntities) {
       for (const usageTime of kettleEntity.getTimeUsages()) {
-        const existingTimePowerEntry = timePowerMap.find(timePowerEntry => timePowerEntry.time === usageTime.time);
+        const existingTimePowerEntry = timeUsedPowerMap.find(timeUsedPowerEntry => timeUsedPowerEntry.time === usageTime.time);
 
         if (existingTimePowerEntry) {
-          existingTimePowerEntry.powerKW -= (usageTime.foodLitres / 10);
+          existingTimePowerEntry.usedPowerKW += (usageTime.foodLitres / 10);
         } else {
-          const powerKWLeft = maxPowerKW - (usageTime.foodLitres / 10);
-          timePowerMap.push({ time: usageTime.time, powerKW: powerKWLeft });
+          const usedPowerKW = (usageTime.foodLitres / 10);
+          timeUsedPowerMap.push({ time: usageTime.time, usedPowerKW });
         }
       }
     }
 
-    for (const timePowerEntry of timePowerMap) {
-      timePowerEntry.powerKW += rechargeRateKW;
-      if (timePowerEntry.powerKW > maxPowerKW) timePowerEntry.powerKW = maxPowerKW;
+    const timeIndexUsedPowerMap = timeUsedPowerMap.map(timeUsedPowerEntry => ({
+      timeIndex: this.timePowerUsageRows.map(timePowerUsageRow => timePowerUsageRow.time).indexOf(timeUsedPowerEntry.time),
+      usedPowerKW: timeUsedPowerEntry.usedPowerKW
+    }));
+    
+    for (const { timeIndex, usedPowerKW } of timeIndexUsedPowerMap) {
+      this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
+
+      let currentTimeIndex = timeIndex + 1;
+      while (this.timePowerUsageRows[currentTimeIndex].powerKW! < maxPowerKW) {
+
+      }
     }
 
-    console.log(timePowerMap)
+    console.log('-')
   };
 }
