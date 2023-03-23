@@ -80,6 +80,11 @@ export class Calculator {
       }
     }
 
+    for (const timePowerEntry of timePowerMap) {
+      timePowerEntry.powerKW += rechargeRateKW;
+      if (timePowerEntry.powerKW > maxPowerKW) timePowerEntry.powerKW = maxPowerKW;
+    }
+
     console.log(timePowerMap)
   };
 }

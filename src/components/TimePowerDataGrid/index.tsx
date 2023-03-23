@@ -1,15 +1,26 @@
 import React from 'react';
-import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
+import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 
 interface TimePowerDataGridProps {
   rows: object[];
+  iceWaterCoolingEntity: IceWaterCoolingEntity;
 }
 
-export const TimePowerDataGrid = ({ rows }: TimePowerDataGridProps) => {
+export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerDataGridProps) => {
   const columns: GridColDef[] = [
-    { field: 'time', headerName: 'Zeit', width: 115 },
-    { field: 'powerKWPercent', headerName: 'Power kW', width: 80 }
+    {
+      field: 'time',
+      headerName: 'Zeit',
+      width: 115
+    },
+    {
+      field: 'powerKW',
+      headerName: 'Power kW',
+      width: 80,
+      valueGetter: (params) => `${100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW}%`
+    }
   ];
 
   return (

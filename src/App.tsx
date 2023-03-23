@@ -37,7 +37,7 @@ function App() {
     const rows = [];
 
     for (const hour of getHoursOfDay()) {
-      rows.push({ id: hour, time: hour, powerKWPercent: '100%' });
+      rows.push({ id: hour, time: hour, powerKW: 1 });
     }
 
     return rows;
@@ -93,7 +93,7 @@ function App() {
       <header className="App-body">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
-            <TimePowerDataGrid rows={timePowerPercentageRows} />
+            <TimePowerDataGrid rows={timePowerPercentageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
           </Grid>
 
           <Grid item xs={10}>
