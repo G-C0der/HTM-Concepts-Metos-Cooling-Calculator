@@ -37,7 +37,7 @@ function App() {
     const rows = [];
 
     for (const hour of getHoursOfDay()) {
-      rows.push({ id: hour, time: hour, powerKW: '100%' });
+      rows.push({ id: hour, time: hour, powerKWPercent: '100%' });
     }
 
     return rows;
@@ -50,6 +50,7 @@ function App() {
 
   const calculator = new Calculator(
     kettleEntities,
+    iceWaterCoolingEntity,
     timePowerPercentageRows
   );
 
@@ -82,6 +83,9 @@ function App() {
     const res = calculator.setMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
+
+    // Set ice water cooling power percentages
+    calculator.setTimeTablePowerPercentages();
   };
 
   return (

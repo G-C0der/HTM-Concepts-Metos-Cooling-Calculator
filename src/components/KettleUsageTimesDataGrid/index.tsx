@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {KettleEntity, UsageTimeRows} from "../../entities/KettleEntity";
+import {KettleEntity, UsageTimeRow} from "../../entities/KettleEntity";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 
 interface KettleUsageTimesDataGridProps {
   kettleEntity: KettleEntity;
-  rows: UsageTimeRows;
+  rows: UsageTimeRow[];
   setRows: (rows: any[]) => void;
 }
 

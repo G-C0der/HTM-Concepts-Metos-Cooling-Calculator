@@ -9,7 +9,7 @@ interface TimePowerDataGridProps {
 export const TimePowerDataGrid = ({ rows }: TimePowerDataGridProps) => {
   const columns: GridColDef[] = [
     { field: 'time', headerName: 'Zeit', width: 115 },
-    { field: 'powerKW', headerName: 'Power kW', width: 80 }
+    { field: 'powerKWPercent', headerName: 'Power kW', width: 80 }
   ];
 
   return (

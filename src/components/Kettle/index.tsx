@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KettleEntity, UsageTimeRows} from "../../entities/KettleEntity";
+import {KettleEntity, UsageTimeRow} from "../../entities/KettleEntity";
 import {FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -26,7 +26,7 @@ const Container = styled('div')(({ theme }) => ({
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
-  const [usageTimeRows, setUsageTimeRows] = useState<UsageTimeRows>(kettleEntity.usageTimeRows);
+  const [usageTimeRows, setUsageTimeRows] = useState<UsageTimeRow[]>(kettleEntity.usageTimeRows);
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
