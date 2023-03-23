@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import {UpwardCollapse} from "../UpwardCollapse";
 import Box from "@mui/material/Box";
-import {KettleTimeTransferList} from "../KettleTimeTransferLIst";
+import {KettleTimeFoodLitresDataGrid} from "../KettleTimeFoodLitresDataGrid";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -106,7 +106,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
       <Box sx={{ ml: 3 }}>
         <UpwardCollapse>
-          <KettleTimeTransferList kettleEntity={kettleEntity} />
+          <KettleTimeFoodLitresDataGrid kettleEntity={kettleEntity} />
         </UpwardCollapse>
       </Box>
     </Container>

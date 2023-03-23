@@ -49,7 +49,8 @@ function App() {
   );
 
   const calculator = new Calculator(
-    kettleEntities
+    kettleEntities,
+    timePowerPercentageRows
   );
 
   const handleAddKettleClick = () => {
@@ -77,8 +78,8 @@ function App() {
     calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
     // Set target row (row with smallest cost difference)
-    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.setTargetRow()); // TODO: check why this not works
-    const res = calculator.setTargetRow();
+    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.setMeasurementsTargetRow()); // TODO: check why this not works
+    const res = calculator.setMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
   };

@@ -9,7 +9,7 @@ export class IceWaterCoolingEntity {
   type1Count: number = 0;
   type4Count: number = 0;
 
-  getPowerKw: () => number = () => {
+  getMaxPowerKw: () => number = () => {
     return (this.type1Count * 40) + (this.type4Count * 50);
   };
 

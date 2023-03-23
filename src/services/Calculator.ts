@@ -5,11 +5,14 @@ export class Calculator {
   kettleEntities: KettleEntity[];
   tapWaterCoolingMeasurements?: TapWaterCoolingMeasurements;
   iceWaterCoolingMeasurements?: IceWaterCoolingMeasurements;
+  timePowerPercentageRows: object[];
 
   constructor(
-    kettleEntities: KettleEntity[]
+    kettleEntities: KettleEntity[],
+    timePowerPercentageRows: object[]
   ) {
     this.kettleEntities = kettleEntities;
+    this.timePowerPercentageRows = timePowerPercentageRows;
   }
 
   setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) => {
@@ -20,7 +23,7 @@ export class Calculator {
     this.iceWaterCoolingMeasurements = iceWaterCoolingMeasurements;
   };
 
-  setTargetRow = () => {
+  setMeasurementsTargetRow = () => {
     if (!this.tapWaterCoolingMeasurements || !this.iceWaterCoolingMeasurements) return;
 
     let lowestCostDifference;
@@ -49,6 +52,8 @@ export class Calculator {
   };
 
   setTimeTablePowerPercentages = () => {
+    for (const kettleEntity of this.kettleEntities) {
 
+    }
   };
 }
