@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {KettleEntity, UsageTimeRow} from "../../entities/KettleEntity";
+import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 
-interface KettleUsageTimesDataGridProps {
+interface KettleTimeUsageDataGridProps {
   kettleEntity: KettleEntity;
-  rows: UsageTimeRow[];
+  rows: TimeUsageRow[];
   setRows: (rows: any[]) => void;
 }
 
-export const KettleUsageTimesDataGrid = ({ kettleEntity, rows, setRows }: KettleUsageTimesDataGridProps) => {
+export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleTimeUsageDataGridProps) => {
   const columns: GridColDef[] = [
     { field: 'time', headerName: 'Zeit', width: 80 },
     { field: 'foodLitres', headerName: 'Food Litres', width: 100, editable: true }
@@ -27,7 +27,7 @@ export const KettleUsageTimesDataGrid = ({ kettleEntity, rows, setRows }: Kettle
 
     setRows(newRows);
 
-    kettleEntity.usageTimeRows = rows;
+    kettleEntity.timeUsageRows = rows;
   };
 
   return (

@@ -9,7 +9,7 @@ import {getEnumMinMax} from "./utils/enum";
 import {KettleEntity} from "./entities/KettleEntity";
 import {Calculator} from "./services/Calculator";
 import {WaterForm} from "./components/WaterForm";
-import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
+import {IceWaterCoolingEntity, TimePowerUsageRow} from "./entities/IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./entities/TapWaterCoolingEntity";
 import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
@@ -19,7 +19,6 @@ import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
-import {getHoursOfDay} from "./utils/time";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -33,15 +32,8 @@ function App() {
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
-  const [timePowerPercentageRows, setTimePowerPercentageRows] = useState<object[]>(() => {
-    const rows = [];
-
-    for (const hour of getHoursOfDay()) {
-      rows.push({ id: hour, time: hour, powerKW: 1 });
-    }
-
-    return rows;
-  });
+  const [timePowerUsageRows, setTimePowerUsageRows] =
+    useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -51,7 +43,7 @@ function App() {
   const calculator = new Calculator(
     kettleEntities,
     iceWaterCoolingEntity,
-    timePowerPercentageRows
+    timePowerUsageRows
   );
 
   const handleAddKettleClick = () => {
@@ -93,7 +85,7 @@ function App() {
       <header className="App-body">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
-            <TimePowerDataGrid rows={timePowerPercentageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
+            <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
           </Grid>
 
           <Grid item xs={10}>
@@ -115,12 +107,18 @@ function App() {
                   </Grid>
 
                   <Grid item xs={12} md={2}>
-                    <IceWaterCoolingForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                    <IceWaterCoolingForm
+                      iceWaterCoolingEntity={iceWaterCoolingEntity}
+                      setTimePowerUsageRows={setTimePowerUsageRows}
+                    />
                   </Grid>
                 </Grid>
               </FormContainer>
 
-              <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
+              <KettleContainer
+                kettleEntities={kettleEntities}
+                handleKettleDeleteClick={handleKettleDeleteClick}
+              />
 
               <Button style={{
                 margin: '40px 0 0',

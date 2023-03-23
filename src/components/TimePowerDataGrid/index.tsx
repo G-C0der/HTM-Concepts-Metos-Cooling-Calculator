@@ -1,5 +1,5 @@
 import React from 'react';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 
@@ -19,7 +19,9 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       field: 'powerKW',
       headerName: 'Power kW',
       width: 80,
-      valueGetter: (params) => `${100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW}%`
+      valueGetter: (params) => params.row.powerKW
+        ? `${100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW}%`
+        : '-'
     }
   ];
 

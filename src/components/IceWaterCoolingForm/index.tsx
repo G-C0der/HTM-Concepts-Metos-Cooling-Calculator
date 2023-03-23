@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
+import {IceWaterCoolingEntity, TimePowerUsageRow} from "../../entities/IceWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
@@ -7,6 +7,7 @@ import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 
 interface IceWaterCoolingFormProps {
   iceWaterCoolingEntity: IceWaterCoolingEntity;
+  setTimePowerUsageRows: (timePowerUsageRows: TimePowerUsageRow[]) => void;
 }
 
 const Container = styled('div')(({ theme }) => ({
@@ -16,20 +17,22 @@ const Container = styled('div')(({ theme }) => ({
   height: 210
 }));
 
-export const IceWaterCoolingForm = ({ iceWaterCoolingEntity }: IceWaterCoolingFormProps) => {
+export const IceWaterCoolingForm = ({ iceWaterCoolingEntity, setTimePowerUsageRows }: IceWaterCoolingFormProps) => {
   const [type1Count, setType1Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
   const [type4Count, setType4Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
 
   const handleType1CountChange = (e: any) => {
     const type1Count = e.target.value;
     setType1Count(type1Count);
-    iceWaterCoolingEntity.type1Count = type1Count;
+    iceWaterCoolingEntity.setType1Count(type1Count);
+    setTimePowerUsageRows(iceWaterCoolingEntity.timePowerUsageRows);
   };
 
   const handleType4CountChange = (e: any) => {
     const type4Count = e.target.value;
     setType4Count(type4Count);
-    iceWaterCoolingEntity.type4Count = type4Count;
+    iceWaterCoolingEntity.setType4Count(type4Count);
+    setTimePowerUsageRows(iceWaterCoolingEntity.timePowerUsageRows);
   };
 
   return (

@@ -1,22 +1,22 @@
 import {FIELD_KWH_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
 import {KettleEntity} from "../entities/KettleEntity";
-import {IceWaterCoolingEntity} from "../entities/IceWaterCoolingEntity";
+import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
   tapWaterCoolingMeasurements?: TapWaterCoolingMeasurements;
   iceWaterCoolingMeasurements?: IceWaterCoolingMeasurements;
   iceWaterCoolingEntity: IceWaterCoolingEntity;
-  timePowerPercentageRows: object[];
+  timePowerUsageRows: TimePowerUsageRow[];
 
   constructor(
     kettleEntities: KettleEntity[],
     iceWaterCoolingEntity: IceWaterCoolingEntity,
-    timePowerPercentageRows: object[]
+    timePowerUsageRows: TimePowerUsageRow[]
   ) {
     this.kettleEntities = kettleEntities;
     this.iceWaterCoolingEntity = iceWaterCoolingEntity;
-    this.timePowerPercentageRows = timePowerPercentageRows;
+    this.timePowerUsageRows = timePowerUsageRows;
   }
 
   setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) => {
@@ -56,11 +56,13 @@ export class Calculator {
   };
 
   setTimeTablePowerPercentages = () => {
+    const iceWaterCoolingType1Count = this.iceWaterCoolingEntity.getType1Count();
+    const iceWaterCoolingType4Count = this.iceWaterCoolingEntity.getType4Count();
     if (
-      this.iceWaterCoolingEntity.type1Count <= 0
-      && this.iceWaterCoolingEntity.type4Count <= 0
-      || this.iceWaterCoolingEntity.type1Count > 4
-      || this.iceWaterCoolingEntity.type4Count > 4
+      iceWaterCoolingType1Count <= 0
+      && iceWaterCoolingType4Count <= 0
+      || iceWaterCoolingType1Count > 4
+      || iceWaterCoolingType4Count > 4
     ) return;
 
     const maxPowerKW = this.iceWaterCoolingEntity.getMaxPowerKW();
@@ -68,7 +70,7 @@ export class Calculator {
     const timePowerMap: { time: string, powerKW: number }[] = [];
 
     for (const kettleEntity of this.kettleEntities) {
-      for (const usageTime of kettleEntity.getUsageTimes()) {
+      for (const usageTime of kettleEntity.getTimeUsages()) {
         const existingTimePowerEntry = timePowerMap.find(timePowerEntry => timePowerEntry.time === usageTime.time);
 
         if (existingTimePowerEntry) {

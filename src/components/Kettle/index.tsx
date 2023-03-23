@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KettleEntity, UsageTimeRow} from "../../entities/KettleEntity";
+import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
 import {FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import {UpwardCollapse} from "../UpwardCollapse";
 import Box from "@mui/material/Box";
-import {KettleUsageTimesDataGrid} from "../KettleUsageTimesDataGrid";
+import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -26,12 +26,12 @@ const Container = styled('div')(({ theme }) => ({
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
-  const [usageTimeRows, setUsageTimeRows] = useState<UsageTimeRow[]>(kettleEntity.usageTimeRows);
+  const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
     setCoolingMode(kettleEntity.coolingMode);
-    setUsageTimeRows(kettleEntity.usageTimeRows);
+    setTimeUsageRows(kettleEntity.timeUsageRows);
   });
 
   const handleKettleSizeChange = (e: any) => {
@@ -90,10 +90,10 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
       <Box sx={{ ml: 3 }}>
         <UpwardCollapse switchLabelText='Show Usages'>
-          <KettleUsageTimesDataGrid
+          <KettleTimeUsageDataGrid
             kettleEntity={kettleEntity}
-            rows={usageTimeRows}
-            setRows={setUsageTimeRows}
+            rows={timeUsageRows}
+            setRows={setTimeUsageRows}
           />
         </UpwardCollapse>
       </Box>
