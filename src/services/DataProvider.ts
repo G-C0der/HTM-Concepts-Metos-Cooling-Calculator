@@ -10,9 +10,9 @@ const FIELD_LITRE_CHF = 'l/CHF';
 const FIELD_LITRE_CO2_GRAMS = 'l/Co2/g';
 
 // Ice water bank fields
-const FIELD_KWH = 'kw/h';
-const FIELD_KWH_CHF = 'kw/h/CHF';
-const FIELD_KWH_CO2_GRAMS = 'kw/h/Co2/g';
+const FIELD_KWH = 'kWh';
+const FIELD_KWH_CHF = 'kWh/CHF';
+const FIELD_KWH_CO2_GRAMS = 'kWh/Co2/g';
 const FIELD_ICE_INCREASE_KG = 'EisAufbau/kg';
 
 // Shared fields
