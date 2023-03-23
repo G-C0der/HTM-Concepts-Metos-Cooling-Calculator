@@ -5,10 +5,11 @@ import Collapse from '@mui/material/Collapse';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 interface UpwardCollapseProps {
-  children: React.ReactNode
+  children: React.ReactNode;
+  switchLabelText: string;
 }
 
-export const UpwardCollapse = ({ children }: UpwardCollapseProps) => {
+export const UpwardCollapse = ({ children, switchLabelText }: UpwardCollapseProps) => {
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
@@ -16,10 +17,10 @@ export const UpwardCollapse = ({ children }: UpwardCollapseProps) => {
   };
 
   return (
-    <Box sx={{ height: 40 }}>
+    <Box sx={{ height: 40, width: 175 }}>
       <FormControlLabel
         control={<Switch checked={checked} onChange={handleChange} />}
-        label="Assign Time"
+        label={switchLabelText}
       />
       <Box
         sx={{
@@ -34,7 +35,7 @@ export const UpwardCollapse = ({ children }: UpwardCollapseProps) => {
         }}
       >
         <div>
-          <Collapse in={checked} collapsedSize={20}>
+          <Collapse in={checked} collapsedSize={40}>
             {children}
           </Collapse>
         </div>

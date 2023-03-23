@@ -1,4 +1,4 @@
-import {FIELD_KW_HOUR_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
+import {FIELD_KWH_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
 import {KettleEntity} from "../entities/KettleEntity";
 
 export class Calculator {
@@ -30,7 +30,7 @@ export class Calculator {
     let lowestCostDifferenceIdx: number;
     for (let i = 0; i < this.tapWaterCoolingMeasurements.length && i < this.iceWaterCoolingMeasurements.length; i++) {
       const tapWaterCoolingCost = this.tapWaterCoolingMeasurements[i][FIELD_LITRE_CHF];
-      const iceWaterCoolingCost = this.iceWaterCoolingMeasurements[i][FIELD_KW_HOUR_CHF];
+      const iceWaterCoolingCost = this.iceWaterCoolingMeasurements[i][FIELD_KWH_CHF];
       let costDifference;
 
       if (tapWaterCoolingCost <= iceWaterCoolingCost) costDifference = iceWaterCoolingCost - tapWaterCoolingCost;

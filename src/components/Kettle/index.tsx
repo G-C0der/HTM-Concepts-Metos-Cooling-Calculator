@@ -62,7 +62,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
       </IconButton>
 
       <FormControl>
-        <InputLabel className='form-input-label'>Grösse</InputLabel>
+        <InputLabel className='form-input-label'>Size</InputLabel>
         <Select
           style={{ width: "200px", margin: "5px" }}
           value={sizeLitres}
@@ -77,23 +77,12 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
         </Select>
       </FormControl>
 
-      <TextField
-        style={{ width: "200px", margin: "5px" }}
-        value={foodLitres}
-        error={foodLitres > sizeLitres/* || /[0-9]/.test(foodLitres.toString())*/}
-        type="number"
-        inputProps={{ type: 'number' }}
-        label="Essen Liter"
-        variant="outlined"
-        onChange={handleKettleFoodLitresChange}
-      />
-
       <FormControl>
-        <InputLabel className='form-input-label'>Kühlmodus</InputLabel>
+        <InputLabel className='form-input-label'>Cooling Mode</InputLabel>
         <Select
           style={{ width: "200px", margin: "5px" }}
           value={coolingMode}
-          label="Kühlmodus"
+          label="Cooling Mode"
           onChange={handleKettleCoolingModeChange}
         >
           {getEnumValues(KettleCoolingModes).map((coolingMode: KettleCoolingModes) => {
@@ -105,7 +94,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
       </FormControl>
 
       <Box sx={{ ml: 3 }}>
-        <UpwardCollapse>
+        <UpwardCollapse switchLabelText='Show Usages'>
           <KettleTimeFoodLitresDataGrid kettleEntity={kettleEntity} />
         </UpwardCollapse>
       </Box>

@@ -45,7 +45,7 @@ export const ElectricityForm = ({ iceWaterCoolingEntity }: ElectricityFormProps)
             // error={/* || /[0-9]/.test(foodLitres.toString())*/}
             type="number"
             inputProps={{ type: 'number' }}
-            label="kw/h"
+            label="kWh"
             variant="outlined"
             onChange={handleKwHourChange}
           />
@@ -57,7 +57,7 @@ export const ElectricityForm = ({ iceWaterCoolingEntity }: ElectricityFormProps)
             // error={/* || /[0-9]/.test(foodLitres.toString())*/}
             type="number"
             inputProps={{ type: 'number' }}
-            label="CHF/kw/h"
+            label="CHF/kWh"
             variant="outlined"
             onChange={handleKwHourCostChange}
           />
@@ -69,7 +69,7 @@ export const ElectricityForm = ({ iceWaterCoolingEntity }: ElectricityFormProps)
             // error={/* || /[0-9]/.test(foodLitres.toString())*/}
             type="number"
             inputProps={{ type: 'number' }}
-            label="Co2/kw/h"
+            label="Co2/kWh"
             variant="outlined"
             onChange={handleKwHourCo2Change}
           />
