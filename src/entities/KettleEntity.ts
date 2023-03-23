@@ -1,9 +1,29 @@
 import {KettleSizeLitres} from "../enums/KettleSizeLitres";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
+import {getHoursOfDay} from "../utils/time";
 
-export class KettleEntity {
+type UsageTimeRows = {
+  id: string;
+  time: string;
+  foodLitres: number;
+}[];
+
+class KettleEntity {
   sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
-  foodLitres: number = 0;
   coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
-  usageTimes: readonly string[] = [];
+  usageTimeRows: UsageTimeRows = [];
+  
+  constructor() {
+    for (const hour of getHoursOfDay()) {
+      this.usageTimeRows.push({ id: hour, time: hour, foodLitres: 0 });
+    }
+  }
 }
+
+export {
+  KettleEntity
+};
+
+export type {
+  UsageTimeRows
+};

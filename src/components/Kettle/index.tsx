@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {KettleEntity} from "../../entities/KettleEntity";
-import {FormControl, IconButton, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {KettleEntity, UsageTimeRows} from "../../entities/KettleEntity";
+import {FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import {UpwardCollapse} from "../UpwardCollapse";
 import Box from "@mui/material/Box";
-import {KettleTimeFoodLitresDataGrid} from "../KettleTimeFoodLitresDataGrid";
+import {KettleUsageTimesDataGrid} from "../KettleUsageTimesDataGrid";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -25,24 +25,19 @@ const Container = styled('div')(({ theme }) => ({
 
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
-  const [foodLitres, setFoodLitres] = useState(0);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
+  const [usageTimeRows, setUsageTimeRows] = useState<UsageTimeRows>(kettleEntity.usageTimeRows);
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
-    setFoodLitres(kettleEntity.foodLitres);
+    setCoolingMode(kettleEntity.coolingMode);
+    setUsageTimeRows(kettleEntity.usageTimeRows);
   });
 
   const handleKettleSizeChange = (e: any) => {
     const sizeLitres = +e.target.value;
     setSizeLitres(sizeLitres);
     kettleEntity.sizeLitres = sizeLitres;
-  };
-
-  const handleKettleFoodLitresChange = (e: any) => {
-    const foodLitres = +e.target.value;
-    setFoodLitres(foodLitres);
-    kettleEntity.foodLitres = foodLitres;
   };
 
   const handleKettleCoolingModeChange = (e: any) => {
@@ -95,7 +90,11 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
       <Box sx={{ ml: 3 }}>
         <UpwardCollapse switchLabelText='Show Usages'>
-          <KettleTimeFoodLitresDataGrid kettleEntity={kettleEntity} />
+          <KettleUsageTimesDataGrid
+            kettleEntity={kettleEntity}
+            rows={usageTimeRows}
+            setRows={setUsageTimeRows}
+          />
         </UpwardCollapse>
       </Box>
     </Container>
