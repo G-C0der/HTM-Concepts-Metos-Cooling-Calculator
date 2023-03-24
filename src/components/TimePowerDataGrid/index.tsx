@@ -2,6 +2,7 @@ import React from 'react';
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
+import {round} from "../../utils/math";
 
 interface TimePowerDataGridProps {
   rows: object[];
@@ -20,7 +21,7 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       headerName: 'Power kW',
       width: 80,
       valueGetter: (params) => params.row.powerKW
-        ? `${100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW}%`
+        ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW, 2)}%`
         : '-'
     }
   ];

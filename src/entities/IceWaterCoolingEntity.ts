@@ -28,7 +28,7 @@ class IceWaterCoolingEntity {
   setType1Count = (type1Count: number) => {
     this.type1Count = type1Count;
 
-    this.updateTimePowerUsageRows();
+    this.setTimePowerUsageRows();
   };
 
   getType1Count = () => {
@@ -38,7 +38,7 @@ class IceWaterCoolingEntity {
   setType4Count = (type4Count: number) => {
     this.type4Count = type4Count;
 
-    this.updateTimePowerUsageRows();
+    this.setTimePowerUsageRows();
   };
 
   getType4Count = () => {
@@ -53,7 +53,7 @@ class IceWaterCoolingEntity {
     return (this.type1Count * 7) + (this.type4Count * 14);
   };
 
-  private updateTimePowerUsageRows = () => {
+  setTimePowerUsageRows = () => {
     for (const timePowerUsageRow of this.timePowerUsageRows) {
       timePowerUsageRow.powerKW = this.getMaxPowerKW();
     }

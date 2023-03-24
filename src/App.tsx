@@ -71,13 +71,15 @@ function App() {
     calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
     // Set target row (row with smallest cost difference)
-    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.setMeasurementsTargetRow()); // TODO: check why this not works
-    const res = calculator.setMeasurementsTargetRow();
+    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
+    const res = calculator.calculateMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
     // Set ice water cooling power percentages
-    calculator.setTimeTablePowerPercentages();
+    const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
+    console.log(5, timePowerUsageRows)
+    setTimePowerUsageRows(timePowerUsageRows!);
   };
 
   return (
