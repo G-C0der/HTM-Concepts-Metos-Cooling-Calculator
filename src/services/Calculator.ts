@@ -98,21 +98,29 @@ export class Calculator {
     const subtractedPowerKWTimeIndexes: number[] = [];
     for (const { timeIndex, usedPowerKW } of timeIndexUsedPowerMap) {
       if (!subtractedPowerKWTimeIndexes.includes(timeIndex)) {
+        // Subtract used kW
         const powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
         subtractedPowerKWTimeIndexes.push(timeIndex);
 
         const maxTimeIndex = 23;
         let powerKWRechargeHourCount = 1;
         let currentTimeIndex = timeIndex + 1;
+
+        // Recharge
         this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
+
+        // Make sure it does not go over max kW
+        if (this.timePowerUsageRows[currentTimeIndex].powerKW! > maxPowerKW) this.timePowerUsageRows[currentTimeIndex].powerKW! = maxPowerKW;
+
+        // Loop over next rows until fully recharged
         while (this.timePowerUsageRows[currentTimeIndex].powerKW! < maxPowerKW) {
-          console.log(rechargeRateKW * powerKWRechargeHourCount)
-          // TODO: recharge before or after removal of usage?
+          // Recharge
           if (powerKWRechargeHourCount > 1) this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
 
-          // Make sure it does not go over max KW
-          if (this.timePowerUsageRows[currentTimeIndex].powerKW! > maxPowerKW) this.timePowerUsageRows[currentTimeIndex].powerKW! = maxPowerKW
+          // Make sure it does not go over max kW
+          if (this.timePowerUsageRows[currentTimeIndex].powerKW! > maxPowerKW) this.timePowerUsageRows[currentTimeIndex].powerKW! = maxPowerKW;
 
+          // Subtract used kW
           const usedPowerTimeIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.timeIndex);
           if (usedPowerTimeIndexes.includes(currentTimeIndex) && !subtractedPowerKWTimeIndexes.includes(currentTimeIndex)) {
             this.timePowerUsageRows[currentTimeIndex].powerKW! -= usedPowerKW;
