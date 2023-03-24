@@ -78,7 +78,6 @@ function App() {
 
     // Set ice water cooling power percentages
     const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
-    console.log(5, timePowerUsageRows)
     setTimePowerUsageRows(timePowerUsageRows!);
   };
 
