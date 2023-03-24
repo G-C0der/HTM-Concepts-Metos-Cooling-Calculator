@@ -92,14 +92,8 @@ function App() {
 
           <Grid item xs={10}>
             <Box sx={{ maxWidth: 1400, ml: -15 }}>
-              <Button style={{
-                margin: '40px',
-                padding: '15px 0 15px 0',
-                backgroundColor: "white",
-              }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
-
               <FormContainer>
-                <Grid container sx={{ gap: 40, mt: 5, mb: 5,  ml: 3, mr: 0 }}>
+                <Grid container sx={{ gap: 40, mt: 6, mb: 5,  ml: 3, mr: 0 }}>
                   <Grid item xs={12} md={2}>
                     <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
                   </Grid>
@@ -117,16 +111,22 @@ function App() {
                 </Grid>
               </FormContainer>
 
+              <Button style={{
+                margin: '40px',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
+
+              <Button style={{
+                margin: '40px',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+
               <KettleContainer
                 kettleEntities={kettleEntities}
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
-
-              <Button style={{
-                margin: '40px 0 0',
-                padding: '15px 0 15px 0',
-                backgroundColor: "white",
-              }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
             </Box>
           </Grid>
         </Grid>
