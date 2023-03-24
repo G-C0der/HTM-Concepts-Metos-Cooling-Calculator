@@ -98,7 +98,7 @@ export class Calculator {
       if (!subtractedPowerKWTimeIndexes.includes(timeIndex)) {
         // Subtract used kW
         console.log('-----------------------')
-        const powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
+        let powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
         subtractedPowerKWTimeIndexes.push(timeIndex);
 
         const maxTimeIndex = 23;
@@ -127,9 +127,13 @@ export class Calculator {
             // Subtract used kW
             const usedPowerTimeIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.timeIndex);
             if (usedPowerTimeIndexes.includes(currentTimeIndex) && !subtractedPowerKWTimeIndexes.includes(currentTimeIndex)) {
-              this.timePowerUsageRows[currentTimeIndex].powerKW! -= usedPowerKW;
-            }
+              const currentIndexUsedPower = timeIndexUsedPowerMap.find(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.timeIndex === currentTimeIndex)!.usedPowerKW;
+              this.timePowerUsageRows[currentTimeIndex].powerKW! -= currentIndexUsedPower;
 
+              subtractedPowerKWTimeIndexes.push(currentTimeIndex);
+
+              powerKWSubtractionResult -= currentIndexUsedPower;
+            }
           }
       }
     }
