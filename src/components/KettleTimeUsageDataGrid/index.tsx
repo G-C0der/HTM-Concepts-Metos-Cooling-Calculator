@@ -11,7 +11,7 @@ interface KettleTimeUsageDataGridProps {
 
 export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleTimeUsageDataGridProps) => {
   const columns: GridColDef[] = [
-    { field: 'time', headerName: 'Zeit', width: 80 },
+    { field: 'time', headerName: 'Time', width: 80 },
     { field: 'foodLitres', headerName: 'Food Litres', width: 100, editable: true }
   ];
 
