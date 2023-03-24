@@ -97,13 +97,15 @@ export class Calculator {
     for (const { timeIndex, usedPowerKW } of timeIndexUsedPowerMap) {
       if (!subtractedPowerKWTimeIndexes.includes(timeIndex)) {
         // Subtract used kW
-        console.log('-----------------------')
         let powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
         subtractedPowerKWTimeIndexes.push(timeIndex);
 
         const maxTimeIndex = 23;
         let powerKWRechargeHourCount = 1;
         let currentTimeIndex = timeIndex + 1;
+
+        // Quit if max hour of day reached
+        if (currentTimeIndex >= maxTimeIndex) break;
 
         // Recharge
         this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
@@ -113,7 +115,7 @@ export class Calculator {
 
         // Loop over next rows until fully recharged
           while (this.timePowerUsageRows[currentTimeIndex].powerKW! < maxPowerKW) {
-            if (currentTimeIndex === maxTimeIndex) currentTimeIndex = 0;
+            if (currentTimeIndex >= maxTimeIndex) break; // Quit if max hour of day reached
             else currentTimeIndex++;
 
             powerKWRechargeHourCount++;
