@@ -92,9 +92,11 @@ export class Calculator {
       timeIndex: this.timePowerUsageRows.map(timePowerUsageRow => timePowerUsageRow.time).indexOf(timeUsedPowerEntry.time),
       usedPowerKW: timeUsedPowerEntry.usedPowerKW
     }));
-
-    const subtractedPowerKWTimeIndexes: number[] = [];
-    for (const { timeIndex, usedPowerKW } of timeIndexUsedPowerMap) {
+console.log('>>>>>>>>>',timeIndexUsedPowerMap)
+    let subtractedPowerKWTimeIndexes: number[] = [];
+    for (const [timeIndexUsedPowerEntryIndex, { timeIndex, usedPowerKW }] of timeIndexUsedPowerMap.entries()) {
+      console.log('-----------------')
+      console.log('timeIndex',timeIndex)
       if (!subtractedPowerKWTimeIndexes.includes(timeIndex)) {
         // Subtract used kW
         let powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
@@ -119,6 +121,16 @@ export class Calculator {
             else currentTimeIndex++;
 
             powerKWRechargeHourCount++;
+
+            //
+            if (this.timePowerUsageRows[currentTimeIndex].powerKW! >= maxPowerKW) {
+              console.log('timeIndex',timeIndex)
+              console.log('currentTimeIndex',currentTimeIndex)
+              console.log('subtractedPowerKWTimeIndexes1',subtractedPowerKWTimeIndexes)
+              subtractedPowerKWTimeIndexes.splice(subtractedPowerKWTimeIndexes.indexOf(timeIndexUsedPowerMap[timeIndexUsedPowerEntryIndex].timeIndex), 1);
+              console.log('subtractedPowerKWTimeIndexes2',subtractedPowerKWTimeIndexes)
+              break;
+            }
 
             // Recharge
             if (powerKWRechargeHourCount > 1) this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
