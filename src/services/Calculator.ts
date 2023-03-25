@@ -89,67 +89,33 @@ export class Calculator {
     }
 
     const timeIndexUsedPowerMap = timeUsedPowerMap.map(timeUsedPowerEntry => ({
-      timeIndex: this.timePowerUsageRows.map(timePowerUsageRow => timePowerUsageRow.time).indexOf(timeUsedPowerEntry.time),
+      rowIndex: this.timePowerUsageRows.map(timePowerUsageRow => timePowerUsageRow.time).indexOf(timeUsedPowerEntry.time),
       usedPowerKW: timeUsedPowerEntry.usedPowerKW
     }));
-console.log('>>>>>>>>>',timeIndexUsedPowerMap)
-    let subtractedPowerKWTimeIndexes: number[] = [];
-    for (const [timeIndexUsedPowerEntryIndex, { timeIndex, usedPowerKW }] of timeIndexUsedPowerMap.entries()) {
-      console.log('-----------------')
-      console.log('timeIndex',timeIndex)
-      if (!subtractedPowerKWTimeIndexes.includes(timeIndex)) {
-        // Subtract used kW
-        let powerKWSubtractionResult = this.timePowerUsageRows[timeIndex].powerKW! -= usedPowerKW;
-        subtractedPowerKWTimeIndexes.push(timeIndex);
 
-        const maxTimeIndex = 23;
-        let powerKWRechargeHourCount = 1;
-        let currentTimeIndex = timeIndex + 1;
+    // Sort smaller time indexes first
+    timeIndexUsedPowerMap.sort((a, b) => a.rowIndex.toString().localeCompare(b.rowIndex.toString()));
 
-        // Quit if max hour of day reached
-        if (currentTimeIndex >= maxTimeIndex) break;
+    const usedPowerRowIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.rowIndex);
 
-        // Recharge
-        this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
+    const maxTimeIndex = 23;
 
-        // Make sure it does not go over max kW
-        if (this.timePowerUsageRows[currentTimeIndex].powerKW! > maxPowerKW) this.timePowerUsageRows[currentTimeIndex].powerKW! = maxPowerKW;
-
-        // Loop over next rows until fully recharged
-          while (this.timePowerUsageRows[currentTimeIndex].powerKW! < maxPowerKW) {
-            if (currentTimeIndex >= maxTimeIndex) break; // Quit if max hour of day reached
-            else currentTimeIndex++;
-
-            powerKWRechargeHourCount++;
-
-            //
-            if (this.timePowerUsageRows[currentTimeIndex].powerKW! >= maxPowerKW) {
-              console.log('timeIndex',timeIndex)
-              console.log('currentTimeIndex',currentTimeIndex)
-              console.log('subtractedPowerKWTimeIndexes1',subtractedPowerKWTimeIndexes)
-              subtractedPowerKWTimeIndexes.splice(subtractedPowerKWTimeIndexes.indexOf(timeIndexUsedPowerMap[timeIndexUsedPowerEntryIndex].timeIndex), 1);
-              console.log('subtractedPowerKWTimeIndexes2',subtractedPowerKWTimeIndexes)
-              break;
-            }
-
-            // Recharge
-            if (powerKWRechargeHourCount > 1) this.timePowerUsageRows[currentTimeIndex].powerKW! = powerKWSubtractionResult + (rechargeRateKW * powerKWRechargeHourCount);
-
-            // Make sure it does not go over max kW
-            if (this.timePowerUsageRows[currentTimeIndex].powerKW! > maxPowerKW) this.timePowerUsageRows[currentTimeIndex].powerKW! = maxPowerKW;
-
-            // Subtract used kW
-            const usedPowerTimeIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.timeIndex);
-            if (usedPowerTimeIndexes.includes(currentTimeIndex) && !subtractedPowerKWTimeIndexes.includes(currentTimeIndex)) {
-              const currentIndexUsedPower = timeIndexUsedPowerMap.find(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.timeIndex === currentTimeIndex)!.usedPowerKW;
-              this.timePowerUsageRows[currentTimeIndex].powerKW! -= currentIndexUsedPower;
-
-              subtractedPowerKWTimeIndexes.push(currentTimeIndex);
-
-              powerKWSubtractionResult -= currentIndexUsedPower;
-            }
-          }
+    let lastRowPowerKW;
+    for (let rowIndex = timeIndexUsedPowerMap[0].rowIndex; rowIndex <= maxTimeIndex; rowIndex++) {
+      // Recharge
+      if (lastRowPowerKW && lastRowPowerKW < maxPowerKW) {
+        const powerKWAfterRecharge = lastRowPowerKW + rechargeRateKW;
+        this.timePowerUsageRows[rowIndex].powerKW! = powerKWAfterRecharge;
+        if (powerKWAfterRecharge > maxPowerKW) this.timePowerUsageRows[rowIndex].powerKW! = maxPowerKW;
       }
+
+      // Subtract cooling
+      if (usedPowerRowIndexes.includes(rowIndex)) {
+        this.timePowerUsageRows[rowIndex].powerKW! -= timeIndexUsedPowerMap.find(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.rowIndex === rowIndex)!.usedPowerKW;
+      }
+
+      // Assigning row power kW to buffer for next iteration usage
+      lastRowPowerKW = this.timePowerUsageRows[rowIndex].powerKW!;
     }
 
     return (this.timePowerUsageRows as TimePowerUsageRow[]);
