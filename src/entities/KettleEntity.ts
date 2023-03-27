@@ -14,9 +14,9 @@ interface TimeUsageRow extends TimeUsage {
 
 class KettleEntity {
   sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
-  coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
+  private coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
   timeUsageRows: TimeUsageRow[] = [];
-  private c3CoolingPercent: number = 100;
+  private c3CoolingPercent: number = IceWaterCoolingEntity.maxC3CoolingPercent;
   
   constructor() {
     for (const hour of getHoursOfDay()) {
@@ -24,8 +24,22 @@ class KettleEntity {
     }
   }
 
+  setCoolingMode = (coolingMode: KettleCoolingModes) => {
+    this.coolingMode = coolingMode;
+
+    if (coolingMode !== KettleCoolingModes.C5i && this.c3CoolingPercent !== IceWaterCoolingEntity.maxC3CoolingPercent) {
+      this.c3CoolingPercent = IceWaterCoolingEntity.maxC3CoolingPercent;
+    }
+  };
+
+  getCoolingMode = () => {
+    return this.coolingMode;
+  };
+
   setC3CoolingPercent = (c3CoolingPercent: number) => {
-    if (c3CoolingPercent > 100 || c3CoolingPercent < 50) throw new Error(`c3CoolingPercent has to be between 50 and 100, "${c3CoolingPercent}" provided`);
+    if (c3CoolingPercent > IceWaterCoolingEntity.maxC3CoolingPercent || c3CoolingPercent < IceWaterCoolingEntity.minC3CoolingPercent) {
+      throw new Error(`c3CoolingPercent has to be between 50 and 100, "${c3CoolingPercent}" provided`);
+    }
 
     this.c3CoolingPercent = c3CoolingPercent;
   };

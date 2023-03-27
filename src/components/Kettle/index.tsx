@@ -31,7 +31,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
-    setCoolingMode(kettleEntity.coolingMode);
+    setCoolingMode(kettleEntity.getCoolingMode);
     setTimeUsageRows(kettleEntity.timeUsageRows);
     setC3CoolingPercent(kettleEntity.getC3CoolingPercent());
   });
@@ -45,7 +45,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const handleKettleCoolingModeChange = (e: any) => {
     const coolingMode = e.target.value;
     setCoolingMode(coolingMode);
-    kettleEntity.coolingMode = coolingMode;
+    kettleEntity.setCoolingMode(coolingMode);
   };
 
   const handleC3CoolingPercentChange = (e: any) => {

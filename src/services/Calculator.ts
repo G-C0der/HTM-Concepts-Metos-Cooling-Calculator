@@ -75,7 +75,7 @@ export class Calculator {
 
     const electricCoolingModes = [KettleCoolingModes.C3, KettleCoolingModes.C5i];
     const electricCoolingModeKettleEntities = this.kettleEntities
-      .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.coolingMode));
+      .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.getCoolingMode()));
     for (const kettleEntity of electricCoolingModeKettleEntities) {
       for (const usageTime of kettleEntity.getTimeUsages()) {
         const existingTimePowerEntry = timeUsedPowerMap.find(timeUsedPowerEntry => timeUsedPowerEntry.time === usageTime.time);
