@@ -2,6 +2,7 @@ import {FIELD_KWH_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoo
 import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
+import {sortArrayOfObjectsByProperty} from "../utils/array";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
@@ -93,8 +94,10 @@ export class Calculator {
       usedPowerKW: timeUsedPowerEntry.usedPowerKW
     }));
 
+    if (!timeIndexUsedPowerMap.length) return;
+
     // Sort smaller time indexes first
-    timeIndexUsedPowerMap.sort((a, b) => a.rowIndex.toString().localeCompare(b.rowIndex.toString()));
+    sortArrayOfObjectsByProperty(timeIndexUsedPowerMap, 'rowIndex');
 
     const usedPowerRowIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.rowIndex);
 
