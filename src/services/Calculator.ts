@@ -79,11 +79,11 @@ export class Calculator {
     for (const kettleEntity of electricCoolingModeKettleEntities) {
       for (const usageTime of kettleEntity.getTimeUsages()) {
         const existingTimePowerEntry = timeUsedPowerMap.find(timeUsedPowerEntry => timeUsedPowerEntry.time === usageTime.time);
+        const usedPowerKW = this.iceWaterCoolingEntity.getPowerKWUsedByFoodLitres(usageTime.foodLitres);
 
         if (existingTimePowerEntry) {
-          existingTimePowerEntry.usedPowerKW += (usageTime.foodLitres / 10);
+          existingTimePowerEntry.usedPowerKW += usedPowerKW;
         } else {
-          const usedPowerKW = (usageTime.foodLitres / 10);
           timeUsedPowerMap.push({ time: usageTime.time, usedPowerKW });
         }
       }

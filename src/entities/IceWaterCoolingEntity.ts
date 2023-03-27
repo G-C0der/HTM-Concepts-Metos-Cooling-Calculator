@@ -18,6 +18,7 @@ class IceWaterCoolingEntity {
   private type1Count: number = 0;
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
+  maxPowerKWUsedPerLitre: number = 0.11;
 
   constructor() {
     for (const hour of getHoursOfDay()) {
@@ -43,6 +44,14 @@ class IceWaterCoolingEntity {
 
   getType4Count = () => {
     return this.type4Count;
+  };
+
+  getPowerKWUsedByFoodLitres = (foodLitres: number, powerKWUsagePercent: number = 100) => {
+    if (powerKWUsagePercent > 100 || powerKWUsagePercent < 50) throw new Error('powerKWUsagePercent has to be between 50 and 100');
+    
+    const powerKWUsedPerLitre = this.maxPowerKWUsedPerLitre / 100 * powerKWUsagePercent;
+
+    return powerKWUsedPerLitre * foodLitres;
   };
 
   getMaxPowerKW = () => {
