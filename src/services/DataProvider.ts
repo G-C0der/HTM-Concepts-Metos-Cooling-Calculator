@@ -10,9 +10,9 @@ const FIELD_LITRE_CHF = 'l/CHF';
 const FIELD_LITRE_CO2_GRAMS = 'l/Co2/g';
 
 // Ice water bank fields
-const FIELD_KW_HOUR = 'kw/h';
-const FIELD_KW_HOUR_CHF = 'kw/h/CHF';
-const FIELD_KW_HOUR_CO2_GRAMS = 'kw/h/Co2/g';
+const FIELD_KWH = 'kWh';
+const FIELD_KWH_CHF = 'kWh/CHF';
+const FIELD_KWH_CO2_GRAMS = 'kWh/Co2/g';
 const FIELD_ICE_INCREASE_KG = 'EisAufbau/kg';
 
 // Shared fields
@@ -30,9 +30,9 @@ const tapWaterCoolingFields: TapWaterCoolingField[] = [
 const iceWaterCoolingFields: IceWaterCoolingField[] = [
   FIELD_FOOD_TEMP,
   FIELD_TIME_MIN,
-  FIELD_KW_HOUR,
-  FIELD_KW_HOUR_CHF,
-  FIELD_KW_HOUR_CO2_GRAMS
+  FIELD_KWH,
+  FIELD_KWH_CHF,
+  FIELD_KWH_CO2_GRAMS
 ];
 
 const DECIMALS = 4;
@@ -45,9 +45,9 @@ type TapWaterCoolingField = typeof FIELD_FOOD_TEMP
 
 type IceWaterCoolingField = typeof FIELD_FOOD_TEMP
   | typeof FIELD_TIME_MIN
-  | typeof FIELD_KW_HOUR
-  | typeof FIELD_KW_HOUR_CHF
-  | typeof FIELD_KW_HOUR_CO2_GRAMS
+  | typeof FIELD_KWH
+  | typeof FIELD_KWH_CHF
+  | typeof FIELD_KWH_CO2_GRAMS
   | typeof FIELD_ICE_INCREASE_KG;
 
 interface TapWaterCoolingMainMeasurement {
@@ -71,9 +71,9 @@ interface TapWaterCoolingMeasurement extends TapWaterCoolingMainMeasurement {
 interface TapWaterCoolingMeasurements extends Array<TapWaterCoolingMeasurement> {}
 
 interface IceWaterCoolingMeasurement extends IceWaterCoolingMainMeasurement {
-  [FIELD_KW_HOUR]: number;
-  [FIELD_KW_HOUR_CHF]: number;
-  [FIELD_KW_HOUR_CO2_GRAMS]: number;
+  [FIELD_KWH]: number;
+  [FIELD_KWH_CHF]: number;
+  [FIELD_KWH_CO2_GRAMS]: number;
   [FIELD_ICE_INCREASE_KG]: number;
   target?: boolean;
 }
@@ -140,17 +140,17 @@ class DataProvider {
       if (isFirstRow) foodTempMinuend = iceWaterCoolingMeasurementsRow[FIELD_FOOD_TEMP];
 
       // Set calculated fields
-      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR] = isFirstRow
+      iceWaterCoolingMeasurementsRow[FIELD_KWH] = isFirstRow
         ? kwHourFactor
         : kwHourFactor * (foodTempMinuend! - iceWaterCoolingMeasurementsRow[FIELD_FOOD_TEMP]);
 
-      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CHF] = isFirstRow
+      iceWaterCoolingMeasurementsRow[FIELD_KWH_CHF] = isFirstRow
         ? kwHourCHFFactor
-        : kwHourCHFFactor * iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR];
+        : kwHourCHFFactor * iceWaterCoolingMeasurementsRow[FIELD_KWH];
 
-      iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR_CO2_GRAMS] = isFirstRow
+      iceWaterCoolingMeasurementsRow[FIELD_KWH_CO2_GRAMS] = isFirstRow
         ? kwHourCo2GramsFactor
-        : kwHourCo2GramsFactor * iceWaterCoolingMeasurementsRow[FIELD_KW_HOUR]
+        : kwHourCo2GramsFactor * iceWaterCoolingMeasurementsRow[FIELD_KWH]
     }
   };
 
@@ -177,9 +177,9 @@ export {
   FIELD_WATER_LITRE,
   FIELD_LITRE_CHF,
   FIELD_LITRE_CO2_GRAMS,
-  FIELD_KW_HOUR,
-  FIELD_KW_HOUR_CHF,
-  FIELD_KW_HOUR_CO2_GRAMS,
+  FIELD_KWH,
+  FIELD_KWH_CHF,
+  FIELD_KWH_CO2_GRAMS,
   FIELD_ICE_INCREASE_KG,
 
   DECIMALS

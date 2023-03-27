@@ -13,9 +13,10 @@
   }
 }
 
-.App-header {
+.App-body {
   background-color: #a3c0e5;
   min-height: 100vh;
+  min-width: 250vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +36,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+label {
+  color: black;
+}
+
+.form-input-label {
+  display: inline-block;
+  margin: 5px 0 0 4px;
 }

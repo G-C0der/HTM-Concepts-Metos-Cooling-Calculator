@@ -8,13 +8,22 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {getEnumMinMax} from "./utils/enum";
 import {KettleEntity} from "./entities/KettleEntity";
 import {Calculator} from "./services/Calculator";
-import {WaterCooling} from "./components/TapWaterCooling";
-import {IceWaterCoolingEntity} from "./entities/IceWaterCoolingEntity";
+import {WaterForm} from "./components/WaterForm";
+import {IceWaterCoolingEntity, TimePowerUsageRow} from "./entities/IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./entities/TapWaterCoolingEntity";
-import {IceCooling} from "./components/IceWaterCooling";
+import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
-import {MeasurementsGrid} from "./components/MeasurementsGrid";
+import {MeasurementsTable} from "./components/MeasurementsTable";
 import Grid from "@mui/material/Grid";
+import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
+import {styled} from "@mui/material/styles";
+import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
+import Box from "@mui/material/Box";
+
+const FormContainer = styled('div')(({ theme }) => ({
+  backgroundColor: '#E4E4E4',
+  padding: '0 0 1px 10px'
+}));
 
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -23,6 +32,8 @@ function App() {
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
+  const [timePowerUsageRows, setTimePowerUsageRows] =
+    useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -30,7 +41,9 @@ function App() {
   );
 
   const calculator = new Calculator(
-    kettleEntities
+    kettleEntities,
+    iceWaterCoolingEntity,
+    timePowerUsageRows
   );
 
   const handleAddKettleClick = () => {
@@ -44,6 +57,8 @@ function App() {
   };
 
   const handleKettleDeleteClick = (kettleNr: number) => {
+    if (kettleCount <= 1) return;
+
     setKettleEntities(kettleEntities.filter((_, idx) => idx + 1 !== kettleNr));
 
     setKettleCount(kettleCount - 1);
@@ -56,38 +71,70 @@ function App() {
     calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
     // Set target row (row with smallest cost difference)
-    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.setTargetRow()); // TODO: check why this not works
-    const res = calculator.setTargetRow();
+    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
+    const res = calculator.calculateMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
+
+    // Set ice water cooling power percentages
+    const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
+    if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
   };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Button style={{
-          margin: '40px',
-          padding: '15px 0 15px 0',
-          backgroundColor: "white",
-        }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
+      <header className="App-body">
+        <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
+          <Grid item xs={2} sx={{ mt: 6 }}>
+            <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
+          </Grid>
 
-        <WaterCooling tapWaterCoolingEntity={tapWaterCoolingEntity} />
+          <Grid item xs={10}>
+            <Box sx={{ maxWidth: 1400, ml: -15 }}>
+              <FormContainer>
+                <Grid container sx={{ gap: 40, mt: 6, mb: 5,  ml: 3, mr: 0 }}>
+                  <Grid item xs={12} md={2}>
+                    <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
+                  </Grid>
 
-        <KettleContainer kettleEntities={kettleEntities} handleKettleDeleteClick={handleKettleDeleteClick} />
+                  <Grid item xs={12} md={2}>
+                    <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                  </Grid>
 
-        <IceCooling iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                  <Grid item xs={12} md={2}>
+                    <IceWaterCoolingForm
+                      iceWaterCoolingEntity={iceWaterCoolingEntity}
+                      setTimePowerUsageRows={setTimePowerUsageRows}
+                    />
+                  </Grid>
+                </Grid>
+              </FormContainer>
 
-        <Button style={{
-          margin: '40px 0 0',
-          padding: '15px 0 15px 0',
-          backgroundColor: "white",
-        }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+              <Button style={{
+                margin: '40px',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
-        <Grid container sx={{ gap: 50, mt: 10, ml: 65, mr: 0 }}>
+              <Button style={{
+                margin: '40px',
+                padding: '15px 0 15px 0',
+                backgroundColor: "white",
+              }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+
+              <KettleContainer
+                kettleEntities={kettleEntities}
+                handleKettleDeleteClick={handleKettleDeleteClick}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>
           <Grid item xs={12} md={2}>
             {
               tapWaterCoolingMeasurements &&
-              <MeasurementsGrid
+              <MeasurementsTable
                 measurements={tapWaterCoolingMeasurements}
                 title='Tap Water Cooling Measurements'
                 width={800}
@@ -98,7 +145,7 @@ function App() {
           <Grid item xs={12} md={2}>
             {
               iceWaterCoolingMeasurements &&
-              <MeasurementsGrid
+              <MeasurementsTable
                 measurements={iceWaterCoolingMeasurements}
                 title='Ice Water Cooling Measurements'
                 width={1200}
