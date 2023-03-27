@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
-import {FormControl, IconButton, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, IconButton, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
@@ -27,11 +27,13 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
+  const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(100);
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
     setCoolingMode(kettleEntity.coolingMode);
     setTimeUsageRows(kettleEntity.timeUsageRows);
+    setC3CoolingPercent(kettleEntity.getC3CoolingPercent());
   });
 
   const handleKettleSizeChange = (e: any) => {
@@ -44,6 +46,12 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
     const coolingMode = e.target.value;
     setCoolingMode(coolingMode);
     kettleEntity.coolingMode = coolingMode;
+  };
+
+  const handleC3CoolingPercentChange = (e: any) => {
+    const c3CoolingPercent = +e.target.value;
+    setC3CoolingPercent(c3CoolingPercent);
+    kettleEntity.setC3CoolingPercent(c3CoolingPercent);
   };
 
   return (
@@ -87,6 +95,23 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
           })}
         </Select>
       </FormControl>
+
+      {
+        coolingMode === KettleCoolingModes.C5i &&
+        <TextField
+          style={{ width: "200px", margin: "5px" }}
+          value={c3CoolingPercent}
+          error={
+            c3CoolingPercent > 100
+            || c3CoolingPercent < 50
+          }
+          type="number"
+          inputProps={{ type: 'number' }}
+          label="C3 Cooling %"
+          variant="outlined"
+          onChange={handleC3CoolingPercentChange}
+        />
+      }
 
       <Box sx={{ ml: 3 }}>
         <UpwardCollapse switchLabelText='Show Usages'>
