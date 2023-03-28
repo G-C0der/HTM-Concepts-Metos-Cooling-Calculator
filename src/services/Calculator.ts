@@ -75,15 +75,15 @@ export class Calculator {
 
     const electricCoolingModes = [KettleCoolingModes.C3, KettleCoolingModes.C5i];
     const electricCoolingModeKettleEntities = this.kettleEntities
-      .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.coolingMode));
+      .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.getCoolingMode()));
     for (const kettleEntity of electricCoolingModeKettleEntities) {
       for (const usageTime of kettleEntity.getTimeUsages()) {
         const existingTimePowerEntry = timeUsedPowerMap.find(timeUsedPowerEntry => timeUsedPowerEntry.time === usageTime.time);
+        const usedPowerKW = kettleEntity.getPowerKWUsedByFoodLitres(usageTime.foodLitres);
 
         if (existingTimePowerEntry) {
-          existingTimePowerEntry.usedPowerKW += (usageTime.foodLitres / 10);
+          existingTimePowerEntry.usedPowerKW += usedPowerKW;
         } else {
-          const usedPowerKW = (usageTime.foodLitres / 10);
           timeUsedPowerMap.push({ time: usageTime.time, usedPowerKW });
         }
       }
