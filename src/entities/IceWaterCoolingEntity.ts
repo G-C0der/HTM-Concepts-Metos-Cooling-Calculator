@@ -12,15 +12,15 @@ interface TimePowerUsageRow extends TimePowerUsage {
 
 class IceWaterCoolingEntity {
   kw: IceWaterCoolingKw = 0;
-  kwHour: number = 0;
+  static readonly kwHour: number = 1;
   kwHourCHF: number = 0;
   kwHourCo2: number = 0;
   private type1Count: number = 0;
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
-  static maxPowerKWUsedPerLitre: number = 0.11;
-  static maxC3CoolingPercent = 100;
-  static minC3CoolingPercent = 50;
+  static readonly maxPowerKWUsedPerLitre: number = 0.11;
+  static readonly maxC3CoolingPercent = 100;
+  static readonly minC3CoolingPercent = 50;
 
   constructor() {
     for (const hour of getHoursOfDay()) {

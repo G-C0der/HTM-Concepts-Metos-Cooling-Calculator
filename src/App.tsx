@@ -22,7 +22,8 @@ import Box from "@mui/material/Box";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
-  padding: '0 0 1px 10px'
+  padding: '0 0 1px 10px',
+  height: 253
 }));
 
 function App() {
