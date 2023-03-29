@@ -19,8 +19,8 @@ class IceWaterCoolingEntity {
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
   static readonly maxPowerKWUsedPerLitre: number = 0.11;
-  static readonly maxC3CoolingPercent = 100;
-  static readonly minC3CoolingPercent = 50;
+  static readonly maxC5iC3CoolingPercent = 100;
+  static readonly minC5iC3CoolingPercent = 50;
 
   constructor() {
     for (const hour of getHoursOfDay()) {

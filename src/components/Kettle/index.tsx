@@ -51,7 +51,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const handleC3CoolingPercentChange = (e: any) => {
     const c3CoolingPercent = +e.target.value;
     setC3CoolingPercent(c3CoolingPercent);
-    kettleEntity.setC3CoolingPercent(c3CoolingPercent);
+    kettleEntity.setCoolingPercent(c3CoolingPercent);
   };
 
   return (
