@@ -82,9 +82,9 @@ class KettleEntity {
    * @param foodLitres
    */
   private getWaterLitresUsedPerDegreeCelsius = (foodLitres: number) => {
-    const [minKettleSizeLitres, maxKettleSizeLitres] = getEnumMinMax(KettleSizeLitres);
-    if (foodLitres > maxKettleSizeLitres || foodLitres < minKettleSizeLitres) {
-      throw new Error(`foodLitres has to be between 40 and 400, "${foodLitres}" provided`);
+    const [, maxKettleSizeLitres] = getEnumMinMax(KettleSizeLitres);
+    if (foodLitres > maxKettleSizeLitres || foodLitres < 1) {
+      throw new Error(`foodLitres has to be between 1 and 400, "${foodLitres}" provided`);
     }
 
     if (foodLitres === 400) return 10;
@@ -92,7 +92,7 @@ class KettleEntity {
     if (foodLitres >= 200) return 8;
     if (foodLitres >= 80) return 7;
     if (foodLitres >= 60) return 6;
-    if (foodLitres >= 40) return 5;
+    if (foodLitres >= 1) return 5;
   };
 
   getWaterLitresUsedByFoodLitres = (foodLitres: number) => {
@@ -104,7 +104,8 @@ class KettleEntity {
   /**
    * Get water litres used of whole day
    */
-  getDayWaterLitresUsed = () => this.getWaterLitresUsedByFoodLitres(this.getDayFoodLitresSum());
+  getDayWaterLitresUsed = () => this.getTimeUsages().reduce((partialSum, timeUsage) =>
+    partialSum + this.getWaterLitresUsedByFoodLitres(timeUsage.foodLitres) , 0);
 }
 
 export {
