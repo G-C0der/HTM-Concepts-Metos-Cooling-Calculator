@@ -155,9 +155,9 @@ export class Calculator {
     totalResult.co2Grams = waterResult.co2Grams + electricityResult.co2Grams;
 
     return {
-      waterResult,
-      electricityResult,
-      totalResult
+      ...(waterLitresUsed && { waterResult }),
+      ...(powerKWUsed && { electricityResult }),
+      ...(waterLitresUsed && powerKWUsed && { totalResult })
     };
   };
 }
