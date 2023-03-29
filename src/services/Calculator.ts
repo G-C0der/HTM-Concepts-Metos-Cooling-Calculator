@@ -3,6 +3,7 @@ import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils/array";
+import {Result, TotalResult} from "../components/ResultDisplay/types";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
@@ -122,5 +123,21 @@ export class Calculator {
     }
 
     return (this.timePowerUsageRows as TimePowerUsageRow[]);
+  };
+
+  calculateResult = () => {
+    const waterResult: Result = { costCHF: 0, co2Grams: 0 };
+    const electricityResult: Result = { costCHF: 0, co2Grams: 0 };
+    const totalResult: TotalResult = { costCHF: 0, co2Grams: 0, timeMin: 0 };
+
+    for (const kettleEntity of this.kettleEntities) {
+
+    }
+
+    return {
+      waterResult,
+      electricityResult,
+      totalResult
+    };
   };
 }

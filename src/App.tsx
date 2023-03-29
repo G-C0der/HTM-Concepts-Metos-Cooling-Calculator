@@ -20,6 +20,7 @@ import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
 import {ResultDisplay} from "./components/ResultDisplay";
+import {Result, TotalResult} from "./components/ResultDisplay/types";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -36,6 +37,9 @@ function App() {
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
+  const [waterResult, setWaterResult] = useState<Result>();
+  const [electricityResult, setElectricityResult] = useState<Result>();
+  const [totalResult, setTotalResult] = useState<TotalResult>();
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -72,15 +76,21 @@ function App() {
     calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
     calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
-    // Set target row (row with smallest cost difference)
+    // Calculate target row (row with smallest cost difference)
     // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
     const res = calculator.calculateMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
-    // Set ice water cooling power percentages
+    // Calculate ice water cooling power percentages
     const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
     if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
+
+    // Calculate cost, CO2 & time results
+    const { waterResult, electricityResult, totalResult } = calculator.calculateResult();
+    setWaterResult(waterResult);
+    setElectricityResult(electricityResult);
+    setTotalResult(totalResult);
   };
 
   return (
@@ -129,7 +139,14 @@ function App() {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
 
-              <ResultDisplay />
+              {
+                waterResult && electricityResult && totalResult &&
+                <ResultDisplay
+                  waterResult={waterResult}
+                  electricityResult={electricityResult}
+                  totalResult={totalResult}
+                />
+              }
             </Box>
           </Grid>
         </Grid>

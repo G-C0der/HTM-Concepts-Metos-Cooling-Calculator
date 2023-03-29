@@ -4,10 +4,15 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import Typography from "@mui/material/Typography";
+import {Result, TotalResult} from "./types";
 
-interface ResultDisplayProps {}
+interface ResultDisplayProps {
+  waterResult: Result;
+  electricityResult: Result;
+  totalResult: TotalResult;
+}
 
-export const ResultDisplay = ({}: ResultDisplayProps) => {
+export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: ResultDisplayProps) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={4} md={2}>
@@ -19,11 +24,19 @@ export const ResultDisplay = ({}: ResultDisplayProps) => {
 
             <Grid container spacing={2}>
               <Grid item>
-                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                  label={`${waterResult.costCHF} CHF`}
+                  variant='outlined'
+                />
               </Grid>
 
               <Grid item>
-                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><Co2Icon /></Avatar>}
+                  label={`${waterResult.co2Grams} g`}
+                  variant='outlined'
+                />
               </Grid>
             </Grid>
           </CardContent>
@@ -39,11 +52,19 @@ export const ResultDisplay = ({}: ResultDisplayProps) => {
 
             <Grid container spacing={2}>
               <Grid item>
-                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                  label={`${electricityResult.costCHF} CHF`}
+                  variant='outlined'
+                />
               </Grid>
 
               <Grid item>
-                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><Co2Icon /></Avatar>}
+                  label={`${electricityResult.co2Grams} g`}
+                  variant='outlined'
+                />
               </Grid>
             </Grid>
           </CardContent>
@@ -59,15 +80,27 @@ export const ResultDisplay = ({}: ResultDisplayProps) => {
 
             <Grid container spacing={2}>
               <Grid item>
-                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                  label={`${totalResult.costCHF} CHF`}
+                  variant='outlined'
+                />
               </Grid>
 
               <Grid item>
-                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><Co2Icon /></Avatar>}
+                  label={`${totalResult.co2Grams} g`}
+                  variant='outlined'
+                />
               </Grid>
 
               <Grid item>
-                <Chip avatar={<Avatar><HourglassBottomIcon /></Avatar>} label="78 min" variant='outlined' />
+                <Chip
+                  avatar={<Avatar><HourglassBottomIcon /></Avatar>}
+                  label={`${totalResult.timeMin} min`}
+                  variant='outlined'
+                />
               </Grid>
             </Grid>
           </CardContent>
