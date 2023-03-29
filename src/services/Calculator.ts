@@ -4,20 +4,24 @@ import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCool
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils/array";
 import {Result, TotalResult} from "../components/ResultDisplay/types";
+import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
   tapWaterCoolingMeasurements?: TapWaterCoolingMeasurements;
   iceWaterCoolingMeasurements?: IceWaterCoolingMeasurements;
+  tapWaterCoolingEntity: TapWaterCoolingEntity;
   iceWaterCoolingEntity: IceWaterCoolingEntity;
   timePowerUsageRows: TimePowerUsageRow[];
 
   constructor(
     kettleEntities: KettleEntity[],
+    tapWaterCoolingEntity: TapWaterCoolingEntity,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
     timePowerUsageRows: TimePowerUsageRow[]
   ) {
     this.kettleEntities = kettleEntities;
+    this.tapWaterCoolingEntity = tapWaterCoolingEntity;
     this.iceWaterCoolingEntity = iceWaterCoolingEntity;
     this.timePowerUsageRows = timePowerUsageRows;
   }
@@ -66,15 +70,15 @@ export class Calculator {
       || iceWaterCoolingType4Count > 4
     ) return;
 
+    // Set all rows to default value
     this.iceWaterCoolingEntity.setTimePowerUsageRows();
 
-    const maxPowerKW = this.iceWaterCoolingEntity.getMaxPowerKW();
-    const rechargeRateKW = this.iceWaterCoolingEntity.getRechargeRateKW();
-    const timeUsedPowerMap: { time: string, usedPowerKW: number }[] = [];
-
+    // Make array of used power kW per time
     const electricCoolingModes = [KettleCoolingModes.C3, KettleCoolingModes.C5i];
     const electricCoolingModeKettleEntities = this.kettleEntities
       .filter(kettleEntity => electricCoolingModes.includes(kettleEntity.getCoolingMode()));
+    const timeUsedPowerMap: { time: string, usedPowerKW: number }[] = [];
+
     for (const kettleEntity of electricCoolingModeKettleEntities) {
       for (const usageTime of kettleEntity.getTimeUsages()) {
         const existingTimePowerEntry = timeUsedPowerMap.find(timeUsedPowerEntry => timeUsedPowerEntry.time === usageTime.time);
@@ -88,6 +92,7 @@ export class Calculator {
       }
     }
 
+    // Make array of used power kW by row index
     const timeIndexUsedPowerMap = timeUsedPowerMap.map(timeUsedPowerEntry => ({
       rowIndex: this.timePowerUsageRows.map(timePowerUsageRow => timePowerUsageRow.time).indexOf(timeUsedPowerEntry.time),
       usedPowerKW: timeUsedPowerEntry.usedPowerKW
@@ -98,9 +103,11 @@ export class Calculator {
     // Sort smaller time indexes first
     sortArrayOfObjectsByProperty(timeIndexUsedPowerMap, 'rowIndex');
 
+    // Calculate and set row values
     const usedPowerRowIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.rowIndex);
-
     const maxTimeIndex = 23;
+    const maxPowerKW = this.iceWaterCoolingEntity.getMaxPowerKW();
+    const rechargeRateKW = this.iceWaterCoolingEntity.getRechargeRateKW();
 
     let lastRowPowerKW;
     for (let rowIndex = timeIndexUsedPowerMap[0].rowIndex; rowIndex <= maxTimeIndex; rowIndex++) {
@@ -128,9 +135,24 @@ export class Calculator {
     const electricityResult: Result = { costCHF: 0, co2Grams: 0 };
     const totalResult: TotalResult = { costCHF: 0, co2Grams: 0, timeMin: 0 };
 
-    for (const kettleEntity of this.kettleEntities) {
+    // Calculate water and power used
+    let waterLitresUsed = 0;
+    let powerKWUsed = 0;
 
+    for (const kettleEntity of this.kettleEntities) {
+      waterLitresUsed += kettleEntity.getDayWaterLitresUsed();
+      powerKWUsed += kettleEntity.getDayPowerKWUsed();
     }
+
+    // Calculate cost, co2 & time
+    waterResult.costCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
+    waterResult.co2Grams = this.tapWaterCoolingEntity.waterLitreCo2 * waterLitresUsed;
+
+    electricityResult.costCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
+    electricityResult.co2Grams = this.iceWaterCoolingEntity.kwHourCo2 * powerKWUsed;
+
+    totalResult.costCHF = waterResult.costCHF + electricityResult.costCHF;
+    totalResult.co2Grams = waterResult.co2Grams + electricityResult.co2Grams;
 
     return {
       waterResult,

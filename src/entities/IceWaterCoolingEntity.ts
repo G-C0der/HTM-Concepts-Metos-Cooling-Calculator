@@ -1,5 +1,6 @@
 import {IceWaterCoolingKw} from "../enums/IceWaterCoolingKw";
 import {getHoursOfDay} from "../utils/time";
+import {CoolingEntity} from "./CoolingEntity";
 
 interface TimePowerUsage {
   time: string;
@@ -10,7 +11,7 @@ interface TimePowerUsageRow extends TimePowerUsage {
   id: string;
 }
 
-class IceWaterCoolingEntity {
+class IceWaterCoolingEntity extends CoolingEntity {
   kw: IceWaterCoolingKw = 0;
   static readonly kwHour: number = 1;
   kwHourCHF: number = 0;
@@ -19,10 +20,12 @@ class IceWaterCoolingEntity {
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
   static readonly maxPowerKWUsedPerLitre: number = 0.11;
-  static readonly maxC5iC3CoolingPercent = 100;
-  static readonly minC5iC3CoolingPercent = 50;
+  static readonly maxC5iCoolingPercent = 90;
+  static readonly minC5iCoolingPercent = 50;
 
   constructor() {
+    super();
+
     for (const hour of getHoursOfDay()) {
       this.timePowerUsageRows.push({ id: hour, time: hour, powerKW: undefined });
     }

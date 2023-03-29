@@ -48,6 +48,7 @@ function App() {
 
   const calculator = new Calculator(
     kettleEntities,
+    tapWaterCoolingEntity,
     iceWaterCoolingEntity,
     timePowerUsageRows
   );

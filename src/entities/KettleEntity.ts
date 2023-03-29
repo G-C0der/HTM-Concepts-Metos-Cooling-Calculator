@@ -18,8 +18,8 @@ class KettleEntity {
   sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
   private coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
   timeUsageRows: TimeUsageRow[] = [];
-  private c3CoolingPercent: number = IceWaterCoolingEntity.maxC5iC3CoolingPercent;
-  private c2CoolingPercent: number = TapWaterCoolingEntity.minC5iC2CoolingPercent;
+  private c3CoolingPercent: number = IceWaterCoolingEntity.minCoolingPercent;
+  private c2CoolingPercent: number = TapWaterCoolingEntity.maxCoolingPercent;
   
   constructor() {
     for (const hour of getHoursOfDay()) {
@@ -30,9 +30,13 @@ class KettleEntity {
   setCoolingMode = (coolingMode: KettleCoolingModes) => {
     this.coolingMode = coolingMode;
 
-    if (coolingMode !== KettleCoolingModes.C5i && this.c3CoolingPercent !== IceWaterCoolingEntity.maxC5iC3CoolingPercent) {
-      this.c3CoolingPercent = IceWaterCoolingEntity.maxC5iC3CoolingPercent;
-    }
+    if (coolingMode === KettleCoolingModes.C3) {
+      this.c3CoolingPercent = IceWaterCoolingEntity.maxCoolingPercent;
+      this.c2CoolingPercent = TapWaterCoolingEntity.minCoolingPercent;
+    } else if (coolingMode === KettleCoolingModes.C2) {
+      this.c2CoolingPercent = TapWaterCoolingEntity.maxCoolingPercent;
+      this.c3CoolingPercent = IceWaterCoolingEntity.minCoolingPercent;
+    }    
   };
 
   getCoolingMode = () => this.coolingMode;
@@ -42,7 +46,7 @@ class KettleEntity {
    * @param c3CoolingPercent
    */
   setCoolingPercent = (c3CoolingPercent: number) => {
-    if (c3CoolingPercent > IceWaterCoolingEntity.maxC5iC3CoolingPercent || c3CoolingPercent < IceWaterCoolingEntity.minC5iC3CoolingPercent) {
+    if (c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent) {
       throw new Error(`c3CoolingPercent has to be between 50 and 100, "${c3CoolingPercent}" provided`);
     }
 
@@ -54,11 +58,21 @@ class KettleEntity {
 
   getTimeUsages = (): TimeUsage[] => this.timeUsageRows.filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);
 
+  /**
+   * Get sum of food litres of the whole day
+   */
+  private getDayFoodLitresSum = () => this.timeUsageRows.reduce((partialSum, row) => partialSum + row.foodLitres, 0);
+
   getPowerKWUsedByFoodLitres = (foodLitres: number) => {
     const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 * this.c3CoolingPercent;
 
     return powerKWUsedPerLitre * foodLitres;
   };
+
+  /**
+   * Get power kW used of whole day
+   */
+  getDayPowerKWUsed = () => this.getPowerKWUsedByFoodLitres(this.getDayFoodLitresSum());
 
   /**
    * One degree Celsius here equals one percent cooled by C2
@@ -83,6 +97,11 @@ class KettleEntity {
 
     return waterLitresUsedPerDegreeCelsius! * this.c2CoolingPercent;
   };
+
+  /**
+   * Get water litres used of whole day
+   */
+  getDayWaterLitresUsed = () => this.getWaterLitresUsedByFoodLitres(this.getDayFoodLitresSum());
 }
 
 export {
