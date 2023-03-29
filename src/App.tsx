@@ -96,7 +96,7 @@ function App() {
 
   return (
     <div className="App">
-      <body className="App-body">
+      <header className="App-header">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
             <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
@@ -175,7 +175,7 @@ function App() {
             }
           </Grid>
         </Grid>
-      </body>
+      </header>
     </div>
   );
 }
