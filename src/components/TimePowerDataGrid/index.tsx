@@ -22,7 +22,7 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       headerName: 'Power kW',
       width: 80,
       valueGetter: (params) => params.row.powerKW
-        ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW, 2)}%`
+        ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW)}%`
         : '-',
       cellClassName: (params: GridCellParams) => (params.row.powerKW as any) < 0
         ? 'data-grid-cell-negative-percentage'
