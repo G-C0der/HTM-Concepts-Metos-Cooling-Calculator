@@ -35,9 +35,7 @@ class KettleEntity {
     }
   };
 
-  getCoolingMode = () => {
-    return this.coolingMode;
-  };
+  getCoolingMode = () => this.coolingMode;
 
   /**
    * Set cooling percent for C3 and C2
@@ -52,13 +50,9 @@ class KettleEntity {
     this.c2CoolingPercent = 100 - c3CoolingPercent;
   };
 
-  getC3CoolingPercent = () => {
-    return this.c3CoolingPercent;
-  };
+  getC3CoolingPercent = () => this.c3CoolingPercent;
 
-  getTimeUsages = (): TimeUsage[] => {
-    return this.timeUsageRows.filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);
-  };
+  getTimeUsages = (): TimeUsage[] => this.timeUsageRows.filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);
 
   getPowerKWUsedByFoodLitres = (foodLitres: number) => {
     const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 * this.c3CoolingPercent;

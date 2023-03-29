@@ -22,13 +22,11 @@ export class Calculator {
     this.timePowerUsageRows = timePowerUsageRows;
   }
 
-  setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) => {
+  setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) =>
     this.tapWaterCoolingMeasurements = tapWaterCoolingMeasurements;
-  };
 
-  setIceWaterCoolingMeasurements = (iceWaterCoolingMeasurements: IceWaterCoolingMeasurements) => {
+  setIceWaterCoolingMeasurements = (iceWaterCoolingMeasurements: IceWaterCoolingMeasurements) =>
     this.iceWaterCoolingMeasurements = iceWaterCoolingMeasurements;
-  };
 
   calculateMeasurementsTargetRow = () => {
     if (!this.tapWaterCoolingMeasurements || !this.iceWaterCoolingMeasurements) return;

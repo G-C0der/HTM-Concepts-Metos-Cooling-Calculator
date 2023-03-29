@@ -34,9 +34,7 @@ class IceWaterCoolingEntity {
     this.setTimePowerUsageRows();
   };
 
-  getType1Count = () => {
-    return this.type1Count;
-  };
+  getType1Count = () => this.type1Count;
 
   setType4Count = (type4Count: number) => {
     this.type4Count = type4Count;
@@ -44,17 +42,11 @@ class IceWaterCoolingEntity {
     this.setTimePowerUsageRows();
   };
 
-  getType4Count = () => {
-    return this.type4Count;
-  };
+  getType4Count = () => this.type4Count;
 
-  getMaxPowerKW = () => {
-    return (this.type1Count * 40) + (this.type4Count * 50);
-  };
+  getMaxPowerKW = () => (this.type1Count * 40) + (this.type4Count * 50);
 
-  getRechargeRateKW = () => {
-    return (this.type1Count * 7) + (this.type4Count * 14);
-  };
+  getRechargeRateKW = () => (this.type1Count * 7) + (this.type4Count * 14);
 
   setTimePowerUsageRows = () => {
     for (const timePowerUsageRow of this.timePowerUsageRows) {
