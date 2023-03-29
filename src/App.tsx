@@ -19,6 +19,7 @@ import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
+import {ResultDisplay} from "./components/ResultDisplay";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -127,6 +128,8 @@ function App() {
                 kettleEntities={kettleEntities}
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
+
+              <ResultDisplay />
             </Box>
           </Grid>
         </Grid>

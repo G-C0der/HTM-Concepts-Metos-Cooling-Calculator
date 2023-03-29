@@ -1,0 +1,78 @@
+import React from 'react';
+import {Avatar, Card, CardContent, Chip, Grid} from "@mui/material";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Co2Icon from '@mui/icons-material/Co2';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import Typography from "@mui/material/Typography";
+
+interface ResultDisplayProps {}
+
+export const ResultDisplay = ({}: ResultDisplayProps) => {
+  return (
+    <Grid container spacing={1}>
+      <Grid item xs={4} md={2}>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardContent>
+            <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+              Water
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item>
+                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+              </Grid>
+
+              <Grid item>
+                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={4} md={2}>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardContent>
+            <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+              Electricity
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item>
+                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+              </Grid>
+
+              <Grid item>
+                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={8} md={3}>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardContent>
+            <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+              Total
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item>
+                <Chip avatar={<Avatar><AttachMoneyIcon /></Avatar>} label="120 CHF" variant='outlined' />
+              </Grid>
+
+              <Grid item>
+                <Chip avatar={<Avatar><Co2Icon /></Avatar>} label="40 g" variant='outlined' />
+              </Grid>
+
+              <Grid item>
+                <Chip avatar={<Avatar><HourglassBottomIcon /></Avatar>} label="78 min" variant='outlined' />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+};
