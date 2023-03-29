@@ -36,7 +36,10 @@ class KettleEntity {
     } else if (coolingMode === KettleCoolingModes.C2) {
       this.c2CoolingPercent = TapWaterCoolingEntity.maxCoolingPercent;
       this.c3CoolingPercent = IceWaterCoolingEntity.minCoolingPercent;
-    }    
+    } else if (coolingMode === KettleCoolingModes.C5i) {
+      this.c3CoolingPercent = IceWaterCoolingEntity.maxC5iCoolingPercent;
+      this.c2CoolingPercent = TapWaterCoolingEntity.minC5iCoolingPercent;
+    }
   };
 
   getCoolingMode = () => this.coolingMode;
