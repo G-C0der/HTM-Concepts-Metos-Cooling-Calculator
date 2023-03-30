@@ -15,7 +15,7 @@ import {ElectricityForm} from "./components/ElectricityForm";
 import {DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./services/DataProvider";
 import {MeasurementsTable} from "./components/MeasurementsTable";
 import Grid from "@mui/material/Grid";
-import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
+import {IceWaterBankTypesForm} from "./components/IceWaterBankTypesForm";
 import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
@@ -25,7 +25,7 @@ import {ConsumptionResult} from "./components/ConsumptionDisplay/types";
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
   padding: '0 0 1px 10px',
-  height: 253
+  height: 265
 }));
 
 function App() {
@@ -107,17 +107,17 @@ function App() {
           <Grid item xs={10}>
             <Box sx={{ maxWidth: 1400, ml: -15 }}>
               <FormContainer>
-                <Grid container sx={{ gap: 40, mt: 6, mb: 5,  ml: 3, mr: 0 }}>
-                  <Grid item xs={12} md={2}>
+                <Grid container sx={{ gap: 5, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
+                  <Grid item md={2}>
                     <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
                   </Grid>
 
-                  <Grid item xs={12} md={2}>
+                  <Grid item md={2}>
                     <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
                   </Grid>
 
-                  <Grid item xs={12} md={2}>
-                    <IceWaterCoolingForm
+                  <Grid item md={2}>
+                    <IceWaterBankTypesForm
                       iceWaterCoolingEntity={iceWaterCoolingEntity}
                       setTimePowerUsageRows={setTimePowerUsageRows}
                     />
