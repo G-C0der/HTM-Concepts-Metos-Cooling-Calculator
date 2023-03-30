@@ -20,7 +20,7 @@ import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
 import {ConsumptionDisplay} from "./components/ConsumptionDisplay";
-import {Consumption, ConsumptionResult} from "./components/ConsumptionDisplay/types";
+import {ConsumptionResult} from "./components/ConsumptionDisplay/types";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -103,11 +103,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
-          <Grid item xs={2} sx={{ mt: 6 }}>
-            <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
-          </Grid>
-
+        <Grid container sx={{ mt: 5, mb: 5,  ml: 40 }}>
           <Grid item xs={10}>
             <Box sx={{ maxWidth: 1400, ml: -15 }}>
               <FormContainer>
@@ -129,26 +125,38 @@ function App() {
                 </Grid>
               </FormContainer>
 
-              <Button style={{
-                margin: '40px',
-                padding: '15px 0 15px 0',
-                backgroundColor: "white",
-              }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
+              <Grid item container sx={{ mt: 6 }}>
+                <Grid item xs={2}>
+                  <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                </Grid>
 
-              <Button style={{
-                margin: '40px',
-                padding: '15px 0 15px 0',
-                backgroundColor: "white",
-              }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+                <Grid item xs={2} sx={{ ml: -10, mr: -5 }}>
+                  <Button style={{
+                    margin: '40px',
+                    padding: '15px 0 15px 0',
+                    backgroundColor: "white",
+                  }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
 
-              <KettleContainer
-                kettleEntities={kettleEntities}
-                handleKettleDeleteClick={handleKettleDeleteClick}
-              />
+                  <Button style={{
+                    margin: '40px',
+                    padding: '15px 0 15px 0',
+                    backgroundColor: "white",
+                  }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+                </Grid>
 
-              <ConsumptionDisplay
-                consumptionResult={consumptionResult}
-              />
+                <Grid item xs={4} sx={{ mt: -3.8 }}>
+                  <KettleContainer
+                    kettleEntities={kettleEntities}
+                    handleKettleDeleteClick={handleKettleDeleteClick}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <ConsumptionDisplay
+                    consumptionResult={consumptionResult}
+                  />
+                </Grid>
+              </Grid>
             </Box>
           </Grid>
         </Grid>
