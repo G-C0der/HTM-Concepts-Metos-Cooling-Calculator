@@ -3,7 +3,7 @@ import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils/array";
-import {Result, TotalResult} from "../components/ResultDisplay/types";
+import {Result} from "../components/ResultDisplay/types";
 import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
 
 export class Calculator {
@@ -133,7 +133,7 @@ export class Calculator {
   calculateResult = () => {
     const waterResult: Result = { costCHF: 0, co2Grams: 0 };
     const electricityResult: Result = { costCHF: 0, co2Grams: 0 };
-    const totalResult: TotalResult = { costCHF: 0, co2Grams: 0, timeMin: 0 };
+    const totalResult: Result = { costCHF: 0, co2Grams: 0 };
 
     // Calculate water and power used
     let waterLitresUsed = 0;

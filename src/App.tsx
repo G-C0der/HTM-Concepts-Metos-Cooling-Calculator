@@ -20,7 +20,7 @@ import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
 import {ResultDisplay} from "./components/ResultDisplay";
-import {Result, TotalResult} from "./components/ResultDisplay/types";
+import {Result} from "./components/ResultDisplay/types";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -37,9 +37,11 @@ function App() {
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
-  const [waterResult, setWaterResult] = useState<Result>();
-  const [electricityResult, setElectricityResult] = useState<Result>();
-  const [totalResult, setTotalResult] = useState<TotalResult>();
+
+  const initialResult = { costCHF: 0, co2Grams: 0 };
+  const [waterResult, setWaterResult] = useState<Result>(initialResult);
+  const [electricityResult, setElectricityResult] = useState<Result>(initialResult);
+  const [totalResult, setTotalResult] = useState<Result>(initialResult);
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -140,14 +142,11 @@ function App() {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
 
-              {
-                waterResult && electricityResult && totalResult &&
-                <ResultDisplay
-                  waterResult={waterResult}
-                  electricityResult={electricityResult}
-                  totalResult={totalResult}
-                />
-              }
+              <ResultDisplay
+                waterResult={waterResult}
+                electricityResult={electricityResult}
+                totalResult={totalResult}
+              />
             </Box>
           </Grid>
         </Grid>

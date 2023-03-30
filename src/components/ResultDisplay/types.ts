@@ -3,11 +3,6 @@ interface Result {
   co2Grams: number;
 }
 
-interface TotalResult extends Result {
-  timeMin: number;
-}
-
 export type {
-  Result,
-  TotalResult
+  Result
 };

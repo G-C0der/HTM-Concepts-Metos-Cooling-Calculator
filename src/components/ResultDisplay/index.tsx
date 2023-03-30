@@ -4,13 +4,13 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import Typography from "@mui/material/Typography";
-import {Result, TotalResult} from "./types";
+import {Result} from "./types";
 import {round} from "../../utils/math";
 
 interface ResultDisplayProps {
   waterResult: Result;
   electricityResult: Result;
-  totalResult: TotalResult;
+  totalResult: Result;
 }
 
 export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: ResultDisplayProps) => {
@@ -92,14 +92,6 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
                 <Chip
                   avatar={<Avatar><Co2Icon /></Avatar>}
                   label={`${round(totalResult.co2Grams)} g`}
-                  variant='outlined'
-                />
-              </Grid>
-
-              <Grid item>
-                <Chip
-                  avatar={<Avatar><HourglassBottomIcon /></Avatar>}
-                  label={`${totalResult.timeMin} min`}
                   variant='outlined'
                 />
               </Grid>
