@@ -31,7 +31,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
 
   useEffect(() => {
-    setSizeLitres(kettleEntity.sizeLitres);
+    setSizeLitres(kettleEntity.getSizeLitres);
     setCoolingMode(kettleEntity.getCoolingMode);
     setTimeUsageRows(kettleEntity.timeUsageRows);
     setC3CoolingPercent(kettleEntity.getC3CoolingPercent());
@@ -40,7 +40,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const handleKettleSizeChange = (e: any) => {
     const sizeLitres = +e.target.value;
     setSizeLitres(sizeLitres);
-    kettleEntity.sizeLitres = sizeLitres;
+    kettleEntity.setSizeLitres(sizeLitres);
   };
 
   const handleKettleCoolingModeChange = (e: any) => {

@@ -15,7 +15,7 @@ interface TimeUsageRow extends TimeUsage {
 }
 
 class KettleEntity {
-  sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
+  private sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
   private coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
   timeUsageRows: TimeUsageRow[] = [];
   private c3CoolingPercent: number = IceWaterCoolingEntity.minCoolingPercent;
@@ -26,6 +26,15 @@ class KettleEntity {
       this.timeUsageRows.push({ id: hour, time: hour, foodLitres: 0 });
     }
   }
+
+  setSizeLitres = (sizeLitres: number) => {
+    this.sizeLitres = sizeLitres;
+
+    this.timeUsageRows = this.timeUsageRows.map(row =>
+      ({ ...row, foodLitres: row.foodLitres > sizeLitres ? sizeLitres : row.foodLitres }));
+  };
+
+  getSizeLitres = () => this.sizeLitres;
 
   setCoolingMode = (coolingMode: KettleCoolingModes) => {
     this.coolingMode = coolingMode;
