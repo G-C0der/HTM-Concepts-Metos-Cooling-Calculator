@@ -127,10 +127,9 @@ class DataProvider {
   private setIceWaterCoolingMeasurements = (iceWaterCoolingMainMeasurements: IceWaterCoolingMainMeasurements) => {
     this.iceWaterCoolingMeasurements = iceWaterCoolingMainMeasurements;
 
-    const kwHourFactor = this.iceWaterCoolingEntity.kwHour;
+    const kwHourFactor = IceWaterCoolingEntity.kwHour;
     const kwHourCHFFactor = this.iceWaterCoolingEntity.kwHourCHF;
     const kwHourCo2GramsFactor = this.iceWaterCoolingEntity.kwHourCo2;
-    // const iceIncreaseFactor = this.iceWaterCoolingEntity.
     let foodTempMinuend: number; // Food temp of first row
 
     for (let i = 0; i < this.iceWaterCoolingMeasurements.length; i++) {

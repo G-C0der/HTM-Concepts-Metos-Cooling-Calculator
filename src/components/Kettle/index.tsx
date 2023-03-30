@@ -10,6 +10,7 @@ import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import {UpwardCollapse} from "../UpwardCollapse";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
+import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -27,7 +28,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
-  const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(100);
+  const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
 
   useEffect(() => {
     setSizeLitres(kettleEntity.sizeLitres);
@@ -51,7 +52,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
   const handleC3CoolingPercentChange = (e: any) => {
     const c3CoolingPercent = +e.target.value;
     setC3CoolingPercent(c3CoolingPercent);
-    kettleEntity.setC3CoolingPercent(c3CoolingPercent);
+    kettleEntity.setCoolingPercent(c3CoolingPercent);
   };
 
   return (

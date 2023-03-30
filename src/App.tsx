@@ -19,10 +19,13 @@ import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
+import {ConsumptionDisplay} from "./components/ConsumptionDisplay";
+import {Consumption, ConsumptionResult} from "./components/ConsumptionDisplay/types";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
-  padding: '0 0 1px 10px'
+  padding: '0 0 1px 10px',
+  height: 253
 }));
 
 function App() {
@@ -30,10 +33,21 @@ function App() {
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
+
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
+
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
+
+  const initialConsumption = { costCHF: 0, co2Grams: 0 };
+  const [consumptionResult, setConsumptionResult] = useState<ConsumptionResult>({
+    waterConsumption: initialConsumption,
+    electricityConsumption: initialConsumption,
+    totalConsumption: initialConsumption,
+    waterLitresUsed: 0,
+    powerKWUsed: 0
+  });
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -42,6 +56,7 @@ function App() {
 
   const calculator = new Calculator(
     kettleEntities,
+    tapWaterCoolingEntity,
     iceWaterCoolingEntity,
     timePowerUsageRows
   );
@@ -70,20 +85,24 @@ function App() {
     calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
     calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
-    // Set target row (row with smallest cost difference)
+    // Calculate target row (row with smallest cost difference)
     // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
     const res = calculator.calculateMeasurementsTargetRow();
     setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
-    // Set ice water cooling power percentages
+    // Calculate ice water cooling power percentages
     const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
     if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
+
+    // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
+    const consumptionResult = calculator.calculateConsumption();
+    setConsumptionResult(consumptionResult);
   };
 
   return (
     <div className="App">
-      <header className="App-body">
+      <header className="App-header">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 3 }}>
           <Grid item xs={2} sx={{ mt: 6 }}>
             <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
@@ -125,6 +144,10 @@ function App() {
               <KettleContainer
                 kettleEntities={kettleEntities}
                 handleKettleDeleteClick={handleKettleDeleteClick}
+              />
+
+              <ConsumptionDisplay
+                consumptionResult={consumptionResult}
               />
             </Box>
           </Grid>
