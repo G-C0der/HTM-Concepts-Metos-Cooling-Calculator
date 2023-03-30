@@ -1,19 +1,20 @@
 import React from 'react';
-import {Avatar, Box, Card, CardContent, Chip, Grid} from "@mui/material";
+import {Avatar, Card, CardContent, Chip, Grid} from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
-import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import WaterIcon from '@mui/icons-material/Water';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import Typography from "@mui/material/Typography";
-import {Result} from "./types";
+import {ConsumptionResult} from "./types";
 import {round} from "../../utils/math";
 
 interface ResultDisplayProps {
-  waterResult: Result;
-  electricityResult: Result;
-  totalResult: Result;
+  consumptionResult: ConsumptionResult
 }
 
-export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: ResultDisplayProps) => {
+export const ConsumptionDisplay = ({
+  consumptionResult: { waterConsumption, electricityConsumption, totalConsumption, waterLitresUsed, powerKWUsed}
+}: ResultDisplayProps) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={4} md={3}>
@@ -23,11 +24,15 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               Water
             </Typography>
 
-            <Grid container spacing={2} justifyContent='center'>
+            <Grid
+              container
+              spacing={2}
+              justifyContent='center'
+            >
               <Grid item>
                 <Chip
                   avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(waterResult.costCHF)} CHF`}
+                  label={`${round(waterConsumption.costCHF)} CHF`}
                   variant='outlined'
                 />
               </Grid>
@@ -35,7 +40,7 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               <Grid item>
                 <Chip
                   avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(waterResult.co2Grams)} g`}
+                  label={`${round(waterConsumption.co2Grams)} grams`}
                   variant='outlined'
                 />
               </Grid>
@@ -51,11 +56,15 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               Electricity
             </Typography>
 
-            <Grid container spacing={2} justifyContent='center'>
+            <Grid
+              container
+              spacing={2}
+              justifyContent='center'
+            >
               <Grid item>
                 <Chip
                   avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(electricityResult.costCHF)} CHF`}
+                  label={`${round(electricityConsumption.costCHF)} CHF`}
                   variant='outlined'
                 />
               </Grid>
@@ -63,7 +72,7 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               <Grid item>
                 <Chip
                   avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(electricityResult.co2Grams)} g`}
+                  label={`${round(electricityConsumption.co2Grams)} grams`}
                   variant='outlined'
                 />
               </Grid>
@@ -79,11 +88,38 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               Total
             </Typography>
 
-            <Grid container spacing={2} justifyContent='center'>
+            <Grid
+              container
+              spacing={16}
+              justifyContent='center'
+              sx={{ mt: -22, mb: 2 }}
+            >
+              <Grid item>
+                <Chip
+                  avatar={<Avatar><WaterIcon /></Avatar>}
+                  label={`${waterLitresUsed} litres`}
+                  variant='outlined'
+                />
+              </Grid>
+
+              <Grid item>
+                <Chip
+                  avatar={<Avatar><ElectricBoltIcon /></Avatar>}
+                  label={`${powerKWUsed} kW`}
+                  variant='outlined'
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              spacing={2}
+              justifyContent='center'
+            >
               <Grid item>
                 <Chip
                   avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(totalResult.costCHF)} CHF`}
+                  label={`${round(totalConsumption.costCHF)} CHF`}
                   variant='outlined'
                 />
               </Grid>
@@ -91,7 +127,7 @@ export const ResultDisplay = ({ waterResult, electricityResult, totalResult }: R
               <Grid item>
                 <Chip
                   avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(totalResult.co2Grams)} g`}
+                  label={`${round(totalConsumption.co2Grams)} grams`}
                   variant='outlined'
                 />
               </Grid>

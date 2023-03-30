@@ -3,7 +3,7 @@ import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils/array";
-import {Result} from "../components/ResultDisplay/types";
+import {Consumption} from "../components/ConsumptionDisplay/types";
 import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
 
 export class Calculator {
@@ -130,10 +130,10 @@ export class Calculator {
     return (this.timePowerUsageRows as TimePowerUsageRow[]);
   };
 
-  calculateResult = () => {
-    const waterResult: Result = { costCHF: 0, co2Grams: 0 };
-    const electricityResult: Result = { costCHF: 0, co2Grams: 0 };
-    const totalResult: Result = { costCHF: 0, co2Grams: 0 };
+  calculateConsumption = () => {
+    const waterConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
+    const electricityConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
+    const totalConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
 
     // Calculate water and power used
     let waterLitresUsed = 0;
@@ -145,19 +145,21 @@ export class Calculator {
     }
 
     // Calculate cost, co2 & time
-    waterResult.costCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
-    waterResult.co2Grams = this.tapWaterCoolingEntity.waterLitreCo2 * waterLitresUsed;
+    waterConsumption.costCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
+    waterConsumption.co2Grams = this.tapWaterCoolingEntity.waterLitreCo2 * waterLitresUsed;
 
-    electricityResult.costCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
-    electricityResult.co2Grams = this.iceWaterCoolingEntity.kwHourCo2 * powerKWUsed;
+    electricityConsumption.costCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
+    electricityConsumption.co2Grams = this.iceWaterCoolingEntity.kwHourCo2 * powerKWUsed;
 
-    totalResult.costCHF = waterResult.costCHF + electricityResult.costCHF;
-    totalResult.co2Grams = waterResult.co2Grams + electricityResult.co2Grams;
+    totalConsumption.costCHF = waterConsumption.costCHF + electricityConsumption.costCHF;
+    totalConsumption.co2Grams = waterConsumption.co2Grams + electricityConsumption.co2Grams;
 
     return {
-      waterResult,
-      electricityResult,
-      totalResult
+      waterConsumption,
+      electricityConsumption,
+      totalConsumption,
+      waterLitresUsed,
+      powerKWUsed
     };
   };
 }

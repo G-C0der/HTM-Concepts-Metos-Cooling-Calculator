@@ -19,8 +19,8 @@ import {IceWaterCoolingForm} from "./components/IceWaterCoolingForm";
 import {styled} from "@mui/material/styles";
 import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
-import {ResultDisplay} from "./components/ResultDisplay";
-import {Result} from "./components/ResultDisplay/types";
+import {ConsumptionDisplay} from "./components/ConsumptionDisplay";
+import {Consumption, ConsumptionResult} from "./components/ConsumptionDisplay/types";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -33,15 +33,21 @@ function App() {
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
+
   const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
   const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
+
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
 
-  const initialResult = { costCHF: 0, co2Grams: 0 };
-  const [waterResult, setWaterResult] = useState<Result>(initialResult);
-  const [electricityResult, setElectricityResult] = useState<Result>(initialResult);
-  const [totalResult, setTotalResult] = useState<Result>(initialResult);
+  const initialConsumption = { costCHF: 0, co2Grams: 0 };
+  const [consumptionResult, setConsumptionResult] = useState<ConsumptionResult>({
+    waterConsumption: initialConsumption,
+    electricityConsumption: initialConsumption,
+    totalConsumption: initialConsumption,
+    waterLitresUsed: 0,
+    powerKWUsed: 0
+  });
 
   const dataProvider = new DataProvider(
     tapWaterCoolingEntity,
@@ -89,11 +95,9 @@ function App() {
     const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
     if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
 
-    // Calculate cost, CO2 & time results
-    const { waterResult, electricityResult, totalResult } = calculator.calculateResult();
-    setWaterResult(waterResult);
-    setElectricityResult(electricityResult);
-    setTotalResult(totalResult);
+    // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
+    const consumptionResult = calculator.calculateConsumption();
+    setConsumptionResult(consumptionResult);
   };
 
   return (
@@ -142,10 +146,8 @@ function App() {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
 
-              <ResultDisplay
-                waterResult={waterResult}
-                electricityResult={electricityResult}
-                totalResult={totalResult}
+              <ConsumptionDisplay
+                consumptionResult={consumptionResult}
               />
             </Box>
           </Grid>
