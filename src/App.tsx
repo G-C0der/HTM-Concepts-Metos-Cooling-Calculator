@@ -140,11 +140,14 @@ function App() {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
 
-              <ResultDisplay
-                waterResult={waterResult}
-                electricityResult={electricityResult}
-                totalResult={totalResult}
-              />
+              {
+                waterResult && electricityResult && totalResult &&
+                <ResultDisplay
+                  waterResult={waterResult}
+                  electricityResult={electricityResult}
+                  totalResult={totalResult}
+                />
+              }
             </Box>
           </Grid>
         </Grid>
