@@ -22,7 +22,7 @@ export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleT
     const newRows = [...rows] as any;
 
     if (foodLitres < 0) newRows[rowIndex][params.field] = 0;
-    else if (foodLitres > kettleEntity.sizeLitres) newRows[rowIndex][params.field] = kettleEntity.sizeLitres;
+    else if (foodLitres > kettleEntity.getSizeLitres()) newRows[rowIndex][params.field] = kettleEntity.getSizeLitres();
     else newRows[rowIndex][params.field] = foodLitres; // TODO: check if this is a workaround
 
     setRows(newRows);
