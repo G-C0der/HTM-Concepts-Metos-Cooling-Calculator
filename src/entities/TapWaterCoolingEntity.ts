@@ -5,5 +5,5 @@ export class TapWaterCoolingEntity extends CoolingEntity {
   waterLitreCHF: number = 0;
   waterLitreCo2: number = 0;
   static readonly maxC5iCoolingPercent = 50;
-  static readonly minC5iCoolingPercent = 10;
+  static readonly minC5iCoolingPercent = 0;
 }
