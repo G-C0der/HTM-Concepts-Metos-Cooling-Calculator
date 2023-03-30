@@ -153,29 +153,29 @@ function App() {
           </Grid>
         </Grid>
 
-        <Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>
-          <Grid item xs={12} md={2}>
-            {
-              tapWaterCoolingMeasurements &&
-              <MeasurementsTable
-                measurements={tapWaterCoolingMeasurements}
-                title='Tap Water Cooling Measurements'
-                width={800}
-              />
-            }
-          </Grid>
+        {/*<Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>*/}
+        {/*  <Grid item xs={12} md={2}>*/}
+        {/*    {*/}
+        {/*      tapWaterCoolingMeasurements &&*/}
+        {/*      <MeasurementsTable*/}
+        {/*        measurements={tapWaterCoolingMeasurements}*/}
+        {/*        title='Tap Water Cooling Measurements'*/}
+        {/*        width={800}*/}
+        {/*      />*/}
+        {/*    }*/}
+        {/*  </Grid>*/}
 
-          <Grid item xs={12} md={2}>
-            {
-              iceWaterCoolingMeasurements &&
-              <MeasurementsTable
-                measurements={iceWaterCoolingMeasurements}
-                title='Ice Water Cooling Measurements'
-                width={1200}
-              />
-            }
-          </Grid>
-        </Grid>
+        {/*  <Grid item xs={12} md={2}>*/}
+        {/*    {*/}
+        {/*      iceWaterCoolingMeasurements &&*/}
+        {/*      <MeasurementsTable*/}
+        {/*        measurements={iceWaterCoolingMeasurements}*/}
+        {/*        title='Ice Water Cooling Measurements'*/}
+        {/*        width={1200}*/}
+        {/*      />*/}
+        {/*    }*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
       </header>
     </div>
   );
