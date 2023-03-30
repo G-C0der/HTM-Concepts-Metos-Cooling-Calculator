@@ -144,7 +144,7 @@ function App() {
                   }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
                 </Grid>
 
-                <Grid item xs={4} sx={{ mt: -3.8 }}>
+                <Grid item xs={4}>
                   <KettleContainer
                     kettleEntities={kettleEntities}
                     handleKettleDeleteClick={handleKettleDeleteClick}
