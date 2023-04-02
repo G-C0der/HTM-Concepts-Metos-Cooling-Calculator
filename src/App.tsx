@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import './App.css';
 import {KettleCount} from "./enums/KettleCount";
 import {KettleContainer} from "./components/KettleContainer";
-import {Button} from "@mui/material";
+import {Button, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import CalculateIcon from '@mui/icons-material/Calculate';
 import {getEnumMinMax} from "./utils/enum";
 import {KettleEntity} from "./entities/KettleEntity";
 import {Calculator} from "./services/Calculator";
@@ -159,17 +159,29 @@ function App() {
                 </Grid>
 
                 <Grid item xs={2} sx={{ ml: -11, mr: -5 }}>
-                  <Button style={{
-                    margin: '40px',
-                    padding: '15px 0 15px 0',
-                    backgroundColor: "white",
-                  }} variant="outlined" onClick={handleAddKettleClick}><AddIcon /></Button>
+                  <Tooltip title='add kettle'>
+                    <Button
+                      style={{
+                        margin: '40px',
+                        padding: '15px 0 15px 0',
+                        backgroundColor: "white",
+                      }}
+                      variant="outlined"
+                      onClick={handleAddKettleClick}
+                    ><AddIcon /></Button>
+                  </Tooltip>
 
-                  <Button style={{
-                    margin: '40px',
-                    padding: '15px 0 15px 0',
-                    backgroundColor: "white",
-                  }} variant="outlined" onClick={handleRefreshClick}><RefreshIcon /></Button>
+                  <Tooltip title='calculate'>
+                    <Button
+                      style={{
+                        margin: '40px',
+                        padding: '15px 0 15px 0',
+                        backgroundColor: "white",
+                      }}
+                      variant="outlined"
+                      onClick={handleRefreshClick}
+                    ><CalculateIcon /></Button>
+                  </Tooltip>
                 </Grid>
 
                 <Grid item xs={4}>
