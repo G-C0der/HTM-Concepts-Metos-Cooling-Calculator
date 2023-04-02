@@ -79,6 +79,11 @@ interface IceWaterCoolingMeasurement extends IceWaterCoolingMainMeasurement {
 }
 interface IceWaterCoolingMeasurements extends Array<IceWaterCoolingMeasurement> {}
 
+interface Measurements {
+  tapWaterCoolingMeasurements: TapWaterCoolingMeasurements;
+  iceWaterCoolingMeasurements: IceWaterCoolingMeasurements;
+}
+
 class DataProvider {
   tapWaterCoolingMeasurements?: TapWaterCoolingMainMeasurements | TapWaterCoolingMeasurements;
   iceWaterCoolingMeasurements?: IceWaterCoolingMainMeasurements | IceWaterCoolingMeasurements;
@@ -92,20 +97,20 @@ class DataProvider {
     this.tapWaterCoolingEntity = tapWaterCoolingEntity;
     this.iceWaterCoolingEntity = iceWaterCoolingEntity;
   }
-  
+
   fetch = () => {
     this.setTapWaterCoolingMeasurements(csvToJSON(tapWaterCoolingMeasurements));
     this.setIceWaterCoolingMeasurements(csvToJSON(iceWaterCoolingMeasurements));
-    
+
     return {
       tapWaterCoolingMeasurements: (this.tapWaterCoolingMeasurements as TapWaterCoolingMeasurements),
       iceWaterCoolingMeasurements: (this.iceWaterCoolingMeasurements as IceWaterCoolingMeasurements)
     };
   };
-  
+
   private setTapWaterCoolingMeasurements = (tapWaterCoolingMainMeasurements: TapWaterCoolingMainMeasurements) => {
     this.tapWaterCoolingMeasurements = tapWaterCoolingMainMeasurements;
-    
+
     const litreCHFFactor = this.tapWaterCoolingEntity.waterLitreCHF;
     const litreCo2GramsFactor = this.tapWaterCoolingEntity.waterLitreCo2;
 
@@ -185,6 +190,7 @@ export {
 };
 
 export type {
+  Measurements,
   TapWaterCoolingMeasurements,
   IceWaterCoolingMeasurements,
 

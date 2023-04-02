@@ -21,11 +21,12 @@ import {TimePowerDataGrid} from "./components/TimePowerDataGrid";
 import Box from "@mui/material/Box";
 import {ConsumptionDisplay} from "./components/ConsumptionDisplay";
 import {ConsumptionResult} from "./components/ConsumptionDisplay/types";
+import {C5iRecommendationsDataGrid} from "./components/C5iRecommendationsDataGrid";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
   padding: '0 0 1px 10px',
-  height: 265
+  height: 275
 }));
 
 function App() {
@@ -92,7 +93,7 @@ function App() {
     setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
     // Calculate ice water cooling power percentages
-    const timePowerUsageRows = calculator.calculateTimeTablePowerPercentages();
+    const timePowerUsageRows = calculator.calculateTimePowerRows();
     if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
 
     // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
@@ -105,9 +106,9 @@ function App() {
       <header className="App-header">
         <Grid container sx={{ mt: 5, mb: 5,  ml: 40 }}>
           <Grid item xs={10}>
-            <Box sx={{ maxWidth: 1400, ml: -15 }}>
+            <Box sx={{ maxWidth: 1470, ml: -15 }}>
               <FormContainer>
-                <Grid container sx={{ gap: 5, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
+                <Grid container sx={{ gap: 4, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
                   <Grid item md={2}>
                     <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
                   </Grid>
@@ -122,6 +123,10 @@ function App() {
                       setTimePowerUsageRows={setTimePowerUsageRows}
                     />
                   </Grid>
+
+                  <Grid item md={2}>
+                    <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
+                  </Grid>
                 </Grid>
               </FormContainer>
 
@@ -130,7 +135,7 @@ function App() {
                   <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
                 </Grid>
 
-                <Grid item xs={2} sx={{ ml: -10, mr: -5 }}>
+                <Grid item xs={2} sx={{ ml: -11, mr: -5 }}>
                   <Button style={{
                     margin: '40px',
                     padding: '15px 0 15px 0',

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
 import {Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import {styled} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils/enum";
@@ -16,12 +15,6 @@ interface KettleProps {
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
 }
-
-const Container = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  padding: '0 35px 10px 10px',
-  maxWidth: 185
-}));
 
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
