@@ -97,7 +97,7 @@ export const ConsumptionDisplay = ({
               <Grid item>
                 <Chip
                   avatar={<Avatar><WaterIcon /></Avatar>}
-                  label={`${waterLitresUsed} litres`}
+                  label={`${round(waterLitresUsed)} litres`}
                   variant='outlined'
                 />
               </Grid>
@@ -105,7 +105,7 @@ export const ConsumptionDisplay = ({
               <Grid item>
                 <Chip
                   avatar={<Avatar><ElectricBoltIcon /></Avatar>}
-                  label={`${powerKWUsed} kW`}
+                  label={`${round(powerKWUsed)} kW`}
                   variant='outlined'
                 />
               </Grid>
