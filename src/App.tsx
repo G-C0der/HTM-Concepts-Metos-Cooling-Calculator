@@ -29,6 +29,13 @@ const FormContainer = styled('div')(({ theme }) => ({
   height: 275
 }));
 
+const ConsumptionContainer = styled('div')(({ theme }) => ({
+  backgroundColor: '#E4E4E4',
+  padding: '17px 0 1px 10px',
+  margin: '50px 0 0 0',
+  height: 170
+}));
+
 function App() {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
@@ -157,9 +164,11 @@ function App() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <ConsumptionDisplay
-                    consumptionResult={consumptionResult}
-                  />
+                  <ConsumptionContainer>
+                    <ConsumptionDisplay
+                      consumptionResult={consumptionResult}
+                    />
+                  </ConsumptionContainer>
                 </Grid>
               </Grid>
             </Box>

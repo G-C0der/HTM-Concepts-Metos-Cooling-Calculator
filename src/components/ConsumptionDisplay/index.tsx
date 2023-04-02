@@ -81,8 +81,8 @@ export const ConsumptionDisplay = ({
         </Card>
       </Grid>
 
-      <Grid item xs={8} md={7}>
-        <Card sx={{ maxWidth: 400, ml: 18.5 }}>
+      <Grid item xs={8} md={6}>
+        <Card sx={{ maxWidth: 400 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Total
@@ -92,7 +92,7 @@ export const ConsumptionDisplay = ({
               container
               spacing={16}
               justifyContent='center'
-              sx={{ mt: -22, mb: 2 }}
+              sx={{ mt: -22, mb: 1 }}
             >
               <Grid item>
                 <Chip
