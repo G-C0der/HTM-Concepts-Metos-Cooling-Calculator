@@ -1,6 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
-import {Card, CardContent, FormControl, IconButton, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField, Tooltip
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils/enum";
@@ -9,6 +19,7 @@ import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
 import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -47,6 +58,12 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
     kettleEntity.setCoolingPercent(c3CoolingPercent);
   };
 
+  const handleClearUsagesClick = () => {
+    const clearedTimeUsageRows = kettleEntity.timeUsageRows.map((row: TimeUsageRow) => ({ ...row, foodLitres: 0 }));
+    kettleEntity.timeUsageRows = clearedTimeUsageRows;
+    setTimeUsageRows(clearedTimeUsageRows);
+  };
+
   return (
     <Box>
       <Card>
@@ -59,7 +76,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
             <CloseIcon />
           </IconButton>
 
-          <Box sx={{ height: 195 }}>
+          <Box sx={{ height: 205 }}>
             <FormControl>
               <InputLabel className='form-input-label'>Size</InputLabel>
               <Select
@@ -109,6 +126,16 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
               />
             }
           </Box>
+
+          <Tooltip title='clear usages'>
+            <Button
+              style={{
+                padding: '0 0 0 0'
+              }}
+              variant="outlined"
+              onClick={handleClearUsagesClick}
+            ><ClearAllIcon /></Button>
+          </Tooltip>
         </CardContent>
       </Card>
 
