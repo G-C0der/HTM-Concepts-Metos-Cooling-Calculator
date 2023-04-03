@@ -58,7 +58,8 @@ class KettleEntity {
    * @param c3CoolingPercent
    */
   setCoolingPercent = (c3CoolingPercent: number) => {
-    if (c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent) {
+    if (c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
+      || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent) {
       throw new Error(`c3CoolingPercent has to be between 50 and 100, "${c3CoolingPercent}" provided`);
     }
 
@@ -68,15 +69,18 @@ class KettleEntity {
 
   getC3CoolingPercent = () => this.c3CoolingPercent;
 
-  getTimeUsages = (): TimeUsage[] => this.timeUsageRows.filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);
+  getTimeUsages = (): TimeUsage[] => this.timeUsageRows
+    .filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);
 
   /**
    * Get sum of food litres of the whole day
    */
-  getDayFoodLitresSum = () => this.timeUsageRows.reduce((partialSum, row) => partialSum + row.foodLitres, 0);
+  getDayFoodLitresSum = () => this.timeUsageRows
+    .reduce((partialSum, row) => partialSum + row.foodLitres, 0);
 
-  getPowerKWUsedByFoodLitres = (foodLitres: number) => {
-    const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 * this.c3CoolingPercent;
+  getPowerKWUsedByFoodLitres = (foodLitres: number, customC3CoolingPercent?: number) => {
+    const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 *
+      (customC3CoolingPercent ?? this.c3CoolingPercent);
 
     return powerKWUsedPerLitre * foodLitres;
   };
@@ -104,10 +108,10 @@ class KettleEntity {
     if (foodLitres >= 1) return 5;
   };
 
-  getWaterLitresUsedByFoodLitres = (foodLitres: number) => {
+  getWaterLitresUsedByFoodLitres = (foodLitres: number, customC2CoolingPercent?: number) => {
     let waterLitresUsedPerDegreeCelsius = this.getWaterLitresUsedPerDegreeCelsius(foodLitres);
 
-    return waterLitresUsedPerDegreeCelsius! * this.c2CoolingPercent;
+    return waterLitresUsedPerDegreeCelsius! * (customC2CoolingPercent ?? this.c2CoolingPercent);
   };
 
   /**

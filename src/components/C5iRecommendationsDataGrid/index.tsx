@@ -23,39 +23,39 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
       valueGetter: (params) => `${params.row.c3CoolingPercent}%`
     },
     {
-      field: 'waterCostCHF',
-      headerName: 'Water CHF',
+      field: 'waterLitresUsed',
+      headerName: 'Litres',
       width: 85,
-      valueGetter: (params) => round(params.row.waterCostCHF)
+      valueGetter: (params) => round(params.row.waterLitresUsed)
     },
     {
-      field: 'waterCO2Grams',
-      headerName: 'Water CO2',
+      field: 'powerKWUsed',
+      headerName: 'kW',
       width: 85,
-      valueGetter: (params) => round(params.row.waterCO2Grams)
+      valueGetter: (params) => round(params.row.powerKWUsed)
+    },
+    {
+      field: 'totalCostCHF',
+      headerName: 'CHF',
+      width: 85,
+      valueGetter: (params) => round(params.row.totalCostCHF)
+    },
+    {
+      field: 'totalCO2Grams',
+      headerName: 'CO2',
+      width: 85,
+      valueGetter: (params) => round(params.row.totalCO2Grams)
     },
     {
       field: 'timePlus',
-      headerName: 'Time Plus',
-      width: 85,
-      valueGetter: (params) => `${round(params.row.timePlus)} min`
-    },
-    {
-      field: 'electricityCostCHF',
-      headerName: 'Electricity CHF',
-      width: 105,
-      valueGetter: (params) => round(params.row.electricityCostCHF)
-    },
-    {
-      field: 'electricityCO2Grams',
-      headerName: 'Electricity CO2',
-      width: 105,
-      valueGetter: (params) => round(params.row.electricityCO2Grams)
+      headerName: 'Minutes Plus',
+      width: 95,
+      valueGetter: (params) => round(params.row.timePlus)
     }
   ];
 
   return (
-    <Box sx={{ height: 260, width: 610 }}>
+    <Box sx={{ height: 260, width: 565 }}>
       <DataGrid
         rows={rows}
         columns={columns}

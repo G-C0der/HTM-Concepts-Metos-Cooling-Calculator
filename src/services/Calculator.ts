@@ -175,86 +175,46 @@ export class Calculator {
   
   calculateC5iRecommendationsRows = (): C5iRecommendationsRow[] => {
     // Fill up C5i C3 cooling percent
-    // const c3CoolingPercents = [];
-    // const { maxC5iCoolingPercent, minC5iCoolingPercent } = IceWaterCoolingEntity;
-    //
-    // for (let c5iC3CoolingPercent = maxC5iCoolingPercent; c5iC3CoolingPercent >= minC5iCoolingPercent; c5iC3CoolingPercent -= 10) {
-    //   c3CoolingPercents.push(c5iC3CoolingPercent);
-    // }
-    //
-    // // Fill up rows
-    // const rows = [];
-    //
-    // for (const c3CoolingPercent of c3CoolingPercents) {
-    //   rows.push({
-    //     id: c3CoolingPercent,
-    //     c2CoolingPercent: 100 - c3CoolingPercent,
-    //     c3CoolingPercent,
-    //     waterCostCHF:
-    //   });
-    // }
+    const c3CoolingPercents = [];
+    const { maxC5iCoolingPercent, minC5iCoolingPercent } = IceWaterCoolingEntity;
 
-    return [
-      {
-        id: '100',
-        c2CoolingPercent: 0,
-        c3CoolingPercent: 100,
-        waterCostCHF: 80,
-        waterCO2Grams: 0,
-        timePlus: 0,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      },
-      {
-        id: '90',
-        c2CoolingPercent: 10,
-        c3CoolingPercent: 90,
-        waterCostCHF: 160,
-        waterCO2Grams: 0,
-        timePlus: 2,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      },
-      {
-        id: '80',
-        c2CoolingPercent: 20,
-        c3CoolingPercent: 80,
-        waterCostCHF: 240,
-        waterCO2Grams: 0,
-        timePlus: 4,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      },
-      {
-        id: '70',
-        c2CoolingPercent: 30,
-        c3CoolingPercent: 70,
-        waterCostCHF: 320,
-        waterCO2Grams: 0,
-        timePlus: 6,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      },
-      {
-        id: '60',
-        c2CoolingPercent: 40,
-        c3CoolingPercent: 60,
-        waterCostCHF: 400,
-        waterCO2Grams: 0,
-        timePlus: 8,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      },
-      {
-        id: '50',
-        c2CoolingPercent: 50,
-        c3CoolingPercent: 50,
-        waterCostCHF: 480,
-        waterCO2Grams: 0,
-        timePlus: 10,
-        electricityCostCHF: 0,
-        electricityCO2Grams: 0
-      }
-    ];
+    for (let c5iC3CoolingPercent = maxC5iCoolingPercent; c5iC3CoolingPercent >= minC5iCoolingPercent; c5iC3CoolingPercent -= 10) {
+      c3CoolingPercents.push(c5iC3CoolingPercent);
+    }
+
+    // Fill up rows
+    const foodLitres = 200;
+    let timePlus = 0;
+    const rows = [];
+
+    for (const c3CoolingPercent of c3CoolingPercents) {
+      const c2CoolingPercent = 100 - c3CoolingPercent;
+
+      const waterLitresUsed = this.kettleEntities[0].getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
+      const powerKWUsed = this.kettleEntities[0].getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent);
+
+      const waterCostCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
+      const powerCostCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
+      const totalCostCHF = waterCostCHF + powerCostCHF;
+
+      const waterCO2Grams = this.tapWaterCoolingEntity.waterLitreCo2 * waterLitresUsed;
+      const powerCO2Grams = this.iceWaterCoolingEntity.kwHourCo2 * powerKWUsed;
+      const totalCO2Grams = waterCO2Grams + powerCO2Grams;
+
+      rows.push({
+        id: c3CoolingPercent.toString(),
+        c2CoolingPercent,
+        c3CoolingPercent,
+        waterLitresUsed,
+        powerKWUsed,
+        totalCostCHF,
+        totalCO2Grams,
+        timePlus
+      });
+
+      timePlus += 2;
+    }
+
+    return rows;
   };
 }
