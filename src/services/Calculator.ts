@@ -143,10 +143,12 @@ export class Calculator {
     const totalConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
 
     // Calculate water and power used
+    let foodLitresTotal = 0;
     let waterLitresUsed = 0;
     let powerKWUsed = 0;
 
     for (const kettleEntity of this.kettleEntities) {
+      foodLitresTotal += kettleEntity.getDayFoodLitresSum();
       waterLitresUsed += kettleEntity.getDayWaterLitresUsed();
       powerKWUsed += kettleEntity.getDayPowerKWUsed();
     }
@@ -166,7 +168,8 @@ export class Calculator {
       electricityConsumption,
       totalConsumption,
       waterLitresUsed,
-      powerKWUsed
+      powerKWUsed,
+      foodLitresTotal
     };
   };
   

@@ -4,6 +4,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import WaterIcon from '@mui/icons-material/Water';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import Typography from "@mui/material/Typography";
 import {ConsumptionResult} from "./types";
 import {round} from "../../utils/math";
@@ -13,12 +14,19 @@ interface ResultDisplayProps {
 }
 
 export const ConsumptionDisplay = ({
-  consumptionResult: { waterConsumption, electricityConsumption, totalConsumption, waterLitresUsed, powerKWUsed}
+  consumptionResult: {
+    waterConsumption,
+    electricityConsumption,
+    totalConsumption,
+    waterLitresUsed,
+    powerKWUsed,
+    foodLitresTotal
+  }
 }: ResultDisplayProps) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={4} md={3}>
-        <Card sx={{ maxWidth: 350 }}>
+        <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Water
@@ -50,7 +58,7 @@ export const ConsumptionDisplay = ({
       </Grid>
 
       <Grid item xs={1} md={3}>
-        <Card sx={{ maxWidth: 350 }}>
+        <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Electricity
@@ -111,9 +119,15 @@ export const ConsumptionDisplay = ({
               </Grid>
             </Grid>
 
+            <Chip
+              avatar={<Avatar><LunchDiningIcon /></Avatar>}
+              label={`${round(foodLitresTotal)} litres`}
+              variant='outlined'
+            />
+
             <Grid
               container
-              spacing={2}
+              spacing={14}
               justifyContent='center'
             >
               <Grid item>

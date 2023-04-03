@@ -73,7 +73,7 @@ class KettleEntity {
   /**
    * Get sum of food litres of the whole day
    */
-  private getDayFoodLitresSum = () => this.timeUsageRows.reduce((partialSum, row) => partialSum + row.foodLitres, 0);
+  getDayFoodLitresSum = () => this.timeUsageRows.reduce((partialSum, row) => partialSum + row.foodLitres, 0);
 
   getPowerKWUsedByFoodLitres = (foodLitres: number) => {
     const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 * this.c3CoolingPercent;

@@ -35,7 +35,7 @@ const ConsumptionContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
   padding: '17px 0 1px 10px',
   margin: '48px 0 0 0',
-  height: 170
+  height: 210
 }));
 
 function App() {
@@ -44,8 +44,8 @@ function App() {
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
 
-  const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
-  const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
+  // const [tapWaterCoolingMeasurements, setTapWaterCoolingMeasurements] = useState<TapWaterCoolingMeasurements>();
+  // const [iceWaterCoolingMeasurements, setIceWaterCoolingMeasurements] = useState<IceWaterCoolingMeasurements>();
 
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
@@ -56,7 +56,8 @@ function App() {
     electricityConsumption: initialConsumption,
     totalConsumption: initialConsumption,
     waterLitresUsed: 0,
-    powerKWUsed: 0
+    powerKWUsed: 0,
+    foodLitresTotal: 0
   });
 
   const dataProvider = new DataProvider(
@@ -91,15 +92,15 @@ function App() {
 
   const handleCalculateClick = () => {
     // Fetch newest measurements
-    let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
-    calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
-    calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
+    // let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
+    // calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
+    // calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
     // Calculate target row (row with smallest cost difference)
     // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
-    const res = calculator.calculateMeasurementsTargetRow();
-    setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
-    setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
+    // const res = calculator.calculateMeasurementsTargetRow();
+    // setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
+    // setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
     // Calculate ice water cooling power percentages
     const timePowerUsageRows = calculator.calculateTimePowerRows();
