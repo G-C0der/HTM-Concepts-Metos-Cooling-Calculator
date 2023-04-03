@@ -66,13 +66,13 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
   return (
     <Box>
-      <Card>
+      <Card sx={{ width: 220 }}>
         <CardContent>
           <Typography sx={{ mt: 0.5, mb: -2 }} variant="h6" component="div" style={{ color: "black" }}>
             Kettle {number}
           </Typography>
 
-          <IconButton sx={{ mt: -9, ml: 22.5 }} onClick={() => handleKettleDeleteClick(number)}>
+          <IconButton sx={{ mt: -9, ml: 20.1 }} onClick={() => handleKettleDeleteClick(number)}>
             <CloseIcon />
           </IconButton>
 
@@ -80,7 +80,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
             <FormControl>
               <InputLabel className='form-input-label'>Size</InputLabel>
               <Select
-                style={{ width: "200px", margin: "5px" }}
+                style={{ width: "178px", margin: "5px" }}
                 value={sizeLitres}
                 label="Grösse"
                 onChange={handleKettleSizeChange}
@@ -96,7 +96,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
             <FormControl>
               <InputLabel className='form-input-label'>Cooling Mode</InputLabel>
               <Select
-                style={{ width: "200px", margin: "5px" }}
+                style={{ width: "178px", margin: "5px" }}
                 value={coolingMode}
                 label="Cooling Mode"
                 onChange={handleKettleCoolingModeChange}
@@ -112,7 +112,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
             {
               coolingMode === KettleCoolingModes.C5i &&
               <TextField
-                style={{ width: "200px", margin: "5px" }}
+                style={{ width: "178px", margin: "5px" }}
                 value={c3CoolingPercent}
                 error={
                   c3CoolingPercent > 100

@@ -31,7 +31,7 @@ export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleT
   };
 
   return (
-    <Box sx={{ height: 472, width: 200 }}>
+    <Box sx={{ height: 910, width: 182 }}>
       <DataGrid
         rows={rows}
         columns={columns}

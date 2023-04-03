@@ -34,7 +34,7 @@ const FormContainer = styled('div')(({ theme }) => ({
 const ConsumptionContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
   padding: '17px 0 1px 10px',
-  margin: '50px 0 0 0',
+  margin: '48px 0 0 0',
   height: 170
 }));
 
@@ -89,7 +89,7 @@ function App() {
     setKettleCount(kettleCount - 1);
   };
 
-  const handleRefreshClick = () => {
+  const handleCalculateClick = () => {
     // Fetch newest measurements
     let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
     calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
@@ -153,12 +153,20 @@ function App() {
                 </Grid>
               </FormContainer>
 
+              <Grid item xs={12}>
+                <ConsumptionContainer>
+                  <ConsumptionDisplay
+                    consumptionResult={consumptionResult}
+                  />
+                </ConsumptionContainer>
+              </Grid>
+
               <Grid item container sx={{ mt: 6 }}>
-                <Grid item xs={2}>
+                <Grid item xs={2} sx={{ mt: 44 }}>
                   <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
                 </Grid>
 
-                <Grid item xs={2} sx={{ ml: -11, mr: -5 }}>
+                <Grid item xs={2} sx={{ ml: -33.5, mr: 4.5 }}>
                   <Tooltip title='add kettle'>
                     <Button
                       style={{
@@ -179,7 +187,7 @@ function App() {
                         backgroundColor: "white",
                       }}
                       variant="outlined"
-                      onClick={handleRefreshClick}
+                      onClick={handleCalculateClick}
                     ><CalculateIcon /></Button>
                   </Tooltip>
                 </Grid>
@@ -189,14 +197,6 @@ function App() {
                     kettleEntities={kettleEntities}
                     handleKettleDeleteClick={handleKettleDeleteClick}
                   />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <ConsumptionContainer>
-                    <ConsumptionDisplay
-                      consumptionResult={consumptionResult}
-                    />
-                  </ConsumptionContainer>
                 </Grid>
               </Grid>
             </Box>
