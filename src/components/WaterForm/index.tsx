@@ -6,17 +6,29 @@ import Grid from "@mui/material/Grid";
 
 interface WaterFormProps {
   tapWaterCoolingEntity: TapWaterCoolingEntity;
+  waterLitreCHF: number;
+  setWaterLitreCHF: (waterLitreCHF: number) => void;
+  waterLitreCO2: number;
+  setWaterLitreCO2: (waterLitreCO2: number) => void;
 }
 
-export const WaterForm = ({ tapWaterCoolingEntity }: WaterFormProps) => {
+export const WaterForm = ({
+  tapWaterCoolingEntity,
+  waterLitreCHF,
+  setWaterLitreCHF,
+  waterLitreCO2,
+  setWaterLitreCO2
+}: WaterFormProps) => {
   const handleWaterLitreCostChange = (e: any) => {
     const waterLitreCHF = +e.target.value;
+    setWaterLitreCHF(waterLitreCHF);
     tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
   };
 
   const handleWaterLitreCo2Change = (e: any) => {
-    const waterLitreCo2 = +e.target.value;
-    tapWaterCoolingEntity.waterLitreCo2 = waterLitreCo2;
+    const waterLitreCO2 = +e.target.value;
+    setWaterLitreCO2(waterLitreCO2);
+    tapWaterCoolingEntity.waterLitreCo2 = waterLitreCO2;
   };
 
   return (
@@ -30,6 +42,7 @@ export const WaterForm = ({ tapWaterCoolingEntity }: WaterFormProps) => {
           <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
+              value={waterLitreCHF}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
@@ -42,6 +55,7 @@ export const WaterForm = ({ tapWaterCoolingEntity }: WaterFormProps) => {
           <Grid item xs={12} md={10}>
             <TextField
               style={{ width: "200px", margin: "5px" }}
+              value={waterLitreCO2}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}

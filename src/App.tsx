@@ -60,10 +60,17 @@ function App() {
     foodLitresTotal: 0
   });
 
-  const dataProvider = new DataProvider(
-    tapWaterCoolingEntity,
-    iceWaterCoolingEntity
-  );
+  // Form fields
+  const [kWhCHF, setKWhCHF] = useState(0);
+  const [kWhCO2, setKWhCO2] = useState(0);
+
+  const [waterLitreCHF, setWaterLitreCHF] = useState(0);
+  const [waterLitreCO2, setWaterLitreCO2] = useState(0);
+
+  // const dataProvider = new DataProvider(
+  //   tapWaterCoolingEntity,
+  //   iceWaterCoolingEntity
+  // );
 
   const calculator = new Calculator(
     kettleEntities,
@@ -134,11 +141,23 @@ function App() {
               <FormContainer>
                 <Grid container sx={{ gap: 4, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
                   <Grid item md={2}>
-                    <WaterForm tapWaterCoolingEntity={tapWaterCoolingEntity} />
+                    <WaterForm
+                      tapWaterCoolingEntity={tapWaterCoolingEntity}
+                      waterLitreCHF={waterLitreCHF}
+                      setWaterLitreCHF={setWaterLitreCHF}
+                      waterLitreCO2={waterLitreCO2}
+                      setWaterLitreCO2={setWaterLitreCO2}
+                    />
                   </Grid>
 
                   <Grid item md={2}>
-                    <ElectricityForm iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                    <ElectricityForm
+                      iceWaterCoolingEntity={iceWaterCoolingEntity}
+                      kWhCHF={kWhCHF}
+                      setKWhCHF={setKWhCHF}
+                      kWhCO2={kWhCO2}
+                      setKWhCO2={setKWhCO2}
+                    />
                   </Grid>
 
                   <Grid item md={2}>
