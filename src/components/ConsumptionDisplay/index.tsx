@@ -24,7 +24,7 @@ export const ConsumptionDisplay = ({
   }
 }: ResultDisplayProps) => {
   return (
-    <Grid container spacing={1}>
+    <Grid container gap={14}>
       <Grid item xs={4} md={3}>
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
@@ -97,7 +97,7 @@ export const ConsumptionDisplay = ({
         </Card>
       </Grid>
 
-      <Grid item xs={8} md={6}>
+      <Grid item xs={8} md={4}>
         <Card sx={{ maxWidth: 400 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>

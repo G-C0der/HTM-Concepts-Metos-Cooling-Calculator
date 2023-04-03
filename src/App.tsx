@@ -33,7 +33,7 @@ const FormContainer = styled('div')(({ theme }) => ({
 
 const ConsumptionContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
-  padding: '17px 0 1px 10px',
+  padding: '17px 0 1px 33px',
   margin: '48px 0 0 0',
   height: 210
 }));
@@ -130,7 +130,7 @@ function App() {
 
         <Grid container sx={{ mt: 5, mb: 5,  ml: 40 }}>
           <Grid item xs={10}>
-            <Box sx={{ maxWidth: 1395, ml: -15 }}>
+            <Box sx={{ maxWidth: 1385, ml: -15 }}>
               <FormContainer>
                 <Grid container sx={{ gap: 4, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
                   <Grid item md={2}>

@@ -13,37 +13,37 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
     {
       field: 'c2CoolingPercent',
       headerName: 'C2',
-      width: 60,
+      width: 75,
       valueGetter: (params) => `${params.row.c2CoolingPercent}%`
     },
     {
       field: 'c3CoolingPercent',
       headerName: 'C3',
-      width: 60,
+      width: 75,
       valueGetter: (params) => `${params.row.c3CoolingPercent}%`
     },
     {
       field: 'waterLitresUsed',
       headerName: 'Litres',
-      width: 85,
+      width: 75,
       valueGetter: (params) => round(params.row.waterLitresUsed)
     },
     {
       field: 'powerKWUsed',
       headerName: 'kW',
-      width: 85,
+      width: 75,
       valueGetter: (params) => round(params.row.powerKWUsed)
     },
     {
       field: 'totalCostCHF',
       headerName: 'CHF',
-      width: 85,
+      width: 75,
       valueGetter: (params) => round(params.row.totalCostCHF)
     },
     {
       field: 'totalCO2Grams',
       headerName: 'CO2',
-      width: 85,
+      width: 75,
       valueGetter: (params) => round(params.row.totalCO2Grams)
     },
     {
@@ -55,7 +55,7 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
   ];
 
   return (
-    <Box sx={{ height: 260, width: 565 }}>
+    <Box sx={{ height: 260, width: 555 }}>
       <DataGrid
         rows={rows}
         columns={columns}
