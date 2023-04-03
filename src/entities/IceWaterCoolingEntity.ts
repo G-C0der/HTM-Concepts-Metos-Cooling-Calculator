@@ -51,7 +51,8 @@ class IceWaterCoolingEntity extends CoolingEntity {
 
   getMaxPowerKW = () => (this.type1Count * 40) + (this.type4Count * 50);
 
-  getRechargeRateKW = () => (this.type1Count * IceWaterCoolingEntity.rechargeRateKWType1) + (this.type4Count * IceWaterCoolingEntity.rechargeRateKWType4);
+  getRechargeRateKW = () => (this.type1Count * IceWaterCoolingEntity.rechargeRateKWType1) +
+    (this.type4Count * IceWaterCoolingEntity.rechargeRateKWType4);
 
   setTimePowerUsageRows = () => {
     for (const timePowerUsageRow of this.timePowerUsageRows) {

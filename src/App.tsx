@@ -147,7 +147,7 @@ function App() {
                     />
                   </Grid>
 
-                  <Grid item md={2}>
+                  <Grid item md={2} sx={{ mt: -1.2 }}>
                     <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
                   </Grid>
                 </Grid>
