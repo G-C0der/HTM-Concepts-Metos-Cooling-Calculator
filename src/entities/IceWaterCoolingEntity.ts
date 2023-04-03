@@ -19,7 +19,9 @@ class IceWaterCoolingEntity extends CoolingEntity {
   private type1Count: number = 0;
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
-  static readonly maxPowerKWUsedPerLitre: number = 0.11;
+  static readonly maxPowerKWUsedPerLitre: number = 0.1;
+  static readonly rechargeRateKWType1 = 7.5;
+  static readonly rechargeRateKWType4 = 15;
   static readonly maxC5iCoolingPercent = 100;
   static readonly minC5iCoolingPercent = 50;
 
@@ -49,7 +51,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
 
   getMaxPowerKW = () => (this.type1Count * 40) + (this.type4Count * 50);
 
-  getRechargeRateKW = () => (this.type1Count * 7) + (this.type4Count * 14);
+  getRechargeRateKW = () => (this.type1Count * IceWaterCoolingEntity.rechargeRateKWType1) + (this.type4Count * IceWaterCoolingEntity.rechargeRateKWType4);
 
   setTimePowerUsageRows = () => {
     for (const timePowerUsageRow of this.timePowerUsageRows) {
