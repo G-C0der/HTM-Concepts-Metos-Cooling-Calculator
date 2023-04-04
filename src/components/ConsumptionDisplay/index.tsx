@@ -4,7 +4,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import WaterIcon from '@mui/icons-material/Water';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import LunchDiningIcon from '@mui/icons-material/LunchDining';
+import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
 import Typography from "@mui/material/Typography";
 import {ConsumptionResult} from "./types";
 import {round} from "../../utils/math";
@@ -133,8 +133,8 @@ export const ConsumptionDisplay = ({
 
             <Tooltip title='Food'>
               <Chip
-                avatar={<Avatar><LunchDiningIcon /></Avatar>}
-                label={`${round(foodLitresTotal)} litres`}
+                avatar={<Avatar><SoupKitchenIcon /></Avatar>}
+                label={`${round(foodLitresTotal)} kg food`}
                 variant='outlined'
               />
             </Tooltip>
