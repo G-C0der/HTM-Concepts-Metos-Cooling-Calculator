@@ -59,7 +59,7 @@ export const WaterForm = ({
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
-              label="Co2/litres"
+              label={'CO\u2082g/litres'}
               variant="outlined"
               onChange={handleWaterLitreCo2Change}
             />

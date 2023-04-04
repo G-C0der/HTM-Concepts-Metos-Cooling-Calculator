@@ -42,7 +42,7 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
     },
     {
       field: 'totalCO2Grams',
-      headerName: 'CO2',
+      headerName: 'CO\u2082g',
       width: 75,
       valueGetter: (params) => round(params.row.totalCO2Grams)
     },
