@@ -120,11 +120,11 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{ width: 1000 }}>
         <Grid container sx={{
           gap: 15,
           mt: 5,
-          justifyContent:"center"
+          justifyContent: "center"
         }}>
           <Grid item>
             <img src={metosLogo} width={250} />
