@@ -35,7 +35,7 @@ export const WaterForm = ({
     <Card sx={{ height: 235, width: 240 }}>
       <CardContent>
         <Typography sx={{ mb: 1, pt: 2, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-          Water
+          Water C2
         </Typography>
 
         <Grid container sx={{ gap: 0, ml: 0 }}>
