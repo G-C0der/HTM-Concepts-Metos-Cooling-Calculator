@@ -29,7 +29,7 @@ export const ConsumptionDisplay = ({
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-              Water
+              Water C2
             </Typography>
 
             <Grid
@@ -65,7 +65,7 @@ export const ConsumptionDisplay = ({
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-              Electricity
+              Electricity C3
             </Typography>
 
             <Grid
