@@ -115,8 +115,8 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
                 style={{ width: "178px", margin: "5px" }}
                 value={c3CoolingPercent}
                 error={
-                  c3CoolingPercent > 100
-                  || c3CoolingPercent < 50
+                  c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
+                  || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent
                 }
                 type="number"
                 inputProps={{ type: 'number' }}
