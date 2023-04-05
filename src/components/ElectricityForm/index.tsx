@@ -59,7 +59,7 @@ export const ElectricityForm = ({
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
               inputProps={{ type: 'number' }}
-              label={'CO\u2082g/kW'}
+              label={'CO2g/kW'}
               variant="outlined"
               onChange={handleKwHourCo2Change}
             />
