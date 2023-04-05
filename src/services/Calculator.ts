@@ -192,8 +192,8 @@ export class Calculator {
     for (const c3CoolingPercent of c3CoolingPercents) {
       const c2CoolingPercent = 100 - c3CoolingPercent;
 
-      const waterLitresUsed = this.kettleEntities[0].getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
-      const powerKWUsed = this.kettleEntities[0].getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent);
+      const waterLitresUsed = KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
+      const powerKWUsed = KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent);
 
       const waterCostCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
       const powerCostCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
