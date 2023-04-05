@@ -71,10 +71,12 @@ export class Calculator {
     const iceWaterCoolingType1Count = this.iceWaterCoolingEntity.getType1Count();
     const iceWaterCoolingType4Count = this.iceWaterCoolingEntity.getType4Count();
     if (
-      iceWaterCoolingType1Count <= 0
-      && iceWaterCoolingType4Count <= 0
-      || iceWaterCoolingType1Count > 4
-      || iceWaterCoolingType4Count > 4
+      (iceWaterCoolingType1Count === 0
+      && iceWaterCoolingType4Count === 0)
+      || (iceWaterCoolingType1Count > 4
+      || iceWaterCoolingType4Count > 4)
+      || (iceWaterCoolingType1Count < 0
+      || iceWaterCoolingType4Count < 0)
     ) return;
 
     // Set all rows to default value
