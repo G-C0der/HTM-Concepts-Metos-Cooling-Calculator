@@ -19,7 +19,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
   private type1Count: number = 0;
   private type4Count: number = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
-  static readonly maxPowerKWUsedPerLitre: number = 0.11;
+  static readonly maxPowerKWUsedPerLitre: number = 0.1101001; // TODO: remove workaround, set to 0.11
   static readonly maxPowerKWType1 = 40;
   static readonly maxPowerKWType4 = 80;
   static readonly rechargeRateKWType1 = 7.5;
