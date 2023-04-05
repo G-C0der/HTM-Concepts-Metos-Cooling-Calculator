@@ -1,12 +1,12 @@
 import React from 'react';
-import {DataGrid, GridCellParams, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
+import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
-import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
+import {IceWaterCoolingEntity, TimePowerUsageRow} from "../../entities/IceWaterCoolingEntity";
 import {round} from "../../utils/math";
 import './style.css';
 
 interface TimePowerDataGridProps {
-  rows: object[];
+  rows: TimePowerUsageRow[];
   iceWaterCoolingEntity: IceWaterCoolingEntity;
 }
 
@@ -31,13 +31,14 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
   ];
 
   return (
-    <Box sx={{ height: 980, width: 200 }}>
+    <Box sx={{ height: 910, width: 200 }}>
       <DataGrid
         rows={rows}
         columns={columns}
         pageSizeOptions={[5]}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
+        hideFooter
       />
     </Box>
   );

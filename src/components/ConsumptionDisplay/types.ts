@@ -9,6 +9,7 @@ interface ConsumptionResult {
   totalConsumption: Consumption;
   waterLitresUsed: number;
   powerKWUsed: number;
+  foodLitresTotal: number;
 }
 
 export type {

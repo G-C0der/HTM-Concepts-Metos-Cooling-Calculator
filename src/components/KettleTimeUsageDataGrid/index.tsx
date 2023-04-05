@@ -31,7 +31,7 @@ export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleT
   };
 
   return (
-    <Box sx={{ height: 300, width: 200 }}>
+    <Box sx={{ height: 910, width: 182 }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -39,6 +39,8 @@ export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleT
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         onCellEditStop={onFoodLitresCellEditStop}
+        hideFooter
+        disableRowSelectionOnClick
       />
     </Box>
   );

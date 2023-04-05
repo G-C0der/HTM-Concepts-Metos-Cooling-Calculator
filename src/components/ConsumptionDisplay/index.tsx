@@ -1,9 +1,10 @@
 import React from 'react';
-import {Avatar, Card, CardContent, Chip, Grid} from "@mui/material";
+import {Avatar, Card, CardContent, Chip, Grid, Tooltip} from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import WaterIcon from '@mui/icons-material/Water';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
 import Typography from "@mui/material/Typography";
 import {ConsumptionResult} from "./types";
 import {round} from "../../utils/math";
@@ -13,15 +14,22 @@ interface ResultDisplayProps {
 }
 
 export const ConsumptionDisplay = ({
-  consumptionResult: { waterConsumption, electricityConsumption, totalConsumption, waterLitresUsed, powerKWUsed}
+  consumptionResult: {
+    waterConsumption,
+    electricityConsumption,
+    totalConsumption,
+    waterLitresUsed,
+    powerKWUsed,
+    foodLitresTotal
+  }
 }: ResultDisplayProps) => {
   return (
-    <Grid container spacing={1}>
+    <Grid container gap={14}>
       <Grid item xs={4} md={3}>
-        <Card sx={{ maxWidth: 350 }}>
+        <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-              Water
+              Water C2
             </Typography>
 
             <Grid
@@ -30,19 +38,23 @@ export const ConsumptionDisplay = ({
               justifyContent='center'
             >
               <Grid item>
-                <Chip
-                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(waterConsumption.costCHF)} CHF`}
-                  variant='outlined'
-                />
+                <Tooltip title='Cost'>
+                  <Chip
+                    avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                    label={`${round(waterConsumption.costCHF)} CHF`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
 
               <Grid item>
-                <Chip
-                  avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(waterConsumption.co2Grams)} grams`}
-                  variant='outlined'
-                />
+                <Tooltip title='CO2'>
+                  <Chip
+                    avatar={<Avatar><Co2Icon /></Avatar>}
+                    label={`${round(waterConsumption.co2Grams)} grams`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
             </Grid>
           </CardContent>
@@ -50,10 +62,10 @@ export const ConsumptionDisplay = ({
       </Grid>
 
       <Grid item xs={1} md={3}>
-        <Card sx={{ maxWidth: 350 }}>
+        <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
-              Electricity
+              Electricity C3
             </Typography>
 
             <Grid
@@ -62,27 +74,31 @@ export const ConsumptionDisplay = ({
               justifyContent='center'
             >
               <Grid item>
-                <Chip
-                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(electricityConsumption.costCHF)} CHF`}
-                  variant='outlined'
-                />
+                <Tooltip title='Cost'>
+                  <Chip
+                    avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                    label={`${round(electricityConsumption.costCHF)} CHF`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
 
               <Grid item>
-                <Chip
-                  avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(electricityConsumption.co2Grams)} grams`}
-                  variant='outlined'
-                />
+                <Tooltip title='CO2'>
+                  <Chip
+                    avatar={<Avatar><Co2Icon /></Avatar>}
+                    label={`${round(electricityConsumption.co2Grams)} grams`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
             </Grid>
           </CardContent>
         </Card>
       </Grid>
 
-      <Grid item xs={8} md={7}>
-        <Card sx={{ maxWidth: 400, ml: 18.5 }}>
+      <Grid item xs={8} md={4}>
+        <Card sx={{ maxWidth: 400 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Total
@@ -92,44 +108,60 @@ export const ConsumptionDisplay = ({
               container
               spacing={16}
               justifyContent='center'
-              sx={{ mt: -22, mb: 2 }}
+              sx={{ mt: -22, mb: 1 }}
             >
               <Grid item>
-                <Chip
-                  avatar={<Avatar><WaterIcon /></Avatar>}
-                  label={`${waterLitresUsed} litres`}
-                  variant='outlined'
-                />
+                <Tooltip title='Water'>
+                  <Chip
+                    avatar={<Avatar><WaterIcon /></Avatar>}
+                    label={`${round(waterLitresUsed)} litres`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
 
               <Grid item>
-                <Chip
-                  avatar={<Avatar><ElectricBoltIcon /></Avatar>}
-                  label={`${powerKWUsed} kW`}
-                  variant='outlined'
-                />
+                <Tooltip title='Electricity'>
+                  <Chip
+                    avatar={<Avatar><ElectricBoltIcon /></Avatar>}
+                    label={`${round(powerKWUsed)} kW`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
             </Grid>
 
+            <Tooltip title='Food'>
+              <Chip
+                avatar={<Avatar><SoupKitchenIcon /></Avatar>}
+                label={`${round(foodLitresTotal)} kg food`}
+                variant='outlined'
+              />
+            </Tooltip>
+
             <Grid
               container
-              spacing={2}
+              spacing={14}
               justifyContent='center'
             >
               <Grid item>
-                <Chip
-                  avatar={<Avatar><AttachMoneyIcon /></Avatar>}
-                  label={`${round(totalConsumption.costCHF)} CHF`}
-                  variant='outlined'
-                />
+                <Tooltip title='Cost'>
+                  <Chip
+                    avatar={<Avatar><AttachMoneyIcon /></Avatar>}
+                    label={`${round(totalConsumption.costCHF)} CHF`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
 
               <Grid item>
-                <Chip
-                  avatar={<Avatar><Co2Icon /></Avatar>}
-                  label={`${round(totalConsumption.co2Grams)} grams`}
-                  variant='outlined'
-                />
+                <Tooltip title='CO2'>
+                  <Chip
+                    avatar={<Avatar><Co2Icon /></Avatar>}
+                    label={`${round(totalConsumption.co2Grams)} grams`}
+                    variant='outlined'
+                  />
+                </Tooltip>
               </Grid>
             </Grid>
           </CardContent>

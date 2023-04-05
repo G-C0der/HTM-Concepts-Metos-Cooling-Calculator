@@ -1,10 +1,17 @@
-import {FIELD_KWH_CHF, FIELD_LITRE_CHF, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements} from "./DataProvider";
+import {
+  FIELD_KWH_CHF,
+  FIELD_LITRE_CHF,
+  IceWaterCoolingMeasurements,
+  Measurements,
+  TapWaterCoolingMeasurements
+} from "./DataProvider";
 import {KettleEntity} from "../entities/KettleEntity";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils/array";
 import {Consumption} from "../components/ConsumptionDisplay/types";
 import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
+import {C5iRecommendationsRow} from "../components/C5iRecommendationsDataGrid/types";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
@@ -32,7 +39,7 @@ export class Calculator {
   setIceWaterCoolingMeasurements = (iceWaterCoolingMeasurements: IceWaterCoolingMeasurements) =>
     this.iceWaterCoolingMeasurements = iceWaterCoolingMeasurements;
 
-  calculateMeasurementsTargetRow = () => {
+  calculateMeasurementsTargetRow = (): Measurements | undefined => {
     if (!this.tapWaterCoolingMeasurements || !this.iceWaterCoolingMeasurements) return;
 
     let lowestCostDifference;
@@ -60,14 +67,16 @@ export class Calculator {
     };
   };
 
-  calculateTimeTablePowerPercentages = () => {
+  calculateTimePowerRows = (): TimePowerUsageRow[] | undefined => {
     const iceWaterCoolingType1Count = this.iceWaterCoolingEntity.getType1Count();
     const iceWaterCoolingType4Count = this.iceWaterCoolingEntity.getType4Count();
     if (
-      iceWaterCoolingType1Count <= 0
-      && iceWaterCoolingType4Count <= 0
-      || iceWaterCoolingType1Count > 4
-      || iceWaterCoolingType4Count > 4
+      (iceWaterCoolingType1Count === 0
+      && iceWaterCoolingType4Count === 0)
+      || (iceWaterCoolingType1Count > 4
+      || iceWaterCoolingType4Count > 4)
+      || (iceWaterCoolingType1Count < 0
+      || iceWaterCoolingType4Count < 0)
     ) return;
 
     // Set all rows to default value
@@ -136,10 +145,12 @@ export class Calculator {
     const totalConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
 
     // Calculate water and power used
+    let foodLitresTotal = 0;
     let waterLitresUsed = 0;
     let powerKWUsed = 0;
 
     for (const kettleEntity of this.kettleEntities) {
+      foodLitresTotal += kettleEntity.getDayFoodLitresSum();
       waterLitresUsed += kettleEntity.getDayWaterLitresUsed();
       powerKWUsed += kettleEntity.getDayPowerKWUsed();
     }
@@ -159,7 +170,53 @@ export class Calculator {
       electricityConsumption,
       totalConsumption,
       waterLitresUsed,
-      powerKWUsed
+      powerKWUsed,
+      foodLitresTotal
     };
+  };
+  
+  calculateC5iRecommendationsRows = (): C5iRecommendationsRow[] => {
+    // Fill up C5i C3 cooling percent
+    const c3CoolingPercents = [];
+    const { maxC5iCoolingPercent, minC5iCoolingPercent } = IceWaterCoolingEntity;
+
+    for (let c5iC3CoolingPercent = maxC5iCoolingPercent; c5iC3CoolingPercent >= minC5iCoolingPercent; c5iC3CoolingPercent -= 10) {
+      c3CoolingPercents.push(c5iC3CoolingPercent);
+    }
+
+    // Fill up rows
+    const foodLitres = 200;
+    let timePlus = 0;
+    const rows = [];
+
+    for (const c3CoolingPercent of c3CoolingPercents) {
+      const c2CoolingPercent = 100 - c3CoolingPercent;
+
+      const waterLitresUsed = KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
+      const powerKWUsed = KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent);
+
+      const waterCostCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
+      const powerCostCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
+      const totalCostCHF = waterCostCHF + powerCostCHF;
+
+      const waterCO2Grams = this.tapWaterCoolingEntity.waterLitreCo2 * waterLitresUsed;
+      const powerCO2Grams = this.iceWaterCoolingEntity.kwHourCo2 * powerKWUsed;
+      const totalCO2Grams = waterCO2Grams + powerCO2Grams;
+
+      rows.push({
+        id: c3CoolingPercent.toString(),
+        c2CoolingPercent,
+        c3CoolingPercent,
+        waterLitresUsed,
+        powerKWUsed,
+        totalCostCHF,
+        totalCO2Grams,
+        timePlus
+      });
+
+      timePlus += 2;
+    }
+
+    return rows;
   };
 }
