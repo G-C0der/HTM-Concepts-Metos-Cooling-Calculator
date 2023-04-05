@@ -76,9 +76,12 @@ class KettleEntity {
   getPowerKWUsedByFoodLitres = (foodLitres: number, customC3CoolingPercent?: number) => {
     const c3CoolingPercent = customC3CoolingPercent ?? this.c3CoolingPercent;
 
-    if (c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
-      || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent) {
-      throw new Error(`c3CoolingPercent has to be between ${IceWaterCoolingEntity.minC5iCoolingPercent} and ${IceWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c3CoolingPercent}"`);
+    if (this.coolingMode === KettleCoolingModes.C2) return 0;
+
+    if (this.coolingMode === KettleCoolingModes.C5i
+      && (c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
+      || c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent)) {
+      throw new Error(`c3CoolingPercent has to be between ${IceWaterCoolingEntity.minC5iCoolingPercent} and ${IceWaterCoolingEntity.maxC5iCoolingPercent}, it is "${c3CoolingPercent}"`);
     }
 
     const powerKWUsedPerLitre = IceWaterCoolingEntity.maxPowerKWUsedPerLitre / 100 * c3CoolingPercent;
@@ -112,9 +115,12 @@ class KettleEntity {
   getWaterLitresUsedByFoodLitres = (foodLitres: number, customC2CoolingPercent?: number) => {
     const c2CoolingPercent = customC2CoolingPercent ?? this.c2CoolingPercent;
 
-    if (c2CoolingPercent > TapWaterCoolingEntity.maxC5iCoolingPercent
-      || c2CoolingPercent < TapWaterCoolingEntity.minC5iCoolingPercent) {
-      throw new Error(`c2CoolingPercent has to be between ${TapWaterCoolingEntity.minC5iCoolingPercent} and ${TapWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c3CoolingPercent}"`);
+    if (this.coolingMode === KettleCoolingModes.C3) return 0;
+
+    if (this.coolingMode === KettleCoolingModes.C5i
+      && (c2CoolingPercent > TapWaterCoolingEntity.maxC5iCoolingPercent
+      || c2CoolingPercent < TapWaterCoolingEntity.minC5iCoolingPercent)) {
+      throw new Error(`c2CoolingPercent has to be between ${TapWaterCoolingEntity.minC5iCoolingPercent} and ${TapWaterCoolingEntity.maxC5iCoolingPercent}, it is "${c2CoolingPercent}"`);
     }
 
     let waterLitresUsedPerDegreeCelsius = this.getWaterLitresUsedPerDegreeCelsius(foodLitres);
