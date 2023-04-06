@@ -98,7 +98,7 @@ export const ConsumptionDisplay = ({
       </Grid>
 
       <Grid item xs={8} md={4}>
-        <Card sx={{ maxWidth: 400 }}>
+        <Card sx={{ maxWidth: 430 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Total
