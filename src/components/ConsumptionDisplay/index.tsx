@@ -28,9 +28,17 @@ export const ConsumptionDisplay = ({
       <Grid item xs={4} md={3}>
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
-            <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+            <Typography sx={{ mt: 2, mb: -1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Water C2
             </Typography>
+
+            <Tooltip title='Water'>
+              <Chip
+                avatar={<Avatar><WaterIcon /></Avatar>}
+                label={`${round(waterLitresUsed)} litres`}
+                variant='outlined'
+              />
+            </Tooltip>
 
             <Grid
               container
@@ -64,9 +72,17 @@ export const ConsumptionDisplay = ({
       <Grid item xs={1} md={3}>
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
-            <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
+            <Typography sx={{ mt: 2, mb: -1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
               Electricity C3
             </Typography>
+
+            <Tooltip title='Electricity'>
+              <Chip
+                avatar={<Avatar><ElectricBoltIcon /></Avatar>}
+                label={`${round(powerKWUsed)} kW`}
+                variant='outlined'
+              />
+            </Tooltip>
 
             <Grid
               container
