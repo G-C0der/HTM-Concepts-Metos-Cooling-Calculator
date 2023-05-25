@@ -22,8 +22,8 @@ import Box from "@mui/material/Box";
 import {ConsumptionDisplay} from "../../components/ConsumptionDisplay";
 import {ConsumptionResult} from "../../components/ConsumptionDisplay/types";
 import {C5iRecommendationsDataGrid} from "../../components/C5iRecommendationsDataGrid";
-import metosLogo from '../../assets/img/metos_logo.png';
 import htmConceptsLogo from '../../assets/img/HTM_Concepts_AG_Logo_mit_Claim_2019_gray.png';
+import metosLogo from '../../assets/img/metos_logo.png';
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -127,11 +127,11 @@ function Home() {
           justifyContent: "center"
         }}>
           <Grid item>
-            <img src={metosLogo} width={250} />
+            <img src={htmConceptsLogo} width={250} />
           </Grid>
 
           <Grid item>
-            <img src={htmConceptsLogo} width={250} />
+            <img src={metosLogo} width={250} />
           </Grid>
         </Grid>
 
