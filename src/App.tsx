@@ -1,9 +1,25 @@
 import React from 'react';
-import HomePage from "./pages/HomePage";
+import { AuthContext } from './contexts/AuthContext';
+import HomePage from "./pages/Home";
+import LoginPage from "./pages/Login";
+import {useAuth} from "./hooks/useAuth";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 
-function App() {
+const App = () => {
+  const auth = useAuth();
+
   return (
-    <HomePage />
+    <AuthContext.Provider value={auth}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 

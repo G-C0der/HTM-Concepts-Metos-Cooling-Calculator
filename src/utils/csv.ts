@@ -7,7 +7,7 @@ const csvToJSON = (csv: string) => {
   for (let i = 1; i < lines.length; i++) {
     let obj: any = {};
 
-    if(lines[i] == undefined || lines[i].trim() == "") {
+    if(lines[i] === undefined || lines[i].trim() === "") {
       continue;
     }
 

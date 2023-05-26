@@ -38,7 +38,7 @@ const ConsumptionContainer = styled('div')(({ theme }) => ({
   height: 210
 }));
 
-function Home() {
+const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
@@ -249,6 +249,6 @@ function Home() {
       </header>
     </div>
   );
-}
+};
 
 export default Home;
