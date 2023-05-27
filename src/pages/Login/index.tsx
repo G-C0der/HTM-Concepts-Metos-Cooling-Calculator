@@ -4,14 +4,14 @@ import {AuthContext} from "../../contexts/AuthContext";
 import {useNavigate} from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const token = await login(username, password);
+    const token = await login(email, password);
     if (token) {
       navigate('/');
     } else {
@@ -29,10 +29,10 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Username"
+              label="Email"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               margin="normal"
             />
             <TextField
