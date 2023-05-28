@@ -1,0 +1,24 @@
+.Home {
+  text-align: center;
+}
+
+.Home-header {
+  background-color: #a3c0e5;
+  min-height: 100vh;
+  min-width: 190vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+label {
+  color: black;
+}
+
+.form-input-label {
+  display: inline-block;
+  margin: 5px 0 0 4px;
+}
