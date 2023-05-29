@@ -1,16 +1,24 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { authApi } from "../api";
 
-export function useAuth() {
-  const [token, setToken] = useState(null);
+function useAuth() {
+  const [token, setToken] =
+    useState<string | null>(localStorage.getItem('jwttoken'));
+
+  useEffect(() => {
+    if (token) localStorage.setItem('jwttoken', token);
+    else localStorage.clear();
+  }, [token]);
 
   const login = async (email: string, password: string) => {
     const { token } = await authApi.login({ email, password });
 
-    if (token && token.length) {
+    if (typeof token === 'string' && token.length) {
       setToken(token);
       return token;
     }
+
+    throw new Error('Failed to log in');
   };
 
   const logout = () => {
@@ -20,6 +28,10 @@ export function useAuth() {
   return {
     token,
     login,
-    logout,
+    logout
   };
 }
+
+export {
+  useAuth
+};
