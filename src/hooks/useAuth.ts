@@ -1,20 +1,29 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../api";
+import {isTokenExpired} from "../utils/time";
 
 function useAuth() {
-  const [token, setToken] =
-    useState<string | null>(localStorage.getItem('jwttoken'));
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
 
   useEffect(() => {
-    if (token) localStorage.setItem('jwttoken', token);
+    if (token && tokenExpiration) {
+      localStorage.setItem('tokenExpiration', tokenExpiration);
+      localStorage.setItem('token', token);
+    }
     else localStorage.clear();
-  }, [token]);
+  }, [token, tokenExpiration]);
+
+  useEffect(() => {
+    if (isTokenExpired(tokenExpiration)) logout();
+  }, []);
 
   const login = async (email: string, password: string) => {
-    const { token } = await authApi.login({ email, password });
+    const { token, expiration } = await authApi.login({ email, password });
 
     if (typeof token === 'string' && token.length) {
       setToken(token);
+      setTokenExpiration(expiration);
       return token;
     }
 
@@ -23,6 +32,7 @@ function useAuth() {
 
   const logout = () => {
     setToken(null);
+    setTokenExpiration(null);
   };
 
   return {
