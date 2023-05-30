@@ -66,4 +66,4 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
       />
     </Box>
   );
-}
+};

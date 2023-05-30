@@ -1,8 +1,17 @@
+html .Home-body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+}
+
 .Home {
   text-align: center;
 }
 
-.Home-header {
+.Home-header {}
+
+.Home-content {
   background-color: #a3c0e5;
   min-height: 100vh;
   min-width: 190vh;

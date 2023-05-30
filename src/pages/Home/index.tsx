@@ -24,6 +24,7 @@ import {ConsumptionResult} from "../../components/ConsumptionDisplay/types";
 import {C5iRecommendationsDataGrid} from "../../components/C5iRecommendationsDataGrid";
 import htmConceptsLogo from '../../assets/img/HTM_Concepts_AG_Logo_mit_Claim_2019_gray.png';
 import metosLogo from '../../assets/img/metos_logo.png';
+import {CustomAppBar} from "../../components/CustomAppBar";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -120,133 +121,139 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <header className="Home-header" style={{ width: 1000 }}>
-        <Grid container sx={{
-          gap: 15,
-          mt: 5,
-          justifyContent: "center"
-        }}>
-          <Grid item>
-            <img src={htmConceptsLogo} width={250} />
+      <div className="Home-header">
+        <CustomAppBar />
+      </div>
+
+      <div className="Home-body">
+        <div className="Home-content" style={{ width: 1000 }}>
+          <Grid container sx={{
+            gap: 15,
+            mt: 5,
+            justifyContent: "center"
+          }}>
+            <Grid item>
+              <img src={htmConceptsLogo} width={250} />
+            </Grid>
+
+            <Grid item>
+              <img src={metosLogo} width={250} />
+            </Grid>
           </Grid>
 
-          <Grid item>
-            <img src={metosLogo} width={250} />
+          <Grid container sx={{ mt: 5, mb: 5,  ml: 40 }}>
+            <Grid item xs={10}>
+              <Box sx={{ maxWidth: 1385, ml: -15 }}>
+                <FormContainer>
+                  <Grid container sx={{ gap: 4, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
+                    <Grid item md={2}>
+                      <WaterForm
+                        tapWaterCoolingEntity={tapWaterCoolingEntity}
+                        waterLitreCHF={waterLitreCHF}
+                        setWaterLitreCHF={setWaterLitreCHF}
+                        waterLitreCO2={waterLitreCO2}
+                        setWaterLitreCO2={setWaterLitreCO2}
+                      />
+                    </Grid>
+
+                    <Grid item md={2}>
+                      <ElectricityForm
+                        iceWaterCoolingEntity={iceWaterCoolingEntity}
+                        kWhCHF={kWhCHF}
+                        setKWhCHF={setKWhCHF}
+                        kWhCO2={kWhCO2}
+                        setKWhCO2={setKWhCO2}
+                      />
+                    </Grid>
+
+                    <Grid item md={2}>
+                      <IceWaterBankTypesForm
+                        iceWaterCoolingEntity={iceWaterCoolingEntity}
+                        setTimePowerUsageRows={setTimePowerUsageRows}
+                      />
+                    </Grid>
+
+                    <Grid item md={2} sx={{ mt: -1.2 }}>
+                      <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
+                    </Grid>
+                  </Grid>
+                </FormContainer>
+
+                <Grid item xs={12}>
+                  <ConsumptionContainer>
+                    <ConsumptionDisplay
+                      consumptionResult={consumptionResult}
+                    />
+                  </ConsumptionContainer>
+                </Grid>
+
+                <Grid item container sx={{ mt: 6 }}>
+                  <Grid item xs={2} sx={{ mt: 44 }}>
+                    <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                  </Grid>
+
+                  <Grid item xs={2} sx={{ ml: -33.5, mr: 4.5 }}>
+                    <Tooltip title='add kettle'>
+                      <Button
+                        style={{
+                          margin: '40px',
+                          padding: '15px 0 15px 0',
+                          backgroundColor: "white",
+                        }}
+                        variant="outlined"
+                        onClick={handleAddKettleClick}
+                      ><AddIcon /></Button>
+                    </Tooltip>
+
+                    <Tooltip title='calculate'>
+                      <Button
+                        style={{
+                          margin: '40px',
+                          padding: '15px 0 15px 0',
+                          backgroundColor: "white",
+                        }}
+                        variant="outlined"
+                        onClick={handleCalculateClick}
+                      ><CalculateIcon /></Button>
+                    </Tooltip>
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <KettleContainer
+                      kettleEntities={kettleEntities}
+                      handleKettleDeleteClick={handleKettleDeleteClick}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Grid container sx={{ mt: 5, mb: 5,  ml: 40 }}>
-          <Grid item xs={10}>
-            <Box sx={{ maxWidth: 1385, ml: -15 }}>
-              <FormContainer>
-                <Grid container sx={{ gap: 4, mt: 6, mb: 5,  ml: 3, mr: 0, pt: 2 }}>
-                  <Grid item md={2}>
-                    <WaterForm
-                      tapWaterCoolingEntity={tapWaterCoolingEntity}
-                      waterLitreCHF={waterLitreCHF}
-                      setWaterLitreCHF={setWaterLitreCHF}
-                      waterLitreCO2={waterLitreCO2}
-                      setWaterLitreCO2={setWaterLitreCO2}
-                    />
-                  </Grid>
+          {/*<Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>*/}
+          {/*  <Grid item xs={12} md={2}>*/}
+          {/*    {*/}
+          {/*      tapWaterCoolingMeasurements &&*/}
+          {/*      <MeasurementsTable*/}
+          {/*        measurements={tapWaterCoolingMeasurements}*/}
+          {/*        title='Tap Water Cooling Measurements'*/}
+          {/*        width={800}*/}
+          {/*      />*/}
+          {/*    }*/}
+          {/*  </Grid>*/}
 
-                  <Grid item md={2}>
-                    <ElectricityForm
-                      iceWaterCoolingEntity={iceWaterCoolingEntity}
-                      kWhCHF={kWhCHF}
-                      setKWhCHF={setKWhCHF}
-                      kWhCO2={kWhCO2}
-                      setKWhCO2={setKWhCO2}
-                    />
-                  </Grid>
-
-                  <Grid item md={2}>
-                    <IceWaterBankTypesForm
-                      iceWaterCoolingEntity={iceWaterCoolingEntity}
-                      setTimePowerUsageRows={setTimePowerUsageRows}
-                    />
-                  </Grid>
-
-                  <Grid item md={2} sx={{ mt: -1.2 }}>
-                    <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
-                  </Grid>
-                </Grid>
-              </FormContainer>
-
-              <Grid item xs={12}>
-                <ConsumptionContainer>
-                  <ConsumptionDisplay
-                    consumptionResult={consumptionResult}
-                  />
-                </ConsumptionContainer>
-              </Grid>
-
-              <Grid item container sx={{ mt: 6 }}>
-                <Grid item xs={2} sx={{ mt: 44 }}>
-                  <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
-                </Grid>
-
-                <Grid item xs={2} sx={{ ml: -33.5, mr: 4.5 }}>
-                  <Tooltip title='add kettle'>
-                    <Button
-                      style={{
-                        margin: '40px',
-                        padding: '15px 0 15px 0',
-                        backgroundColor: "white",
-                      }}
-                      variant="outlined"
-                      onClick={handleAddKettleClick}
-                    ><AddIcon /></Button>
-                  </Tooltip>
-
-                  <Tooltip title='calculate'>
-                    <Button
-                      style={{
-                        margin: '40px',
-                        padding: '15px 0 15px 0',
-                        backgroundColor: "white",
-                      }}
-                      variant="outlined"
-                      onClick={handleCalculateClick}
-                    ><CalculateIcon /></Button>
-                  </Tooltip>
-                </Grid>
-
-                <Grid item xs={4}>
-                  <KettleContainer
-                    kettleEntities={kettleEntities}
-                    handleKettleDeleteClick={handleKettleDeleteClick}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          </Grid>
-        </Grid>
-
-        {/*<Grid container sx={{ gap: 50, mt: 10, ml: 3, mr: 0 }}>*/}
-        {/*  <Grid item xs={12} md={2}>*/}
-        {/*    {*/}
-        {/*      tapWaterCoolingMeasurements &&*/}
-        {/*      <MeasurementsTable*/}
-        {/*        measurements={tapWaterCoolingMeasurements}*/}
-        {/*        title='Tap Water Cooling Measurements'*/}
-        {/*        width={800}*/}
-        {/*      />*/}
-        {/*    }*/}
-        {/*  </Grid>*/}
-
-        {/*  <Grid item xs={12} md={2}>*/}
-        {/*    {*/}
-        {/*      iceWaterCoolingMeasurements &&*/}
-        {/*      <MeasurementsTable*/}
-        {/*        measurements={iceWaterCoolingMeasurements}*/}
-        {/*        title='Ice Water Cooling Measurements'*/}
-        {/*        width={1200}*/}
-        {/*      />*/}
-        {/*    }*/}
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
-      </header>
+          {/*  <Grid item xs={12} md={2}>*/}
+          {/*    {*/}
+          {/*      iceWaterCoolingMeasurements &&*/}
+          {/*      <MeasurementsTable*/}
+          {/*        measurements={iceWaterCoolingMeasurements}*/}
+          {/*        title='Ice Water Cooling Measurements'*/}
+          {/*        width={1200}*/}
+          {/*      />*/}
+          {/*    }*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
+        </div>
+      </div>
     </div>
   );
 };
