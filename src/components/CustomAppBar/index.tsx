@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {Tooltip } from '@mui/material';
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/AuthContext";
+import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 
 export const CustomAppBar = () => {
   const { logout } = useContext(AuthContext);
@@ -16,6 +17,10 @@ export const CustomAppBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: '#004d87' }}>
         <Toolbar>
+          <Box>
+            <img src={htmConceptsLogo} width={70} />
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
           <Button
             color="inherit"
             aria-label="menu"
@@ -26,7 +31,6 @@ export const CustomAppBar = () => {
               CONTACT
             </Typography>
           </Button>
-          <Box sx={{ flexGrow: 1 }} />
           <Tooltip title='logout'>
             <Button color="inherit" onClick={logout}><LogoutIcon /></Button>
           </Tooltip>
