@@ -24,10 +24,15 @@ export const CustomAppBar = () => {
           <Button
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2,  }}
             onClick={() => window.open('https://www.htm-concepts.ch/kontakt', '_blank')}
           >
-            <Typography component="div" sx={{ flexGrow: 1 }}>
+            <Typography component="div" sx={{
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.03rem',
+              color: 'inherit'
+            }}>
               CONTACT
             </Typography>
           </Button>
