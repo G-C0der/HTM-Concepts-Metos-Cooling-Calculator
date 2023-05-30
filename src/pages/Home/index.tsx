@@ -120,7 +120,7 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <header className="Home-header" style={{ width: 1000 }}>
+      <div className="Home-body" style={{ width: 1000 }}>
         <Grid container sx={{
           gap: 15,
           mt: 5,
@@ -246,7 +246,7 @@ const Home = () => {
         {/*    }*/}
         {/*  </Grid>*/}
         {/*</Grid>*/}
-      </header>
+      </div>
     </div>
   );
 };
