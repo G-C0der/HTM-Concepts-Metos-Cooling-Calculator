@@ -55,6 +55,15 @@ const Login = () => {
             >
               Login
             </Button>
+            <Button
+              fullWidth
+              color="secondary"
+              variant="outlined"
+              style={{ marginTop: 16 }}
+              onClick={() => navigate('/register')}
+            >
+              Register
+            </Button>
           </form>
         </Paper>
       </Grid>
