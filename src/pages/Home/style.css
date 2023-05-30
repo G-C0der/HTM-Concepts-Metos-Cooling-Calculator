@@ -1,4 +1,4 @@
-html {
+html .Home-body {
   height: 100%;
   margin: 0;
   display: flex;
@@ -9,7 +9,9 @@ html {
   text-align: center;
 }
 
-.Home-body {
+.Home-header {}
+
+.Home-content {
   background-color: #a3c0e5;
   min-height: 100vh;
   min-width: 190vh;
