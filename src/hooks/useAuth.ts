@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { authApi } from "../api";
+import { authApi } from "../services/api";
 import {isTokenExpired} from "../utils/time";
 
 function useAuth() {

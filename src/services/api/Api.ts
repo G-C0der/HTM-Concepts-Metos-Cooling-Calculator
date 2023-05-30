@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {serverAPIBaseURL} from '../config';
+import {serverAPIBaseURL} from '../../config';
 
 class Api {
   axios = axios.create({
