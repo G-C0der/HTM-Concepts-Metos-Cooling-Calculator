@@ -2,6 +2,11 @@ import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
 import {isTokenExpired} from "../utils/time";
 
+interface LoginResponse {
+  success?: boolean;
+  error?: string;
+}
+
 function useAuth() {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
@@ -19,15 +24,28 @@ function useAuth() {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const { token, expiration } = await authApi.login({ email, password });
+    const response: LoginResponse = {
+      success: undefined,
+      error: undefined
+    };
 
-    if (typeof token === 'string' && token.length) {
-      setToken(token);
-      setTokenExpiration(expiration);
-      return token;
+    try {
+      const { token, expiration } = await authApi.login({ email, password });
+
+      if (typeof token === 'string' && token.length) {
+        setToken(token);
+        setTokenExpiration(expiration);
+
+        response.success = true;
+        return response;
+      }
+
+      throw new Error('Failed to log in');
+    } catch (err: any) {
+      response.success = false;
+      response.error = err.response.data;
+      return response;
     }
-
-    throw new Error('Failed to log in');
   };
 
   const logout = () => {
@@ -44,4 +62,8 @@ function useAuth() {
 
 export {
   useAuth
+};
+
+export type {
+  LoginResponse
 };
