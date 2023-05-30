@@ -1,3 +1,10 @@
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+}
+
 .Home {
   text-align: center;
 }
