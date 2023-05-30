@@ -1,22 +1,24 @@
 import React, {useContext, useState} from 'react';
-import {Button, Grid, Paper, TextField, Typography} from "@mui/material";
+import {Alert, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext} from "../../contexts/AuthContext";
 import {useNavigate} from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
   const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    const token = await login(email, password);
-    if (token) {
-      navigate('/');
-    } else {
-      console.log('Invalid credentials');
-    }
+
+    const loginResponse = await login(email, password);
+
+    if (loginResponse.success) navigate('/');
+    else setError(loginResponse.error!);
   };
 
   return (
@@ -26,6 +28,7 @@ const Login = () => {
           <Typography variant="h5" align="center" component="h1" gutterBottom>
             Login
           </Typography>
+          {error && <Alert severity="error">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
