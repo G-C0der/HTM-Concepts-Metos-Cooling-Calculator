@@ -121,6 +121,8 @@ const Register = () => {
             </FormControl>
             <TextField
               fullWidth
+              error={formik.touched.fname && Boolean(formik.errors.fname)}
+              helperText={formik.touched.fname && formik.errors.fname}
               label="First Name"
               name="fname"
               value={formik.values.fname}
@@ -129,6 +131,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.lname && Boolean(formik.errors.lname)}
+              helperText={formik.touched.lname && formik.errors.lname}
               label="Last Name"
               name="lname"
               value={formik.values.lname}
@@ -137,6 +141,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
               label="Email"
               name="email"
               value={formik.values.email}
@@ -145,6 +151,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
               label="Password"
               type="password"
               name="password"
@@ -154,6 +162,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.street && Boolean(formik.errors.street)}
+              helperText={formik.touched.street && formik.errors.street}
               label="Street"
               name="street"
               value={formik.values.street}
@@ -162,6 +172,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.city && Boolean(formik.errors.city)}
+              helperText={formik.touched.city && formik.errors.city}
               label="City"
               name="city"
               value={formik.values.city}
@@ -170,6 +182,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.zip && Boolean(formik.errors.zip)}
+              helperText={formik.touched.zip && formik.errors.zip}
               label="ZIP Code"
               name="zip"
               value={formik.values.zip}
@@ -194,6 +208,8 @@ const Register = () => {
             </FormControl>
             <TextField
               fullWidth
+              error={formik.touched.phone && Boolean(formik.errors.phone)}
+              helperText={formik.touched.phone && formik.errors.phone}
               label="Phone Number"
               name="phone"
               value={formik.values.phone}
@@ -202,6 +218,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.company && Boolean(formik.errors.company)}
+              helperText={formik.touched.company && formik.errors.company}
               label="Company Name"
               name="company"
               value={formik.values.company}
@@ -210,6 +228,8 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              error={formik.touched.website && Boolean(formik.errors.website)}
+              helperText={formik.touched.website && formik.errors.website}
               label="Website"
               name="website"
               value={formik.values.website}
@@ -232,6 +252,7 @@ const Register = () => {
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
+              disabled={!formik.values.tnc || !formik.isValid}
             >
               Register
             </Button>
