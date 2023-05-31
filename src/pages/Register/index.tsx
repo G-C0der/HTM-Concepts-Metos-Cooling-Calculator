@@ -22,12 +22,12 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required('No password provided')
-    .min(8, 'Password is too short - should be 8 characters minimum')
+    .min(8, 'Password is too short - should be minimum 8 characters')
     .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .matches(/[0-9]+/, 'Password must contains at least one digit.')
-    .matches(/[!@#$%^&*()]+/, 'Password must contains at least one special character.'),
+    .matches(/[0-9]+/, 'Password must contain at least one digit.')
+    .matches(/[*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\]+/, 'Password must contain at least one special character.'),
   street: yup
     .string()
     .required('Street is required'),
