@@ -4,6 +4,10 @@ import { Button, TextField, Typography, Checkbox, FormControlLabel,
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
+
+const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
 
 const validationSchema = yup.object({
   title: yup
@@ -23,7 +27,7 @@ const validationSchema = yup.object({
     .string()
     .required('No password provided')
     .min(8, 'Password is too short - should be minimum 8 characters')
-    .matches(/^[a-zA-Z0-9*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\]+$/, 'Password can only contain Latin letters, numbers, and special characters.')
+    .matches(/^[a-zA-Z0-9*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\]+$/, `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
     .matches(/[0-9]+/, 'Password must contain at least one digit.')
@@ -154,18 +158,25 @@ const Register = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
-            <TextField
-              fullWidth
-              onBlur={formik.handleBlur}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password*"
-              type="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              margin="normal"
-            />
+            <Tooltip title={`Allowed special characters: ${passwordSpecialCharacters}`} placement="right">
+              <TextField
+                fullWidth
+                onBlur={formik.handleBlur}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+                label="Password*"
+                type="password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InfoIcon color="action" />
+                  ),
+                }}
+              />
+            </Tooltip>
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
