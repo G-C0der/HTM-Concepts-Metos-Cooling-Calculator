@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import {LoginResponse} from "../hooks/useAuth";
+import {APIResponse} from "../types";
 
 type AuthContextType = {
   token: null | string;
-  login: (email: string, password: string) => Promise<LoginResponse>;
+  login: (email: string, password: string) => Promise<APIResponse>;
   logout: () => void;
 };
 
