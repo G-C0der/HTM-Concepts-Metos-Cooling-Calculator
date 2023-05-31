@@ -28,7 +28,6 @@ const Login = () => {
           <Typography variant="h5" align="center" component="h1" gutterBottom>
             Login
           </Typography>
-          {error && <Alert severity="error">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -64,6 +63,7 @@ const Login = () => {
             >
               Register
             </Button>
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
         </Paper>
       </Grid>

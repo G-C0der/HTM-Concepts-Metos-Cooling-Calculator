@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Button, TextField, Typography, Checkbox, FormControlLabel,
   Grid, Paper, FormControl, InputLabel, Select, MenuItem, FormHelperText, Alert
@@ -99,6 +99,10 @@ const Register = () => {
 
   const countries = ["Switzerland", "Germany", "France", "Italy"];
   const titles = ["Mr.", "Mrs.", "Ms.", "Dr."];
+
+  useEffect(() => {
+    if (error) window.scrollTo(0, document.body.scrollHeight);
+  }, [error]);
 
   return (
     <Grid container justifyContent="center">
@@ -287,7 +291,7 @@ const Register = () => {
             >
               Register
             </Button>
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
         </Paper>
       </Grid>
