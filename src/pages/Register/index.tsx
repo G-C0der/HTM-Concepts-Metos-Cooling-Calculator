@@ -23,11 +23,11 @@ const validationSchema = yup.object({
     .required('Last name is required'),
   email: yup
     .string()
-    .email('Email is invalid')
-    .required('Email is required'),
+    .required('Email is required')
+    .email('Email is invalid'),
   password: yup
     .string()
-    .required('No password provided')
+    .required('Password is required')
     .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharactersDoubleEscaped}]+$`), `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
     .min(8, 'Password is too short - should be minimum 8 characters')
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
@@ -54,12 +54,8 @@ const validationSchema = yup.object({
     .required('Company name is required'),
   website: yup
     .string()
-    .test(
-      'url',
-      'URL is invalid',
-      value => /^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}$/i.test(value as string)
-    )
-    .required('Website is required'),
+    .required('Website is required')
+    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}$/i, 'URL is invalid'),
   tnc: yup
     .boolean()
     .oneOf([true], 'You must accept the terms and conditions')
