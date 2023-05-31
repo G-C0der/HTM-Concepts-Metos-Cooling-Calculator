@@ -42,9 +42,6 @@ const validationSchema = yup.object({
     .required('Country is required'),
   phone: yup
     .string()
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .min(10, 'Must be exactly 10 digits')
-    .max(10, 'Must be exactly 10 digits')
     .required('Phone number is required'),
   company: yup
     .string()
@@ -80,7 +77,7 @@ const Register = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // TODO: call endpoint
-      console.log(values);
+      console.log('form', values);
       navigate('/login');
     },
   });
