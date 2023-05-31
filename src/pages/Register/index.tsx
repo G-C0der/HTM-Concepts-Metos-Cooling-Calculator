@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import {escapeForRegExp} from "../../utils";
 import {UserContext} from "../../contexts";
+import {htmConceptsEmail} from "../../config";
 
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
 const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
@@ -68,6 +69,8 @@ const validationSchema = yup.object({
 
 const Register = () => {
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const { register } = useContext(UserContext);
 
@@ -92,7 +95,7 @@ const Register = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const registerResponse = await register(values);
-      if (registerResponse.success) navigate('/login');
+      if (registerResponse.success) setSuccess(true);
       else setError(registerResponse.error!);
     }
   });
@@ -101,8 +104,20 @@ const Register = () => {
   const titles = ["Mr.", "Mrs.", "Ms.", "Dr."];
 
   useEffect(() => {
-    if (error) window.scrollTo(0, document.body.scrollHeight);
+    if (error) {
+      setSuccess(false);
+      window.scrollTo(0, document.body.scrollHeight); // scroll to page bottom
+    }
   }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      setError('');
+      setRegisteredEmail(formik.values.email);
+      formik.resetForm();
+      window.scrollTo(0, 0); // scroll to page top
+    }
+  }, [success]);
 
   return (
     <Grid container justifyContent="center">
@@ -111,6 +126,21 @@ const Register = () => {
           <Typography variant="h5" align="center" component="h1" gutterBottom>
             Register
           </Typography>
+          {
+            success &&
+            <>
+              <Alert severity="success" sx={{ mt: 2, mb: 1 }}>
+                Your user account has been successfully registered!
+              </Alert>
+              <Alert severity="info" sx={{ mb: 2 }}>
+                We have sent a verification email to {registeredEmail}.
+                Please click on the provided link to verify your email.<br/>
+                If you haven't got a verification email, click here: <br/>
+                If there is a problem with the email verification,
+                please <a href={`mailto:${htmConceptsEmail}`}>contact us</a>.
+              </Alert>
+            </>
+          }
           <Button
             variant="outlined"
             style={{ marginBottom: 16 }}

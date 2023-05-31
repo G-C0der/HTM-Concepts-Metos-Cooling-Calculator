@@ -17,7 +17,7 @@ const useUser = () => {
 
   return {
     register
-  }
+  };
 };
 
 export {
