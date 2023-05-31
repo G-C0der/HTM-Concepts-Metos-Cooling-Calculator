@@ -3,7 +3,7 @@ import {UserForm} from "../../types";
 
 class UserApi extends Api {
   register = async (userFormData: UserForm) => {
-    const { data } = await this.axios.post('/user', userFormData);
+    const { data } = await this.axios.post('/users', userFormData);
     return data;
   };
 }
