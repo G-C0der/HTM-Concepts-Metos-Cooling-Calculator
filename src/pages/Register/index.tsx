@@ -51,7 +51,7 @@ const validationSchema = yup.object({
     .test(
       'url',
       'URL is invalid',
-      value => /^(https?:\/\/)?([a-z]+\.)?.+\..+$/i.test(value as string)
+      value => /^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}$/i.test(value as string)
     )
     .required('Website is required'),
   tnc: yup
@@ -112,6 +112,7 @@ const Register = () => {
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 error={formik.touched.title && Boolean(formik.errors.title)}
               >
                 {titles.map((title) => (
@@ -122,6 +123,7 @@ const Register = () => {
             </FormControl>
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.fname && Boolean(formik.errors.fname)}
               helperText={formik.touched.fname && formik.errors.fname}
               label="First Name*"
@@ -132,6 +134,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.lname && Boolean(formik.errors.lname)}
               helperText={formik.touched.lname && formik.errors.lname}
               label="Last Name*"
@@ -142,6 +145,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               label="Email*"
@@ -152,6 +156,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
               label="Password*"
@@ -163,6 +168,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.street && Boolean(formik.errors.street)}
               helperText={formik.touched.street && formik.errors.street}
               label="Street*"
@@ -173,6 +179,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.city && Boolean(formik.errors.city)}
               helperText={formik.touched.city && formik.errors.city}
               label="City*"
@@ -183,6 +190,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.zip && Boolean(formik.errors.zip)}
               helperText={formik.touched.zip && formik.errors.zip}
               label="ZIP Code*"
@@ -199,6 +207,7 @@ const Register = () => {
                 name="country"
                 value={formik.values.country}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 error={formik.touched.country && Boolean(formik.errors.country)}
               >
                 {countries.map((country) => (
@@ -209,6 +218,7 @@ const Register = () => {
             </FormControl>
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.phone && Boolean(formik.errors.phone)}
               helperText={formik.touched.phone && formik.errors.phone}
               label="Phone Number*"
@@ -219,6 +229,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.company && Boolean(formik.errors.company)}
               helperText={formik.touched.company && formik.errors.company}
               label="Company Name*"
@@ -229,6 +240,7 @@ const Register = () => {
             />
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
               error={formik.touched.website && Boolean(formik.errors.website)}
               helperText={formik.touched.website && formik.errors.website}
               label="Website*"
