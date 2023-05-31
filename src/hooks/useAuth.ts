@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
-import {isTokenExpired} from "../utils";
-import {toAPIResponse} from "../utils/api";
+import {isTokenExpired, toAPIResponse, getErrorMessage} from "./utils";
 
 function useAuth() {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
@@ -32,7 +31,7 @@ function useAuth() {
 
       throw new Error('Failed to log in');
     } catch (err: any) {
-      return toAPIResponse(false, err.response.data);
+      return toAPIResponse(false, getErrorMessage(err));
     }
   };
 
