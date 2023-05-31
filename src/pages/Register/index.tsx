@@ -6,8 +6,10 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
+import {escapeForRegExp} from "../../utils";
 
-const passwordSpecialCharacters = '*.!@#$%^&(){}[\\]:;<>,.?\\/~_+\\-=|\\\\';
+const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
+const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
 
 const validationSchema = yup.object({
   title: yup
@@ -26,12 +28,12 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required('No password provided')
-    .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharacters}]+$`), `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
+    .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharactersDoubleEscaped}]+$`), `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
     .min(8, 'Password is too short - should be minimum 8 characters')
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
     .matches(/[0-9]+/, 'Password must contain at least one digit.')
-    .matches(new RegExp(`[${passwordSpecialCharacters}]+`), 'Password must contain at least one special character.'),
+    .matches(new RegExp(`[${passwordSpecialCharactersDoubleEscaped}]+`), 'Password must contain at least one special character.'),
   street: yup
     .string()
     .required('Street is required'),
