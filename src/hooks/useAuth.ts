@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
-import {isTokenExpired, toAPIResponse, getErrorMessage} from "./utils";
+import {isTokenExpired, toApiResponse, getErrorMessage} from "./utils";
+import {Credentials} from "../types";
 
-function useAuth() {
+const useAuth = () => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
 
@@ -18,20 +19,20 @@ function useAuth() {
     if (isTokenExpired(tokenExpiration)) logout();
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (credentials: Credentials) => {
     try {
-      const { token, expiration } = await authApi.login({ email, password });
+      const { token, expiration } = await authApi.login(credentials);
 
       if (typeof token === 'string' && token.length) {
         setToken(token);
         setTokenExpiration(expiration);
 
-        return toAPIResponse(true);
+        return toApiResponse(true);
       }
 
       throw new Error('Failed to log in');
     } catch (err: any) {
-      return toAPIResponse(false, getErrorMessage(err));
+      return toApiResponse(false, getErrorMessage(err));
     }
   };
 
@@ -45,7 +46,7 @@ function useAuth() {
     login,
     logout
   };
-}
+};
 
 export {
   useAuth

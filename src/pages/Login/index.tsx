@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    const loginResponse = await login(email, password);
+    const loginResponse = await login({ email, password });
 
     if (loginResponse.success) navigate('/');
     else setError(loginResponse.error!);

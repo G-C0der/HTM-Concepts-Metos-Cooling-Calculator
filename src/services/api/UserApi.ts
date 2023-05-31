@@ -1,20 +1,5 @@
 import {Api} from "./Api";
-
-interface UserForm {
-  title: string;
-  fname: string;
-  lname: string;
-  email: string;
-  password: string;
-  street: string;
-  city: string;
-  zip: string;
-  country: string;
-  phone: string;
-  company: string;
-  website: string;
-  tnc: boolean;
-}
+import {UserForm} from "../../types";
 
 class UserApi extends Api {
   register = async (userFormData: UserForm) => {

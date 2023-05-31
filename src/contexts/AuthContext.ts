@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import {APIResponse} from "../types";
+import {ApiResponse, Credentials} from "../types";
 
 type AuthContextType = {
   token: null | string;
-  login: (email: string, password: string) => Promise<APIResponse>;
+  login: (credentials: Credentials) => Promise<ApiResponse>;
   logout: () => void;
 };
 
