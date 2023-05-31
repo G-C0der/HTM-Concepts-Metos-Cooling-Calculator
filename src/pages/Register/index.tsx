@@ -104,7 +104,7 @@ const Register = () => {
           </Button>
           <form onSubmit={formik.handleSubmit} autoComplete="on">
             <FormControl fullWidth>
-              <InputLabel id="title-label">Title</InputLabel>
+              <InputLabel id="title-label">Title*</InputLabel>
               <Select
                 labelId="title-label"
                 id="title"
@@ -123,7 +123,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.fname && Boolean(formik.errors.fname)}
               helperText={formik.touched.fname && formik.errors.fname}
-              label="First Name"
+              label="First Name*"
               name="fname"
               value={formik.values.fname}
               onChange={formik.handleChange}
@@ -133,7 +133,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.lname && Boolean(formik.errors.lname)}
               helperText={formik.touched.lname && formik.errors.lname}
-              label="Last Name"
+              label="Last Name*"
               name="lname"
               value={formik.values.lname}
               onChange={formik.handleChange}
@@ -143,7 +143,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
-              label="Email"
+              label="Email*"
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -153,7 +153,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
-              label="Password"
+              label="Password*"
               type="password"
               name="password"
               value={formik.values.password}
@@ -164,7 +164,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.street && Boolean(formik.errors.street)}
               helperText={formik.touched.street && formik.errors.street}
-              label="Street"
+              label="Street*"
               name="street"
               value={formik.values.street}
               onChange={formik.handleChange}
@@ -174,7 +174,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.city && Boolean(formik.errors.city)}
               helperText={formik.touched.city && formik.errors.city}
-              label="City"
+              label="City*"
               name="city"
               value={formik.values.city}
               onChange={formik.handleChange}
@@ -184,14 +184,14 @@ const Register = () => {
               fullWidth
               error={formik.touched.zip && Boolean(formik.errors.zip)}
               helperText={formik.touched.zip && formik.errors.zip}
-              label="ZIP Code"
+              label="ZIP Code*"
               name="zip"
               value={formik.values.zip}
               onChange={formik.handleChange}
               margin="normal"
             />
             <FormControl fullWidth margin="normal">
-              <InputLabel id="country-label">Country</InputLabel>
+              <InputLabel id="country-label">Country*</InputLabel>
               <Select
                 labelId="country-label"
                 id="country"
@@ -210,7 +210,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.phone && Boolean(formik.errors.phone)}
               helperText={formik.touched.phone && formik.errors.phone}
-              label="Phone Number"
+              label="Phone Number*"
               name="phone"
               value={formik.values.phone}
               onChange={formik.handleChange}
@@ -220,7 +220,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.company && Boolean(formik.errors.company)}
               helperText={formik.touched.company && formik.errors.company}
-              label="Company Name"
+              label="Company Name*"
               name="company"
               value={formik.values.company}
               onChange={formik.handleChange}
@@ -230,7 +230,7 @@ const Register = () => {
               fullWidth
               error={formik.touched.website && Boolean(formik.errors.website)}
               helperText={formik.touched.website && formik.errors.website}
-              label="Website"
+              label="Website*"
               name="website"
               value={formik.values.website}
               onChange={formik.handleChange}
