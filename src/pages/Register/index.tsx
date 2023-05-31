@@ -17,7 +17,7 @@ const validationSchema = yup.object({
     .required('Last name is required'),
   email: yup
     .string()
-    .email('Enter a valid email')
+    .email('Email is invalid')
     .required('Email is required'),
   password: yup
     .string()
@@ -48,7 +48,11 @@ const validationSchema = yup.object({
     .required('Company name is required'),
   website: yup
     .string()
-    .url('Must be a valid URL')
+    .test(
+      'url',
+      'URL is invalid',
+      value => /^(https?:\/\/)?([a-z]+\.)?.+\..+$/i.test(value as string)
+    )
     .required('Website is required'),
   tnc: yup
     .boolean()
