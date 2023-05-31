@@ -23,7 +23,7 @@ const validationSchema = yup.object({
     .string()
     .required('No password provided')
     .min(8, 'Password is too short - should be minimum 8 characters')
-    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
+    .matches(/^[a-zA-Z0-9*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\]+$/, 'Password can only contain Latin letters, numbers, and special characters.')
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
     .matches(/[0-9]+/, 'Password must contain at least one digit.')
