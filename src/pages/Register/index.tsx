@@ -1,12 +1,15 @@
-import React from 'react';
-import { Button, TextField, Typography, Checkbox, FormControlLabel,
-  Grid, Paper, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+import React, {useContext, useState} from 'react';
+import {
+  Button, TextField, Typography, Checkbox, FormControlLabel,
+  Grid, Paper, FormControl, InputLabel, Select, MenuItem, FormHelperText, Alert
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import {escapeForRegExp} from "../../utils";
+import {UserContext} from "../../contexts";
 
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
 const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
@@ -64,6 +67,10 @@ const validationSchema = yup.object({
 });
 
 const Register = () => {
+  const [error, setError] = useState('');
+
+  const { register } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -83,11 +90,11 @@ const Register = () => {
       tnc: false,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // TODO: call endpoint
-      console.log('form', values);
-      navigate('/login');
-    },
+    onSubmit: async (values) => {
+      const registerResponse = await register(values);
+      if (registerResponse.success) navigate('/login');
+      else setError(registerResponse.error!);
+    }
   });
 
   const countries = ["Switzerland", "Germany", "France", "Italy"];
@@ -280,6 +287,7 @@ const Register = () => {
             >
               Register
             </Button>
+            {error && <Alert severity="error">{error}</Alert>}
           </form>
         </Paper>
       </Grid>

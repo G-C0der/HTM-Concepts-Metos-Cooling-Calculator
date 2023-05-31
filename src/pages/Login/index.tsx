@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Alert, Button, Grid, Paper, TextField, Typography} from "@mui/material";
-import {AuthContext} from "../../contexts/AuthContext";
+import {AuthContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
 
 const Login = () => {
