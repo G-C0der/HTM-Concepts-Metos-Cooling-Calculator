@@ -51,14 +51,14 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required('Password is required.')
-    .min(fieldLengths.password.min, `Password is too short - should be minimum ${fieldLengths.password.min} characters.`)
     .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharactersDoubleEscaped}]+$`),
       `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
     .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
     .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
     .matches(/[0-9]+/, 'Password must contain at least one digit.')
     .matches(new RegExp(`[${passwordSpecialCharactersDoubleEscaped}]+`),
-      'Password must contain at least one special character.'),
+      'Password must contain at least one special character.')
+    .min(fieldLengths.password.min, `Password is too short - should be minimum ${fieldLengths.password.min} characters.`),
   street: yup
     .string()
     .required('Street is required.')
