@@ -97,6 +97,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [successCount, setSuccessCount] = useState(0);
   const [registeredEmail, setRegisteredEmail] = useState('');
+  const [verificationWarning, setVerificationWarning] = useState(false);
 
   const { register } = useContext(UserContext);
 
@@ -121,7 +122,11 @@ const Register = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const registerResponse = await register(values);
-      if (registerResponse.success) setSuccessCount(previousCount => previousCount + 1);
+      if (registerResponse.success) {
+        setSuccessCount(previousCount => previousCount + 1);
+        if (registerResponse.data.wasVerificationEmailSent) setVerificationWarning(false);
+        else setVerificationWarning(true);
+      }
       else setError(registerResponse.error!);
     }
   });
@@ -132,6 +137,7 @@ const Register = () => {
   useEffect(() => {
     if (error) {
       setSuccessCount(0);
+      setVerificationWarning(false);
       window.scrollTo(0, document.body.scrollHeight); // scroll to page bottom
     }
   }, [error]);
@@ -154,17 +160,26 @@ const Register = () => {
           </Typography>
           {
             (successCount > 0) &&
-            <>
               <Alert severity="success" sx={{ mt: 2, mb: 1 }}>
                 Your user account has been successfully registered!
               </Alert>
+          }
+          {
+            (successCount > 0 && !verificationWarning) &&
               <Alert severity="info" sx={{ mb: 2 }}>
                 We have sent a verification email to {registeredEmail}.<br/>
                 Please click on the provided link to verify your email.<br/>
                 If you haven't got a verification email, click here: <br/>
-                If there is a problem, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
               </Alert>
-            </>
+          }
+          {
+            (successCount > 0 && verificationWarning) &&
+              <Alert severity='warning' sx={{ mb: 2 }}>
+                There was a problem sending the verification email to {registeredEmail}.<br/>
+                To trigger the verification email transmission, click here: <br/>
+                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+              </Alert>
           }
           <Button
             variant="outlined"
