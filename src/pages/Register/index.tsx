@@ -61,7 +61,7 @@ const validationSchema = yup.object({
   website: yup
     .string()
     .required('Website is required')
-    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}$/i, 'URL is invalid'),
+    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}(\/.*)*$/i, 'URL is invalid'),
   tnc: yup
     .boolean()
     .oneOf([true], 'You must accept the terms and conditions')
@@ -69,7 +69,7 @@ const validationSchema = yup.object({
 
 const Register = () => {
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [successCount, setSuccessCount] = useState(0);
   const [registeredEmail, setRegisteredEmail] = useState('');
 
   const { register } = useContext(UserContext);
@@ -95,7 +95,7 @@ const Register = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const registerResponse = await register(values);
-      if (registerResponse.success) setSuccess(true);
+      if (registerResponse.success) setSuccessCount(previousCount => previousCount + 1);
       else setError(registerResponse.error!);
     }
   });
@@ -105,19 +105,19 @@ const Register = () => {
 
   useEffect(() => {
     if (error) {
-      setSuccess(false);
+      setSuccessCount(0);
       window.scrollTo(0, document.body.scrollHeight); // scroll to page bottom
     }
   }, [error]);
 
   useEffect(() => {
-    if (success) {
+    if (successCount > 0) {
       setError('');
       setRegisteredEmail(formik.values.email);
       formik.resetForm();
       window.scrollTo(0, 0); // scroll to page top
     }
-  }, [success]);
+  }, [successCount]);
 
   return (
     <Grid container justifyContent="center">
@@ -127,17 +127,16 @@ const Register = () => {
             Register
           </Typography>
           {
-            success &&
+            (successCount > 0) &&
             <>
               <Alert severity="success" sx={{ mt: 2, mb: 1 }}>
                 Your user account has been successfully registered!
               </Alert>
               <Alert severity="info" sx={{ mb: 2 }}>
-                We have sent a verification email to {registeredEmail}.
+                We have sent a verification email to {registeredEmail}.<br/>
                 Please click on the provided link to verify your email.<br/>
                 If you haven't got a verification email, click here: <br/>
-                If there is a problem with the email verification,
-                please <a href={`mailto:${htmConceptsEmail}`}>contact us</a>.
+                If there is a problem, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
               </Alert>
             </>
           }
