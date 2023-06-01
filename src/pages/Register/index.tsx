@@ -15,56 +15,82 @@ import {htmConceptsEmail} from "../../config";
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
 const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
 
+const fieldLengths = {
+  title: { max: 64 },
+  fname: { max: 64 },
+  lname: { max: 64 },
+  email: { max: 128 },
+  password: { min: 8 },
+  street: { max: 128 },
+  city: { max: 64 },
+  zip: { max: 16 },
+  country: { max: 64 },
+  phone: { max: 32 },
+  company: { max: 256 },
+  website: { max: 512 }
+};
+
 const validationSchema = yup.object({
   title: yup
     .string()
-    .required('Title is required'),
+    .required('Title is required.')
+    .max(fieldLengths.title.max, `Title is too long - should be maximum ${fieldLengths.title.max} characters.`),
   fname: yup
     .string()
-    .required('First name is required'),
+    .required('First name is required.')
+    .max(fieldLengths.fname.max, `First name is too long - should be maximum ${fieldLengths.fname.max} characters.`),
   lname: yup
     .string()
-    .required('Last name is required'),
+    .required('Last name is required.')
+    .max(fieldLengths.lname.max, `Last name is too long - should be maximum ${fieldLengths.lname.max} characters.`),
   email: yup
     .string()
-    .required('Email is required')
-    .email('Email is invalid'),
+    .required('Email is required.')
+    .max(fieldLengths.email.max, `Email is too long - should be maximum ${fieldLengths.email.max} characters.`)
+    .email('Email is invalid.'),
   password: yup
     .string()
-    .required('Password is required')
+    .required('Password is required.')
+    .min(fieldLengths.password.min, `Password is too short - should be minimum ${fieldLengths.password.min} characters.`)
     .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharactersDoubleEscaped}]+$`),
       `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
-    .min(8, 'Password is too short - should be minimum 8 characters')
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
     .matches(/[0-9]+/, 'Password must contain at least one digit.')
     .matches(new RegExp(`[${passwordSpecialCharactersDoubleEscaped}]+`),
       'Password must contain at least one special character.'),
   street: yup
     .string()
-    .required('Street is required'),
+    .required('Street is required.')
+    .max(fieldLengths.street.max, `Street is too long - should be maximum ${fieldLengths.street.max} characters.`),
   city: yup
     .string()
-    .required('City is required'),
+    .required('City is required.')
+    .max(fieldLengths.city.max, `City is too long - should be maximum ${fieldLengths.city.max} characters.`),
   zip: yup
     .string()
-    .required('ZIP code is required'),
+    .required('ZIP code is required.')
+    .max(fieldLengths.zip.max, `ZIP code is too long - should be maximum ${fieldLengths.zip.max} characters.`),
   country: yup
     .string()
-    .required('Country is required'),
+    .required('Country is required.')
+    .max(fieldLengths.country.max, `Country is too long - should be maximum ${fieldLengths.country.max} characters.`),
   phone: yup
     .string()
-    .required('Phone number is required'),
+    .required('Phone number is required.')
+    .max(fieldLengths.phone.max, `Phone is too long - should be maximum ${fieldLengths.phone.max} characters.`),
   company: yup
     .string()
-    .required('Company name is required'),
+    .required('Company name is required.')
+    .max(fieldLengths.company.max, `Company name is too long - should be maximum ${fieldLengths.company.max} characters.`),
   website: yup
     .string()
-    .required('Website is required')
-    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}(\/.*)*$/i, 'URL is invalid'),
+    .required('Website is required.')
+    .max(fieldLengths.website.max, `Website is too long - should be maximum ${fieldLengths.website.max} characters.`)
+    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}(\/.*)*$/i, 'URL is invalid.'),
   tnc: yup
     .boolean()
-    .oneOf([true], 'You must accept the terms and conditions')
+    .oneOf([true], 'You must accept the terms and conditions.')
 });
 
 const Register = () => {

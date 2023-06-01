@@ -7,7 +7,7 @@ const useUser = () => {
     try {
       const success = await userApi.register(userFormData);
 
-      if (!success) throw new Error('Failed to register');
+      if (!success) throw new Error('Failed to register.');
 
       return toApiResponse(true);
     } catch (err: any) {

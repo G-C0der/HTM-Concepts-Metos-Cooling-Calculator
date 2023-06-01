@@ -30,7 +30,7 @@ const useAuth = () => {
         return toApiResponse(true);
       }
 
-      throw new Error('Failed to log in');
+      throw new Error('Failed to log in.');
     } catch (err: any) {
       return toApiResponse(false, getErrorMessage(err));
     }
