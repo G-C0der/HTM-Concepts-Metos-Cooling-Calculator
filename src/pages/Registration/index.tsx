@@ -93,7 +93,7 @@ const validationSchema = yup.object({
     .oneOf([true], 'You must accept the terms and conditions.')
 });
 
-const Register = () => {
+const Registration = () => {
   const [error, setError] = useState('');
   const [successCount, setSuccessCount] = useState(0);
   const [registeredEmail, setRegisteredEmail] = useState('');
@@ -157,7 +157,7 @@ const Register = () => {
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper style={{ padding: 16 }} elevation={3}>
           <Typography variant="h5" align="center" component="h1" gutterBottom>
-            Register
+            Account Registration
           </Typography>
           {
             (successCount > 0) &&
@@ -389,4 +389,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Registration;

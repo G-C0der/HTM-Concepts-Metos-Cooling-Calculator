@@ -95,7 +95,7 @@ const Login = () => {
               color="secondary"
               variant="outlined"
               style={{ marginTop: 16 }}
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/registration')}
             >
               Register
             </Button>

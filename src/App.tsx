@@ -2,7 +2,8 @@ import React from 'react';
 import { AuthContext, UserContext } from './contexts';
 import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
-import RegisterPage from './pages/Register';
+import RegistrationPage from './pages/Registration';
+import VerificationPage from './pages/Verification';
 import {useAuth} from "./hooks/useAuth";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
@@ -21,7 +22,8 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
-            <Route path='/register' element={<RegisterPage />} />
+            <Route path='/registration' element={<RegistrationPage />} />
+            <Route path='/verification/:token' element={<VerificationPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>
