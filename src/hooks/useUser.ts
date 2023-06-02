@@ -24,9 +24,19 @@ const useUser = () => {
     }
   };
 
+  const verify = async (token: string) => {
+    try {
+      await userApi.verify(token);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
   return {
     register,
-    sendVerificationEmail
+    sendVerificationEmail,
+    verify
   };
 };
 

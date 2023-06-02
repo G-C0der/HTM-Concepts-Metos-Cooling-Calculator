@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { CircularProgress, Paper, Typography, Alert, Box } from '@mui/material';
 import { Grid } from "@mui/material";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {UserContext} from "../../contexts";
 
 const Verification = (props: any) => {
   const [status, setStatus] = useState('loading');
@@ -9,23 +10,21 @@ const Verification = (props: any) => {
 
   const { token } = useParams();
 
-  const navigate = useNavigate();
+  const { verify } = useContext(UserContext);
 
   useEffect(() => {
-    if (!token) navigate('/');
+    const verifyUser = async () => {
+      const verifyResponse = await verify(token!);
 
-    const verify = async () => {
-      // const response = await verifyUser(token);
-      //
-      // if (response.success) {
-      //   setStatus('success');
-      // } else {
-      //   setStatus('error');
-      //   setError(response.error);
-      // }
+      if (verifyResponse.success) {
+        setStatus('success');
+      } else {
+        setStatus('error');
+        setError(verifyResponse.error!);
+      }
     };
 
-    verify();
+    verifyUser();
   }, [token]);
 
   return (

@@ -11,6 +11,11 @@ class UserApi extends Api {
     const { data } = await this.axios.post('/users/verification/send', { email });
     return data;
   };
+
+  verify = async (token: string) => {
+    const { data } = await this.axios.post(`/users/verification/${token}`);
+    return data;
+  };
 }
 
 export default new UserApi();
