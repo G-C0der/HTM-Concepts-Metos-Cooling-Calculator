@@ -99,7 +99,7 @@ const Register = () => {
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [verificationWarning, setVerificationWarning] = useState(false);
 
-  const { register } = useContext(UserContext);
+  const { register, sendVerificationEmail } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -124,6 +124,7 @@ const Register = () => {
       const registerResponse = await register(values);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
+        setRegisteredEmail(values.email);
         if (registerResponse.data.wasVerificationEmailSent) setVerificationWarning(false);
         else setVerificationWarning(true);
       }
@@ -137,6 +138,7 @@ const Register = () => {
   useEffect(() => {
     if (error) {
       setSuccessCount(0);
+      setRegisteredEmail('');
       setVerificationWarning(false);
       window.scrollTo(0, document.body.scrollHeight); // scroll to page bottom
     }
@@ -145,7 +147,6 @@ const Register = () => {
   useEffect(() => {
     if (successCount > 0) {
       setError('');
-      setRegisteredEmail(formik.values.email);
       formik.resetForm();
       window.scrollTo(0, 0); // scroll to page top
     }
@@ -169,7 +170,18 @@ const Register = () => {
               <Alert severity="info" sx={{ mb: 2 }}>
                 We have sent a verification email to {registeredEmail}.<br/>
                 Please click on the provided link to verify your email.<br/>
-                If you haven't got a verification email, click here: <br/>
+                If you haven't got a verification email,
+                <a href="#">
+                  <Button
+                    style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
+                      textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
+                      margin: "0 0 0 3px", cursor: "pointer"}}
+                    onClick={async () => await sendVerificationEmail(registeredEmail)}
+                  >
+                    click here
+                  </Button>
+                </a>
+                <br/>
                 If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
               </Alert>
           }

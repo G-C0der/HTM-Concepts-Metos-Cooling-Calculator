@@ -8,12 +8,25 @@ const useUser = () => {
       const { wasVerificationEmailSent } = await userApi.register(userFormData);
       return toApiResponse(true, undefined, { wasVerificationEmailSent });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err))
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
+  const sendVerificationEmail = async (email: string) => {
+    try {
+      const { wasVerificationEmailSent } = await userApi.sendVerificationEmail(email);
+
+      if (!wasVerificationEmailSent) throw new Error('Failed to send verification email.');
+
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
     }
   };
 
   return {
-    register
+    register,
+    sendVerificationEmail
   };
 };
 
