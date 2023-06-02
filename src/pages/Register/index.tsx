@@ -124,7 +124,6 @@ const Register = () => {
       const registerResponse = await register(values);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
-        setRegisteredEmail(values.email);
         if (registerResponse.data.wasVerificationEmailSent) setVerificationWarning(false);
         else setVerificationWarning(true);
       }
@@ -147,6 +146,7 @@ const Register = () => {
   useEffect(() => {
     if (successCount > 0) {
       setError('');
+      setRegisteredEmail(formik.values.email);
       formik.resetForm();
       window.scrollTo(0, 0); // scroll to page top
     }
