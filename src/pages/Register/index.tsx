@@ -268,6 +268,7 @@ const Register = () => {
               value={formik.values.street}
               onChange={formik.handleChange}
               margin="normal"
+              autoComplete="street-address"
             />
             <TextField
               fullWidth
