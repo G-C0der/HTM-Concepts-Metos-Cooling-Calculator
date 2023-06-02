@@ -1,6 +1,6 @@
-import {csvToJSON} from "../utils/csv";
-import {iceWaterCoolingMeasurements} from "../data/iceWaterCoolingMeasurements";
-import {tapWaterCoolingMeasurements} from "../data/tapWaterCoolingMeasurements";
+import {csvToJSON} from "../utils";
+import {iceWaterCoolingMeasurements} from "../constants";
+import {tapWaterCoolingMeasurements} from "../constants";
 import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
 import {IceWaterCoolingEntity} from "../entities/IceWaterCoolingEntity";
 

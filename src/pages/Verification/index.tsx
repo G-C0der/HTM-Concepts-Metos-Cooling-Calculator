@@ -4,19 +4,40 @@ import { Grid } from "@mui/material";
 import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
+import { useFormik } from 'formik';
+import * as yup from "yup";
+import {formFieldLengths} from "../../constants";
 
 const specificIncompleteErrors = {
   verificationLinkExpired: 'Your verification link has expired.'
 };
 
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is required.')
+    .max(formFieldLengths.email.max, `Email is too long - should be maximum ${formFieldLengths.email.max} characters.`)
+    .email('Email is invalid.')
+});
+
 const Verification = () => {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState<string | React.ReactNode>('');
-  const [email, setEmail] = useState('');
 
   const { token } = useParams();
 
   const { verify, sendVerificationEmail } = useContext(UserContext);
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      // Here you can access form values
+      await sendVerificationEmail(values.email);
+    },
+  });
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -46,20 +67,25 @@ const Verification = () => {
             To send a new verification email, enter the email associated with your account and click the button
             below.<br/>
             <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              sx={{ mt: 2, mb: 1 }}
+              fullWidth
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              name="email"
+              label="Email*"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              sx={{ mt: 3, mb: 2 }}
             />
+            <br/>
             <Button
+              type='submit'
               style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
                 textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                margin: "30px 0 0 15px", cursor: "pointer"}}
-              onClick={async () => await sendVerificationEmail(email)}
+                cursor: "pointer"}}
             >
               Send Verification Email
-            </Button>.
+            </Button>
           </>
         );
     }
