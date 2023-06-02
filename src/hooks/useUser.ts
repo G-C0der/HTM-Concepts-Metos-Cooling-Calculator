@@ -1,6 +1,6 @@
 import {UserForm} from "../types";
 import {getErrorMessage, toApiResponse} from "./utils";
-import userApi from "../services/api/UserApi";
+import {userApi} from "../services/api";
 
 const useUser = () => {
   const register = async (userFormData: UserForm) => {
