@@ -239,6 +239,7 @@ const Registration = () => {
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               label="Email*"
+              type="email"
               name="email"
               value={formik.values.email}
               onChange={formik.handleChange}

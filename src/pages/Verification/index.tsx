@@ -71,8 +71,9 @@ const Verification = () => {
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
-              name="email"
               label="Email*"
+              type="email"
+              name="email"
               value={formik.values.email}
               onChange={formik.handleChange}
               sx={{ mt: 3, mb: 2 }}
