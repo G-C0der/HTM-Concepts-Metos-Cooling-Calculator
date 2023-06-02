@@ -3,6 +3,7 @@ import { CircularProgress, Paper, Typography, Alert, Box } from '@mui/material';
 import { Grid } from "@mui/material";
 import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
+import {htmConceptsEmail} from "../../config";
 
 const Verification = (props: any) => {
   const [status, setStatus] = useState('loading');
@@ -31,29 +32,33 @@ const Verification = (props: any) => {
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper style={{ padding: 16 }} elevation={3}>
-          <Typography variant="h5" align="center" component="h1" gutterBottom>
+          <Typography variant="h5" align="center" component="h1" gutterBottom sx={{ mb: 8 }}>
             Account Verification
           </Typography>
 
           {
             status === 'loading' &&
-            <Box display="flex" justifyContent="center" alignItems="center" sx={{ mt: 8, mb: 8 }}>
+            <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 8 }}>
               <CircularProgress />
             </Box>
           }
           {
             status === 'success' &&
-            <Alert severity="success">
-              <Typography variant="h5" align="center">
-                Your account has been verified successfully.
-              </Typography>
-              <Typography variant="body1">
-                Please note that your user account is currently inactive.
-                We will review the provided data and email you, once your user account has been activated.
-                We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
-                questions, please feel free to reply to this email.
-              </Typography>
-            </Alert>
+            <>
+              <Alert severity="success" sx={{ mb: 2 }}>
+                <Typography variant="h5" align="center">
+                  Your account has been verified successfully.
+                </Typography>
+              </Alert>
+              <Alert severity="info">
+                <Typography variant="body1">
+                  Please note that your user account is currently inactive.
+                  We will review the provided data and email you, once your user account has been activated.
+                  We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
+                  questions, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+                </Typography>
+              </Alert>
+            </>
           }
           {
             status === 'error' &&
