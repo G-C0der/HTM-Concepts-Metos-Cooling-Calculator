@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Button, TextField, Typography, Checkbox, FormControlLabel,
-  Grid, Paper, FormControl, InputLabel, Select, MenuItem, FormHelperText, Alert
+  Grid, Paper, FormControl, InputLabel, Select, MenuItem, FormHelperText, Alert, Box
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -142,9 +142,23 @@ const Registration = () => {
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper style={{ padding: 16 }} elevation={3}>
-          <Typography variant="h5" align="center" component="h1" gutterBottom>
-            Account Registration
-          </Typography>
+          <Grid container alignItems="center" justifyContent="center">
+            <Grid item xs={2}>
+              <Button
+                variant="outlined"
+                onClick={() => navigate('/login')}
+                style={{ marginBottom: 16, alignSelf: 'flex-start', whiteSpace: 'nowrap' }}
+              >
+                Back to Login
+              </Button>
+            </Grid>
+            <Grid item xs={8}>
+              <Typography variant="h5" component="h1" align="center" gutterBottom>
+                Account Registration
+              </Typography>
+            </Grid>
+            <Grid item xs={2}></Grid>
+          </Grid>
           {
             (successCount > 0) &&
               <Alert severity="success" sx={{ mt: 2, mb: 1 }}>
@@ -186,13 +200,6 @@ const Registration = () => {
                 If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
               </Alert>
           }
-          <Button
-            variant="outlined"
-            style={{ marginBottom: 16 }}
-            onClick={() => navigate('/login')}
-          >
-            Back to Login
-          </Button>
           <form onSubmit={formik.handleSubmit} autoComplete="on">
             <FormControl fullWidth>
               <InputLabel id="title-label">Title*</InputLabel>
