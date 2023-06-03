@@ -85,7 +85,7 @@ class KettleEntity {
     if (this.coolingMode === KettleCoolingModes.C5i
       && (this.c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
       || this.c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent)) {
-      throw new Error(`c3CoolingPercent has to be between ${IceWaterCoolingEntity.minC5iCoolingPercent} and ${IceWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c3CoolingPercent}"`);
+      throw new Error(`c3CoolingPercent has to be between ${IceWaterCoolingEntity.minC5iCoolingPercent} and ${IceWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c3CoolingPercent}".`);
     }
 
     return KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, this.c3CoolingPercent);
@@ -103,7 +103,7 @@ class KettleEntity {
   private static getWaterLitresUsedPerDegreeCelsius = (foodLitres: number) => {
     const [, maxKettleSizeLitres] = getEnumMinMax(KettleSizeLitres);
     if (foodLitres > maxKettleSizeLitres || foodLitres < 1) {
-      throw new Error(`foodLitres has to be between 1 and 400, "${foodLitres}" provided`);
+      throw new Error(`foodLitres has to be between 1 and 400, "${foodLitres}" provided.`);
     }
 
     if (foodLitres === 400) return 10;
@@ -126,7 +126,7 @@ class KettleEntity {
     if (this.coolingMode === KettleCoolingModes.C5i
       && (this.c2CoolingPercent > TapWaterCoolingEntity.maxC5iCoolingPercent
       || this.c2CoolingPercent < TapWaterCoolingEntity.minC5iCoolingPercent)) {
-      throw new Error(`c2CoolingPercent has to be between ${TapWaterCoolingEntity.minC5iCoolingPercent} and ${TapWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c2CoolingPercent}"`);
+      throw new Error(`c2CoolingPercent has to be between ${TapWaterCoolingEntity.minC5iCoolingPercent} and ${TapWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c2CoolingPercent}".`);
     }
 
     return KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, this.c2CoolingPercent);

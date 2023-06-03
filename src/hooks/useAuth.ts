@@ -1,13 +1,9 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
-import {isTokenExpired} from "../utils/time";
+import {isTokenExpired, toApiResponse, getErrorMessage} from "./utils";
+import {Credentials} from "../types";
 
-interface LoginResponse {
-  success?: boolean;
-  error?: string;
-}
-
-function useAuth() {
+const useAuth = () => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
 
@@ -23,28 +19,20 @@ function useAuth() {
     if (isTokenExpired(tokenExpiration)) logout();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const response: LoginResponse = {
-      success: undefined,
-      error: undefined
-    };
-
+  const login = async (credentials: Credentials) => {
     try {
-      const { token, expiration } = await authApi.login({ email, password });
+      const { token, expiration } = await authApi.login(credentials);
 
       if (typeof token === 'string' && token.length) {
         setToken(token);
         setTokenExpiration(expiration);
 
-        response.success = true;
-        return response;
+        return toApiResponse(true);
       }
 
-      throw new Error('Failed to log in');
+      throw new Error('Failed to log in.');
     } catch (err: any) {
-      response.success = false;
-      response.error = err.response.data;
-      return response;
+      return toApiResponse(false, getErrorMessage(err));
     }
   };
 
@@ -58,12 +46,8 @@ function useAuth() {
     login,
     logout
   };
-}
+};
 
 export {
   useAuth
-};
-
-export type {
-  LoginResponse
 };

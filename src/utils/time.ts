@@ -16,12 +16,12 @@ const getHoursOfDay = () => {
   return hours;
 };
 
-const isTokenExpired = (tokenExpiration: string | null) => {
-  const tokenExpiry = JSON.parse(tokenExpiration || '0');
-  return Date.now() >= tokenExpiry;
+const hasDatePassed = (timestamp: string | null) => {
+  const expiry = JSON.parse(timestamp || '0');
+  return Date.now() >= expiry;
 };
 
 export {
   getHoursOfDay,
-  isTokenExpired
+  hasDatePassed
 };
