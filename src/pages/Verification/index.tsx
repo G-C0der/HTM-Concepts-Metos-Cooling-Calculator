@@ -23,6 +23,7 @@ const validationSchema = yup.object().shape({
 const Verification = () => {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState<string | React.ReactNode>('');
+  const [showResendForm, setShowResendForm] = useState(false);
 
   const { token } = useParams();
 
@@ -59,36 +60,16 @@ const Verification = () => {
       <>{error} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>
     );
 
-    switch (error) {
-      case specificIncompleteErrors.verificationLinkExpired:
-        return (
-          <>
-            {error}
-            To send a new verification email, enter the email associated with your account and click the button
-            below.<br/>
-            <TextField
-              fullWidth
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email*"
-              type="email"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              sx={{ mt: 3, mb: 2 }}
-            />
-            <br/>
-            <Button
-              type='submit'
-              style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
-                textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                cursor: "pointer"}}
-            >
-              Send Verification Email
-            </Button>
-          </>
-        );
+    if (error === specificIncompleteErrors.verificationLinkExpired) {
+      setShowResendForm(true);
+
+      return (
+        <>
+          {error}
+          To send a new verification email, enter the email associated with your account and click the button
+          below.<br/>
+        </>
+      );
     }
   };
 
@@ -127,6 +108,32 @@ const Verification = () => {
                 {error}
               </Typography>
             </Alert>
+          }
+          {
+            showResendForm &&
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                fullWidth
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                label="Email*"
+                type="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                sx={{ mt: 3, mb: 2 }}
+              />
+              <br/>
+              <Button
+                type='submit'
+                style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
+                  textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
+                  cursor: "pointer"}}
+              >
+                Send Verification Email
+              </Button>
+            </form>
           }
         </Paper>
       </Grid>
