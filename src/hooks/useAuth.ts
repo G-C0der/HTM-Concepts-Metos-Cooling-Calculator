@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
 import {isTokenExpired, toApiResponse, getErrorMessage} from "./utils";
-import {Credentials} from "../types";
+import {Credentials, User} from "../types";
 
 const useAuth = () => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
+  const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (token && tokenExpiration) {
@@ -21,9 +22,10 @@ const useAuth = () => {
 
   const login = async (credentials: Credentials) => {
     try {
-      const { token, expiration } = await authApi.login(credentials);
+      const { token, expiration, user } = await authApi.login(credentials);
 
       if (typeof token === 'string' && token.length) {
+        setAuthenticatedUser(user);
         setToken(token);
         setTokenExpiration(expiration);
 
@@ -37,11 +39,13 @@ const useAuth = () => {
   };
 
   const logout = () => {
+    setAuthenticatedUser(null);
     setToken(null);
     setTokenExpiration(null);
   };
 
   return {
+    authenticatedUser,
     token,
     login,
     logout

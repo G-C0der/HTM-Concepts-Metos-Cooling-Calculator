@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './style.css';
 import {KettleCount} from "../../enums/KettleCount";
 import {KettleContainer} from "../../components/KettleContainer";
@@ -25,6 +25,7 @@ import {C5iRecommendationsDataGrid} from "../../components/C5iRecommendationsDat
 import htmConceptsLogo from '../../assets/img/HTM_Concepts_AG_Logo_mit_Claim_2019_gray.png';
 import metosLogo from '../../assets/img/metos_logo.png';
 import {CustomAppBar} from "../../components/CustomAppBar";
+import {AuthContext} from "../../contexts";
 
 const FormContainer = styled('div')(({ theme }) => ({
   backgroundColor: '#E4E4E4',
@@ -40,6 +41,8 @@ const ConsumptionContainer = styled('div')(({ theme }) => ({
 }));
 
 const Home = () => {
+  const { authenticatedUser: user } = useContext(AuthContext);
+
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
