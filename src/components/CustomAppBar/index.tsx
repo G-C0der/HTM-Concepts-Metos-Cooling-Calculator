@@ -11,7 +11,11 @@ import {AuthContext} from "../../contexts/AuthContext";
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 
 export const CustomAppBar = () => {
-  const { logout } = useContext(AuthContext);
+  const { authenticatedUser: user, logout } = useContext(AuthContext);
+
+  const handleAdminClick = () => {
+
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -21,6 +25,24 @@ export const CustomAppBar = () => {
             <img src={htmConceptsLogo} width={70} />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
+          {
+            user!.admin &&
+            <Button
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2,  }}
+              onClick={handleAdminClick}
+            >
+              <Typography component="div" sx={{
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.03rem',
+                color: 'inherit'
+              }}>
+                Admin
+              </Typography>
+            </Button>
+          }
           <Button
             color="inherit"
             aria-label="menu"

@@ -41,8 +41,6 @@ const ConsumptionContainer = styled('div')(({ theme }) => ({
 }));
 
 const Home = () => {
-  const { authenticatedUser: user } = useContext(AuthContext);
-
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
   const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
