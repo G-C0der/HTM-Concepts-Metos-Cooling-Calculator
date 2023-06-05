@@ -20,6 +20,18 @@ const useAuth = () => {
     if (isTokenExpired(tokenExpiration)) logout();
   }, []);
 
+  useEffect(() => {
+    if (token && !authenticatedUser) {
+      const syncAuthenticatedUser = async () => {
+        const { user } = await authApi.getAuthenticatedUser();
+
+        setAuthenticatedUser(user);
+      };
+
+      syncAuthenticatedUser();
+    }
+  }, [token, authenticatedUser]);
+
   const login = async (credentials: Credentials) => {
     try {
       const { token, expiration, user } = await authApi.login(credentials);

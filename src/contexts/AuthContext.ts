@@ -12,9 +12,9 @@ const AuthContext = createContext({
   authenticatedUser: null,
   token: null,
   login: () =>
-    { throw new Error('login: AuthProvider is not set up. Wrap the app with an AuthProvider.'); },
+  { throw new Error('login: AuthProvider is not set up. Wrap the app with an AuthProvider.'); },
   logout: () =>
-    { throw new Error('logout: AuthProvider is not set up. Wrap the app with an AuthProvider.'); }
+  { throw new Error('logout: AuthProvider is not set up. Wrap the app with an AuthProvider.'); }
 } as AuthContextType);
 
 export {

@@ -3,17 +3,17 @@ import {UserForm} from "../../types";
 
 class UserApi extends Api {
   register = async (userFormData: UserForm) => {
-    const { data } = await this.axios.post('/users', userFormData);
+    const { data } = await this.api.post('/users', userFormData);
     return data;
   };
 
   sendVerificationEmail = async (email: string) => {
-    const { data } = await this.axios.post('/users/verification/send', { email });
+    const { data } = await this.api.post('/users/verification/send', { email });
     return data;
   };
 
   verify = async (token: string) => {
-    const { data } = await this.axios.post(`/users/verification/${token}`);
+    const { data } = await this.api.post(`/users/verification/${token}`);
     return data;
   };
 }
