@@ -26,7 +26,7 @@ export const CustomAppBar = () => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           {
-            user!.admin &&
+            user?.admin &&
             <Button
               color="inherit"
               aria-label="menu"
