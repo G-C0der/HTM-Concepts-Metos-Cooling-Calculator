@@ -12,6 +12,7 @@ import {escapeForRegExp} from "../../utils";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {formFieldLengths} from "../../constants";
+import {getCode, getNames} from 'country-list';
 
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
 const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
@@ -117,8 +118,8 @@ const Registration = () => {
     }
   });
 
-  const countries = ["Switzerland", "Germany", "France", "Italy"];
-  const titles = ["Mr.", "Mrs.", "Ms.", "Dr."];
+  const countries = getNames().sort();
+  const titles = ["Mr.", "Ms."];
 
   useEffect(() => {
     if (error) {
@@ -316,8 +317,8 @@ const Registration = () => {
                 onBlur={formik.handleBlur}
                 error={formik.touched.country && Boolean(formik.errors.country)}
               >
-                {countries.map((country) => (
-                  <MenuItem key={country} value={country}>{country}</MenuItem>
+                {countries.map((countryName) => (
+                  <MenuItem key={getCode(countryName)} value={getCode(countryName)}>{countryName}</MenuItem>
                 ))}
               </Select>
               <FormHelperText>{formik.touched.country && formik.errors.country}</FormHelperText>
