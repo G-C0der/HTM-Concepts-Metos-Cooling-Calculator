@@ -14,7 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | React.ReactNode>('');
-  const [resetPassword, setResetPassword] = useState(false);
+  const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
 
   const { login } = useContext(AuthContext);
   const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
@@ -109,7 +109,7 @@ const Login = () => {
               color="secondary"
               variant="outlined"
               style={{ marginTop: 16 }}
-              onClick={() => setResetPassword(prevValue => !prevValue)}
+              onClick={() => setShowResetPasswordForm(prevValue => !prevValue)}
             >
               Reset Password
             </Button>
@@ -118,7 +118,7 @@ const Login = () => {
           </form>
 
           {
-            resetPassword &&
+            showResetPasswordForm &&
             <SendEmailForm sendEmailCallback={sendResetPasswordEmail} buttonText='Send Password Reset Email' />
           }
         </Paper>
