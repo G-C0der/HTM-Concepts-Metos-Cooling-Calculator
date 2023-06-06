@@ -7,7 +7,7 @@ const formFieldLengths = {
   street: { max: 128 },
   city: { max: 64 },
   zip: { max: 16 },
-  country: { max: 64 },
+  country: { max: 2 },
   phone: { max: 32 },
   company: { max: 256 },
   website: { max: 512 }
