@@ -2,16 +2,52 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
-import {Tooltip } from '@mui/material';
-import {useContext} from "react";
-import {AuthContext} from "../../contexts/AuthContext";
+import {Avatar, IconButton, Menu, MenuItem, Tooltip, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
+import {User} from "../../types";
+import {useContext} from "react";
+import {AuthContext} from "../../contexts";
 
-export const CustomAppBar = () => {
-  const { authenticatedUser: user, logout } = useContext(AuthContext);
+interface CustomAppBarProps {
+  user: User;
+}
+
+const userMenuStyle = {
+  margin: '20px',
+  fontWeight: '500',
+  fontSize: '1.2em',
+};
+
+const logoutButtonStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '10px',
+  fontSize: '0.8em',
+};
+
+const logoutIconStyle = {
+  width: '20px',
+  height: '20px',
+  marginRight: '10px',
+};
+
+export const CustomAppBar = ({ user }: CustomAppBarProps) => {
+  const { logout } = useContext(AuthContext);
+
+  const userFullName = `${user.fname} ${user.lname}`;
+
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   const handleAdminClick = () => {
 
@@ -24,43 +60,90 @@ export const CustomAppBar = () => {
           <Box>
             <img src={htmConceptsLogo} width={70} />
           </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          {
-            user?.admin &&
-            <Button
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2,  }}
-              onClick={handleAdminClick}
-            >
-              <Typography component="div" sx={{
+
+          <Button
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2, ml: 7 }}
+            onClick={() => window.open('https://www.htm-concepts.ch/kontakt', '_blank')}
+          >
+            <Typography
+              component="div"
+              sx={{
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.03rem',
                 color: 'inherit'
-              }}>
+              }}
+            >
+              CONTACT
+            </Typography>
+          </Button>
+
+          {
+            user.admin &&
+            <Button
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={handleAdminClick}
+            >
+              <Typography
+                component="div"
+                sx={{
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.03rem',
+                  color: 'inherit'
+                }}
+              >
                 Admin
               </Typography>
             </Button>
           }
-          <Button
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2,  }}
-            onClick={() => window.open('https://www.htm-concepts.ch/kontakt', '_blank')}
-          >
-            <Typography component="div" sx={{
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.03rem',
-              color: 'inherit'
-            }}>
-              CONTACT
-            </Typography>
-          </Button>
-          <Tooltip title='logout'>
-            <Button color="inherit" onClick={logout}><LogoutIcon /></Button>
-          </Tooltip>
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Profile">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={userFullName} src='./img.png' />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+                sx={{ justifyContent: "center", fontWeight: 'bold', py: 1, mx: 1 }}
+              >
+                {userFullName}
+              </Typography>
+              <MenuItem onClick={logout}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <LogoutIcon sx={{ marginRight: 2 }} />
+                  <Typography>
+                    Sign out
+                  </Typography>
+                </Box>
+              </MenuItem>
+            </Menu>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
