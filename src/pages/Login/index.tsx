@@ -62,7 +62,7 @@ const Login = () => {
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper style={{ padding: 16 }} elevation={3}>
           <Typography variant="h5" align="center" component="h1" gutterBottom>
-            Login
+            Cooling Calculator
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -88,7 +88,7 @@ const Login = () => {
               variant="contained"
               style={{ marginTop: 16 }}
             >
-              Login
+              Sign in
             </Button>
             <Button
               fullWidth

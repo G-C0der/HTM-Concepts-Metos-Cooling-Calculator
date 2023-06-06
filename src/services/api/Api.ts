@@ -2,12 +2,18 @@ import axios from 'axios';
 import {serverAPIBaseURL} from '../../config';
 
 class Api {
-  axios = axios.create({
+  api = axios.create({
     baseURL: serverAPIBaseURL
   });
 
   constructor() {
-    this.axios.interceptors.response.use(
+    this.api.interceptors.request.use((config) => {
+      const token = localStorage.getItem('token');
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
+
+    this.api.interceptors.response.use(
       res => res,
       err => {
         if (err.response.status === 401) {
