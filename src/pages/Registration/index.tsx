@@ -11,7 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import {escapeForRegExp} from "../../utils";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
-import {formFieldLengths} from "../../constants";
+import {emailValidationSchema, formFieldLengths} from "../../constants";
 import {getCode, getNames} from 'country-list';
 
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
@@ -30,11 +30,7 @@ const validationSchema = yup.object({
     .string()
     .required('Last name is required.')
     .max(formFieldLengths.lname.max, `Last name is too long - should be maximum ${formFieldLengths.lname.max} characters.`),
-  email: yup
-    .string()
-    .required('Email is required.')
-    .max(formFieldLengths.email.max, `Email is too long - should be maximum ${formFieldLengths.email.max} characters.`)
-    .email('Email is invalid.'),
+  ...emailValidationSchema,
   password: yup
     .string()
     .required('Password is required.')
