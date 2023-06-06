@@ -118,7 +118,7 @@ const Registration = () => {
   });
 
   const countries = ["Switzerland", "Germany", "France", "Italy"];
-  const titles = ["Mr.", "Mrs.", "Ms.", "Dr."];
+  const titles = ["Mr.", "Ms."];
 
   useEffect(() => {
     if (error) {
