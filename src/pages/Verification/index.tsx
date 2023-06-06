@@ -35,7 +35,6 @@ const Verification = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      // Here you can access form values
       await sendVerificationEmail(values.email);
     },
   });

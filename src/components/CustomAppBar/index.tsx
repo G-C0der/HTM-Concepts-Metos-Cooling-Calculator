@@ -14,26 +14,6 @@ interface CustomAppBarProps {
   user: User;
 }
 
-const userMenuStyle = {
-  margin: '20px',
-  fontWeight: '500',
-  fontSize: '1.2em',
-};
-
-const logoutButtonStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '10px',
-  fontSize: '0.8em',
-};
-
-const logoutIconStyle = {
-  width: '20px',
-  height: '20px',
-  marginRight: '10px',
-};
-
 export const CustomAppBar = ({ user }: CustomAppBarProps) => {
   const { logout } = useContext(AuthContext);
 
@@ -41,13 +21,9 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleCloseUserMenu = () => setAnchorElUser(null);
 
   const handleAdminClick = () => {
 

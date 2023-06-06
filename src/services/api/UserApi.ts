@@ -16,6 +16,16 @@ class UserApi extends Api {
     const { data } = await this.api.post(`/users/verification/${token}`);
     return data;
   };
+
+  sendResetPasswordEmail = async (email: string) => {
+    const { data } = await this.api.post('/users/password/reset/send', email);
+    return data;
+  };
+
+  resetPassword = async (token: string, password: string) => {
+    const { data } = await this.api.post(`/users/password/reset/${token}`, password);
+    return data;
+  };
 }
 
 export default new UserApi();

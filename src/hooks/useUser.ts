@@ -33,10 +33,30 @@ const useUser = () => {
     }
   };
 
+  const sendResetPasswordEmail = async (email: string) => {
+    try {
+      await userApi.sendResetPasswordEmail(email);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
+  const resetPassword = async (token: string, password: string) => {
+    try {
+      await userApi.resetPassword(token, password);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
   return {
     register,
     sendVerificationEmail,
-    verify
+    verify,
+    sendResetPasswordEmail,
+    resetPassword
   };
 };
 
