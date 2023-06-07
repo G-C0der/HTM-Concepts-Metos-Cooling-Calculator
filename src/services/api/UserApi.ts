@@ -10,7 +10,7 @@ class UserApi extends Api {
   };
 
   sendVerificationEmail = async (email: string) => {
-    const { data } = await this.api.post(`${this.basePath}/verification/send`, { email });
+    const { data } = await this.api.post(`${this.basePath}/verification`, { email });
     return data;
   };
 
@@ -20,12 +20,12 @@ class UserApi extends Api {
   };
 
   sendResetPasswordEmail = async (email: string) => {
-    const { data } = await this.api.post(`${this.basePath}/password-reset/send`, email);
+    const { data } = await this.api.post(`${this.basePath}/password-reset`, email);
     return data;
   };
 
   verifyResetPasswordToken = async (token: string) => {
-    const { data } = await this.api.get(`${this.basePath}/password-reset/verification/${token}`);
+    const { data } = await this.api.get(`${this.basePath}/password-reset/${token}`);
     return data;
   };
 
