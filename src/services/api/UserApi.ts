@@ -20,7 +20,7 @@ class UserApi extends Api {
   };
 
   sendResetPasswordEmail = async (email: string) => {
-    const { data } = await this.api.post(`${this.basePath}/password-reset`, email);
+    const { data } = await this.api.post(`${this.basePath}/password-reset`, { email });
     return data;
   };
 
@@ -30,7 +30,7 @@ class UserApi extends Api {
   };
 
   resetPassword = async (token: string, password: string) => {
-    const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, password);
+    const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
     return data;
   };
 }
