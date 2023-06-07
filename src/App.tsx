@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path='/registration' element={<RegistrationPage />} />
             <Route path='/verification/:token' element={<VerificationPage />} />
-            <Route path='/reset/:token' element={<PasswordResetPage />} />
+            <Route path='/reset-password/:token' element={<PasswordResetPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>
