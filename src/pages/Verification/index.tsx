@@ -23,9 +23,8 @@ const Verification = () => {
     const verifyUser = async () => {
       const verifyResponse = await verify(token!);
 
-      if (verifyResponse.success) {
-        setStatus('success');
-      } else {
+      if (verifyResponse.success) setStatus('success');
+      else {
         setStatus('error');
         setError(completeError(verifyResponse.error!)!);
       }

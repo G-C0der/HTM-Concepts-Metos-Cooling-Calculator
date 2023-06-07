@@ -6,6 +6,7 @@ type UserContextType = {
   sendVerificationEmail: (email: string) => Promise<ApiResponse>;
   verify: (token: string) => Promise<ApiResponse>;
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
+  verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
   resetPassword: (token: string, password: string) => Promise<ApiResponse>;
 };
 
@@ -18,6 +19,8 @@ const UserContext = createContext({
   { throw new Error('verify: UserProvider is not set up. Wrap the app with an UserProvider.'); },
   sendResetPasswordEmail: () =>
   { throw new Error('sendResetPasswordEmail: UserProvider is not set up. Wrap the app with an UserProvider.'); },
+  verifyResetPasswordToken: () =>
+  { throw new Error('verifyResetPasswordToken: UserProvider is not set up. Wrap the app with an UserProvider.'); },
   resetPassword: () =>
   { throw new Error('resetPassword: UserProvider is not set up. Wrap the app with an UserProvider.'); },
 } as UserContextType);

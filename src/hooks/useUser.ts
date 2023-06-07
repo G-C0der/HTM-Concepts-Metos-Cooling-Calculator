@@ -42,6 +42,15 @@ const useUser = () => {
     }
   };
 
+  const verifyResetPasswordToken = async (token: string) => {
+    try {
+      await userApi.verifyResetPasswordToken(token);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
   const resetPassword = async (token: string, password: string) => {
     try {
       await userApi.resetPassword(token, password);
@@ -56,6 +65,7 @@ const useUser = () => {
     sendVerificationEmail,
     verify,
     sendResetPasswordEmail,
+    verifyResetPasswordToken,
     resetPassword
   };
 };

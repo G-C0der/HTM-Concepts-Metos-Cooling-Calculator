@@ -9,7 +9,9 @@ interface SendEmailFormProps {
   buttonText: string;
 }
 
-const validationSchema = yup.object().shape(emailValidationSchema);
+const validationSchema = yup.object().shape({
+  email: emailValidationSchema
+});
 
 const SendEmailForm = ({ sendEmailCallback, buttonText }: SendEmailFormProps) => {
   const formik = useFormik({
@@ -37,6 +39,7 @@ const SendEmailForm = ({ sendEmailCallback, buttonText }: SendEmailFormProps) =>
         sx={{ mt: 3, mb: 2 }}
       />
       <br/>
+
       <Button
         type='submit'
         style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",

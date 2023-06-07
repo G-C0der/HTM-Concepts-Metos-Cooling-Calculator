@@ -2,28 +2,35 @@ import {Api} from "./Api";
 import {UserForm} from "../../types";
 
 class UserApi extends Api {
+  basePath = '/users';
+
   register = async (userFormData: UserForm) => {
-    const { data } = await this.api.post('/users', userFormData);
+    const { data } = await this.api.post(this.basePath, userFormData);
     return data;
   };
 
   sendVerificationEmail = async (email: string) => {
-    const { data } = await this.api.post('/users/verification/send', { email });
+    const { data } = await this.api.post(`${this.basePath}/verification/send`, { email });
     return data;
   };
 
   verify = async (token: string) => {
-    const { data } = await this.api.post(`/users/verification/${token}`);
+    const { data } = await this.api.post(`${this.basePath}/verification/${token}`);
     return data;
   };
 
   sendResetPasswordEmail = async (email: string) => {
-    const { data } = await this.api.post('/users/password/reset/send', email);
+    const { data } = await this.api.post(`${this.basePath}/password/reset/send`, email);
+    return data;
+  };
+
+  verifyResetPasswordToken = async (token: string) => {
+    const { data } = await this.api.get(`${this.basePath}/password/reset/verification/${token}`);
     return data;
   };
 
   resetPassword = async (token: string, password: string) => {
-    const { data } = await this.api.post(`/users/password/reset/${token}`, password);
+    const { data } = await this.api.post(`${this.basePath}/password/reset/${token}`, password);
     return data;
   };
 }
