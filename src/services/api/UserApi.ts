@@ -4,8 +4,8 @@ import {UserForm} from "../../types";
 class UserApi extends Api {
   basePath = '/users';
 
-  register = async (userFormData: UserForm) => {
-    const { data } = await this.api.post(this.basePath, userFormData);
+  register = async (form: UserForm) => {
+    const { data } = await this.api.post(this.basePath, form);
     return data;
   };
 

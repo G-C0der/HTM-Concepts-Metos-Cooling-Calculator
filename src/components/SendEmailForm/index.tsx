@@ -19,9 +19,7 @@ const SendEmailForm = ({ sendEmailCallback, buttonText }: SendEmailFormProps) =>
       email: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await sendEmailCallback(values.email);
-    },
+    onSubmit: async (values) => await sendEmailCallback(values.email)
   });
 
   return (

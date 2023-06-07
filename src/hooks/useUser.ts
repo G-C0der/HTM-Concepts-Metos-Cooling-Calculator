@@ -3,9 +3,9 @@ import {getErrorMessage, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
 const useUser = () => {
-  const register = async (userFormData: UserForm) => {
+  const register = async (form: UserForm) => {
     try {
-      const { wasVerificationEmailSent } = await userApi.register(userFormData);
+      const { wasVerificationEmailSent } = await userApi.register(form);
       return toApiResponse(true, undefined, { wasVerificationEmailSent });
     } catch (err: any) {
       return toApiResponse(false, getErrorMessage(err));

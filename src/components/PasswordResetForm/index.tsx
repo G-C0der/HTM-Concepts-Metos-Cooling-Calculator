@@ -23,9 +23,7 @@ const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) =>
       passwordRetype: ''
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await passwordResetCallback(values.password);
-    },
+    onSubmit: async (values) => await passwordResetCallback(values.password)
   });
 
   return (
