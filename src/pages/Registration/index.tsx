@@ -206,6 +206,7 @@ const Registration = () => {
               </Select>
               <FormHelperText>{formik.touched.title && formik.errors.title}</FormHelperText>
             </FormControl>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -217,6 +218,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -228,6 +230,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -240,6 +243,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <Tooltip title={`Allowed special characters: ${passwordSpecialCharacters}`} placement="right">
               <TextField
                 fullWidth
@@ -259,6 +263,7 @@ const Registration = () => {
                 }}
               />
             </Tooltip>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -271,6 +276,7 @@ const Registration = () => {
               margin="normal"
               autoComplete="street-address"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -282,6 +288,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -293,6 +300,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <FormControl fullWidth margin="normal">
               <InputLabel id="country-label">Country*</InputLabel>
               <Select
@@ -310,6 +318,7 @@ const Registration = () => {
               </Select>
               <FormHelperText>{formik.touched.country && formik.errors.country}</FormHelperText>
             </FormControl>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -321,6 +330,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -332,6 +342,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -343,6 +354,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -353,6 +365,7 @@ const Registration = () => {
               }
               label="I accept the Terms and Conditions"
             />
+
             <Button
               fullWidth
               type="submit"
@@ -363,6 +376,7 @@ const Registration = () => {
             >
               Register
             </Button>
+
             {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
         </Paper>
