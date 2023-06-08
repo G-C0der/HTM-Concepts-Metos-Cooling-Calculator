@@ -13,14 +13,17 @@ export function KettleContainer({ kettleEntities, handleKettleDeleteClick }: Ket
   let kettleNr = 1;
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 1600, minWidth: 1600, minHeight: 700 }}>
-      <Grid container spacing={-14}>
+    <Box sx={{ flexGrow: 1, minHeight: 700 }}>
+      <div style={{
+        display: 'flex',
+        gap: '20px',
+      }}>
         {kettleEntities.map(kettleEntity => (
           <Grid item xs={12} md={2} key={kettleNr++} >
             <Kettle kettleEntity={kettleEntity} number={kettleNr} handleKettleDeleteClick={handleKettleDeleteClick} />
           </Grid>
         ))}
-      </Grid>
+      </div>
     </Box>
   );
 }

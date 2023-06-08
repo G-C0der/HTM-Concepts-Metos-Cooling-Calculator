@@ -8,6 +8,7 @@ import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
 import Typography from "@mui/material/Typography";
 import {ConsumptionResult} from "./types";
 import {round} from "../../utils/math";
+import { wrap } from 'module';
 
 interface ResultDisplayProps {
   consumptionResult: ConsumptionResult
@@ -24,8 +25,15 @@ export const ConsumptionDisplay = ({
   }
 }: ResultDisplayProps) => {
   return (
-    <Grid container gap={14}>
-      <Grid item xs={4} md={3}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        paddingTop: '20px',
+        gap: '20px'
+      }}>
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: -1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
@@ -67,9 +75,7 @@ export const ConsumptionDisplay = ({
             </Grid>
           </CardContent>
         </Card>
-      </Grid>
 
-      <Grid item xs={1} md={3}>
         <Card sx={{ maxWidth: 350, minHeight: 192.3 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: -1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
@@ -111,9 +117,7 @@ export const ConsumptionDisplay = ({
             </Grid>
           </CardContent>
         </Card>
-      </Grid>
 
-      <Grid item xs={8} md={4}>
         <Card sx={{ maxWidth: 430 }}>
           <CardContent>
             <Typography sx={{ mt: 2, mb: 1, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
@@ -182,7 +186,6 @@ export const ConsumptionDisplay = ({
             </Grid>
           </CardContent>
         </Card>
-      </Grid>
-    </Grid>
+      </div>
   );
 };
