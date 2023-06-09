@@ -4,6 +4,7 @@ import HomePage from "./pages/Home";
 import LoginPage from "./pages/Login";
 import RegistrationPage from './pages/Registration';
 import VerificationPage from './pages/Verification';
+import PasswordResetPage from "./pages/PasswordReset";
 import {useAuth} from "./hooks/useAuth";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path='/registration' element={<RegistrationPage />} />
             <Route path='/verification/:token' element={<VerificationPage />} />
+            <Route path='/reset-password/:token' element={<PasswordResetPage />} />
           </Routes>
         </Router>
       </UserContext.Provider>

@@ -3,10 +3,10 @@ import {getErrorMessage, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
 const useUser = () => {
-  const register = async (userFormData: UserForm) => {
+  const register = async (form: UserForm) => {
     try {
-      const { wasVerificationEmailSent } = await userApi.register(userFormData);
-      return toApiResponse(true, undefined, { wasVerificationEmailSent });
+      const { wasEmailSent } = await userApi.register(form);
+      return toApiResponse(true, undefined, { wasEmailSent });
     } catch (err: any) {
       return toApiResponse(false, getErrorMessage(err));
     }
@@ -14,9 +14,9 @@ const useUser = () => {
 
   const sendVerificationEmail = async (email: string) => {
     try {
-      const { wasVerificationEmailSent } = await userApi.sendVerificationEmail(email);
+      const { wasEmailSent } = await userApi.sendVerificationEmail(email);
 
-      if (!wasVerificationEmailSent) throw new Error('Failed to send verification email.');
+      if (!wasEmailSent) throw new Error('Failed to send verification email.');
 
       return toApiResponse(true);
     } catch (err: any) {
@@ -33,10 +33,40 @@ const useUser = () => {
     }
   };
 
+  const sendResetPasswordEmail = async (email: string) => {
+    try {
+      await userApi.sendResetPasswordEmail(email);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
+  const verifyResetPasswordToken = async (token: string) => {
+    try {
+      await userApi.verifyResetPasswordToken(token);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
+  const resetPassword = async (token: string, password: string) => {
+    try {
+      await userApi.resetPassword(token, password);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
   return {
     register,
     sendVerificationEmail,
-    verify
+    verify,
+    sendResetPasswordEmail,
+    verifyResetPasswordToken,
+    resetPassword
   };
 };
 

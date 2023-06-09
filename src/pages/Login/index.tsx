@@ -3,6 +3,7 @@ import {Alert, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
 import {htmConceptsEmail} from "../../config";
+import {SendEmailForm} from "../../components/SendEmailForm";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -13,9 +14,10 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | React.ReactNode>('');
+  const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
 
   const { login } = useContext(AuthContext);
-  const { sendVerificationEmail } = useContext(UserContext);
+  const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -64,6 +66,7 @@ const Login = () => {
           <Typography variant="h5" align="center" component="h1" gutterBottom>
             Cooling Calculator
           </Typography>
+
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -73,6 +76,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               margin="normal"
             />
+
             <TextField
               fullWidth
               label="Password"
@@ -81,6 +85,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               margin="normal"
             />
+
             <Button
               fullWidth
               type="submit"
@@ -90,17 +95,33 @@ const Login = () => {
             >
               Sign in
             </Button>
+
             <Button
               fullWidth
-              color="secondary"
               variant="outlined"
               style={{ marginTop: 16 }}
               onClick={() => navigate('/registration')}
             >
               Register
             </Button>
+
+            <Button
+              fullWidth
+              color="secondary"
+              variant="outlined"
+              style={{ marginTop: 16 }}
+              onClick={() => setShowResetPasswordForm(prevValue => !prevValue)}
+            >
+              Reset Password
+            </Button>
+
             {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
+
+          {
+            showResetPasswordForm &&
+            <SendEmailForm sendEmailCallback={sendResetPasswordEmail} buttonText='Send Password Reset Email' />
+          }
         </Paper>
       </Grid>
     </Grid>

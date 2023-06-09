@@ -1,24 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {CircularProgress, Paper, Typography, Alert, Box, Button, TextField} from '@mui/material';
+import {CircularProgress, Paper, Typography, Alert, Box} from '@mui/material';
 import { Grid } from "@mui/material";
 import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
-import { useFormik } from 'formik';
-import * as yup from "yup";
-import {formFieldLengths} from "../../constants";
+import {SendEmailForm} from "../../components/SendEmailForm";
 
 const specificIncompleteErrors = {
-  verificationLinkExpired: 'Your verification link has expired.'
+  verificationUrlExpired: 'Your verification link has expired.'
 };
-
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required('Email is required.')
-    .max(formFieldLengths.email.max, `Email is too long - should be maximum ${formFieldLengths.email.max} characters.`)
-    .email('Email is invalid.')
-});
 
 const Verification = () => {
   const [status, setStatus] = useState('loading');
@@ -29,24 +19,12 @@ const Verification = () => {
 
   const { verify, sendVerificationEmail } = useContext(UserContext);
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      // Here you can access form values
-      await sendVerificationEmail(values.email);
-    },
-  });
-
   useEffect(() => {
     const verifyUser = async () => {
       const verifyResponse = await verify(token!);
 
-      if (verifyResponse.success) {
-        setStatus('success');
-      } else {
+      if (verifyResponse.success) setStatus('success');
+      else {
         setStatus('error');
         setError(completeError(verifyResponse.error!)!);
       }
@@ -60,7 +38,7 @@ const Verification = () => {
       <>{error} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>
     );
 
-    if (error === specificIncompleteErrors.verificationLinkExpired) {
+    if (error === specificIncompleteErrors.verificationUrlExpired) {
       setShowResendForm(true);
 
       return (
@@ -111,29 +89,7 @@ const Verification = () => {
           }
           {
             showResendForm &&
-            <form onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                onBlur={formik.handleBlur}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                label="Email*"
-                type="email"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                sx={{ mt: 3, mb: 2 }}
-              />
-              <br/>
-              <Button
-                type='submit'
-                style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
-                  textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                  cursor: "pointer"}}
-              >
-                Send Verification Email
-              </Button>
-            </form>
+            <SendEmailForm sendEmailCallback={sendVerificationEmail} buttonText='Send Verification Email' />
           }
         </Paper>
       </Grid>

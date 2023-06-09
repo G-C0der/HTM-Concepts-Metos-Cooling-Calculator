@@ -8,14 +8,15 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
-import {escapeForRegExp} from "../../utils";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
-import {formFieldLengths} from "../../constants";
+import {
+  emailValidationSchema,
+  formFieldLengths,
+  passwordSpecialCharacters,
+  passwordValidationSchema
+} from "../../constants";
 import {getCode, getNames} from 'country-list';
-
-const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
-const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCharacters);
 
 const validationSchema = yup.object({
   title: yup
@@ -30,22 +31,8 @@ const validationSchema = yup.object({
     .string()
     .required('Last name is required.')
     .max(formFieldLengths.lname.max, `Last name is too long - should be maximum ${formFieldLengths.lname.max} characters.`),
-  email: yup
-    .string()
-    .required('Email is required.')
-    .max(formFieldLengths.email.max, `Email is too long - should be maximum ${formFieldLengths.email.max} characters.`)
-    .email('Email is invalid.'),
-  password: yup
-    .string()
-    .required('Password is required.')
-    .matches(new RegExp(`^[a-zA-Z0-9${passwordSpecialCharactersDoubleEscaped}]+$`),
-      `Password can only contain Latin letters, numbers, and following special characters: ${passwordSpecialCharacters}.`)
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter.')
-    .matches(/[a-z]/, 'Password must contain at least one lowercase letter.')
-    .matches(/[0-9]+/, 'Password must contain at least one digit.')
-    .matches(new RegExp(`[${passwordSpecialCharactersDoubleEscaped}]+`),
-      'Password must contain at least one special character.')
-    .min(formFieldLengths.password.min, `Password is too short - should be minimum ${formFieldLengths.password.min} characters.`),
+  email: emailValidationSchema,
+  password: passwordValidationSchema,
   street: yup
     .string()
     .required('Street is required.')
@@ -111,7 +98,7 @@ const Registration = () => {
       const registerResponse = await register(values);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
-        if (registerResponse.data.wasVerificationEmailSent) setVerificationWarning(false);
+        if (registerResponse.data.wasEmailSent) setVerificationWarning(false);
         else setVerificationWarning(true);
       }
       else setError(registerResponse.error!);
@@ -219,6 +206,7 @@ const Registration = () => {
               </Select>
               <FormHelperText>{formik.touched.title && formik.errors.title}</FormHelperText>
             </FormControl>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -230,6 +218,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -241,6 +230,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -253,6 +243,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <Tooltip title={`Allowed special characters: ${passwordSpecialCharacters}`} placement="right">
               <TextField
                 fullWidth
@@ -272,6 +263,7 @@ const Registration = () => {
                 }}
               />
             </Tooltip>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -284,6 +276,7 @@ const Registration = () => {
               margin="normal"
               autoComplete="street-address"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -295,6 +288,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -306,6 +300,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <FormControl fullWidth margin="normal">
               <InputLabel id="country-label">Country*</InputLabel>
               <Select
@@ -323,6 +318,7 @@ const Registration = () => {
               </Select>
               <FormHelperText>{formik.touched.country && formik.errors.country}</FormHelperText>
             </FormControl>
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -334,6 +330,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -345,6 +342,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <TextField
               fullWidth
               onBlur={formik.handleBlur}
@@ -356,6 +354,7 @@ const Registration = () => {
               onChange={formik.handleChange}
               margin="normal"
             />
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -366,6 +365,7 @@ const Registration = () => {
               }
               label="I accept the Terms and Conditions"
             />
+
             <Button
               fullWidth
               type="submit"
@@ -376,6 +376,7 @@ const Registration = () => {
             >
               Register
             </Button>
+
             {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
         </Paper>
