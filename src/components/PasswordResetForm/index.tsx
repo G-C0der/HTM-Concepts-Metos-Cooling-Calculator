@@ -27,7 +27,7 @@ const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) =>
   });
 
   return (
-    <form>
+    <form onSubmit={formik.handleSubmit}>
       <Tooltip title={`Allowed special characters: ${passwordSpecialCharacters}`} placement="right">
         <TextField
           fullWidth
