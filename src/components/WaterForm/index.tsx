@@ -38,10 +38,10 @@ export const WaterForm = ({
           Water C2
         </Typography>
 
-        <Grid container sx={{ gap: 0, ml: 0 }}>
-          <Grid item xs={12} md={10}>
+        <div>
+          <div>
             <TextField
-              style={{ width: "200px", margin: "5px" }}
+              style={{ margin: "5px" }}
               value={waterLitreCHF}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
@@ -50,11 +50,11 @@ export const WaterForm = ({
               variant="outlined"
               onChange={handleWaterLitreCostChange}
             />
-          </Grid>
+          </div>
 
-          <Grid item xs={12} md={10}>
+          <div>
             <TextField
-              style={{ width: "200px", margin: "5px" }}
+              style={{ margin: "5px" }}
               value={waterLitreCO2}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
               type="number"
@@ -63,8 +63,8 @@ export const WaterForm = ({
               variant="outlined"
               onChange={handleWaterLitreCo2Change}
             />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
