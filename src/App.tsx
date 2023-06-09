@@ -7,7 +7,7 @@ import VerificationPage from './pages/Verification';
 import PasswordResetPage from "./pages/PasswordReset";
 import {useAuth} from "./hooks/useAuth";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
+import {PrivateRoute} from './components/PrivateRoute';
 import {useUser} from "./hooks/useUser";
 
 const App = () => {
@@ -22,8 +22,12 @@ const App = () => {
             <Route path="/" element={<PrivateRoute />}>
               <Route path="/" element={<HomePage />} />
             </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path='/registration' element={<RegistrationPage />} />
+            <Route path='/login' element={<PrivateRoute restricted />}>
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
+            <Route path='/registration' element={<PrivateRoute restricted />}>
+              <Route path='/registration' element={<RegistrationPage />} />
+            </Route>
             <Route path='/verification/:token' element={<VerificationPage />} />
             <Route path='/reset-password/:token' element={<PasswordResetPage />} />
           </Routes>
