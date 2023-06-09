@@ -55,7 +55,7 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
   ];
 
   return (
-      <Box sx={{ height: 260, width: 555 }}>
+    <Box sx={{ height: 260, width: 555 }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -64,6 +64,6 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter
       />
-      </Box>
+    </Box>
   );
 };

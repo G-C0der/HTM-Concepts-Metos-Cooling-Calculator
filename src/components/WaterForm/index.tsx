@@ -2,7 +2,6 @@ import React from 'react';
 import {TapWaterCoolingEntity} from "../../entities/TapWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
 import {Card, CardContent, TextField} from "@mui/material";
-import Grid from "@mui/material/Grid";
 
 interface WaterFormProps {
   tapWaterCoolingEntity: TapWaterCoolingEntity;
