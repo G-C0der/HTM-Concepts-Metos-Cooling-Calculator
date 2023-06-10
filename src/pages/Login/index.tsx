@@ -53,6 +53,8 @@ const Login = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
+    setShowResetPasswordForm(false);
+
     const loginResponse = await login({ email, password });
 
     if (loginResponse.success) navigate('/');
