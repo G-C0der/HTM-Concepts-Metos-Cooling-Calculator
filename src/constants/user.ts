@@ -1,4 +1,4 @@
-const formFieldLengths = {
+const userFieldLengths = {
   title: { max: 64 },
   fname: { max: 64 },
   lname: { max: 64 },
@@ -14,5 +14,5 @@ const formFieldLengths = {
 };
 
 export {
-  formFieldLengths
+  userFieldLengths
 };

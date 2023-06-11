@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import {formFieldLengths} from "./form";
+import {userFieldLengths} from "./user";
 import {escapeForRegExp} from "../utils";
 
 const passwordSpecialCharacters = '*.!@#$%^&(){}[\]:;<>,.?\/~_+\-=|\\';
@@ -8,7 +8,7 @@ const passwordSpecialCharactersDoubleEscaped = escapeForRegExp(passwordSpecialCh
 const emailValidationSchema = yup
     .string()
     .required('Email is required.')
-    .max(formFieldLengths.email.max, `Email is too long - should be maximum ${formFieldLengths.email.max} characters.`)
+    .max(userFieldLengths.email.max, `Email is too long - should be maximum ${userFieldLengths.email.max} characters.`)
     .email('Email is invalid.');
 
 const passwordValidationSchema = yup
@@ -21,7 +21,7 @@ const passwordValidationSchema = yup
   .matches(/[0-9]+/, 'Password must contain at least one digit.')
   .matches(new RegExp(`[${passwordSpecialCharactersDoubleEscaped}]+`),
     'Password must contain at least one special character.')
-  .min(formFieldLengths.password.min, `Password is too short - should be minimum ${formFieldLengths.password.min} characters.`);
+  .min(userFieldLengths.password.min, `Password is too short - should be minimum ${userFieldLengths.password.min} characters.`);
 
 export {
   passwordSpecialCharacters,

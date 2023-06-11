@@ -12,7 +12,7 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {
   emailValidationSchema,
-  formFieldLengths,
+  userFieldLengths,
   passwordSpecialCharacters,
   passwordValidationSchema
 } from "../../constants";
@@ -22,45 +22,45 @@ const validationSchema = yup.object({
   title: yup
     .string()
     .required('Title is required.')
-    .max(formFieldLengths.title.max, `Title is too long - should be maximum ${formFieldLengths.title.max} characters.`),
+    .max(userFieldLengths.title.max, `Title is too long - should be maximum ${userFieldLengths.title.max} characters.`),
   fname: yup
     .string()
     .required('First name is required.')
-    .max(formFieldLengths.fname.max, `First name is too long - should be maximum ${formFieldLengths.fname.max} characters.`),
+    .max(userFieldLengths.fname.max, `First name is too long - should be maximum ${userFieldLengths.fname.max} characters.`),
   lname: yup
     .string()
     .required('Last name is required.')
-    .max(formFieldLengths.lname.max, `Last name is too long - should be maximum ${formFieldLengths.lname.max} characters.`),
+    .max(userFieldLengths.lname.max, `Last name is too long - should be maximum ${userFieldLengths.lname.max} characters.`),
   email: emailValidationSchema,
   password: passwordValidationSchema,
   street: yup
     .string()
     .required('Street is required.')
-    .max(formFieldLengths.street.max, `Street is too long - should be maximum ${formFieldLengths.street.max} characters.`),
+    .max(userFieldLengths.street.max, `Street is too long - should be maximum ${userFieldLengths.street.max} characters.`),
   city: yup
     .string()
     .required('City is required.')
-    .max(formFieldLengths.city.max, `City is too long - should be maximum ${formFieldLengths.city.max} characters.`),
+    .max(userFieldLengths.city.max, `City is too long - should be maximum ${userFieldLengths.city.max} characters.`),
   zip: yup
     .string()
     .required('ZIP code is required.')
-    .max(formFieldLengths.zip.max, `ZIP code is too long - should be maximum ${formFieldLengths.zip.max} characters.`),
+    .max(userFieldLengths.zip.max, `ZIP code is too long - should be maximum ${userFieldLengths.zip.max} characters.`),
   country: yup
     .string()
     .required('Country is required.')
-    .max(formFieldLengths.country.max, `Country is too long - should be maximum ${formFieldLengths.country.max} characters.`),
+    .max(userFieldLengths.country.max, `Country is too long - should be maximum ${userFieldLengths.country.max} characters.`),
   phone: yup
     .string()
     .required('Phone number is required.')
-    .max(formFieldLengths.phone.max, `Phone is too long - should be maximum ${formFieldLengths.phone.max} characters.`),
+    .max(userFieldLengths.phone.max, `Phone is too long - should be maximum ${userFieldLengths.phone.max} characters.`),
   company: yup
     .string()
     .required('Company name is required.')
-    .max(formFieldLengths.company.max, `Company name is too long - should be maximum ${formFieldLengths.company.max} characters.`),
+    .max(userFieldLengths.company.max, `Company name is too long - should be maximum ${userFieldLengths.company.max} characters.`),
   website: yup
     .string()
     .required('Website is required.')
-    .max(formFieldLengths.website.max, `Website is too long - should be maximum ${formFieldLengths.website.max} characters.`)
+    .max(userFieldLengths.website.max, `Website is too long - should be maximum ${userFieldLengths.website.max} characters.`)
     .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}(\/.*)*$/i, 'URL is invalid.'),
   tnc: yup
     .boolean()
