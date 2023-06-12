@@ -113,7 +113,7 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
               </Typography>
               <Typography
                 gutterBottom
-                sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px" }}
+                sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
               >
                 {userEmail}
                 
