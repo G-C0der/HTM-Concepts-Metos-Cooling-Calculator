@@ -19,6 +19,8 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
 
   const userFullName = `${user.fname} ${user.lname}`;
 
+  const userEmail = user.email;
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
@@ -104,11 +106,18 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
             >
               <Typography
                 variant="h6"
-                gutterBottom
                 component="div"
                 sx={{ justifyContent: "center", fontWeight: 'bold', py: 1, mx: 1 }}
               >
                 {userFullName}
+                
+              </Typography>
+              <Typography
+                gutterBottom
+                sx={{ justifyContent: "center", py: 1, mx: 1 }}
+              >
+                {userEmail}
+                
               </Typography>
               <MenuItem onClick={logout}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
