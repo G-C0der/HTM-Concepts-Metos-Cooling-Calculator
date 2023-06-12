@@ -192,7 +192,7 @@ const Registration = () => {
             <FormControl fullWidth>
               <InputLabel id="title-label">Title*</InputLabel>
               <Select
-                labelId="title-label"
+                label="Title*"
                 id="title"
                 name="title"
                 value={formik.values.title}
