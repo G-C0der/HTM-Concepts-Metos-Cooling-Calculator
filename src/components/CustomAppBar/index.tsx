@@ -105,16 +105,15 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
               onClose={handleCloseUserMenu}
             >
               <Typography
-                variant="h6"
                 component="div"
-                sx={{ justifyContent: "center", fontWeight: 'bold', py: 1, mx: 1 }}
+                sx={{ justifyContent: "center", fontWeight: 'bold', fontSize: "24px", padding: "0 15px 0 15px" }}
               >
                 {userFullName}
                 
               </Typography>
               <Typography
                 gutterBottom
-                sx={{ justifyContent: "center", py: 1, mx: 1 }}
+                sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px" }}
               >
                 {userEmail}
                 
