@@ -183,7 +183,7 @@ const Registration = () => {
           </Button>
           <form onSubmit={formik.handleSubmit} autoComplete="on">
             <FormControl fullWidth>
-              <InputLabel id="title-label">Title*</InputLabel>
+              <InputLabel>Title*</InputLabel>
               <Select
                 label="Title*"
                 id="title"
@@ -197,7 +197,7 @@ const Registration = () => {
                   <MenuItem key={title} value={title}>{title}</MenuItem>
                 ))}
               </Select>
-              <FormHelperText>{formik.touched.title && formik.errors.title}</FormHelperText>
+              <FormHelperText style={{color: "#d32f2f"}}>{formik.touched.title && formik.errors.title}</FormHelperText>
             </FormControl>
 
             <TextField
@@ -295,7 +295,7 @@ const Registration = () => {
             />
 
             <FormControl fullWidth margin="normal">
-              <InputLabel id="country-label">Country*</InputLabel>
+              <InputLabel>Country*</InputLabel>
               <Select
                 label="Country*"
                 id="country"
@@ -309,7 +309,7 @@ const Registration = () => {
                   <MenuItem key={getCode(countryName)} value={getCode(countryName)}>{countryName}</MenuItem>
                 ))}
               </Select>
-              <FormHelperText>{formik.touched.country && formik.errors.country}</FormHelperText>
+              <FormHelperText style={{color: "#d32f2f"}}>{formik.touched.country && formik.errors.country}</FormHelperText>
             </FormControl>
 
             <TextField
@@ -365,7 +365,6 @@ const Registration = () => {
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
-              disabled={!formik.values.tnc || !formik.isValid}
             >
               Register
             </Button>
