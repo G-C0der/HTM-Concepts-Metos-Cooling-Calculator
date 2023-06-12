@@ -304,7 +304,7 @@ const Registration = () => {
             <FormControl fullWidth margin="normal">
               <InputLabel id="country-label">Country*</InputLabel>
               <Select
-                labelId="country-label"
+                label="Country*"
                 id="country"
                 name="country"
                 value={formik.values.country}
