@@ -185,7 +185,7 @@ const Registration = () => {
             <FormControl fullWidth>
               <InputLabel id="title-label">Title*</InputLabel>
               <Select
-                labelId="title-label"
+                label="Title*"
                 id="title"
                 name="title"
                 value={formik.values.title}
@@ -297,7 +297,7 @@ const Registration = () => {
             <FormControl fullWidth margin="normal">
               <InputLabel id="country-label">Country*</InputLabel>
               <Select
-                labelId="country-label"
+                label="Country*"
                 id="country"
                 name="country"
                 value={formik.values.country}
