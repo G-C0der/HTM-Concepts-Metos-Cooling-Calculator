@@ -130,7 +130,12 @@ const Registration = () => {
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper style={{ padding: 16 }} elevation={3}>
-          <Grid container alignItems="center" justifyContent="center">
+          <Grid container alignItems="flex-start" flexDirection="column">
+          <Grid item xs={8}>
+              <Typography variant="h5" component="h1" align="center" gutterBottom>
+                Account Registration
+              </Typography>
+            </Grid>
             <Grid item xs={2}>
               <Button
                 variant="outlined"
@@ -140,12 +145,6 @@ const Registration = () => {
                 Back to Login
               </Button>
             </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h5" component="h1" align="center" gutterBottom>
-                Account Registration
-              </Typography>
-            </Grid>
-            <Grid item xs={2}></Grid>
           </Grid>
           {
             (successCount > 0) &&
