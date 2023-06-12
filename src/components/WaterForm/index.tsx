@@ -1,7 +1,7 @@
 import React from 'react';
 import {TapWaterCoolingEntity} from "../../entities/TapWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent, TextField} from "@mui/material";
+import {Box, Card, CardContent, TextField} from "@mui/material";
 
 interface WaterFormProps {
   tapWaterCoolingEntity: TapWaterCoolingEntity;
@@ -37,8 +37,8 @@ export const WaterForm = ({
           Water C2
         </Typography>
 
-        <div>
-          <div>
+        <Box>
+          <Box>
             <TextField
               style={{ margin: "5px" }}
               value={waterLitreCHF}
@@ -49,9 +49,9 @@ export const WaterForm = ({
               variant="outlined"
               onChange={handleWaterLitreCostChange}
             />
-          </div>
+          </Box>
 
-          <div>
+          <Box>
             <TextField
               style={{ margin: "5px" }}
               value={waterLitreCO2}
@@ -62,8 +62,8 @@ export const WaterForm = ({
               variant="outlined"
               onChange={handleWaterLitreCo2Change}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   );

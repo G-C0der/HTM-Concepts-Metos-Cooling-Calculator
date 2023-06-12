@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Card, CardContent, Chip, Grid, Tooltip} from "@mui/material";
+import {Avatar, Box, Card, CardContent, Chip, Grid, Tooltip} from "@mui/material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Co2Icon from '@mui/icons-material/Co2';
 import WaterIcon from '@mui/icons-material/Water';
@@ -24,7 +24,7 @@ export const ConsumptionDisplay = ({
   }
 }: ResultDisplayProps) => {
   return (
-    <div style={{
+    <Box style={{
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'row',
@@ -185,6 +185,6 @@ export const ConsumptionDisplay = ({
           </Grid>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 };
