@@ -33,6 +33,8 @@ const validationSchema = yup.object({
     .max(userFieldLengths.lname.max, `Last name is too long - should be maximum ${userFieldLengths.lname.max} characters.`),
   email: emailValidationSchema,
   password: passwordValidationSchema,
+  passwordRetype: passwordValidationSchema
+    .oneOf([yup.ref('password')], 'Passwords must match.'),
   street: yup
     .string()
     .required('Street is required.')
@@ -84,6 +86,7 @@ const Registration = () => {
       lname: '',
       email: '',
       password: '',
+      passwordRetype: '',
       street: '',
       city: '',
       zip: '',
@@ -247,6 +250,26 @@ const Registration = () => {
                 type="password"
                 name="password"
                 value={formik.values.password}
+                onChange={formik.handleChange}
+                margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InfoIcon color="action" />
+                  ),
+                }}
+              />
+            </Tooltip>
+
+            <Tooltip title={`Allowed special characters: ${passwordSpecialCharacters}`} placement="right">
+              <TextField
+                fullWidth
+                onBlur={formik.handleBlur}
+                error={formik.touched.passwordRetype && Boolean(formik.errors.passwordRetype)}
+                helperText={formik.touched.passwordRetype && formik.errors.passwordRetype}
+                label="Retype password*"
+                type="password"
+                name="passwordRetype"
+                value={formik.values.passwordRetype}
                 onChange={formik.handleChange}
                 margin="normal"
                 InputProps={{
