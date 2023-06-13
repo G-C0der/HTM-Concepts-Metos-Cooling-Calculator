@@ -109,14 +109,12 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
                 sx={{ justifyContent: "center", fontWeight: 'bold', fontSize: "24px", padding: "0 15px 0 15px" }}
               >
                 {userFullName}
-                
               </Typography>
               <Typography
                 gutterBottom
                 sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
               >
                 {userEmail}
-                
               </Typography>
               <MenuItem onClick={logout}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
