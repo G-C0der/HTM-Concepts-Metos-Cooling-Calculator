@@ -1,24 +1,12 @@
-html .Home-body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center; /* Horizontally center the content */
-}
 
 .Home {
   text-align: center;
 }
 
-.Home-header {}
-
 .Home-content {
   background-color: #a3c0e5;
-  min-height: 100vh;
-  min-width: 190vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -30,4 +18,64 @@ label {
 .form-input-label {
   display: inline-block;
   margin: 5px 0 0 4px;
+}
+
+.logo-container {
+  justify-content: center;
+  display: flex;
+}
+
+img.logo {
+  padding: 20px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px
+}
+
+.water-form-container {
+  display: flex;
+  background-color: green;
+}
+
+.recommendation-container {
+  display: flex;
+  overflow: auto;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.calculate-container-mobile {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  padding-top: 20px; 
+  gap: 10px;
+  overflow: auto;
+}
+
+.calculate-container-desktop {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  padding-top: 20px; 
+  gap: 20px;
+  overflow: auto;
+  justify-content: center;
+}
+
+.button-container {
+  justify-self: center;
+}
+
+.grid-button-container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: space-between;
 }
