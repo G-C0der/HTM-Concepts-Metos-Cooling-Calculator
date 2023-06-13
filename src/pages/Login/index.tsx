@@ -39,8 +39,7 @@ const Login = () => {
     onSubmit: async (values) => {
       const loginResponse = await login(values);
   
-      if (loginResponse.success) navigate('/');
-      else setError(completeError(loginResponse.error!));
+      if (!loginResponse.success) setError(completeError(loginResponse.error!));
     }
   });
 
