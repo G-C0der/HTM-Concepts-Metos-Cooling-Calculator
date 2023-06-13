@@ -4,15 +4,24 @@ import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
+import * as yup from 'yup';
+import {
+  emailValidationSchema,
+  passwordValidationSchema
+} from "../../constants";
+import { useFormik } from 'formik';
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
   userAccountNotYetActivated: 'Your user account is currently inactive.'
 };
 
+const validationSchema = yup.object({
+  email: emailValidationSchema,
+  password: passwordValidationSchema,
+});
+
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
 
@@ -20,6 +29,20 @@ const Login = () => {
   const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const loginResponse = await login(values);
+  
+      if (loginResponse.success) navigate('/');
+      else setError(completeError(loginResponse.error!));
+    }
+  });
 
   const completeError = (error: string) => {
     if (!Object.values(incompleteErrors).includes(error)) return error;
@@ -34,7 +57,7 @@ const Login = () => {
               style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                 textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                 margin: "0 0 0 3px", cursor: "pointer"}}
-              onClick={async () => await sendVerificationEmail(email)}
+              onClick={async () => await sendVerificationEmail(formik.values.email)}
             >
               click here
             </Button>.
@@ -50,15 +73,6 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
-
-    const loginResponse = await login({ email, password });
-
-    if (loginResponse.success) navigate('/');
-    else setError(completeError(loginResponse.error!)!);
-  };
-
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
@@ -67,22 +81,30 @@ const Login = () => {
             Cooling Calculator
           </Typography>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit} autoComplete='on'>
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
               label="Email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
               margin="normal"
             />
 
             <TextField
               fullWidth
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
               label="Password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
               margin="normal"
             />
 
