@@ -179,7 +179,7 @@ const Home = () => {
             consumptionResult={consumptionResult}
           />
 
-          <Box className={"calculate-container-" + (isMobile() ? 'mobile' : 'desktop')}>
+          <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
 
             <Box className='grid-button-container'>
               <Box className='data-grid'>
