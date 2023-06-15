@@ -5,7 +5,7 @@ import { KettleContainer } from "../../components/KettleContainer";
 import { Button, CircularProgress, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
-import { getEnumMinMax } from "../../utils/enum";
+import { getEnumMinMax } from "../../utils";
 import { KettleEntity } from "../../entities/KettleEntity";
 import { Calculator } from "../../services/Calculator";
 import { WaterForm } from "../../components/WaterForm";
@@ -24,7 +24,7 @@ import htmConceptsLogo from '../../assets/img/HTM_Concepts_AG_Logo_mit_Claim_201
 import metosLogo from '../../assets/img/metos_logo.png';
 import { CustomAppBar } from "../../components/CustomAppBar";
 import { AuthContext } from "../../contexts";
-import { isMobile } from "../../utils/isMobile";
+import { isMobile } from "../../utils";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
