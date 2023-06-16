@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {Avatar, IconButton, Menu, MenuItem, Tooltip, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
+import metosLogo from '../../assets/img/metos_logo.png';
 import {User} from "../../types";
 import {useContext} from "react";
 import {AuthContext} from "../../contexts";
@@ -35,8 +36,14 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: '#004d87' }}>
         <Toolbar>
-          <Box>
-            <img src={htmConceptsLogo} width={70} />
+          <Box className='logo-container'>
+            <Box>
+              <img src={htmConceptsLogo} width={70} />
+            </Box>
+
+            <Box>
+              <img src={metosLogo} width={70} />
+            </Box>
           </Box>
 
           <Button
@@ -109,14 +116,12 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
                 sx={{ justifyContent: "center", fontWeight: 'bold', fontSize: "24px", padding: "0 15px 0 15px" }}
               >
                 {userFullName}
-                
               </Typography>
               <Typography
                 gutterBottom
                 sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
               >
                 {userEmail}
-                
               </Typography>
               <MenuItem onClick={logout}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
