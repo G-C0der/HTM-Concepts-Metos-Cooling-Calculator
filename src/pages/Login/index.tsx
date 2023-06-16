@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {Alert, Button, Grid, Paper, TextField, Typography} from "@mui/material";
+import React, {useContext, useEffect, useState} from 'react';
+import {Alert, Button, Grid, Paper, Snackbar, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
 import {htmConceptsEmail} from "../../config";
@@ -10,6 +10,8 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import { useFormik } from 'formik';
+import {ApiResponse} from "../../types";
+import {FadeAlert} from "../../components/FadeAlert";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -24,7 +26,8 @@ const validationSchema = yup.object({
 const Login = () => {
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
-
+  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
+console.log(sendEmailResponse)
   const { login } = useContext(AuthContext);
   const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
 
@@ -42,6 +45,14 @@ const Login = () => {
       if (!loginResponse.success) setError(completeError(loginResponse.error!));
     }
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSendEmailResponse(null);
+    }, 10000);
+
+    return () => clearTimeout(timer); // This function will run if the component unmounts before the timer ends
+  }, [sendEmailResponse]);
 
   const completeError = (error: string) => {
     if (!Object.values(incompleteErrors).includes(error)) return error;
@@ -141,7 +152,27 @@ const Login = () => {
 
           {
             showResetPasswordForm &&
-            <SendEmailForm sendEmailCallback={sendResetPasswordEmail} buttonText='Send Password Reset Email' />
+            <SendEmailForm
+              sendEmailCallback={sendResetPasswordEmail}
+              setSendEmailResponse={setSendEmailResponse}
+              buttonText='Send Password Reset Email'
+            />
+          }
+          {
+            <FadeAlert
+              severity='success'
+              message='Email has been sent.'
+              condition={sendEmailResponse?.success}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
+          {
+            <FadeAlert
+              severity='error'
+              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse?.success === false}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
           }
         </Paper>
       </Grid>

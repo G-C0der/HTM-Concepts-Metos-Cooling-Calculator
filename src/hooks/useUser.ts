@@ -35,7 +35,10 @@ const useUser = () => {
 
   const sendResetPasswordEmail = async (email: string) => {
     try {
-      await userApi.sendResetPasswordEmail(email);
+      const { wasEmailSent } = await userApi.sendResetPasswordEmail(email);
+
+      if (!wasEmailSent) throw new Error('Failed to send password reset email.');
+
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, getErrorMessage(err));

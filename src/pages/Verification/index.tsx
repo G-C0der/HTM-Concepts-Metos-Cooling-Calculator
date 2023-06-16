@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
+import {ApiResponse} from "../../types";
 
 const specificIncompleteErrors = {
   verificationUrlExpired: 'Your verification link has expired.'
@@ -14,6 +15,7 @@ const Verification = () => {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResendForm, setShowResendForm] = useState(false);
+  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse>();
 
   const { token } = useParams();
 
@@ -89,7 +91,11 @@ const Verification = () => {
           }
           {
             showResendForm &&
-            <SendEmailForm sendEmailCallback={sendVerificationEmail} buttonText='Send Verification Email' />
+            <SendEmailForm
+              sendEmailCallback={sendVerificationEmail}
+              setSendEmailResponse={setSendEmailResponse}
+              buttonText='Send Verification Email'
+            />
           }
         </Paper>
       </Grid>
