@@ -19,11 +19,16 @@ function FadeAlert({ severity, message, condition, resetCondition }: FadeAlertPr
   }, []);
 
   return (
-    <Snackbar open={condition}>
-      <Alert elevation={6} variant='filled' severity={severity}>
-        {message}
-      </Alert>
-    </Snackbar>
+    <>
+      {
+        condition &&
+        <Snackbar open={condition}>
+          <Alert elevation={6} variant='filled' severity={severity}>
+            {message}
+          </Alert>
+        </Snackbar>
+      }
+    </>
   );
 }
 

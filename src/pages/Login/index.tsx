@@ -27,7 +27,7 @@ const Login = () => {
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
-console.log(sendEmailResponse)
+
   const { login } = useContext(AuthContext);
   const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
 
@@ -45,14 +45,6 @@ console.log(sendEmailResponse)
       if (!loginResponse.success) setError(completeError(loginResponse.error!));
     }
   });
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSendEmailResponse(null);
-    }, 10000);
-
-    return () => clearTimeout(timer); // This function will run if the component unmounts before the timer ends
-  }, [sendEmailResponse]);
 
   const completeError = (error: string) => {
     if (!Object.values(incompleteErrors).includes(error)) return error;

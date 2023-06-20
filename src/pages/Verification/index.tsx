@@ -15,7 +15,7 @@ const Verification = () => {
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResendForm, setShowResendForm] = useState(false);
-  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse>();
+  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { token } = useParams();
 
