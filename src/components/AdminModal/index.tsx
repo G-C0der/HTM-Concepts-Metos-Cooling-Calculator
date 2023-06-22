@@ -10,7 +10,11 @@ interface AdminModalProps {
 
 const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
   return (
-    <Dialog className='modal' open={isOpen} onClose={() => setIsOpen(false)}>
+    <Dialog
+      open={isOpen}
+      onClose={() => setIsOpen(false)}
+      PaperProps={{ className: 'dialogPaper' }}
+    >
       <DialogContent>
         <UsersDataGrid isAdminModalOpen={isOpen} />
       </DialogContent>

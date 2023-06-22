@@ -1,7 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {User} from "../../types";
 import {UserContext} from "../../contexts";
-import {Alert} from "@mui/material";
+import {Alert, CircularProgress} from "@mui/material";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import Box from "@mui/material/Box";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -10,6 +12,7 @@ interface UsersDataGridProps {
 const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [users, setUsers] = useState<User[]>();
   const [error, setError] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const { list } = useContext(UserContext);
 
@@ -29,11 +32,70 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     }
   }, [isAdminModalOpen]);
 
-  return error
+  useEffect(() => {
+    if (users) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [users]);
+
+  const columns: GridColDef[] = [
+    {
+      field: 'company',
+      headerName: 'Company',
+      width: 200
+    },
+    {
+      field: 'fname',
+      headerName: 'First Name',
+      width: 150
+    },
+    {
+      field: 'lname',
+      headerName: 'Last Name',
+      width: 150
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 300,
+      renderCell: (params) => (
+        <a href={`mailto:${params.value}`} target="_blank" rel="noreferrer">
+          {params.value}
+        </a>
+      ),
+    },
+  ];
+
+  return isLoading
     ? (
-      <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
+      <Box style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}>
+        <CircularProgress size={80} />
+      </Box>
     ) : (
-    <></>
+      <>
+        {
+          error ? (
+            <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
+          ) : (
+            <DataGrid
+              rows={users!}
+              columns={columns}
+              pageSizeOptions={[5]}
+              sx={{ backgroundColor: '#f3f3f3' }}
+              hideFooter
+            />
+          )
+        }
+      </>
   );
 };
 
