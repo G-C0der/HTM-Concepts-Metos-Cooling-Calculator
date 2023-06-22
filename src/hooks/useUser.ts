@@ -3,6 +3,15 @@ import {getErrorMessage, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
 const useUser = () => {
+  const list = async () => {
+    try {
+      const { users } = await userApi.list();
+      return toApiResponse(true, undefined, { users });
+    } catch (err: any) {
+      return toApiResponse(false, getErrorMessage(err));
+    }
+  };
+
   const register = async (form: UserForm) => {
     try {
       const { wasEmailSent } = await userApi.register(form);
@@ -61,6 +70,7 @@ const useUser = () => {
   };
 
   return {
+    list,
     register,
     sendVerificationEmail,
     verify,

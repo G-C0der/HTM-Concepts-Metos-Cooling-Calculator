@@ -2,6 +2,7 @@ import { createContext } from "react";
 import {ApiResponse, UserForm} from "../types";
 
 type UserContextType = {
+  list: () => Promise<ApiResponse>;
   register: (userFormData: UserForm) => Promise<ApiResponse>;
   sendVerificationEmail: (email: string) => Promise<ApiResponse>;
   verify: (token: string) => Promise<ApiResponse>;
@@ -11,6 +12,8 @@ type UserContextType = {
 };
 
 const UserContext = createContext({
+  list: () =>
+  { throw new Error('list: UserProvider is not set up. Wrap the app with an UserProvider.'); },
   register: () =>
   { throw new Error('register: UserProvider is not set up. Wrap the app with an UserProvider.'); },
   sendVerificationEmail: () =>
