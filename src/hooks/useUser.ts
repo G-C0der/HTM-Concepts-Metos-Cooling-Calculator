@@ -5,6 +5,7 @@ import {userApi} from "../services/api";
 const useUser = () => {
   const list = async () => {
     try {
+      // TODO: admin check
       const { users } = await userApi.list();
       return toApiResponse(true, undefined, { users });
     } catch (err: any) {
