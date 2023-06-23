@@ -59,7 +59,6 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[5]}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter

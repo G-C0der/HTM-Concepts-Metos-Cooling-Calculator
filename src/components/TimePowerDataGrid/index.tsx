@@ -35,7 +35,6 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[5]}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter

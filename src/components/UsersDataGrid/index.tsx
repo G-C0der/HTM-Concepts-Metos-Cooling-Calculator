@@ -1,9 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
+import './style.css';
 import {User} from "../../types";
 import {UserContext} from "../../contexts";
 import {Alert, CircularProgress} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
+import {toAbsoluteUrl} from "../../utils/url";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -49,6 +53,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       width: 200
     },
     {
+      field: 'title',
+      headerName: 'Title',
+      width: 60
+    },
+    {
       field: 'fname',
       headerName: 'First Name',
       width: 150
@@ -59,11 +68,50 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       width: 150
     },
     {
+      field: 'verified',
+      headerName: 'Verified',
+      width: 80,
+      renderCell: (params) => (
+        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      ),
+    },
+    {
+      field: 'active',
+      headerName: 'Active',
+      width: 80,
+      renderCell: (params) => (
+        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      ),
+    },
+    {
+      field: 'admin',
+      headerName: 'Admin',
+      width: 80,
+      renderCell: (params) => (
+        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      ),
+    },
+    {
       field: 'email',
       headerName: 'Email',
       width: 300,
       renderCell: (params) => (
         <a href={`mailto:${params.value}`} target="_blank" rel="noreferrer">
+          {params.value}
+        </a>
+      ),
+    },
+    {
+      field: 'phone',
+      headerName: 'Phone',
+      width: 150
+    },
+    {
+      field: 'website',
+      headerName: 'Website',
+      width: 300,
+      renderCell: (params) => (
+        <a href={toAbsoluteUrl(params.value)} target="_blank" rel="noreferrer">
           {params.value}
         </a>
       ),
@@ -89,9 +137,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
             <DataGrid
               rows={users!}
               columns={columns}
-              pageSizeOptions={[5]}
-              sx={{ backgroundColor: '#f3f3f3' }}
+              sx={{ backgroundColor: '#e3f8fa' }}
               hideFooter
+              getRowClassName={(params) => (params.row.verified && params.row.active)
+                ? ''
+                : 'data-grid-row-inactive-user'}
             />
           )
         }
