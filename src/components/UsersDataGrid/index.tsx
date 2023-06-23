@@ -9,6 +9,7 @@ import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Button from "@mui/material/Button";
+import {ConfirmationDialog} from "../ConfirmationDialog/ConfirmationDialog";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -18,6 +19,10 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [users, setUsers] = useState<User[]>();
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isPendingUserActive, setIsPendingUserActive] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState(() => () => {});
 
   const { list, activate, deactivate } = useContext(UserContext);
 
@@ -126,13 +131,17 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
         const id = params.row.id;
         const isVerified = params.row.verified;
         const isActive = params.row.active;
+        setIsPendingUserActive(isActive);
 
         return (
           <>
             <Button
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
-              onClick={() => isActive ? deactivate(id) : activate(id)}
+              onClick={() => {
+                setPendingAction(() => isActive ? deactivate(id) : activate(id));
+                setIsConfirmDialogOpen(true);
+              }}
               disabled={!isVerified && !isActive}
             >
               {isActive ? 'Deactivate' : 'Activate'}
@@ -159,15 +168,24 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               <CircularProgress size={80} />
             </Box>
           ) : (
-            <DataGrid
-              rows={users!}
-              columns={columns}
-              sx={{ backgroundColor: '#e3f8fa' }}
-              hideFooter
-              getRowClassName={(params) => (params.row.verified && params.row.active)
-                ? ''
-                : 'data-grid-row-inactive-user'}
-            />
+            <>
+              <DataGrid
+                rows={users!}
+                columns={columns}
+                sx={{ backgroundColor: '#e3f8fa' }}
+                hideFooter
+                getRowClassName={(params) => (params.row.verified && params.row.active)
+                  ? ''
+                  : 'data-grid-row-inactive-user'}
+              />
+              
+              <ConfirmationDialog
+                text={`Are you sure you want to ${isPendingUserActive ? 'deactivate' : 'activate'} this user?`}
+                pendingAction={pendingAction}
+                isOpen={isConfirmDialogOpen}
+                setIsOpen={setIsConfirmDialogOpen}
+              />
+            </>
           )
         }
       </>
