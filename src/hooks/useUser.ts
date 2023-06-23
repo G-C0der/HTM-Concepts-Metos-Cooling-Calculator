@@ -85,7 +85,7 @@ const useUser = () => {
 
   const deactivate = async (id: string) => {
     try {
-      await userApi.changeActiveState(id, true);
+      await userApi.changeActiveState(id, false);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, getErrorMessage(err));
