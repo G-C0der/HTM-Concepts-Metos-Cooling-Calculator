@@ -2,14 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {User} from "../../types";
 import {UserContext} from "../../contexts";
-import {Alert, CircularProgress, Typography} from "@mui/material";
+import {Alert, CircularProgress} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Button from "@mui/material/Button";
-import { green, red } from '@mui/material/colors';
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -23,7 +22,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const { list } = useContext(UserContext);
 
   useEffect(() => {
-    if (isAdminModalOpen) { // TODO: admin check
+    if (isAdminModalOpen) {
       const setUserList = async () => {
         const userListResponse = await list();
 
@@ -121,7 +120,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 130,
+      width: 150,
       sortable: false,
       renderCell: (params) => {
         const isVerified = params.row.verified;
@@ -130,17 +129,17 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
         return (
           <>
             <Button
-              className={`action-button ${isActive ? 'disable' : 'activate'}`}
+              className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {}}
               disabled={!isVerified && !isActive}
             >
-              {isActive ? 'Disable' : 'Activate'}
+              {isActive ? 'Deactivate' : 'Activate'}
             </Button>
           </>
         );
-      },
-    },
+      }
+    }
   ];
 
   return error

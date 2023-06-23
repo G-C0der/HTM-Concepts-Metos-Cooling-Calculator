@@ -17,7 +17,7 @@
   color: green;
 }
 
-.action-button.disable {
+.action-button.deactivate {
   border-color: red;
   color: red;
 }
