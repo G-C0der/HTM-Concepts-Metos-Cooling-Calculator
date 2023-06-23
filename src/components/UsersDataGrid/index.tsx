@@ -2,12 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {User} from "../../types";
 import {UserContext} from "../../contexts";
-import {Alert, CircularProgress} from "@mui/material";
+import {Alert, CircularProgress, Typography} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Button from "@mui/material/Button";
+import { green, red } from '@mui/material/colors';
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -115,6 +117,34 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
           {params.value}
         </a>
       ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 200,
+      sortable: false,
+      renderCell: (params) => {
+        const isActive = params.row.active;
+
+        return (
+          <>
+            <Button
+              onClick={() => {}}
+            >
+              <Box display="flex" alignItems="center" justifyContent="start"
+                   padding={1} borderRadius={2}
+                   bgcolor={isActive ? red[50] : green[50]}
+                   color={isActive ? red[900] : green[900]}
+              >
+                {isActive ? <CancelIcon /> : <CheckCircleIcon />}
+                <Typography variant="body2" marginLeft={1}>
+                  {isActive ? 'Disable' : 'Activate'}
+                </Typography>
+              </Box>
+            </Button>
+          </>
+        );
+      },
     },
   ];
 
