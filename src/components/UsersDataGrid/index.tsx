@@ -24,7 +24,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState(() => () => {});
 
-  const [isActiveStatusChangeLoading, setIsActiveStatusChangeLoading] = useState(false);
+  const [isActiveStateChangeLoading, setIsActiveStateChangeLoading] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
   const { list, activate, deactivate } = useContext(UserContext);
@@ -117,7 +117,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               onClick={() => {
                 setPendingUser(params.row);
                 setPendingAction(() => async () => {
-                  setIsActiveStatusChangeLoading(true);
+                  setIsActiveStateChangeLoading(true);
                   if (isActive) {
                     const deactivateResponse = await deactivate(id);
                     if (deactivateResponse.success) updateUser(id, { active: !isActive });
@@ -125,11 +125,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                     const activateResponse = await activate(id);
                     if (activateResponse.success) updateUser(id, { active: !isActive });
                   }
-                  setIsActiveStatusChangeLoading(false);
+                  setIsActiveStateChangeLoading(false);
                 });
                 setIsConfirmDialogOpen(true);
               }}
-              loading={isActiveStatusChangeLoading && (pendingUser?.id === id)}
+              loading={isActiveStateChangeLoading && (pendingUser?.id === id)}
               disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive)}
             >
               {isActive ? 'Deactivate' : 'Activate'}
