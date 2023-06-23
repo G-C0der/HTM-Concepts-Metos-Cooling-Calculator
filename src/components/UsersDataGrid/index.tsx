@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {User} from "../../types";
-import {UserContext} from "../../contexts";
+import {AuthContext, UserContext} from "../../contexts";
 import {Alert, CircularProgress} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
@@ -20,10 +20,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [isPendingUserActive, setIsPendingUserActive] = useState(false);
+  const [pendingUser, setPendingUser] = useState<User>();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState(() => () => {});
 
+  const { authenticatedUser } = useContext(AuthContext);
   const { list, activate, deactivate } = useContext(UserContext);
 
   useEffect(() => {
@@ -131,7 +132,6 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
         const id = params.row.id;
         const isVerified = params.row.verified;
         const isActive = params.row.active;
-        setIsPendingUserActive(isActive);
 
         return (
           <>
@@ -139,10 +139,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {
-                setPendingAction(() => isActive ? deactivate(id) : activate(id));
+                setPendingUser(params.row);
+                setPendingAction(() => () => isActive ? deactivate(id) : activate(id));
                 setIsConfirmDialogOpen(true);
               }}
-              disabled={!isVerified && !isActive}
+              disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive)}
             >
               {isActive ? 'Deactivate' : 'Activate'}
             </Button>
@@ -178,13 +179,18 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                   ? ''
                   : 'data-grid-row-inactive-user'}
               />
-              
-              <ConfirmationDialog
-                text={`Are you sure you want to ${isPendingUserActive ? 'deactivate' : 'activate'} this user?`}
-                pendingAction={pendingAction}
-                isOpen={isConfirmDialogOpen}
-                setIsOpen={setIsConfirmDialogOpen}
-              />
+
+              {
+                pendingUser && (
+                  <ConfirmationDialog
+                    text={`Are you sure you want to ${pendingUser.active ? 'deactivate' : 'activate'} 
+                      user ${pendingUser.email}?`}
+                    pendingAction={pendingAction}
+                    isOpen={isConfirmDialogOpen}
+                    setIsOpen={setIsConfirmDialogOpen}
+                  />
+                )
+              }
             </>
           )
         }
