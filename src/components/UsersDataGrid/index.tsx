@@ -124,17 +124,19 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       width: 200,
       sortable: false,
       renderCell: (params) => {
+        const isVerified = params.row.verified;
         const isActive = params.row.active;
 
         return (
           <>
             <Button
               onClick={() => {}}
+              disabled={!isVerified && !isActive}
             >
               <Box display="flex" alignItems="center" justifyContent="start"
-                   padding={1} borderRadius={2}
-                   bgcolor={isActive ? red[50] : green[50]}
-                   color={isActive ? red[900] : green[900]}
+                padding={1} borderRadius={2}
+                bgcolor={isActive ? red[50] : green[50]}
+                color={isActive ? red[900] : green[900]}
               >
                 {isActive ? <CancelIcon /> : <CheckCircleIcon />}
                 <Typography variant="body2" marginLeft={1}>
