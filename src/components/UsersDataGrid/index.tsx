@@ -143,21 +143,21 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
   ];
 
-  return isLoading
+  return error
     ? (
-      <Box style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}>
-        <CircularProgress size={80} />
-      </Box>
+      <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
     ) : (
       <>
         {
-          error ? (
-            <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
+          isLoading ? (
+            <Box style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}>
+              <CircularProgress size={80} />
+            </Box>
           ) : (
             <DataGrid
               rows={users!}
