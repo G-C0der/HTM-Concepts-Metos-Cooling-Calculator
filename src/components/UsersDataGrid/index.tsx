@@ -8,8 +8,8 @@ import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Button from "@mui/material/Button";
 import {ConfirmationDialog} from "../ConfirmationDialog/ConfirmationDialog";
+import {LoadingButton} from "../LoadingButton";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -23,6 +23,8 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [pendingUser, setPendingUser] = useState<User>();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState(() => () => {});
+
+  const [isActiveStatusChangeLoading, setIsActiveStatusChangeLoading] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
   const { list, activate, deactivate } = useContext(UserContext);
@@ -135,18 +137,23 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
 
         return (
           <>
-            <Button
+            <LoadingButton
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {
                 setPendingUser(params.row);
-                setPendingAction(() => () => isActive ? deactivate(id) : activate(id));
+                setPendingAction(() => async () => {
+                  setIsActiveStatusChangeLoading(true);
+                  isActive ? await deactivate(id) : await activate(id);
+                  setIsActiveStatusChangeLoading(false);
+                });
                 setIsConfirmDialogOpen(true);
               }}
+              loading={isActiveStatusChangeLoading}
               disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive)}
             >
               {isActive ? 'Deactivate' : 'Activate'}
-            </Button>
+            </LoadingButton>
           </>
         );
       }
