@@ -25,6 +25,7 @@ import metosLogo from '../../assets/img/metos_logo.png';
 import { CustomAppBar } from "../../components/CustomAppBar";
 import { AuthContext } from "../../contexts";
 import { isMobile } from "../../utils";
+import {AdminModal} from "../../components/AdminModal";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -67,14 +68,16 @@ const Home = () => {
     timePowerUsageRows
   );
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
-        setLoading(false);
+        setIsLoading(false);
       }, 1000);
 
       return () => clearTimeout(timer);
@@ -120,7 +123,7 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
-  return loading
+  return isLoading
     ? (
       <Box style={{
         position: 'fixed',
@@ -133,10 +136,12 @@ const Home = () => {
     ) : (
       <Box className="Home">
         <Box className="Home-header">
-          <CustomAppBar user={user!} />
+          <CustomAppBar user={user!} setIsAdminModalOpen={setIsAdminModalOpen} />
         </Box>
 
         <Box className="Home-content">
+          <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
+
           <Box className="logo-container">
             <Box>
               <img className='logo' src={htmConceptsLogo} width={100} />

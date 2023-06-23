@@ -12,9 +12,10 @@ import {AuthContext} from "../../contexts";
 
 interface CustomAppBarProps {
   user: User;
+  setIsAdminModalOpen: (isAdminModalOpen: boolean) => void;
 }
 
-export const CustomAppBar = ({ user }: CustomAppBarProps) => {
+export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) => {
   const { logout } = useContext(AuthContext);
 
   const userFullName = `${user.fname} ${user.lname}`;
@@ -26,10 +27,6 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
-
-  const handleAdminClick = () => {
-
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -64,7 +61,7 @@ export const CustomAppBar = ({ user }: CustomAppBarProps) => {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
-              onClick={handleAdminClick}
+              onClick={() => setIsAdminModalOpen(true)}
             >
               <Typography
                 component="div"

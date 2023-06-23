@@ -39,7 +39,7 @@ const ResetPassword = () => {
         (error === specificIncompleteErrors.resetPasswordUrlExpired) &&
         <>To send a new password reset email, return to the login page.<br/></>
       }
-      If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+      If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
     </>
   );
 
