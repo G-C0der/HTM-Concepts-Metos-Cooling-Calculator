@@ -1,11 +1,15 @@
 import {UserForm} from "../types";
 import {getErrorMessage, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
+import {useAuth} from "./useAuth";
 
 const useUser = () => {
+  const { authenticatedUser } = useAuth();
+
   const list = async () => {
     try {
-      // TODO: admin check
+      if (!authenticatedUser?.admin) throw new Error('No permission.');
+
       const { users } = await userApi.list();
       return toApiResponse(true, undefined, { users });
     } catch (err: any) {
