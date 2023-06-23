@@ -29,32 +29,6 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const { authenticatedUser } = useContext(AuthContext);
   const { list, activate, deactivate } = useContext(UserContext);
 
-  useEffect(() => {
-    if (isAdminModalOpen) {
-      const setUserList = async () => {
-        const userListResponse = await list();
-
-        if (userListResponse.success) {
-          const { users } = userListResponse.data;
-          setUsers(users);
-        }
-        else setError(userListResponse.error!);
-      }
-
-      setUserList();
-    }
-  }, [isAdminModalOpen]);
-
-  useEffect(() => {
-    if (users) {
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [users]);
-
   const columns: GridColDef[] = [
     {
       field: 'company',
@@ -144,7 +118,13 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 setPendingUser(params.row);
                 setPendingAction(() => async () => {
                   setIsActiveStatusChangeLoading(true);
-                  isActive ? await deactivate(id) : await activate(id);
+                  if (isActive) {
+                    const deactivateResponse = await deactivate(id);
+                    if (deactivateResponse.success) updateUser(id, { active: !isActive });
+                  } else {
+                    const activateResponse = await activate(id);
+                    if (activateResponse.success) updateUser(id, { active: !isActive });
+                  }
                   setIsActiveStatusChangeLoading(false);
                 });
                 setIsConfirmDialogOpen(true);
@@ -159,6 +139,35 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       }
     }
   ];
+
+  useEffect(() => {
+    if (isAdminModalOpen) {
+      const setUserList = async () => {
+        const userListResponse = await list();
+
+        if (userListResponse.success) {
+          const { users } = userListResponse.data;
+          setUsers(users);
+        }
+        else setError(userListResponse.error!);
+      }
+
+      setUserList();
+    }
+  }, [isAdminModalOpen]);
+
+  useEffect(() => {
+    if (users) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [users]);
+
+  const updateUser = (id: number, props: Partial<User>) =>
+    setUsers(users!.map(user => user.id === id ? { ...user, ...props } : user));
 
   return error
     ? (
