@@ -4,11 +4,6 @@ import {UserForm} from "../../types";
 class UserApi extends Api {
   basePath = '/users';
 
-  list = async () => {
-    const { data } = await this.api.get(this.basePath);
-    return data;
-  };
-
   register = async (form: UserForm) => {
     const { data } = await this.api.post(this.basePath, form);
     return data;
@@ -36,6 +31,16 @@ class UserApi extends Api {
 
   resetPassword = async (token: string, password: string) => {
     const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
+    return data;
+  };
+
+  list = async () => {
+    const { data } = await this.api.get(this.basePath);
+    return data;
+  };
+
+  changeActiveState = async (id: string, active: boolean) => {
+    const { data } = await this.api.patch(`${this.basePath}/${id}`, { active });
     return data;
   };
 }

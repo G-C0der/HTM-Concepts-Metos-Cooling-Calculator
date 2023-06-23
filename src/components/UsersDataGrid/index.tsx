@@ -19,7 +19,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { list } = useContext(UserContext);
+  const { list, activate, deactivate } = useContext(UserContext);
 
   useEffect(() => {
     if (isAdminModalOpen) {
@@ -123,6 +123,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       width: 150,
       sortable: false,
       renderCell: (params) => {
+        const id = params.row.id;
         const isVerified = params.row.verified;
         const isActive = params.row.active;
 
@@ -131,7 +132,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
             <Button
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
-              onClick={() => {}}
+              onClick={() => isActive ? deactivate(id) : activate(id)}
               disabled={!isVerified && !isActive}
             >
               {isActive ? 'Deactivate' : 'Activate'}
