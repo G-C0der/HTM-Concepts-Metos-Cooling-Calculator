@@ -10,6 +10,8 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import { useFormik } from 'formik';
+import {LoadingButton} from "../../components/LoadingButton";
+import LoginIcon from '@mui/icons-material/Login';
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -24,6 +26,7 @@ const validationSchema = yup.object({
 const Login = () => {
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useContext(AuthContext);
   const { sendVerificationEmail, sendResetPasswordEmail } = useContext(UserContext);
@@ -37,7 +40,9 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setIsLoading(true);
       const loginResponse = await login(values);
+      setIsLoading(false);
   
       if (!loginResponse.success) setError(completeError(loginResponse.error!));
     }
@@ -107,15 +112,17 @@ const Login = () => {
               margin="normal"
             />
 
-            <Button
+            <LoadingButton
               fullWidth
               type="submit"
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
+              startIcon={<LoginIcon />}
+              loading={isLoading}
             >
               Sign in
-            </Button>
+            </LoadingButton>
 
             <Button
               fullWidth

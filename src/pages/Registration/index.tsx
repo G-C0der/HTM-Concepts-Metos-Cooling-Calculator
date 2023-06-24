@@ -18,6 +18,7 @@ import {
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
 import {LoadingButton} from "../../components/LoadingButton";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 const validationSchema = yup.object({
   title: yup
@@ -392,6 +393,7 @@ const Registration = () => {
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
+              startIcon={<AppRegistrationIcon />}
               loading={isLoading}
               disabled={!formik.values.tnc || !formik.isValid}
             >
