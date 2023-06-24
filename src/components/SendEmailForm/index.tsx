@@ -7,7 +7,7 @@ import {ApiResponse} from "../../types";
 
 interface SendEmailFormProps {
   sendEmailCallback: (email: string) => Promise<any>;
-  setSendEmailResponse: (emailResponse: ApiResponse) => void;
+  setSendEmailResponse: (sendEmailResponse: ApiResponse) => void;
   buttonText: string;
 }
 
