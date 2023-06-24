@@ -21,7 +21,7 @@ const useAuth = () => {
   }, []);
 
   useEffect(() => {
-    if (token && !authenticatedUser) {
+    if (token && tokenExpiration && !authenticatedUser) {
       const syncAuthenticatedUser = async () => {
         const { user } = await authApi.getAuthenticatedUser();
 
