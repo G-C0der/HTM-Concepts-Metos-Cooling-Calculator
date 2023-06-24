@@ -3,6 +3,7 @@ import {useFormik} from "formik";
 import {Button, TextField} from "@mui/material";
 import * as yup from "yup";
 import {emailValidationSchema} from "../../constants";
+import SendIcon from "@mui/icons-material/Send";
 
 interface SendEmailFormProps {
   sendEmailCallback: (email: string) => Promise<any>;
@@ -43,6 +44,7 @@ const SendEmailForm = ({ sendEmailCallback, buttonText }: SendEmailFormProps) =>
         style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
           textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
           cursor: "pointer"}}
+        startIcon={<SendIcon />}
       >
         {buttonText}
       </Button>

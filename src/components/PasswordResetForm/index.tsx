@@ -5,6 +5,7 @@ import {Button, TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import * as yup from "yup";
 import {useFormik} from "formik";
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 interface PasswordResetFormProps {
   passwordResetCallback: (password: string) => Promise<void>;
@@ -73,6 +74,7 @@ const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) =>
         style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
           textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
           cursor: "pointer"}}
+        startIcon={<LockResetIcon />}
       >
         Reset Password
       </Button>
