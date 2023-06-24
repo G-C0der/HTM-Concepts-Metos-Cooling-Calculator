@@ -17,6 +17,7 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
+import {LoadingButton} from "../../components/LoadingButton";
 
 const validationSchema = yup.object({
   title: yup
@@ -74,6 +75,7 @@ const Registration = () => {
   const [successCount, setSuccessCount] = useState(0);
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [verificationWarning, setVerificationWarning] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { register, sendVerificationEmail } = useContext(UserContext);
 
@@ -98,7 +100,9 @@ const Registration = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setIsLoading(true);
       const registerResponse = await register(values);
+      setIsLoading(false);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
         if (registerResponse.data.wasEmailSent) setVerificationWarning(false);
@@ -382,16 +386,17 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
-            <Button
+            <LoadingButton
               fullWidth
               type="submit"
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
+              loading={isLoading}
               disabled={!formik.values.tnc || !formik.isValid}
             >
               Register
-            </Button>
+            </LoadingButton>
 
             {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
