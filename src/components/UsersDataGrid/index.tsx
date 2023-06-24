@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {ConfirmationDialog} from "../ConfirmationDialog/ConfirmationDialog";
+import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 
 interface UsersDataGridProps {
