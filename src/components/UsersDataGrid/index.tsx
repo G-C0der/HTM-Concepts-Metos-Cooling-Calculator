@@ -10,6 +10,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
+import {getName} from 'country-list';
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -43,12 +44,12 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     {
       field: 'fname',
       headerName: 'First Name',
-      width: 150
+      width: 140
     },
     {
       field: 'lname',
       headerName: 'Last Name',
-      width: 150
+      width: 140
     },
     {
       field: 'verified',
@@ -92,12 +93,18 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     {
       field: 'website',
       headerName: 'Website',
-      width: 300,
+      width: 250,
       renderCell: (params) => (
         <a href={toAbsoluteUrl(params.value)} target="_blank" rel="noreferrer">
           {params.value}
         </a>
       ),
+    },
+    {
+      field: 'country',
+      headerName: 'Country',
+      width: 160,
+      valueGetter: (params) => getName(params.value)
     },
     {
       field: 'actions',
