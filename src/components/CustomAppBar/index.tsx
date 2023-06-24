@@ -11,6 +11,7 @@ import metosLogo from '../../assets/img/metos_logo.png';
 import {User} from "../../types";
 import {useContext} from "react";
 import {AuthContext} from "../../contexts";
+import {htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite} from "../../config";
 
 interface CustomAppBarProps {
   user: User;
@@ -35,16 +36,20 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) =
       <AppBar position="static" sx={{ background: '#004d87' }}>
         <Toolbar>
           <Box className='logo-container'>
-            <img src={htmConceptsLogo} width={70} />
+            <a href={htmConceptsWebsite} target="_blank" rel="noreferrer">
+              <img src={htmConceptsLogo} width={70} />
+            </a>
 
-            <img src={metosLogo} width={90} />
+            <a href={metosWebsite} target="_blank" rel="noreferrer">
+              <img src={metosLogo} width={90} />
+            </a>
           </Box>
 
           <Button
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2, ml: 7 }}
-            onClick={() => window.open('https://www.htm-concepts.ch/kontakt', '_blank')}
+            onClick={() => window.open(htmConceptsWebsiteContact, '_blank')}
           >
             <Typography
               component="div"
