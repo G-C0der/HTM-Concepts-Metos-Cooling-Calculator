@@ -41,7 +41,7 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) =
             </a>
 
             <a href={metosWebsite} target="_blank" rel="noreferrer">
-              <img src={metosLogo} width={90} />
+              <img src={metosLogo} width={110} />
             </a>
           </Box>
 
