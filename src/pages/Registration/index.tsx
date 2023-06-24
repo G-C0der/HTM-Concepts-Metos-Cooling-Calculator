@@ -157,7 +157,7 @@ const Registration = () => {
                   click here
                 </Button>
                 .<br/>
-                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
               </Alert>
           }
           {
@@ -174,7 +174,7 @@ const Registration = () => {
                   click here
                 </Button>
                 .<br/>
-                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
               </Alert>
           }
           <Button

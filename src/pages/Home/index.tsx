@@ -23,6 +23,7 @@ import { C5iRecommendationsDataGrid } from "../../components/C5iRecommendationsD
 import { CustomAppBar } from "../../components/CustomAppBar";
 import { AuthContext } from "../../contexts";
 import { isMobile } from "../../utils";
+import {AdminModal} from "../../components/AdminModal";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -65,14 +66,16 @@ const Home = () => {
     timePowerUsageRows
   );
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
-        setLoading(false);
+        setIsLoading(false);
       }, 1000);
 
       return () => clearTimeout(timer);
@@ -118,7 +121,7 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
-  return loading
+  return isLoading
     ? (
       <Box style={{
         position: 'fixed',
@@ -131,10 +134,12 @@ const Home = () => {
     ) : (
       <Box className="home">
         <Box className="home-header">
-          <CustomAppBar user={user!} />
+          <CustomAppBar user={user!} setIsAdminModalOpen={setIsAdminModalOpen} />
         </Box>
 
         <Box className="home-content">
+          <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
+
           <Box className='form-container'>
             <WaterForm
               tapWaterCoolingEntity={tapWaterCoolingEntity}
