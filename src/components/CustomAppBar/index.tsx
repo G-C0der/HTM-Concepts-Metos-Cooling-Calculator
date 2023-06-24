@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './style.css'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -34,13 +35,9 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) =
       <AppBar position="static" sx={{ background: '#004d87' }}>
         <Toolbar>
           <Box className='logo-container'>
-            <Box>
-              <img src={htmConceptsLogo} width={70} />
-            </Box>
+            <img src={htmConceptsLogo} width={70} />
 
-            <Box>
-              <img src={metosLogo} width={70} />
-            </Box>
+            <img src={metosLogo} width={90} />
           </Box>
 
           <Button

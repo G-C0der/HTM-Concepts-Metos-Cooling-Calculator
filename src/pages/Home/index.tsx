@@ -172,7 +172,7 @@ const Home = () => {
           />
 
           <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
-            <Box className='grid-container'>
+            <Box className='kettle-container'>
               <Box className='data-grid'>
                 <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
               </Box>
