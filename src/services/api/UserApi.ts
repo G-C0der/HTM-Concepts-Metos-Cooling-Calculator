@@ -33,6 +33,16 @@ class UserApi extends Api {
     const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
     return data;
   };
+
+  list = async () => {
+    const { data } = await this.api.get(this.basePath);
+    return data;
+  };
+
+  changeActiveState = async (id: string, active: boolean) => {
+    const { data } = await this.api.patch(`${this.basePath}/${id}`, { active });
+    return data;
+  };
 }
 
 export default new UserApi();

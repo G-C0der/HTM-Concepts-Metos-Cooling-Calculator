@@ -14,43 +14,43 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
       field: 'c2CoolingPercent',
       headerName: 'C2',
       width: 75,
-      valueGetter: (params) => `${params.row.c2CoolingPercent}%`
+      valueGetter: (params) => `${params.value}%`
     },
     {
       field: 'c3CoolingPercent',
       headerName: 'C3',
       width: 75,
-      valueGetter: (params) => `${params.row.c3CoolingPercent}%`
+      valueGetter: (params) => `${params.value}%`
     },
     {
       field: 'waterLitresUsed',
       headerName: 'Litres',
       width: 75,
-      valueGetter: (params) => round(params.row.waterLitresUsed)
+      valueGetter: (params) => round(params.value)
     },
     {
       field: 'powerKWUsed',
       headerName: 'kW',
       width: 75,
-      valueGetter: (params) => round(params.row.powerKWUsed)
+      valueGetter: (params) => round(params.value)
     },
     {
       field: 'totalCostCHF',
       headerName: 'CHF',
       width: 75,
-      valueGetter: (params) => round(params.row.totalCostCHF)
+      valueGetter: (params) => round(params.value)
     },
     {
       field: 'totalCO2Grams',
       headerName: 'CO2g',
       width: 75,
-      valueGetter: (params) => round(params.row.totalCO2Grams)
+      valueGetter: (params) => round(params.value)
     },
     {
       field: 'timePlus',
       headerName: 'Minutes Plus',
       width: 95,
-      valueGetter: (params) => round(params.row.timePlus)
+      valueGetter: (params) => round(params.value)
     }
   ];
 
@@ -59,7 +59,6 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[5]}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter

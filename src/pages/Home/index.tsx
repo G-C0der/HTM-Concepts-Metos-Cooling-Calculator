@@ -20,11 +20,10 @@ import Box from "@mui/material/Box";
 import { ConsumptionDisplay } from "../../components/ConsumptionDisplay";
 import { ConsumptionResult } from "../../components/ConsumptionDisplay/types";
 import { C5iRecommendationsDataGrid } from "../../components/C5iRecommendationsDataGrid";
-import htmConceptsLogo from '../../assets/img/HTM_Concepts_AG_Logo_mit_Claim_2019_gray.png';
-import metosLogo from '../../assets/img/metos_logo.png';
 import { CustomAppBar } from "../../components/CustomAppBar";
 import { AuthContext } from "../../contexts";
 import { isMobile } from "../../utils";
+import {AdminModal} from "../../components/AdminModal";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -67,14 +66,16 @@ const Home = () => {
     timePowerUsageRows
   );
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) {
       const timer = setTimeout(() => {
-        setLoading(false);
+        setIsLoading(false);
       }, 1000);
 
       return () => clearTimeout(timer);
@@ -120,7 +121,7 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
-  return loading
+  return isLoading
     ? (
       <Box style={{
         position: 'fixed',
@@ -131,21 +132,13 @@ const Home = () => {
         <CircularProgress size={80} />
       </Box>
     ) : (
-      <Box className="Home">
-        <Box className="Home-header">
-          <CustomAppBar user={user!} />
+      <Box className="home">
+        <Box className="home-header">
+          <CustomAppBar user={user!} setIsAdminModalOpen={setIsAdminModalOpen} />
         </Box>
 
-        <Box className="Home-content">
-          <Box className="logo-container">
-            <Box>
-              <img className='logo' src={htmConceptsLogo} width={100} />
-            </Box>
-
-            <Box>
-              <img className='logo' src={metosLogo} width={100} />
-            </Box>
-          </Box>
+        <Box className="home-content">
+          <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
 
           <Box className='form-container'>
             <WaterForm
@@ -155,6 +148,7 @@ const Home = () => {
               waterLitreCO2={waterLitreCO2}
               setWaterLitreCO2={setWaterLitreCO2}
             />
+
             <ElectricityForm
               iceWaterCoolingEntity={iceWaterCoolingEntity}
               kWhCHF={kWhCHF}
@@ -167,8 +161,6 @@ const Home = () => {
               iceWaterCoolingEntity={iceWaterCoolingEntity}
               setTimePowerUsageRows={setTimePowerUsageRows}
             />
-
-
           </Box>
 
           <Box className='recommendation-container'>
@@ -180,8 +172,7 @@ const Home = () => {
           />
 
           <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
-
-            <Box className='grid-button-container'>
+            <Box className='kettle-container'>
               <Box className='data-grid'>
                 <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
               </Box>
@@ -223,7 +214,6 @@ const Home = () => {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
             </Box>
-
           </Box>
         </Box>
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {DataGrid, GridCellParams, GridColDef} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../../entities/IceWaterCoolingEntity";
-import {round} from "../../utils/math";
+import {round} from "../../utils";
 import './style.css';
 
 interface TimePowerDataGridProps {
@@ -21,8 +21,8 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       field: 'powerKW',
       headerName: 'Power kW',
       width: 80,
-      valueGetter: (params) => params.row.powerKW
-        ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.row.powerKW)}%`
+      valueGetter: (params) => params.value
+        ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.value)}%`
         : '-',
       cellClassName: (params: GridCellParams) => (params.row.powerKW as any) < 0
         ? 'data-grid-cell-negative-percentage'
@@ -35,7 +35,6 @@ export const TimePowerDataGrid = ({ rows, iceWaterCoolingEntity }: TimePowerData
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[5]}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter

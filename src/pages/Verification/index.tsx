@@ -37,7 +37,7 @@ const Verification = () => {
 
   const completeError = (error: string) => {
     if (!Object.values(specificIncompleteErrors).includes(error)) return (
-      <>{error} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>
+      <>{error} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.</>
     );
 
     if (error === specificIncompleteErrors.verificationUrlExpired) {
@@ -77,7 +77,7 @@ const Verification = () => {
                 Please note that your user account is currently inactive.
                 We will review the provided data and email you, once your user account has been activated.
                 We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
-                questions, you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.
+                questions, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
               </Alert>
             </>
           }
