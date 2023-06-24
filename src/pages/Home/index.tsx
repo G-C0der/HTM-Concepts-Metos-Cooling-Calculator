@@ -172,8 +172,7 @@ const Home = () => {
           />
 
           <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
-
-            <Box className='grid-button-container'>
+            <Box className='grid-container'>
               <Box className='data-grid'>
                 <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
               </Box>
@@ -215,7 +214,6 @@ const Home = () => {
                 handleKettleDeleteClick={handleKettleDeleteClick}
               />
             </Box>
-
           </Box>
         </Box>
 

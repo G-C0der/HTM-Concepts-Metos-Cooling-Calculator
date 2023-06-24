@@ -68,7 +68,7 @@ img.logo {
   justify-self: center;
 }
 
-.grid-button-container {
+.grid-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
