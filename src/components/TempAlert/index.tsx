@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
+import { v4 as uuid } from 'uuid';
 
 interface TempAlertProps {
   severity: 'info' | 'success' | 'error' | 'warning';
@@ -11,6 +12,7 @@ interface TempAlertProps {
 }
 
 function TempAlert({ severity, message, condition, resetCondition, duration = 10000 }: TempAlertProps) {
+  const id = uuid();
   const isError = severity === 'error';
 
   useEffect(() => {
@@ -23,9 +25,9 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
     }
 
     return () =>  {
-      if (timer) clearTimeout(timer); // This function will run if the component unmounts before the timer ends
+      if (timer) clearTimeout(timer);
     }
-  }, [condition, message, severity]);
+  }, [condition, id]);
 
   return (
     <>

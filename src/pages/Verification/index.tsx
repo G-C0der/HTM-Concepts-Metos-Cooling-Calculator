@@ -7,6 +7,7 @@ import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiResponse} from "../../types";
 import {urlExpiredError} from "../../constants/error";
+import {TempAlert} from "../../components/TempAlert";
 
 const specificIncompleteErrors = {
   verificationUrlExpired: urlExpiredError
@@ -96,6 +97,22 @@ const Verification = () => {
               sendEmailCallback={sendVerificationEmail}
               setSendEmailResponse={setSendEmailResponse}
               buttonText='Send Verification Email'
+            />
+          }
+          {
+            <TempAlert
+              severity='success'
+              message='Email has been sent.'
+              condition={sendEmailResponse?.success}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
+          {
+            <TempAlert
+              severity='error'
+              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse?.success === false}
+              resetCondition={() => setSendEmailResponse(null)}
             />
           }
         </Paper>
