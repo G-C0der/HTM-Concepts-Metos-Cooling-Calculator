@@ -74,9 +74,9 @@ const validationSchema = yup.object({
 const Registration = () => {
   const [error, setError] = useState('');
   const [successCount, setSuccessCount] = useState(0);
+
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [verificationWarning, setVerificationWarning] = useState(false);
-
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { register, sendVerificationEmail } = useContext(UserContext);

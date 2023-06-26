@@ -26,6 +26,7 @@ const validationSchema = yup.object({
 const Login = () => {
   const [error, setError] = useState<string | React.ReactNode>('');
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
+
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { login } = useContext(AuthContext);
@@ -46,6 +47,12 @@ const Login = () => {
     }
   });
 
+  const handleSendVerificationEmailClick = async () => {
+    const sendEmailResponse = await sendVerificationEmail(formik.values.email);
+
+    setSendEmailResponse(sendEmailResponse);
+  };
+
   const completeError = (error: string) => {
     if (!Object.values(incompleteErrors).includes(error)) return error;
 
@@ -59,7 +66,7 @@ const Login = () => {
               style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                 textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                 margin: "0 0 0 3px", cursor: "pointer"}}
-              onClick={async () => await sendVerificationEmail(formik.values.email)}
+              onClick={handleSendVerificationEmailClick}
             >
               click here
             </Button>.
