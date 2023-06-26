@@ -382,6 +382,8 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+
             <Button
               fullWidth
               type="submit"
@@ -392,8 +394,6 @@ const Registration = () => {
             >
               Register
             </Button>
-
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
         </Paper>
       </Grid>
