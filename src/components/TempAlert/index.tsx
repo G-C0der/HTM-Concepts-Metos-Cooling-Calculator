@@ -16,7 +16,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
 
-    if (condition) {
+    if (condition && !isError) {
       timer = setTimeout(() => {
         resetCondition();
       }, duration);
@@ -32,7 +32,12 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
       {
         condition &&
         <Snackbar open={condition}>
-          <Alert elevation={6} variant='filled' severity={severity}>
+          <Alert
+            elevation={6}
+            variant='filled'
+            severity={severity}
+            onClose={() => resetCondition()}
+          >
             {message}
           </Alert>
         </Snackbar>
