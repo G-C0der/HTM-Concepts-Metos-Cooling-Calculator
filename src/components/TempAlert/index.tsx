@@ -25,7 +25,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
     return () =>  {
       if (timer) clearTimeout(timer); // This function will run if the component unmounts before the timer ends
     }
-  }, [condition]);
+  }, [condition, message, severity]);
 
   return (
     <>
