@@ -6,9 +6,10 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiResponse} from "../../types";
+import {urlExpiredError} from "../../constants/error";
 
 const specificIncompleteErrors = {
-  verificationUrlExpired: 'This URL has expired.'
+  verificationUrlExpired: urlExpiredError
 };
 
 const Verification = () => {

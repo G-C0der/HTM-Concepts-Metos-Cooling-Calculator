@@ -4,9 +4,10 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
+import {urlExpiredError} from "../../constants/error";
 
 const specificIncompleteErrors = {
-  resetPasswordUrlExpired: 'Your password reset link has expired.'
+  resetPasswordUrlExpired: urlExpiredError
 };
 
 const ResetPassword = () => {
