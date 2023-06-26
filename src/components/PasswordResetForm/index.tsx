@@ -1,13 +1,14 @@
 import React from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import {passwordSpecialCharacters, passwordValidationSchema} from "../../constants";
-import {Button, TextField} from "@mui/material";
+import {Alert, Button, TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import * as yup from "yup";
 import {useFormik} from "formik";
 
 interface PasswordResetFormProps {
   passwordResetCallback: (password: string) => Promise<void>;
+  error: string | React.ReactNode;
 }
 
 const validationSchema = yup.object().shape({
@@ -16,7 +17,7 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match.')
 });
 
-const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) => {
+const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormProps) => {
   const formik = useFormik({
     initialValues: {
       password: '',
@@ -67,6 +68,8 @@ const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) =>
           }}
         />
       </Tooltip>
+
+      {error && <Alert severity="error" sx={{ mt: 2, mb: 2 }}>{error}</Alert>}
 
       <Button
         type='submit'

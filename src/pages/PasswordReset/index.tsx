@@ -6,14 +6,17 @@ import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/materi
 import {PasswordResetForm} from "../../components/PasswordResetForm";
 import {urlExpiredError} from "../../constants/error";
 
+type StatusType = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
+  'passwordResetSuccess' | 'passwordResetError';
+
 const specificIncompleteErrors = {
   resetPasswordUrlExpired: urlExpiredError
 };
 
 const ResetPassword = () => {
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState<StatusType>('tokenVerificationLoading');
   const [error, setError] = useState<string | React.ReactNode>('');
-  const [passwordResetRequestSent, setPasswordResetRequestSent] = useState(false);
+  const [passwordResetError, setPasswordResetError] = useState<string | React.ReactNode>('');
 
   const { token } = useParams();
 
@@ -23,9 +26,9 @@ const ResetPassword = () => {
     const verifyResetUserPasswordToken = async () => {
       const verifyResetPasswordResponse = await verifyResetPasswordToken(token!);
 
-      if (verifyResetPasswordResponse.success) setStatus('success');
+      if (verifyResetPasswordResponse.success) setStatus('tokenVerificationSuccess');
       else {
-        setStatus('error');
+        setStatus('tokenVerificationError');
         setError(completeError(verifyResetPasswordResponse.error!)!);
       }
     };
@@ -47,12 +50,10 @@ const ResetPassword = () => {
   const handlePasswordResetClick = async (password: string) => {
     const passwordResetResponse = await resetPassword(token!, password);
 
-    setPasswordResetRequestSent(true);
-
-    if (passwordResetResponse.success) setStatus('success');
+    if (passwordResetResponse.success) setStatus('passwordResetSuccess');
     else {
-      setStatus('error');
-      setError(completeError(passwordResetResponse.error!)!);
+      setStatus('passwordResetError');
+      setPasswordResetError(completeError(passwordResetResponse.error!)!);
     }
   };
 
@@ -65,17 +66,17 @@ const ResetPassword = () => {
           </Typography>
 
           {
-            status === 'loading' &&
+            status === 'tokenVerificationLoading' &&
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 8 }}>
               <CircularProgress />
             </Box>
           }
           {
-            status === 'success' && !passwordResetRequestSent &&
-            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} />
+            (status === 'tokenVerificationSuccess' || status === 'passwordResetError') &&
+            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} error={passwordResetError} />
           }
           {
-            status === 'success' && passwordResetRequestSent &&
+            status === 'passwordResetSuccess' &&
             <>
               <Alert severity="success" sx={{ mb: 1 }}>
                 Your password has been reset successfully.
@@ -83,7 +84,7 @@ const ResetPassword = () => {
             </>
           }
           {
-            status === 'error' &&
+            status === 'tokenVerificationError' &&
             <Alert severity="error">
               <Typography variant="body1">
                 {error}
