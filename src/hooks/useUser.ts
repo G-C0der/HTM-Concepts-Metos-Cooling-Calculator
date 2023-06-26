@@ -1,5 +1,5 @@
 import {UserForm} from "../types";
-import {getErrorMessage, toApiResponse} from "./utils";
+import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
 const useUser = () => {
@@ -8,7 +8,7 @@ const useUser = () => {
       const { wasEmailSent } = await userApi.register(form);
       return toApiResponse(true, undefined, { wasEmailSent });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -20,7 +20,7 @@ const useUser = () => {
 
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -29,7 +29,7 @@ const useUser = () => {
       await userApi.verify(token);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -41,7 +41,7 @@ const useUser = () => {
 
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -50,7 +50,7 @@ const useUser = () => {
       await userApi.verifyResetPasswordToken(token);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -59,7 +59,7 @@ const useUser = () => {
       await userApi.resetPassword(token, password);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -68,7 +68,7 @@ const useUser = () => {
       const { users } = await userApi.list();
       return toApiResponse(true, undefined, { users });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -77,7 +77,7 @@ const useUser = () => {
       const { wasEmailSent } = await userApi.changeActiveState(id, true);
       return toApiResponse(true, undefined, { wasEmailSent });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -86,7 +86,7 @@ const useUser = () => {
       await userApi.changeActiveState(id, false);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 

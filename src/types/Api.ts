@@ -1,9 +1,18 @@
 interface ApiResponse {
   success?: boolean;
-  error?: string;
+  error?: ApiError;
   data?: any;
 }
 
+interface ApiError {
+  message: string;
+  severity: ApiErrorSeverity;
+}
+
+type ApiErrorSeverity = 'error' | 'warning';
+
 export type {
-  ApiResponse
+  ApiResponse,
+  ApiError,
+  ApiErrorSeverity
 };

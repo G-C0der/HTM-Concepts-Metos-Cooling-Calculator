@@ -6,7 +6,7 @@ import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/materi
 import {PasswordResetForm} from "../../components/PasswordResetForm";
 import {urlExpiredError} from "../../constants/error";
 
-type StatusType = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
+type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
   'passwordResetSuccess' | 'passwordResetError';
 
 const specificIncompleteErrors = {
@@ -14,7 +14,7 @@ const specificIncompleteErrors = {
 };
 
 const ResetPassword = () => {
-  const [status, setStatus] = useState<StatusType>('tokenVerificationLoading');
+  const [status, setStatus] = useState<Status>('tokenVerificationLoading');
   const [error, setError] = useState<string | React.ReactNode>('');
   const [passwordResetError, setPasswordResetError] = useState<string | React.ReactNode>('');
 
