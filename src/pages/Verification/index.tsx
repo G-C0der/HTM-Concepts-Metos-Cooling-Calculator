@@ -8,7 +8,7 @@ import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiResponse} from "../../types";
 
 const specificIncompleteErrors = {
-  verificationUrlExpired: 'Your verification link has expired.'
+  verificationUrlExpired: 'This URL has expired.'
 };
 
 const Verification = () => {
