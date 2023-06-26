@@ -17,6 +17,8 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
+import {ApiResponse} from "../../types";
+import {TempAlert} from "../../components/TempAlert";
 
 const validationSchema = yup.object({
   title: yup
@@ -75,6 +77,8 @@ const Registration = () => {
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [verificationWarning, setVerificationWarning] = useState(false);
 
+  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
+
   const { register, sendVerificationEmail } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -129,6 +133,12 @@ const Registration = () => {
     }
   }, [successCount]);
 
+  const handleSendVerificationEmailClick = async () => {
+    const sendEmailResponse = await sendVerificationEmail(registeredEmail);
+
+    setSendEmailResponse(sendEmailResponse);
+  };
+
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
@@ -152,7 +162,7 @@ const Registration = () => {
                   style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                     textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                     margin: "0 0 0 3px", cursor: "pointer"}}
-                  onClick={async () => await sendVerificationEmail(registeredEmail)}
+                  onClick={handleSendVerificationEmailClick}
                 >
                   click here
                 </Button>
@@ -169,7 +179,7 @@ const Registration = () => {
                   style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                     textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                     margin: "0 0 0 3px", cursor: "pointer"}}
-                  onClick={async () => await sendVerificationEmail(registeredEmail)}
+                  onClick={handleSendVerificationEmailClick}
                 >
                   click here
                 </Button>
@@ -395,6 +405,23 @@ const Registration = () => {
               Register
             </Button>
           </form>
+
+          {
+            <TempAlert
+              severity='success'
+              message='Email has been sent.'
+              condition={sendEmailResponse?.success}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
+          {
+            <TempAlert
+              severity='error'
+              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse?.success === false}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
         </Paper>
       </Grid>
     </Grid>
