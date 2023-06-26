@@ -11,7 +11,7 @@ import {
 } from "../../constants";
 import { useFormik } from 'formik';
 import {ApiResponse} from "../../types";
-import {FadeAlert} from "../../components/TempAlert";
+import {TempAlert} from "../../components/TempAlert";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -151,7 +151,7 @@ const Login = () => {
             />
           }
           {
-            <FadeAlert
+            <TempAlert
               severity='success'
               message='Email has been sent.'
               condition={sendEmailResponse?.success}
@@ -159,7 +159,7 @@ const Login = () => {
             />
           }
           {
-            <FadeAlert
+            <TempAlert
               severity='error'
               message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
               condition={sendEmailResponse?.success === false}

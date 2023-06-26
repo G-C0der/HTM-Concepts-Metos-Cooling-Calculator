@@ -2,21 +2,24 @@ import React, { useEffect } from 'react';
 import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 
-interface FadeAlertProps {
+interface TempAlertProps {
   severity: 'info' | 'success' | 'error' | 'warning';
   message: string | React.ReactNode;
   condition?: boolean;
   resetCondition: () => void;
+  duration?: number;
 }
 
-function FadeAlert({ severity, message, condition, resetCondition }: FadeAlertProps) {
+function TempAlert({ severity, message, condition, resetCondition, duration = 10000 }: TempAlertProps) {
+  const isError = severity === 'error';
+
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
 
     if (condition) {
       timer = setTimeout(() => {
         resetCondition();
-      }, 10000);
+      }, duration);
     }
 
     return () =>  {
@@ -39,5 +42,5 @@ function FadeAlert({ severity, message, condition, resetCondition }: FadeAlertPr
 }
 
 export {
-  FadeAlert
+  TempAlert
 };
