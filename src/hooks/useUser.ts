@@ -65,7 +65,10 @@ const useUser = () => {
 
   const list = async () => {
     try {
-      if (!authenticatedUser?.admin) throw new Error('No permission.');
+      if (!authenticatedUser?.admin) {
+        console.error('No permission error. User:', authenticatedUser);
+        throw new Error('No permission.');
+      }
 
       const { users } = await userApi.list();
       return toApiResponse(true, undefined, { users });
