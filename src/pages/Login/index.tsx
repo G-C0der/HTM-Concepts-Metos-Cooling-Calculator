@@ -110,6 +110,8 @@ const Login = () => {
               margin="normal"
             />
 
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+
             <Button
               fullWidth
               type="submit"
@@ -138,8 +140,6 @@ const Login = () => {
             >
               Reset Password
             </Button>
-
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
 
           {
