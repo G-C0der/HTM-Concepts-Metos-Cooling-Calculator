@@ -68,7 +68,7 @@ img.logo {
   justify-self: center;
 }
 
-.kettle-container {
+.button-grid-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;

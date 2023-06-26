@@ -4,16 +4,26 @@ import {isTokenExpired, toApiResponse, getErrorMessage} from "./utils";
 import {Credentials, User} from "../types";
 
 const useAuth = () => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  const [tokenExpiration, setTokenExpiration] = useState<string | null>(localStorage.getItem('tokenExpiration'));
+  const getStorageToken = () => localStorage.getItem('token');
+  const getStorageTokenExpiration = () => localStorage.getItem('tokenExpiration');
+
+  const [token, setToken] = useState<string | null>(getStorageToken());
+  const [tokenExpiration, setTokenExpiration] = useState<string | null>(getStorageTokenExpiration());
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
 
+  const setAuthenticatedUserWrapper = (authenticatedUser: User) => {
+    if (!authenticatedUser) logout();
+
+    setAuthenticatedUser(authenticatedUser);
+  };
+
   useEffect(() => {
-    if (token && tokenExpiration) {
+    if (token && tokenExpiration && (token !== getStorageToken() || tokenExpiration !== getStorageTokenExpiration())) {
       localStorage.setItem('tokenExpiration', tokenExpiration);
       localStorage.setItem('token', token);
     }
-    else localStorage.clear();
+
+    if (!token || !tokenExpiration) localStorage.clear();
   }, [token, tokenExpiration]);
 
   useEffect(() => {
@@ -21,11 +31,11 @@ const useAuth = () => {
   }, []);
 
   useEffect(() => {
-    if (token && !authenticatedUser) {
+    if (token && tokenExpiration && !authenticatedUser) {
       const syncAuthenticatedUser = async () => {
         const { user } = await authApi.getAuthenticatedUser();
 
-        setAuthenticatedUser(user);
+        setAuthenticatedUserWrapper(user);
       };
 
       syncAuthenticatedUser();
@@ -37,9 +47,9 @@ const useAuth = () => {
       const { token, expiration, user } = await authApi.login(credentials);
 
       if (typeof token === 'string' && token.length) {
-        setAuthenticatedUser(user);
         setToken(token);
         setTokenExpiration(expiration);
+        setAuthenticatedUserWrapper(user);
 
         return toApiResponse(true);
       }
