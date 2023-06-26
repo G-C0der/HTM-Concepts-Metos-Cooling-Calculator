@@ -11,7 +11,7 @@ import {
 } from "../../constants";
 import { useFormik } from 'formik';
 import {ApiResponse} from "../../types";
-import {FadeAlert} from "../../components/FadeAlert";
+import {FadeAlert} from "../../components/TempAlert";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',

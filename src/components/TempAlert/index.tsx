@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 
@@ -11,12 +11,18 @@ interface FadeAlertProps {
 
 function FadeAlert({ severity, message, condition, resetCondition }: FadeAlertProps) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      resetCondition();
-    }, 10000);
+    let timer: NodeJS.Timeout | null = null;
 
-    return () => clearTimeout(timer); // This function will run if the component unmounts before the timer ends
-  }, []);
+    if (condition) {
+      timer = setTimeout(() => {
+        resetCondition();
+      }, 10000);
+    }
+
+    return () =>  {
+      if (timer) clearTimeout(timer); // This function will run if the component unmounts before the timer ends
+    }
+  }, [condition]);
 
   return (
     <>
