@@ -1,12 +1,15 @@
+import React from "react";
+
 interface ApiResponse {
-  success?: boolean;
-  error?: ApiError;
-  data?: any;
+  readonly success?: boolean;
+  readonly error?: ApiError;
+  readonly data?: any;
 }
 
 interface ApiError {
-  message: string;
-  severity: ApiErrorSeverity;
+  readonly message: string;
+  readonly severity: ApiErrorSeverity;
+  modifiedMessage?: string | React.ReactNode;
 }
 
 type ApiErrorSeverity = 'error' | 'warning';

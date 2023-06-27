@@ -5,9 +5,10 @@ import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
-import {ApiResponse} from "../../types";
+import {ApiError, ApiResponse} from "../../types";
 import {urlExpiredError} from "../../constants/error";
 import {TempAlert} from "../../components/TempAlert";
+import {ErrorAlert} from "../../components/ErrorAlert";
 
 const specificIncompleteErrors = {
   verificationUrlExpired: urlExpiredError
@@ -15,7 +16,7 @@ const specificIncompleteErrors = {
 
 const Verification = () => {
   const [status, setStatus] = useState('loading');
-  const [error, setError] = useState<string | React.ReactNode>('');
+  const [error, setError] = useState<ApiError>();
   const [showResendForm, setShowResendForm] = useState(false);
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
@@ -30,29 +31,33 @@ const Verification = () => {
       if (verifyResponse.success) setStatus('success');
       else {
         setStatus('error');
-        setError(completeError(verifyResponse.error!)!);
+        setError(setModifiedErrorMessage(verifyResponse.error!)!);
       }
     };
 
     verifyUser();
   }, [token]);
 
-  const completeError = (error: string) => {
-    if (!Object.values(specificIncompleteErrors).includes(error)) return (
-      <>{error} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.</>
-    );
+  const setModifiedErrorMessage = (error: ApiError) => {
+    if (!Object.values(specificIncompleteErrors).includes(error.message)) {
+      error.modifiedMessage = (
+        <>{error.message} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.</>
+      );
+    }
 
-    if (error === specificIncompleteErrors.verificationUrlExpired) {
+    if (error.message === specificIncompleteErrors.verificationUrlExpired) {
       setShowResendForm(true);
 
-      return (
+      error.modifiedMessage = (
         <>
-          {error}
+          {error.message}
           To send a new verification email, enter the email associated with your account and click the button
           below.<br/>
         </>
       );
     }
+
+    return error;
   };
 
   return (
@@ -85,11 +90,7 @@ const Verification = () => {
           }
           {
             status === 'error' &&
-            <Alert severity="error">
-              <Typography variant="body1">
-                {error}
-              </Typography>
-            </Alert>
+            <ErrorAlert error={error} big />
           }
           {
             showResendForm &&
@@ -108,10 +109,11 @@ const Verification = () => {
             />
           }
           {
+            sendEmailResponse?.error &&
             <TempAlert
-              severity='error'
-              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
-              condition={sendEmailResponse?.success === false}
+              severity={sendEmailResponse.error.severity}
+              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />
           }

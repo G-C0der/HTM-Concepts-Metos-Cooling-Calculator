@@ -10,8 +10,9 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import { useFormik } from 'formik';
-import {ApiResponse} from "../../types";
+import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
+import {ErrorAlert} from "../../components/ErrorAlert";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -24,7 +25,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
-  const [error, setError] = useState<string | React.ReactNode>('');
+  const [error, setError] = useState<ApiError>();
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
 
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
@@ -43,7 +44,7 @@ const Login = () => {
     onSubmit: async (values) => {
       const loginResponse = await login(values);
   
-      if (!loginResponse.success) setError(completeError(loginResponse.error!));
+      if (!loginResponse.success) setError(setModifiedErrorMessage(loginResponse.error!));
     }
   });
 
@@ -53,14 +54,14 @@ const Login = () => {
     setSendEmailResponse(sendEmailResponse);
   };
 
-  const completeError = (error: string) => {
-    if (!Object.values(incompleteErrors).includes(error)) return error;
+  const setModifiedErrorMessage = (error: ApiError) => {
+    if (!Object.values(incompleteErrors).includes(error.message)) return error;
 
-    switch (error) {
+    switch (error.message) {
       case incompleteErrors.userAccountNotYetVerified:
-        return (
+        error.modifiedMessage = (
           <>
-            {error} Please click on the "Verify Account" button in the verification email you have got after
+            {error.message} Please click on the "Verify Account" button in the verification email you have got after
             your registration. If you need a new verification email,
             <Button
               style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
@@ -72,14 +73,18 @@ const Login = () => {
             </Button>.
           </>
         );
+        break;
       case incompleteErrors.userAccountNotYetActivated:
-        return (
+        error.modifiedMessage = (
           <>
-            {error} We're reviewing your user account and email you, once your user account has been activated.
+            {error.message} We're reviewing your user account and email you, once your user account has been activated.
             If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
           </>
         );
+        break;
     }
+    
+    return error;
   };
 
   return (
@@ -117,7 +122,7 @@ const Login = () => {
               margin="normal"
             />
 
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+            <ErrorAlert error={error} spaceAbove />
 
             <Button
               fullWidth
@@ -166,10 +171,11 @@ const Login = () => {
             />
           }
           {
+            sendEmailResponse?.error &&
             <TempAlert
-              severity='error'
-              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
-              condition={sendEmailResponse?.success === false}
+              severity={sendEmailResponse.error.severity}
+              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />
           }

@@ -17,8 +17,9 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
-import {ApiResponse} from "../../types";
+import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
+import {ErrorAlert} from "../../components/ErrorAlert";
 
 const validationSchema = yup.object({
   title: yup
@@ -72,7 +73,7 @@ const validationSchema = yup.object({
 });
 
 const Registration = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<ApiError>();
   const [successCount, setSuccessCount] = useState(0);
 
   const [registeredEmail, setRegisteredEmail] = useState('');
@@ -126,7 +127,7 @@ const Registration = () => {
 
   useEffect(() => {
     if (successCount > 0) {
-      setError('');
+      setError(undefined);
       setRegisteredEmail(formik.values.email);
       formik.resetForm();
       window.scrollTo(0, 0); // scroll to page top
@@ -392,7 +393,7 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+            <ErrorAlert error={error} spaceAbove />
 
             <Button
               fullWidth
@@ -415,10 +416,11 @@ const Registration = () => {
             />
           }
           {
+            sendEmailResponse?.error &&
             <TempAlert
-              severity='error'
-              message={<>{sendEmailResponse?.error} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
-              condition={sendEmailResponse?.success === false}
+              severity={sendEmailResponse.error.severity}
+              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />
           }
