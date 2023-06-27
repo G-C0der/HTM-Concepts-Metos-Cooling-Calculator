@@ -81,9 +81,11 @@ const Login = () => {
               {error.message} Please click on the "Verify Account" button in the verification email you have got after
               your registration. If you need a new verification email,
               <LoadingButton
-                style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
-                  textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                  margin: "0 0 0 3px", cursor: "pointer"}}
+                variant="contained"
+                color='secondary'
+                style={{
+                  border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
+                  display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"}}
                 smallSpinner
                 onClick={handleSendVerificationEmailClick}
                 loading={isSendEmailLoading}
