@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
@@ -52,7 +52,7 @@ const Login = () => {
       setIsLoading(true);
 
       const loginResponse = await login(values);
-      if (!loginResponse.success) setError(setModifiedErrorMessage(loginResponse.error!));
+      if (!loginResponse.success) setError(loginResponse.error!);
 
       setIsLoading(false);
     }
@@ -67,40 +67,45 @@ const Login = () => {
     setIsSendEmailLoading(false);
   };
 
-  const setModifiedErrorMessage = (error: ApiError) => {
-    if (!Object.values(incompleteErrors).includes(error.message)) return error;
+  // Set modified error message
+  useEffect(() => {
+    if (error) {
+      if (!Object.values(incompleteErrors).includes(error.message)) return;
 
-    switch (error.message) {
-      case incompleteErrors.userAccountNotYetVerified:
-        error.modifiedMessage = (
-          <>
-            {error.message} Please click on the "Verify Account" button in the verification email you have got after
-            your registration. If you need a new verification email,
-            <LoadingButton
-              style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
-                textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                margin: "0 0 0 3px", cursor: "pointer"}}
-              smallSpinner
-              onClick={handleSendVerificationEmailClick}
-              loading={isSendEmailLoading}
-            >
-              click here
-            </LoadingButton>.
-          </>
-        );
-        break;
-      case incompleteErrors.userAccountNotYetActivated:
-        error.modifiedMessage = (
-          <>
-            {error.message} We're reviewing your user account and email you, once your user account has been activated.
-            If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-          </>
-        );
-        break;
+      let modifiedMessage;
+
+      switch (error.message) {
+        case incompleteErrors.userAccountNotYetVerified:
+          modifiedMessage = (
+            <>
+              {error.message} Please click on the "Verify Account" button in the verification email you have got after
+              your registration. If you need a new verification email,
+              <LoadingButton
+                style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
+                  textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
+                  margin: "0 0 0 3px", cursor: "pointer"}}
+                smallSpinner
+                onClick={handleSendVerificationEmailClick}
+                loading={isSendEmailLoading}
+              >
+                click here
+              </LoadingButton>.
+            </>
+          );
+          break;
+        case incompleteErrors.userAccountNotYetActivated:
+          modifiedMessage = (
+            <>
+              {error.message} We're reviewing your user account and email you, once your user account has been activated.
+              If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+            </>
+          );
+          break;
+      }
+
+      setError({ ...error, modifiedMessage });
     }
-    
-    return error;
-  };
+  }, [error]);
 
   return (
     <Grid container justifyContent="center">
