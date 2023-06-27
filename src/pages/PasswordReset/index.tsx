@@ -41,7 +41,7 @@ const ResetPassword = () => {
   const setModifiedErrorMessage = (error: ApiError) => {
     error.modifiedMessage = (
       <>
-        {error.message}
+        {`${error.message} `}
         {
           (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
           <>To send a new password reset email, return to the login page.<br/></>
