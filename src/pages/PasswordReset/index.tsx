@@ -4,7 +4,7 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
-import {urlExpiredError} from "../../constants/error";
+import {urlExpiredError} from "../../constants";
 import {ApiError} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
 

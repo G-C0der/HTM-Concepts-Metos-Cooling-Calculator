@@ -16,6 +16,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LockResetIcon from "@mui/icons-material/LockReset";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -146,6 +148,7 @@ const Login = () => {
               fullWidth
               variant="outlined"
               style={{ marginTop: 16 }}
+              startIcon={<AppRegistrationIcon />}
               onClick={() => navigate('/registration')}
             >
               Register
@@ -156,6 +159,7 @@ const Login = () => {
               color="secondary"
               variant="outlined"
               style={{ marginTop: 16 }}
+              startIcon={<LockResetIcon />}
               onClick={() => setShowResetPasswordForm(prevValue => !prevValue)}
             >
               Reset Password
