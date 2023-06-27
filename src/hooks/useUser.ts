@@ -1,17 +1,14 @@
 import {UserForm} from "../types";
-import {getErrorMessage, toApiResponse} from "./utils";
+import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
-import {useAuth} from "./useAuth";
 
 const useUser = () => {
-  const { authenticatedUser } = useAuth();
-
   const register = async (form: UserForm) => {
     try {
       const { wasEmailSent } = await userApi.register(form);
       return toApiResponse(true, undefined, { wasEmailSent });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -23,7 +20,7 @@ const useUser = () => {
 
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -32,16 +29,19 @@ const useUser = () => {
       await userApi.verify(token);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
   const sendResetPasswordEmail = async (email: string) => {
     try {
-      await userApi.sendResetPasswordEmail(email);
+      const { wasEmailSent } = await userApi.sendResetPasswordEmail(email);
+
+      if (!wasEmailSent) throw new Error('Failed to send password reset email.');
+
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -50,7 +50,7 @@ const useUser = () => {
       await userApi.verifyResetPasswordToken(token);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -59,18 +59,16 @@ const useUser = () => {
       await userApi.resetPassword(token, password);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
   const list = async () => {
     try {
-      if (!authenticatedUser?.admin) throw new Error('No permission.');
-
       const { users } = await userApi.list();
       return toApiResponse(true, undefined, { users });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -79,7 +77,7 @@ const useUser = () => {
       const { wasEmailSent } = await userApi.changeActiveState(id, true);
       return toApiResponse(true, undefined, { wasEmailSent });
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 
@@ -88,7 +86,7 @@ const useUser = () => {
       await userApi.changeActiveState(id, false);
       return toApiResponse(true);
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 

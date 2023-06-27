@@ -14,11 +14,14 @@ import {
   emailValidationSchema,
   userFieldLengths,
   passwordSpecialCharacters,
-  passwordValidationSchema
+  passwordValidationSchema, checkSpamFolderMessage
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
 import {LoadingButton} from "../../components/LoadingButton";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import {ApiError, ApiResponse} from "../../types";
+import {TempAlert} from "../../components/TempAlert";
+import {ErrorAlert} from "../../components/ErrorAlert";
 
 const validationSchema = yup.object({
   title: yup
@@ -72,11 +75,15 @@ const validationSchema = yup.object({
 });
 
 const Registration = () => {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<ApiError>();
   const [successCount, setSuccessCount] = useState(0);
+
   const [registeredEmail, setRegisteredEmail] = useState('');
   const [verificationWarning, setVerificationWarning] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { register, sendVerificationEmail } = useContext(UserContext);
 
@@ -127,12 +134,18 @@ const Registration = () => {
 
   useEffect(() => {
     if (successCount > 0) {
-      setError('');
+      setError(undefined);
       setRegisteredEmail(formik.values.email);
       formik.resetForm();
       window.scrollTo(0, 0); // scroll to page top
     }
   }, [successCount]);
+
+  const handleSendVerificationEmailClick = async () => {
+    const sendEmailResponse = await sendVerificationEmail(registeredEmail);
+
+    setSendEmailResponse(sendEmailResponse);
+  };
 
   return (
     <Grid container justifyContent="center">
@@ -151,13 +164,14 @@ const Registration = () => {
             (successCount > 0 && !verificationWarning) &&
               <Alert severity="info" sx={{ mb: 2 }}>
                 We have sent a verification email to {registeredEmail}.<br/>
-                Please click on the provided link to verify your email.<br/>
+                Please click on the provided button / link to verify your email.<br/>
+                {checkSpamFolderMessage}<br/>
                 If you haven't got a verification email,
                 <Button
                   style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                     textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                     margin: "0 0 0 3px", cursor: "pointer"}}
-                  onClick={async () => await sendVerificationEmail(registeredEmail)}
+                  onClick={handleSendVerificationEmailClick}
                 >
                   click here
                 </Button>
@@ -174,7 +188,7 @@ const Registration = () => {
                   style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                     textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                     margin: "0 0 0 3px", cursor: "pointer"}}
-                  onClick={async () => await sendVerificationEmail(registeredEmail)}
+                  onClick={handleSendVerificationEmailClick}
                 >
                   click here
                 </Button>
@@ -387,6 +401,8 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
+            <ErrorAlert error={error} spaceAbove />
+
             <LoadingButton
               fullWidth
               type="submit"
@@ -399,9 +415,25 @@ const Registration = () => {
             >
               Register
             </LoadingButton>
-
-            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
           </form>
+
+          {
+            <TempAlert
+              severity='success'
+              message={`Email has been sent. ${checkSpamFolderMessage}`}
+              condition={sendEmailResponse?.success}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
+          {
+            sendEmailResponse?.error &&
+            <TempAlert
+              severity={sendEmailResponse.error.severity}
+              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              condition={sendEmailResponse.success === false}
+              resetCondition={() => setSendEmailResponse(null)}
+            />
+          }
         </Paper>
       </Grid>
     </Grid>

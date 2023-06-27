@@ -3,12 +3,15 @@ import Tooltip from "@mui/material/Tooltip";
 import {passwordSpecialCharacters, passwordValidationSchema} from "../../constants";
 import {Button, TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import LockResetIcon from '@mui/icons-material/LockReset';
 import * as yup from "yup";
 import {useFormik} from "formik";
-import LockResetIcon from '@mui/icons-material/LockReset';
+import {ApiError} from "../../types";
+import {ErrorAlert} from "../ErrorAlert";
 
 interface PasswordResetFormProps {
   passwordResetCallback: (password: string) => Promise<void>;
+  error?: ApiError;
 }
 
 const validationSchema = yup.object().shape({
@@ -17,7 +20,7 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match.')
 });
 
-const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) => {
+const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormProps) => {
   const formik = useFormik({
     initialValues: {
       password: '',
@@ -68,6 +71,8 @@ const PasswordResetForm = ({ passwordResetCallback }: PasswordResetFormProps) =>
           }}
         />
       </Tooltip>
+
+      <ErrorAlert error={error} spaceAbove spaceBelow />
 
       <Button
         type='submit'

@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
-import {User} from "../../types";
+import {ApiError, User} from "../../types";
 import {AuthContext, UserContext} from "../../contexts";
-import {Alert, CircularProgress} from "@mui/material";
+import {CircularProgress} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
@@ -11,6 +11,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 import {getName} from 'country-list';
+import {ErrorAlert} from "../ErrorAlert";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -18,7 +19,7 @@ interface UsersDataGridProps {
 
 const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [users, setUsers] = useState<User[]>();
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
 
   const [pendingUser, setPendingUser] = useState<User>();
@@ -178,7 +179,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
 
   return error
     ? (
-      <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>
+      <ErrorAlert error={error} />
     ) : (
       <>
         {

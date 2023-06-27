@@ -18,7 +18,7 @@ const LoadingButton = ({ loading, disabled, startIcon, children, ...props }: Loa
     >
       {loading ? 'Loading...' : children}
     </Button>
-  )
+  );
 }
 
 export {
