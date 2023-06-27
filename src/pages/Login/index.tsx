@@ -68,46 +68,6 @@ const Login = () => {
     setIsSendEmailLoading(false);
   };
 
-  // Set modified error message
-  useEffect(() => {
-    if (error) {
-      if (!Object.values(incompleteErrors).includes(error.message)) return;
-
-      let modifiedMessage;
-
-      switch (error.message) {
-        case incompleteErrors.userAccountNotYetVerified:
-          modifiedMessage = (
-            <>
-              {error.message} Please click on the "Verify Account" button in the verification email you have got after
-              your registration. If you need a new verification email, click here:
-              <LoadingButton
-                variant="contained"
-                color='secondary'
-                startIcon={<SendIcon />}
-                small
-                onClick={handleSendVerificationEmailClick}
-                loading={isSendEmailLoading}
-              >
-                send verification email
-              </LoadingButton>
-            </>
-          );
-          break;
-        case incompleteErrors.userAccountNotYetActivated:
-          modifiedMessage = (
-            <>
-              {error.message} We're reviewing your user account and email you, once your user account has been activated.
-              If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-            </>
-          );
-          break;
-      }
-
-      setError({ ...error, modifiedMessage });
-    }
-  }, [error]);
-
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
@@ -143,7 +103,39 @@ const Login = () => {
               margin="normal"
             />
 
-            <ErrorAlert error={error} spaceAbove />
+            {
+              error?.message !== incompleteErrors.userAccountNotYetVerified &&
+              error?.message !== incompleteErrors.userAccountNotYetActivated &&
+              <ErrorAlert error={error} spaceAbove />
+            }
+            {
+              error?.message === incompleteErrors.userAccountNotYetVerified &&
+              <ErrorAlert error={{ ...error, modifiedMessage: (
+                  <>
+                    {error.message} Please click on the "Verify Account" button in the verification email you have got after
+                    your registration. If you need a new verification email, click here:
+                    <LoadingButton
+                      variant="contained"
+                      color='secondary'
+                      startIcon={<SendIcon />}
+                      small
+                      onClick={handleSendVerificationEmailClick}
+                      loading={isSendEmailLoading}
+                    >
+                      send verification email
+                    </LoadingButton>
+                  </>
+                ) }} spaceAbove />
+            }
+            {
+              error?.message === incompleteErrors.userAccountNotYetActivated &&
+              <ErrorAlert error={{ ...error, modifiedMessage: (
+                  <>
+                    {error.message} We're reviewing your user account and email you, once your user account has been activated.
+                    If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                  </>
+                ) }} spaceAbove />
+            }
 
             <LoadingButton
               fullWidth
