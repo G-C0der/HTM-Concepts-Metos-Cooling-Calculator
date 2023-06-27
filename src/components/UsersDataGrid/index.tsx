@@ -126,6 +126,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 setPendingUser(params.row);
                 setPendingAction(() => async () => {
                   setIsActiveStateChangeLoading(true);
+
                   if (isActive) {
                     const deactivateResponse = await deactivate(id);
                     if (deactivateResponse.success) updateUser(id, { active: !isActive });
@@ -133,6 +134,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                     const activateResponse = await activate(id);
                     if (activateResponse.success) updateUser(id, { active: !isActive });
                   }
+
                   setIsActiveStateChangeLoading(false);
                 });
                 setIsConfirmDialogOpen(true);

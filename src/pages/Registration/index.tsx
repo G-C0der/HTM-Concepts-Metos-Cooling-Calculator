@@ -109,14 +109,16 @@ const Registration = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
+
       const registerResponse = await register(values);
-      setIsLoading(false);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
         if (registerResponse.data.wasEmailSent) setVerificationWarning(false);
         else setVerificationWarning(true);
       }
       else setError(registerResponse.error!);
+
+      setIsLoading(false);
     }
   });
 

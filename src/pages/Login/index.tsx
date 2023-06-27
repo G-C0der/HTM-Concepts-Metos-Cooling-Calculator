@@ -49,10 +49,11 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
+
       const loginResponse = await login(values);
-      setIsLoading(false);
-  
       if (!loginResponse.success) setError(setModifiedErrorMessage(loginResponse.error!));
+
+      setIsLoading(false);
     }
   });
 
