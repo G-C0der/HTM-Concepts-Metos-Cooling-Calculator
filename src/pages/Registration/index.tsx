@@ -192,15 +192,17 @@ const Registration = () => {
             (successCount > 0 && verificationWarning) &&
               <Alert severity='warning' sx={{ mb: 2 }}>
                 There was a problem sending the verification email to {registeredEmail}.<br/>
-                To trigger the verification email transmission,
-                <Button
-                  style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
-                    textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                    margin: "0 0 0 3px", cursor: "pointer"}}
+                To trigger the verification email transmission, click here:
+                <LoadingButton
+                  variant="contained"
+                  color='secondary'
+                  startIcon={<SendIcon />}
+                  small
                   onClick={handleSendVerificationEmailClick}
+                  loading={isSendEmailLoading}
                 >
-                  click here
-                </Button>
+                  send verification email
+                </LoadingButton>
                 .<br/>
                 If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
               </Alert>
@@ -410,7 +412,7 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
-            <ErrorAlert error={error} spaceAbove />
+            <ErrorAlert error={error} spaceAbove spaceBelow />
 
             <LoadingButton
               fullWidth
