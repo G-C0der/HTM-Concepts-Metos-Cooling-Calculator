@@ -22,6 +22,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import SendIcon from "@mui/icons-material/Send";
 
 const validationSchema = yup.object({
   title: yup
@@ -83,6 +84,7 @@ const Registration = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isSendEmailLoading, setIsSendEmailLoading] = useState(false);
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { register, sendVerificationEmail } = useContext(UserContext);
@@ -144,9 +146,12 @@ const Registration = () => {
   }, [successCount]);
 
   const handleSendVerificationEmailClick = async () => {
-    const sendEmailResponse = await sendVerificationEmail(registeredEmail);
+    setIsSendEmailLoading(true);
 
+    const sendEmailResponse = await sendVerificationEmail(registeredEmail);
     setSendEmailResponse(sendEmailResponse);
+
+    setIsSendEmailLoading(false);
   };
 
   return (
@@ -168,16 +173,18 @@ const Registration = () => {
                 We have sent a verification email to {registeredEmail}.<br/>
                 Please click on the provided button / link to verify your email.<br/>
                 {checkSpamFolderMessage}<br/>
-                If you haven't got a verification email,
-                <Button
-                  style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
-                    textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                    margin: "0 0 0 3px", cursor: "pointer"}}
+                If you haven't got a verification email, click here:
+                <LoadingButton
+                  variant="contained"
+                  color='secondary'
+                  startIcon={<SendIcon />}
+                  small
                   onClick={handleSendVerificationEmailClick}
+                  loading={isSendEmailLoading}
                 >
-                  click here
-                </Button>
-                .<br/>
+                  send verification email
+                </LoadingButton>
+                <br/>
                 If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
               </Alert>
           }
