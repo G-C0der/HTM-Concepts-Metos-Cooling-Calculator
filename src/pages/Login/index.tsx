@@ -34,6 +34,7 @@ const Login = () => {
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isSendEmailLoading, setIsSendEmailLoading] = useState(false);
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { login } = useContext(AuthContext);
@@ -58,9 +59,12 @@ const Login = () => {
   });
 
   const handleSendVerificationEmailClick = async () => {
-    const sendEmailResponse = await sendVerificationEmail(formik.values.email);
+    setIsSendEmailLoading(true);
 
+    const sendEmailResponse = await sendVerificationEmail(formik.values.email);
     setSendEmailResponse(sendEmailResponse);
+
+    setIsSendEmailLoading(false);
   };
 
   const setModifiedErrorMessage = (error: ApiError) => {
@@ -72,14 +76,16 @@ const Login = () => {
           <>
             {error.message} Please click on the "Verify Account" button in the verification email you have got after
             your registration. If you need a new verification email,
-            <Button
+            <LoadingButton
               style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
                 textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
                 margin: "0 0 0 3px", cursor: "pointer"}}
+              smallSpinner
               onClick={handleSendVerificationEmailClick}
+              loading={isSendEmailLoading}
             >
               click here
-            </Button>.
+            </LoadingButton>.
           </>
         );
         break;
@@ -173,6 +179,7 @@ const Login = () => {
               sendEmailCallback={sendResetPasswordEmail}
               setSendEmailResponse={setSendEmailResponse}
               buttonText='Send Password Reset Email'
+              buttonColor='secondary'
             />
           }
           {

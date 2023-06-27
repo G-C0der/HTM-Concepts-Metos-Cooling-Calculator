@@ -98,6 +98,7 @@ const Verification = () => {
               sendEmailCallback={sendVerificationEmail}
               setSendEmailResponse={setSendEmailResponse}
               buttonText='Send Verification Email'
+              buttonColor='primary'
             />
           }
           {

@@ -11,13 +11,14 @@ interface SendEmailFormProps {
   sendEmailCallback: (email: string) => Promise<any>;
   setSendEmailResponse: (sendEmailResponse: ApiResponse) => void;
   buttonText: string;
+  buttonColor: 'primary' | 'secondary';
 }
 
 const validationSchema = yup.object().shape({
   email: emailValidationSchema
 });
 
-const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText }: SendEmailFormProps) => {
+const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText, buttonColor }: SendEmailFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -54,7 +55,7 @@ const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText }: 
       <LoadingButton
         fullWidth
         type='submit'
-        color="secondary"
+        color={buttonColor}
         variant="contained"
         startIcon={<SendIcon />}
         loading={isLoading}
