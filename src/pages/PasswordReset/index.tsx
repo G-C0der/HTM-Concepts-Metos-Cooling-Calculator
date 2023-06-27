@@ -4,15 +4,21 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
+import {urlExpiredError} from "../../constants/error";
+import {ApiError} from "../../types";
+import {ErrorAlert} from "../../components/ErrorAlert";
+
+type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
+  'passwordResetSuccess' | 'passwordResetError';
 
 const specificIncompleteErrors = {
-  resetPasswordUrlExpired: 'Your password reset link has expired.'
+  resetPasswordUrlExpired: urlExpiredError
 };
 
 const ResetPassword = () => {
-  const [status, setStatus] = useState('loading');
-  const [error, setError] = useState<string | React.ReactNode>('');
-  const [passwordResetRequestSent, setPasswordResetRequestSent] = useState(false);
+  const [status, setStatus] = useState<Status>('tokenVerificationLoading');
+  const [tokenVerificationError, setTokenVerificationError] = useState<ApiError>();
+  const [passwordResetError, setPasswordResetError] = useState<ApiError>();
 
   const { token } = useParams();
 
@@ -22,36 +28,39 @@ const ResetPassword = () => {
     const verifyResetUserPasswordToken = async () => {
       const verifyResetPasswordResponse = await verifyResetPasswordToken(token!);
 
-      if (verifyResetPasswordResponse.success) setStatus('success');
+      if (verifyResetPasswordResponse.success) setStatus('tokenVerificationSuccess');
       else {
-        setStatus('error');
-        setError(completeError(verifyResetPasswordResponse.error!)!);
+        setStatus('tokenVerificationError');
+        setTokenVerificationError(setModifiedErrorMessage(verifyResetPasswordResponse.error!)!);
       }
     };
 
     verifyResetUserPasswordToken();
   }, [token]);
 
-  const completeError = (error: string) => (
-    <>
-      {error}
-      {
-        (error === specificIncompleteErrors.resetPasswordUrlExpired) &&
-        <>To send a new password reset email, return to the login page.<br/></>
-      }
-      If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-    </>
-  );
+  const setModifiedErrorMessage = (error: ApiError) => {
+    error.modifiedMessage = (
+      <>
+        {error.message}
+        {
+          (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
+          <>To send a new password reset email, return to the login page.<br/></>
+        }
+        If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank"
+                                                   rel="noreferrer">here</a>.
+      </>
+    );
+    
+    return error;
+  };
 
   const handlePasswordResetClick = async (password: string) => {
     const passwordResetResponse = await resetPassword(token!, password);
 
-    setPasswordResetRequestSent(true);
-
-    if (passwordResetResponse.success) setStatus('success');
+    if (passwordResetResponse.success) setStatus('passwordResetSuccess');
     else {
-      setStatus('error');
-      setError(completeError(passwordResetResponse.error!)!);
+      setStatus('passwordResetError');
+      setPasswordResetError(setModifiedErrorMessage(passwordResetResponse.error!)!);
     }
   };
 
@@ -64,17 +73,17 @@ const ResetPassword = () => {
           </Typography>
 
           {
-            status === 'loading' &&
+            status === 'tokenVerificationLoading' &&
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 8 }}>
               <CircularProgress />
             </Box>
           }
           {
-            status === 'success' && !passwordResetRequestSent &&
-            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} />
+            (status === 'tokenVerificationSuccess' || status === 'passwordResetError') &&
+            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} error={passwordResetError} />
           }
           {
-            status === 'success' && passwordResetRequestSent &&
+            status === 'passwordResetSuccess' &&
             <>
               <Alert severity="success" sx={{ mb: 1 }}>
                 Your password has been reset successfully.
@@ -82,12 +91,8 @@ const ResetPassword = () => {
             </>
           }
           {
-            status === 'error' &&
-            <Alert severity="error">
-              <Typography variant="body1">
-                {error}
-              </Typography>
-            </Alert>
+            status === 'tokenVerificationError' &&
+            <ErrorAlert error={tokenVerificationError} big />
           }
         </Paper>
       </Grid>

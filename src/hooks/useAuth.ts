@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import { authApi } from "../services/api";
-import {isTokenExpired, toApiResponse, getErrorMessage} from "./utils";
+import {isTokenExpired, toApiResponse, toApiError} from "./utils";
 import {Credentials, User} from "../types";
 
 const useAuth = () => {
@@ -56,7 +56,7 @@ const useAuth = () => {
 
       throw new Error('Failed to log in.');
     } catch (err: any) {
-      return toApiResponse(false, getErrorMessage(err));
+      return toApiResponse(false, toApiError(err));
     }
   };
 

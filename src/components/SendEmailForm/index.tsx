@@ -3,9 +3,11 @@ import {useFormik} from "formik";
 import {Button, TextField} from "@mui/material";
 import * as yup from "yup";
 import {emailValidationSchema} from "../../constants";
+import {ApiResponse} from "../../types";
 
 interface SendEmailFormProps {
   sendEmailCallback: (email: string) => Promise<any>;
+  setSendEmailResponse: (sendEmailResponse: ApiResponse) => void;
   buttonText: string;
 }
 
@@ -13,13 +15,16 @@ const validationSchema = yup.object().shape({
   email: emailValidationSchema
 });
 
-const SendEmailForm = ({ sendEmailCallback, buttonText }: SendEmailFormProps) => {
+const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText }: SendEmailFormProps) => {
   const formik = useFormik({
     initialValues: {
       email: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => await sendEmailCallback(values.email)
+    onSubmit: async (values) => {
+      const sendEmailResponse = await sendEmailCallback(values.email);
+      setSendEmailResponse(sendEmailResponse);
+    }
   });
 
   return (

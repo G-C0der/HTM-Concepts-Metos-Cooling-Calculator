@@ -6,7 +6,7 @@ interface PrivateRouteProps {
   restricted?: boolean;
 }
 
-export const PrivateRoute = ({ restricted = false }: PrivateRouteProps) => {
+export const PrivateRoute = ({ restricted }: PrivateRouteProps) => {
   const { token } = useContext(AuthContext);
 
   if (restricted) return token ? <Navigate to="/" replace /> : <Outlet />;
