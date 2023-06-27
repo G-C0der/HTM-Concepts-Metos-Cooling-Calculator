@@ -412,7 +412,7 @@ const Registration = () => {
               label="I accept the Terms and Conditions"
             />
 
-            <ErrorAlert error={error} spaceAbove spaceBelow />
+            <ErrorAlert error={error} spaceAbove />
 
             <LoadingButton
               fullWidth

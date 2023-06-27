@@ -13,7 +13,6 @@ interface LoadingButtonProps extends ButtonProps {
 const LoadingButton = ({ loading, disabled, startIcon, small, children, ...props }: LoadingButtonProps) => {
   return (
     <Button
-      {...props}
       style={
         small
           ? {
@@ -22,6 +21,7 @@ const LoadingButton = ({ loading, disabled, startIcon, small, children, ...props
           }
           : {}
       }
+      {...props}
       startIcon={loading
         ? <CircularProgress size={small ? '0.6rem' : '1rem'} />
         : (startIcon

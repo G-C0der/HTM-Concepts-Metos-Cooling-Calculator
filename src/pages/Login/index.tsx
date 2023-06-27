@@ -143,7 +143,7 @@ const Login = () => {
               margin="normal"
             />
 
-            <ErrorAlert error={error} spaceAbove spaceBelow />
+            <ErrorAlert error={error} spaceAbove />
 
             <LoadingButton
               fullWidth
