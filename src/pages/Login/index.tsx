@@ -87,12 +87,12 @@ const Login = () => {
                 style={{
                   border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
                   display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"}}
-                startIcon={<SendIcon style={{ fontSize: '1rem', verticalAlign: 'middle', transform: 'translateY(-1px)' }} />}
-                smallSpinner
+                startIcon={<SendIcon />}
+                smallIcon
                 onClick={handleSendVerificationEmailClick}
                 loading={isSendEmailLoading}
               >
-                <span style={{ position: 'relative', top: '1px' }}>send verification email</span>
+                send verification email
               </LoadingButton>
             </>
           );
