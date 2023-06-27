@@ -1,29 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useFormik} from "formik";
-import {Button, TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import * as yup from "yup";
 import {emailValidationSchema} from "../../constants";
+import SendIcon from "@mui/icons-material/Send";
 import {ApiResponse} from "../../types";
+import {LoadingButton} from "../LoadingButton";
 
 interface SendEmailFormProps {
   sendEmailCallback: (email: string) => Promise<any>;
   setSendEmailResponse: (sendEmailResponse: ApiResponse) => void;
   buttonText: string;
+  buttonColor: 'primary' | 'secondary';
 }
 
 const validationSchema = yup.object().shape({
   email: emailValidationSchema
 });
 
-const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText }: SendEmailFormProps) => {
+const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText, buttonColor }: SendEmailFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setIsLoading(true);
+
       const sendEmailResponse = await sendEmailCallback(values.email);
       setSendEmailResponse(sendEmailResponse);
+
+      setIsLoading(false);
     }
   });
 
@@ -43,14 +52,16 @@ const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText }: 
       />
       <br/>
 
-      <Button
+      <LoadingButton
+        fullWidth
         type='submit'
-        style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
-          textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-          cursor: "pointer"}}
+        color={buttonColor}
+        variant="contained"
+        startIcon={<SendIcon />}
+        loading={isLoading}
       >
         {buttonText}
-      </Button>
+      </LoadingButton>
     </form>
   );
 };

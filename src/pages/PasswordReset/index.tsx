@@ -4,7 +4,7 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
-import {urlExpiredError} from "../../constants/error";
+import {urlExpiredError} from "../../constants";
 import {ApiError} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
 
@@ -41,7 +41,7 @@ const ResetPassword = () => {
   const setModifiedErrorMessage = (error: ApiError) => {
     error.modifiedMessage = (
       <>
-        {error.message}
+        {`${error.message} `}
         {
           (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
           <>To send a new password reset email, return to the login page.<br/></>

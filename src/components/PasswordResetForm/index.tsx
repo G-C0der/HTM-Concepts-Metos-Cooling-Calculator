@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import {passwordSpecialCharacters, passwordValidationSchema} from "../../constants";
 import {Button, TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import LockResetIcon from '@mui/icons-material/LockReset';
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {ApiError} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
+import {LoadingButton} from "../LoadingButton";
 
 interface PasswordResetFormProps {
   passwordResetCallback: (password: string) => Promise<void>;
@@ -20,13 +22,21 @@ const validationSchema = yup.object().shape({
 });
 
 const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       password: '',
       passwordRetype: ''
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => await passwordResetCallback(values.password)
+    onSubmit: async (values) => {
+      setIsLoading(true);
+
+      await passwordResetCallback(values.password)
+
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -73,14 +83,16 @@ const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormPr
 
       <ErrorAlert error={error} spaceAbove spaceBelow />
 
-      <Button
+      <LoadingButton
+        fullWidth
         type='submit'
-        style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "5px 10px 5px",
-          textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-          cursor: "pointer"}}
+        color="primary"
+        variant="contained"
+        startIcon={<LockResetIcon />}
+        loading={isLoading}
       >
         Reset Password
-      </Button>
+      </LoadingButton>
     </form>
   );
 };

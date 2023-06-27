@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, Button, Grid, Paper, Snackbar, TextField, Typography} from "@mui/material";
+import {Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
 import {htmConceptsEmail} from "../../config";
@@ -11,9 +11,14 @@ import {
   passwordValidationSchema
 } from "../../constants";
 import { useFormik } from 'formik';
+import {LoadingButton} from "../../components/LoadingButton";
+import LoginIcon from '@mui/icons-material/Login';
 import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import SendIcon from '@mui/icons-material/Send';
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -28,7 +33,9 @@ const validationSchema = yup.object({
 const Login = () => {
   const [error, setError] = useState<ApiError>();
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const [isSendEmailLoading, setIsSendEmailLoading] = useState(false);
   const [sendEmailResponse, setSendEmailResponse] = useState<ApiResponse | null>(null);
 
   const { login } = useContext(AuthContext);
@@ -43,49 +50,22 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setIsLoading(true);
+
       const loginResponse = await login(values);
-  
-      if (!loginResponse.success) setError(setModifiedErrorMessage(loginResponse.error!));
+      if (!loginResponse.success) setError(loginResponse.error!);
+
+      setIsLoading(false);
     }
   });
 
   const handleSendVerificationEmailClick = async () => {
+    setIsSendEmailLoading(true);
+
     const sendEmailResponse = await sendVerificationEmail(formik.values.email);
-
     setSendEmailResponse(sendEmailResponse);
-  };
 
-  const setModifiedErrorMessage = (error: ApiError) => {
-    if (!Object.values(incompleteErrors).includes(error.message)) return error;
-
-    switch (error.message) {
-      case incompleteErrors.userAccountNotYetVerified:
-        error.modifiedMessage = (
-          <>
-            {error.message} Please click on the "Verify Account" button in the verification email you have got after
-            your registration. If you need a new verification email,
-            <Button
-              style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
-                textAlign: "center", textDecoration: "none", display: "inline-block", fontSize: "12px",
-                margin: "0 0 0 3px", cursor: "pointer"}}
-              onClick={handleSendVerificationEmailClick}
-            >
-              click here
-            </Button>.
-          </>
-        );
-        break;
-      case incompleteErrors.userAccountNotYetActivated:
-        error.modifiedMessage = (
-          <>
-            {error.message} We're reviewing your user account and email you, once your user account has been activated.
-            If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-          </>
-        );
-        break;
-    }
-    
-    return error;
+    setIsSendEmailLoading(false);
   };
 
   return (
@@ -123,22 +103,57 @@ const Login = () => {
               margin="normal"
             />
 
-            <ErrorAlert error={error} spaceAbove />
+            {
+              error?.message !== incompleteErrors.userAccountNotYetVerified &&
+              error?.message !== incompleteErrors.userAccountNotYetActivated &&
+              <ErrorAlert error={error} spaceAbove />
+            }
+            {
+              error?.message === incompleteErrors.userAccountNotYetVerified &&
+              <ErrorAlert error={{ ...error, modifiedMessage: (
+                  <>
+                    {error.message} Please click on the "Verify Account" button in the verification email you have got after
+                    your registration. If you need a new verification email, click here:
+                    <LoadingButton
+                      variant="contained"
+                      color='secondary'
+                      startIcon={<SendIcon />}
+                      small
+                      onClick={handleSendVerificationEmailClick}
+                      loading={isSendEmailLoading}
+                    >
+                      send verification email
+                    </LoadingButton>
+                  </>
+                ) }} spaceAbove />
+            }
+            {
+              error?.message === incompleteErrors.userAccountNotYetActivated &&
+              <ErrorAlert error={{ ...error, modifiedMessage: (
+                  <>
+                    {error.message} We're reviewing your user account and email you, once your user account has been activated.
+                    If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                  </>
+                ) }} spaceAbove />
+            }
 
-            <Button
+            <LoadingButton
               fullWidth
               type="submit"
               color="primary"
               variant="contained"
               style={{ marginTop: 16 }}
+              startIcon={<LoginIcon />}
+              loading={isLoading}
             >
               Sign in
-            </Button>
+            </LoadingButton>
 
             <Button
               fullWidth
               variant="outlined"
               style={{ marginTop: 16 }}
+              startIcon={<AppRegistrationIcon />}
               onClick={() => navigate('/registration')}
             >
               Register
@@ -149,6 +164,7 @@ const Login = () => {
               color="secondary"
               variant="outlined"
               style={{ marginTop: 16 }}
+              startIcon={<LockResetIcon />}
               onClick={() => setShowResetPasswordForm(prevValue => !prevValue)}
             >
               Reset Password
@@ -161,6 +177,7 @@ const Login = () => {
               sendEmailCallback={sendResetPasswordEmail}
               setSendEmailResponse={setSendEmailResponse}
               buttonText='Send Password Reset Email'
+              buttonColor='secondary'
             />
           }
           {
