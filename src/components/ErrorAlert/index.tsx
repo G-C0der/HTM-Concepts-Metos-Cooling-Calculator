@@ -9,7 +9,7 @@ interface ErrorAlertProps {
   big?: boolean;
 }
 
-const ErrorAlert = ({ error, spaceAbove, spaceBelow, big = false }: ErrorAlertProps) => {
+const ErrorAlert = ({ error, spaceAbove, spaceBelow, big }: ErrorAlertProps) => {
   return (
     <>
       {
