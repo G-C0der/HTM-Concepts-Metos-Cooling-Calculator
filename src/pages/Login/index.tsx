@@ -84,11 +84,8 @@ const Login = () => {
               <LoadingButton
                 variant="contained"
                 color='secondary'
-                style={{
-                  border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
-                  display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"}}
                 startIcon={<SendIcon />}
-                smallIcon
+                small
                 onClick={handleSendVerificationEmailClick}
                 loading={isSendEmailLoading}
               >

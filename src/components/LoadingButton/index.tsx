@@ -6,18 +6,26 @@ interface LoadingButtonProps extends ButtonProps {
   loading: boolean;
   disabled?: boolean;
   startIcon?: React.ReactNode;
-  smallIcon?: boolean;
+  small?: boolean;
   children: React.ReactNode;
 }
 
-const LoadingButton = ({ loading, disabled, startIcon, smallIcon, children, ...props }: LoadingButtonProps) => {
+const LoadingButton = ({ loading, disabled, startIcon, small, children, ...props }: LoadingButtonProps) => {
   return (
     <Button
       {...props}
+      style={
+        small
+          ? {
+            border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
+            display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"
+          }
+          : {}
+      }
       startIcon={loading
-        ? <CircularProgress size={smallIcon ? '0.6rem' : '1rem'} />
+        ? <CircularProgress size={small ? '0.6rem' : '1rem'} />
         : (startIcon
-          ? (smallIcon
+          ? (small
             ? React.cloneElement(startIcon as React.ReactElement, { style: {
               fontSize: '1rem', verticalAlign: 'middle', transform: 'translateY(-1px)'
             }})
@@ -28,7 +36,7 @@ const LoadingButton = ({ loading, disabled, startIcon, smallIcon, children, ...p
       {
         loading
           ? 'Loading...'
-          : (smallIcon
+          : (small
             ? <span style={{ position: 'relative', top: '1px' }}>{children}</span>
             : children)
       }
