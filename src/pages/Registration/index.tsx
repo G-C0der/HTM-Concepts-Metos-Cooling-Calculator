@@ -14,7 +14,7 @@ import {
   emailValidationSchema,
   userFieldLengths,
   passwordSpecialCharacters,
-  passwordValidationSchema
+  passwordValidationSchema, checkSpamFolderMessage
 } from "../../constants";
 import {getCode, getNames} from 'country-list';
 import {ApiError, ApiResponse} from "../../types";
@@ -157,7 +157,8 @@ const Registration = () => {
             (successCount > 0 && !verificationWarning) &&
               <Alert severity="info" sx={{ mb: 2 }}>
                 We have sent a verification email to {registeredEmail}.<br/>
-                Please click on the provided link to verify your email.<br/>
+                Please click on the provided button / link to verify your email.<br/>
+                {checkSpamFolderMessage}<br/>
                 If you haven't got a verification email,
                 <Button
                   style={{backgroundColor: "#4CAF50", color: "#fff", border: "none", padding: "0 10px",
@@ -410,7 +411,7 @@ const Registration = () => {
           {
             <TempAlert
               severity='success'
-              message='Email has been sent.'
+              message={`Email has been sent. ${checkSpamFolderMessage}`}
               condition={sendEmailResponse?.success}
               resetCondition={() => setSendEmailResponse(null)}
             />

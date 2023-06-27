@@ -6,7 +6,7 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiError, ApiResponse} from "../../types";
-import {urlExpiredError} from "../../constants/error";
+import {urlExpiredError, checkSpamFolderMessage} from "../../constants";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
 
@@ -103,7 +103,7 @@ const Verification = () => {
           {
             <TempAlert
               severity='success'
-              message='Email has been sent.'
+              message={`Email has been sent. ${checkSpamFolderMessage}`}
               condition={sendEmailResponse?.success}
               resetCondition={() => setSendEmailResponse(null)}
             />

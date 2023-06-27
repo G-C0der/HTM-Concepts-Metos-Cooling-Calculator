@@ -6,6 +6,7 @@ import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import * as yup from 'yup';
 import {
+  checkSpamFolderMessage,
   emailValidationSchema,
   passwordValidationSchema
 } from "../../constants";
@@ -165,7 +166,7 @@ const Login = () => {
           {
             <TempAlert
               severity='success'
-              message='Email has been sent.'
+              message={`Email has been sent. ${checkSpamFolderMessage}`}
               condition={sendEmailResponse?.success}
               resetCondition={() => setSendEmailResponse(null)}
             />
