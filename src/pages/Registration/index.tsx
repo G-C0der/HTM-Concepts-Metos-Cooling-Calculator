@@ -173,7 +173,7 @@ const Registration = () => {
                 We have sent a verification email to {registeredEmail}.<br/>
                 Please click on the provided button / link to verify your email.<br/>
                 {checkSpamFolderMessage}<br/>
-                If you haven't got a verification email, click here:
+                If you did not receive a verification email, click here:
                 <LoadingButton
                   variant="contained"
                   color='secondary'
