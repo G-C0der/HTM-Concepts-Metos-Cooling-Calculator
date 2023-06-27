@@ -18,6 +18,7 @@ import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LockResetIcon from "@mui/icons-material/LockReset";
+import SendIcon from '@mui/icons-material/Send';
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -79,19 +80,20 @@ const Login = () => {
           modifiedMessage = (
             <>
               {error.message} Please click on the "Verify Account" button in the verification email you have got after
-              your registration. If you need a new verification email,
+              your registration. If you need a new verification email, click here:
               <LoadingButton
                 variant="contained"
                 color='secondary'
                 style={{
                   border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
                   display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"}}
+                startIcon={<SendIcon style={{ fontSize: '1rem', verticalAlign: 'middle', transform: 'translateY(-1px)' }} />}
                 smallSpinner
                 onClick={handleSendVerificationEmailClick}
                 loading={isSendEmailLoading}
               >
-                click here
-              </LoadingButton>.
+                <span style={{ position: 'relative', top: '1px' }}>send verification email</span>
+              </LoadingButton>
             </>
           );
           break;
