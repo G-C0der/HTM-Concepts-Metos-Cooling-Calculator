@@ -1,6 +1,7 @@
 import React from 'react';
 import {ApiError} from "../../types";
 import {Alert, Typography} from "@mui/material";
+import {Message} from "../Message";
 
 interface ErrorAlertProps {
   error?: ApiError;
@@ -17,9 +18,9 @@ const ErrorAlert = ({ error, spaceAbove, spaceBelow, big }: ErrorAlertProps) => 
         <Alert severity={error.severity} sx={{ mt: (spaceAbove ? 2 : 0), mb: (spaceBelow ? 2 : 0) }}>
           {
             big ? (
-              <Typography variant='body1'>{error.modifiedMessage ?? error.message}</Typography>
+              <Typography variant='body1'>{error.modifiedMessage ?? <Message message={error.message} />}</Typography>
             ) : (
-              <>{error.modifiedMessage ?? error.message}</>
+              <>{error.modifiedMessage ?? <Message message={error.message} />}</>
             )
           }
         </Alert>

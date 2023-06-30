@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 import { v4 as uuid } from 'uuid';
+import {MessageSeverity} from "../../types";
 
 interface TempAlertProps {
-  severity: 'info' | 'success' | 'error' | 'warning';
+  severity: MessageSeverity
   message: string | React.ReactNode;
   condition?: boolean;
   resetCondition: () => void;
