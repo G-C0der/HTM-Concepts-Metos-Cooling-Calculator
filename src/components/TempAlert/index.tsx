@@ -3,10 +3,12 @@ import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import {MessageSeverity} from "../../types";
+import {supportContactMessage} from "../../constants";
+import { Message } from '../Message';
 
 interface TempAlertProps {
   severity: MessageSeverity
-  message: string | React.ReactNode;
+  message: string;
   condition?: boolean;
   resetCondition: () => void;
   duration?: number;
@@ -30,6 +32,10 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
     }
   }, [condition, id]);
 
+  const completeErrorMessage = (message: string) => message.includes('##here##')
+    ? message
+    : `${message} ${supportContactMessage}`;
+
   return (
     <>
       {
@@ -41,7 +47,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
             severity={severity}
             onClose={() => resetCondition()}
           >
-            {message}
+            {isError ? <Message message={completeErrorMessage(message)} /> : message}
           </Alert>
         </Snackbar>
       }

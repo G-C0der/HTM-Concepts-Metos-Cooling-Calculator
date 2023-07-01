@@ -1,6 +1,6 @@
 import {ApiError, ApiErrorSeverity, ApiResponse} from "../types";
 import {hasDatePassed} from "../utils";
-import {unexpectedError} from "../constants";
+import {supportContactMessage, unexpectedError} from "../constants";
 
 const isTokenExpired = (tokenExpiration: string | null) => hasDatePassed(tokenExpiration);
 
@@ -18,7 +18,7 @@ const toApiError = (err: any) => {
 
   const { response } = err;
 
-  if (!response || response.status === 500) return toApiError(unexpectedError);
+  if (!response || response.status === 500) return toApiError(`${unexpectedError} ${supportContactMessage}`);
 
   if (!response.data.message) return toApiError(err.response.data);
 

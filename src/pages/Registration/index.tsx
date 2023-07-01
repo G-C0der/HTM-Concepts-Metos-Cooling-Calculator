@@ -440,7 +440,7 @@ const Registration = () => {
             sendEmailResponse?.error &&
             <TempAlert
               severity={sendEmailResponse.error.severity}
-              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              message={sendEmailResponse.error.message}
               condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />

@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import {
   checkSpamFolderMessage,
   emailValidationSchema,
-  passwordValidationSchema
+  passwordValidationSchema, supportContactMessage
 } from "../../constants";
 import { useFormik } from 'formik';
 import {LoadingButton} from "../../components/LoadingButton";
@@ -192,7 +192,7 @@ const Login = () => {
             sendEmailResponse?.error &&
             <TempAlert
               severity={sendEmailResponse.error.severity}
-              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              message={sendEmailResponse.error.message}
               condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />
