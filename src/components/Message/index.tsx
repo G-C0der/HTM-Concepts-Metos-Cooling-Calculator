@@ -16,7 +16,7 @@ const Message = ({ message }: MessageProps) => {
     const parts = modifiedMessage.split(key);
     modifiedMessage = parts.map((part: string, index: number) =>
       index < parts.length - 1 ?
-        [part, React.cloneElement(val, { key: index }), " "] :
+        [part, React.cloneElement(val, { key: index }), ''] :
         part
     );
   }
