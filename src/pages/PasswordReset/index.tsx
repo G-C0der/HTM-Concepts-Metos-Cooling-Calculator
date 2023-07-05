@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
-import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
-import {urlExpiredError} from "../../constants";
+import {supportContactMessage, urlExpiredError} from "../../constants";
 import {ApiError} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import {Message} from "../../components/Message";
 
 type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
   'passwordResetSuccess' | 'passwordResetError';
@@ -41,13 +41,11 @@ const ResetPassword = () => {
   const setModifiedErrorMessage = (error: ApiError) => {
     error.modifiedMessage = (
       <>
-        {`${error.message} `}
+        {<Message message={error.message} />}
         {
           (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
           <>To send a new password reset email, return to the login page.<br/></>
         }
-        If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank"
-                                                   rel="noreferrer">here</a>.
       </>
     );
     
