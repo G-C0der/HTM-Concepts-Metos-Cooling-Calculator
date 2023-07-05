@@ -115,7 +115,7 @@ const Registration = () => {
       const registerResponse = await register(values);
       if (registerResponse.success) {
         setSuccessCount(previousCount => previousCount + 1);
-        if (registerResponse.data.wasEmailSent) setVerificationWarning(false);
+        if (registerResponse.data!.wasEmailSent) setVerificationWarning(false);
         else setVerificationWarning(true);
       }
       else setError(registerResponse.error!);
