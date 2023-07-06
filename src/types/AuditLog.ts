@@ -14,5 +14,6 @@ interface AuditLog {
 type AuditLogAction = 'registration' | 'verification' | 'passwordReset' | 'activation' | 'deactivation';
 
 export type {
-  AuditLog
+  AuditLog,
+  AuditLogAction
 };

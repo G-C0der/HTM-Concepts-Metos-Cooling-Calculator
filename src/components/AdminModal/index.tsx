@@ -4,6 +4,7 @@ import {Dialog, DialogContent, Tab, Tabs} from "@mui/material";
 import {UsersDataGrid} from "../UsersDataGrid";
 import PeopleIcon from '@mui/icons-material/People';
 import HistoryIcon from '@mui/icons-material/History';
+import {AuditLogsDataGrid} from "../AuditLogsDataGrid";
 
 interface AdminModalProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
           <Tab icon={<HistoryIcon />} iconPosition='start' label="Log" />
         </Tabs>
         {tabIndex === 0 && <UsersDataGrid isAdminModalOpen={isOpen} />}
+        {tabIndex === 1 && <AuditLogsDataGrid isAdminModalOpen={isOpen} />}
       </DialogContent>
     </Dialog>
   );
