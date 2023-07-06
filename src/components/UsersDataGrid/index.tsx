@@ -3,7 +3,7 @@ import './style.css';
 import {ApiError, User} from "../../types";
 import {AdminContext, AuthContext} from "../../contexts";
 import {CircularProgress} from "@mui/material";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -198,6 +198,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 columns={columns}
                 sx={{ backgroundColor: '#e3f8fa' }}
                 hideFooter
+                slots={{ toolbar: GridToolbar }}
                 getRowClassName={(params) => (params.row.verified && params.row.active)
                   ? ''
                   : 'data-grid-row-inactive-user'}

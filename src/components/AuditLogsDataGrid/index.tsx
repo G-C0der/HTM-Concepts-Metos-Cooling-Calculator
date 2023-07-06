@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ApiError, AuditLog, AuditLogAction} from "../../types";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
 import moment from "moment";
 import {AdminContext} from "../../contexts";
 import {ErrorAlert} from "../ErrorAlert";
@@ -109,6 +109,8 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
               columns={columns}
               sx={{ backgroundColor: '#e3f8fa' }}
               hideFooter
+              slots={{ toolbar: GridToolbar }}
+              getDetailPanelContent={({ row }) => <></>}
             />
           )
         }
