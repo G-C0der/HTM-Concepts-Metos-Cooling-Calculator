@@ -26,34 +26,38 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
     {
       field: 'action',
       headerName: 'Action',
-      width: 200,
+      width: 150,
       valueGetter: (params) => getActionDisplayName(params.value)
     },
     {
       field: 'operator',
       headerName: 'Operator',
-      width: 300
+      width: 300,
+      valueGetter: (params) => params.value.email
     },
     {
       field: 'user',
       headerName: 'User',
-      width: 300
+      width: 300,
+      valueGetter: (params) => params.value.email
     },
     {
       field: 'createdAt',
       headerName: 'Date',
       width: 200,
-      valueGetter: (params) => moment(params.value).format('DD.MM.YYYY hh:mm:ss')
+      valueGetter: (params) => moment(params.value).format('DD.MM.YYYY HH:mm:ss')
     },
     {
       field: 'before',
       headerName: 'Before',
-      width: 500
+      width: 500,
+      valueGetter: (params) => JSON.stringify(params.value)
     },
     {
       field: 'after',
       headerName: 'After',
-      width: 500
+      width: 500,
+      valueGetter: (params) => JSON.stringify(params.value)
     }
   ];
 
