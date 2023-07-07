@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {ApiError, User} from "../../types";
-import {AuthContext, UserContext} from "../../contexts";
+import {AdminContext, AuthContext} from "../../contexts";
 import {CircularProgress} from "@mui/material";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -29,7 +29,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [isActiveStateChangeLoading, setIsActiveStateChangeLoading] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
-  const { list, activate, deactivate } = useContext(UserContext);
+  const { listUsers, activateUser, deactivateUser } = useContext(AdminContext);
 
   const columns: GridColDef[] = [
     {
@@ -128,10 +128,10 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                   setIsActiveStateChangeLoading(true);
 
                   if (isActive) {
-                    const deactivateResponse = await deactivate(id);
+                    const deactivateResponse = await deactivateUser(id);
                     if (deactivateResponse.success) updateUser(id, { active: !isActive });
                   } else {
-                    const activateResponse = await activate(id);
+                    const activateResponse = await activateUser(id);
                     if (activateResponse.success) updateUser(id, { active: !isActive });
                   }
 
@@ -153,12 +153,9 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   useEffect(() => {
     if (isAdminModalOpen) {
       const setUserList = async () => {
-        const userListResponse = await list();
+        const userListResponse = await listUsers();
 
-        if (userListResponse.success) {
-          const { users } = userListResponse.data;
-          setUsers(users);
-        }
+        if (userListResponse.success) setUsers(userListResponse.data!.users);
         else setError(userListResponse.error!);
       }
 
@@ -201,6 +198,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 columns={columns}
                 sx={{ backgroundColor: '#e3f8fa' }}
                 hideFooter
+                slots={{ toolbar: GridToolbar }}
                 getRowClassName={(params) => (params.row.verified && params.row.active)
                   ? ''
                   : 'data-grid-row-inactive-user'}

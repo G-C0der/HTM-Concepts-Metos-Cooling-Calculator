@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {SyntheticEvent, useState} from 'react';
 import './style.css';
-import {Dialog, DialogContent} from "@mui/material";
+import {Dialog, DialogContent, Tab, Tabs} from "@mui/material";
 import {UsersDataGrid} from "../UsersDataGrid";
+import PeopleIcon from '@mui/icons-material/People';
+import HistoryIcon from '@mui/icons-material/History';
+import {AuditLogsDataGrid} from "../AuditLogsDataGrid";
 
 interface AdminModalProps {
   isOpen: boolean;
@@ -9,6 +12,12 @@ interface AdminModalProps {
 }
 
 const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (event: SyntheticEvent, newTabIndex: number) => {
+    setTabIndex(newTabIndex);
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -16,7 +25,16 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
       PaperProps={{ className: 'dialogPaper' }}
     >
       <DialogContent>
-        <UsersDataGrid isAdminModalOpen={isOpen} />
+        <Tabs
+          value={tabIndex}
+          onChange={handleTabChange}
+          sx={{ mb: 2 }}
+        >
+          <Tab icon={<PeopleIcon />} iconPosition='start' label="Users" />
+          <Tab icon={<HistoryIcon />} iconPosition='start' label="Log" />
+        </Tabs>
+        {tabIndex === 0 && <UsersDataGrid isAdminModalOpen={isOpen} />}
+        {tabIndex === 1 && <AuditLogsDataGrid isAdminModalOpen={isOpen} />}
       </DialogContent>
     </Dialog>
   );
