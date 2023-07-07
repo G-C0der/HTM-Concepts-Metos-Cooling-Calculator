@@ -3,7 +3,7 @@ import './style.css';
 import {ApiError, User} from "../../types";
 import {AdminContext, AuthContext} from "../../contexts";
 import {CircularProgress} from "@mui/material";
-import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
+import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -12,6 +12,8 @@ import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 import {getName} from 'country-list';
 import {ErrorAlert} from "../ErrorAlert";
+import {userFieldLabels} from "../../constants";
+import {UserDetailDataGrid} from "../UserDetailDataGrid";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -34,27 +36,27 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const columns: GridColDef[] = [
     {
       field: 'company',
-      headerName: 'Company',
+      headerName: userFieldLabels['company'],
       width: 200
     },
     {
       field: 'title',
-      headerName: 'Title',
+      headerName: userFieldLabels['title'],
       width: 60
     },
     {
       field: 'fname',
-      headerName: 'First Name',
+      headerName: userFieldLabels['fname'],
       width: 140
     },
     {
       field: 'lname',
-      headerName: 'Last Name',
+      headerName: userFieldLabels['lname'],
       width: 140
     },
     {
       field: 'verified',
-      headerName: 'Verified',
+      headerName: userFieldLabels['verified'],
       width: 80,
       renderCell: (params) => (
         params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
@@ -62,7 +64,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
     {
       field: 'active',
-      headerName: 'Active',
+      headerName: userFieldLabels['active'],
       width: 80,
       renderCell: (params) => (
         params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
@@ -70,7 +72,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
     {
       field: 'admin',
-      headerName: 'Admin',
+      headerName: userFieldLabels['admin'],
       width: 80,
       renderCell: (params) => (
         params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
@@ -78,7 +80,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: userFieldLabels['email'],
       width: 300,
       renderCell: (params) => (
         <a href={`mailto:${params.value}`} target="_blank" rel="noreferrer">
@@ -88,12 +90,12 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
     {
       field: 'phone',
-      headerName: 'Phone',
+      headerName: userFieldLabels['phone'],
       width: 150
     },
     {
       field: 'website',
-      headerName: 'Website',
+      headerName: userFieldLabels['website'],
       width: 250,
       renderCell: (params) => (
         <a href={toAbsoluteUrl(params.value)} target="_blank" rel="noreferrer">
@@ -103,7 +105,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     },
     {
       field: 'country',
-      headerName: 'Country',
+      headerName: userFieldLabels['country'],
       width: 160,
       valueGetter: (params) => getName(params.value)
     },
@@ -193,7 +195,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
             </Box>
           ) : (
             <>
-              <DataGrid
+              <DataGridPremium
                 rows={users!}
                 columns={columns}
                 sx={{ backgroundColor: '#e3f8fa' }}
@@ -202,6 +204,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 getRowClassName={(params) => (params.row.verified && params.row.active)
                   ? ''
                   : 'data-grid-row-inactive-user'}
+                getDetailPanelContent={({ row }) => <UserDetailDataGrid user={row} />}
               />
 
               {
