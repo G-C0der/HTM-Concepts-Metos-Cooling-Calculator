@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ApiError, AuditLog, AuditLogAction} from "../../types";
-import {DataGrid, GridColDef, GridToolbar} from "@mui/x-data-grid";
+import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
 import moment from "moment";
 import {AdminContext} from "../../contexts";
 import {ErrorAlert} from "../ErrorAlert";
@@ -104,9 +104,10 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
               <CircularProgress size={80} />
             </Box>
           ) : (
-            <DataGrid
+            <DataGridPremium
               rows={auditLogs!}
               columns={columns}
+              density='compact'
               sx={{ backgroundColor: '#e3f8fa' }}
               hideFooter
               slots={{ toolbar: GridToolbar }}
