@@ -7,6 +7,11 @@ interface AuditLogDetailsDataGridProps {
 }
 
 const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps) => {
+  // Parse `before` and `after` into JSON objects if they're strings
+  // On heroku prod env they are both strings
+  before = (typeof before === 'string') ? JSON.parse(before) : before;
+  after = (typeof after === 'string') ? JSON.parse(after) : after;
+
   const rows = ((before: object, after: object) => {
     const rows = [];
 
