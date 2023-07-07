@@ -6,6 +6,7 @@ import {AdminContext} from "../../contexts";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
+import { AuditLogDetailsDataGrid } from '../AuditLogDetailsDataGrid';
 
 interface AuditLogsDataGridProps {
   isAdminModalOpen: boolean;
@@ -46,18 +47,6 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       headerName: 'Date',
       width: 200,
       valueGetter: (params) => moment(params.value).format('DD.MM.YYYY HH:mm:ss')
-    },
-    {
-      field: 'before',
-      headerName: 'Before',
-      width: 500,
-      valueGetter: (params) => JSON.stringify(params.value)
-    },
-    {
-      field: 'after',
-      headerName: 'After',
-      width: 500,
-      valueGetter: (params) => JSON.stringify(params.value)
     }
   ];
 
@@ -111,7 +100,7 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
               sx={{ backgroundColor: '#e3f8fa' }}
               hideFooter
               slots={{ toolbar: GridToolbar }}
-              getDetailPanelContent={({ row }) => <></>}
+              getDetailPanelContent={({ row }) => <AuditLogDetailsDataGrid before={row.before} after={row.after} />}
             />
           )
         }
