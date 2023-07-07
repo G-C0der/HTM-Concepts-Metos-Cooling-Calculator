@@ -44,7 +44,7 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
     },
     {
       field: 'createdAt',
-      headerName: 'Date',
+      headerName: 'Timestamp',
       width: 200,
       valueGetter: (params) => moment(params.value).format('DD.MM.YYYY HH:mm:ss')
     }
