@@ -12,9 +12,7 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
 
     const beforeEntries = Object.entries(before);
     const afterEntries = Object.entries(after);
-    const beforeLength = beforeEntries.length;
-    const afterLength = afterEntries.length;
-    const longerLength = beforeLength > afterLength ? beforeLength : afterLength;
+    const longerLength = (beforeEntries.length > afterEntries.length) ? beforeEntries.length : afterEntries.length;
 
     for (let i = 0; i < longerLength; i++) {
       let field, valueBefore, valueAfter;
