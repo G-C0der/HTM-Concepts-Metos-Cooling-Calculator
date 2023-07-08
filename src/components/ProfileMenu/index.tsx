@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {Avatar, IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import Box from "@mui/material/Box";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from '@mui/icons-material/Settings';
 import {AuthContext} from "../../contexts";
 import {User} from "../../types";
 
@@ -21,6 +22,8 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
+  const openSettingsModal = () => {};
 
   return (
     <>
@@ -52,12 +55,23 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
         >
           {userFullName}
         </Typography>
+
         <Typography
           gutterBottom
           sx={{ justifyContent: "center", fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
         >
           {userEmail}
         </Typography>
+
+        <MenuItem onClick={openSettingsModal}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <SettingsIcon sx={{ marginRight: 2 }} />
+            <Typography>
+              Settings
+            </Typography>
+          </Box>
+        </MenuItem>
+
         <MenuItem onClick={logout}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <LogoutIcon sx={{ marginRight: 2 }} />
