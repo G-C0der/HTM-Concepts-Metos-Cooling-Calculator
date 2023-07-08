@@ -24,7 +24,7 @@ const ProfileMenu = ({ user, setIsSettingsModalOpen }: ProfileMenuProps) => {
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const openSettingsModal = () => {
+  const handleSettingsClick = () => {
     setIsSettingsModalOpen(true)
 
     handleCloseUserMenu();
@@ -68,7 +68,7 @@ const ProfileMenu = ({ user, setIsSettingsModalOpen }: ProfileMenuProps) => {
           {userEmail}
         </Typography>
 
-        <MenuItem onClick={openSettingsModal}>
+        <MenuItem onClick={handleSettingsClick}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <SettingsIcon sx={{ marginRight: 2 }} />
             <Typography>
