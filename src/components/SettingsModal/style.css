@@ -1,0 +1,6 @@
+.dialogPaper {
+  min-width: calc(100% - 55cm);
+  min-height: calc(100% - 2cm);
+  margin: 1cm;
+  overflow: auto;
+}

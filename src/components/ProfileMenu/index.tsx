@@ -8,9 +8,10 @@ import {User} from "../../types";
 
 interface ProfileMenuProps {
   user: User;
+  setIsSettingsModalOpen: (isSettingsModalOpen: boolean) => void;
 }
 
-const ProfileMenu = ({ user }: ProfileMenuProps) => {
+const ProfileMenu = ({ user, setIsSettingsModalOpen }: ProfileMenuProps) => {
   const { logout } = useContext(AuthContext);
 
   const userFullName = `${user.fname} ${user.lname}`;
@@ -23,7 +24,11 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const openSettingsModal = () => {};
+  const openSettingsModal = () => {
+    setIsSettingsModalOpen(true)
+
+    handleCloseUserMenu();
+  };
 
   return (
     <>

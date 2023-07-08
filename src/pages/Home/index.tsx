@@ -24,6 +24,7 @@ import { CustomAppBar } from "../../components/CustomAppBar";
 import { AuthContext } from "../../contexts";
 import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
+import {SettingsModal} from "../../components/SettingsModal";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -69,6 +70,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
 
@@ -82,7 +84,7 @@ const Home = () => {
     }
   }, [user]);
 
-  const handleAddKettleClick = () => {
+  const handleKettleAddClick = () => {
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
 
     if (kettleCount >= maxKettleCount) return;
@@ -134,11 +136,16 @@ const Home = () => {
     ) : (
       <Box className="home">
         <Box className="home-header">
-          <CustomAppBar user={user!} setIsAdminModalOpen={setIsAdminModalOpen} />
+          <CustomAppBar
+            user={user!}
+            setIsAdminModalOpen={setIsAdminModalOpen}
+            setIsSettingsModalOpen={setIsSettingsModalOpen}
+          />
         </Box>
 
         <Box className="home-content">
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
+          <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
 
           <Box className='form-container'>
             <WaterForm
@@ -187,7 +194,7 @@ const Home = () => {
                         backgroundColor: "white",
                       }}
                       variant="outlined"
-                      onClick={handleAddKettleClick}
+                      onClick={handleKettleAddClick}
                     ><AddIcon /></Button>
                   </Tooltip>
                 </Box>

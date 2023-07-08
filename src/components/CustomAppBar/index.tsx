@@ -14,9 +14,10 @@ import {ProfileMenu} from "../ProfileMenu";
 interface CustomAppBarProps {
   user: User;
   setIsAdminModalOpen: (isAdminModalOpen: boolean) => void;
+  setIsSettingsModalOpen: (isSettingsModalOpen: boolean) => void;
 }
 
-export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) => {
+export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen }: CustomAppBarProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: '#004d87' }}>
@@ -75,7 +76,7 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen }: CustomAppBarProps) =
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ flexGrow: 0 }}>
-            <ProfileMenu user={user} />
+            <ProfileMenu user={user} setIsSettingsModalOpen={setIsSettingsModalOpen} />
           </Box>
         </Toolbar>
       </AppBar>
