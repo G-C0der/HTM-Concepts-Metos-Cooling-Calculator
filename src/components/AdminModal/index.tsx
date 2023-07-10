@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useState} from 'react';
 import './style.css';
-import {Dialog, DialogContent, Tab, Tabs} from "@mui/material";
+import {Dialog, DialogContent, Tab, Tabs, Typography} from "@mui/material";
 import {UsersDataGrid} from "../UsersDataGrid";
 import PeopleIcon from '@mui/icons-material/People';
 import HistoryIcon from '@mui/icons-material/History';
@@ -25,6 +25,10 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
       PaperProps={{ className: 'admin-dialog-paper' }}
     >
       <DialogContent>
+        <Typography variant="h5" align="center" component='h1'>
+          Admin
+        </Typography>
+
         <Tabs
           value={tabIndex}
           onChange={handleTabChange}
