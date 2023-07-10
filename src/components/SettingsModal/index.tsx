@@ -18,54 +18,44 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
       onClose={() => setIsOpen(false)}
       PaperProps={{ className: 'settings-dialog-paper' }}
     >
-      <Box
-        sx={{
-          position: 'relative',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
+      <DialogContent>
         <IconButton
-          sx={{ position: 'absolute', right: 5, top: 5 }}
-          onClick={() => setIsOpen(false)}
+            sx={{ position: 'absolute', right: 5, top: 5 }}
+            onClick={() => setIsOpen(false)}
         >
           <CloseIcon />
         </IconButton>
 
-        <DialogContent>
-          <Typography variant="h5" align="center" component='h1' gutterBottom>
-            Settings
-          </Typography>
-
-          <Button
-            fullWidth
-            sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
-            onClick={() => {}}
-          >
-            <EditIcon />
-            <Box sx={{ ml: 1 }}>Edit Profile</Box>
-          </Button>
-
-          <Button
-            fullWidth
-            sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
-            onClick={() => {}}
-          >
-            <LockResetIcon />
-            <Box sx={{ ml: 1 }}>Reset Password</Box>
-          </Button>
-        </DialogContent>
-
-        <Typography
-          align="center"
-          gutterBottom
-          sx={{ fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
-        >
-          v{packageJson.version}
+        <Typography variant="h5" align="center" component='h1' gutterBottom>
+          Settings
         </Typography>
-      </Box>
+
+        <Button
+          fullWidth
+          sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
+          onClick={() => {}}
+        >
+          <EditIcon />
+          <Box sx={{ ml: 1 }}>Edit Profile</Box>
+        </Button>
+
+        <Button
+          fullWidth
+          sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
+          onClick={() => {}}
+        >
+          <LockResetIcon />
+          <Box sx={{ ml: 1 }}>Reset Password</Box>
+        </Button>
+      </DialogContent>
+
+      <Typography
+        align="center"
+        gutterBottom
+        sx={{ fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
+      >
+        v{packageJson.version}
+      </Typography>
     </Dialog>
   );
 };
