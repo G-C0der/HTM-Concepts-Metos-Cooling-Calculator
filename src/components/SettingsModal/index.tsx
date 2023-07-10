@@ -1,8 +1,9 @@
 import React from 'react';
 import './style.css';
-import {Dialog, DialogContent, Button, Typography, Box} from "@mui/material";
+import {Dialog, DialogContent, Button, Typography, Box, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import LockResetIcon from '@mui/icons-material/LockReset';
+import CloseIcon from "@mui/icons-material/Close";
 const packageJson = require('../../../package.json');
 
 interface SettingsModalProps {
@@ -26,6 +27,10 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         }}
       >
         <Box>
+          <IconButton sx={{ mt: -2.7, ml: 48 }} onClick={() => {}}>
+            <CloseIcon />
+          </IconButton>
+
           <Typography variant="h5" align="center" component='h1' gutterBottom>
             Settings
           </Typography>
