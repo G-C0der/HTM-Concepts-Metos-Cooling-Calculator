@@ -18,19 +18,23 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
       onClose={() => setIsOpen(false)}
       PaperProps={{ className: 'settings-dialog-paper' }}
     >
-      <DialogContent
+      <Box
         sx={{
+          position: 'relative',
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          height: '100%'
         }}
       >
-        <Box>
-          <IconButton sx={{ mt: -2.7, ml: 48 }} onClick={() => {}}>
-            <CloseIcon />
-          </IconButton>
+        <IconButton
+          sx={{ position: 'absolute', right: 5, top: 5 }}
+          onClick={() => setIsOpen(false)}
+        >
+          <CloseIcon />
+        </IconButton>
 
+        <DialogContent>
           <Typography variant="h5" align="center" component='h1' gutterBottom>
             Settings
           </Typography>
@@ -52,7 +56,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
             <LockResetIcon />
             <Box sx={{ ml: 1 }}>Reset Password</Box>
           </Button>
-        </Box>
+        </DialogContent>
 
         <Typography
           align="center"
@@ -61,7 +65,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         >
           v{packageJson.version}
         </Typography>
-      </DialogContent>
+      </Box>
     </Dialog>
   );
 };
