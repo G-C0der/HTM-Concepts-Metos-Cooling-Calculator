@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import {passwordSpecialCharacters, passwordValidationSchema} from "../../constants";
-import {Button, TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import LockResetIcon from '@mui/icons-material/LockReset';
 import * as yup from "yup";
