@@ -18,6 +18,11 @@ type PendingAction = 'editProfile' | 'resetPassword';
 const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
 
+  const actionTitleMap: Record<PendingAction, string> = {
+    editProfile: 'Profile Edit',
+    resetPassword: 'Password Reset'
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -34,12 +39,18 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
 
         {
           pendingAction && (
-            <IconButton
-              sx={{ position: 'absolute', left: 5, top: 5 }}
-              onClick={() => setPendingAction(undefined)}
-            >
-              <ArrowBackIcon />
-            </IconButton>
+            <>
+              <IconButton
+                  sx={{ position: 'absolute', left: 5, top: 5 }}
+                  onClick={() => setPendingAction(undefined)}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+
+              <Typography variant="h5" align="center" component='h1' gutterBottom>
+                {actionTitleMap[pendingAction]}
+              </Typography>
+            </>
           )
         }
 
