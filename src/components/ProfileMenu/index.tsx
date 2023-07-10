@@ -70,7 +70,7 @@ const ProfileMenu = ({ user, setIsSettingsModalOpen }: ProfileMenuProps) => {
 
         <MenuItem onClick={handleSettingsClick}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SettingsIcon sx={{ marginRight: 2 }} />
+            <SettingsIcon sx={{ marginRight: 1 }} />
             <Typography>
               Settings
             </Typography>
@@ -79,7 +79,7 @@ const ProfileMenu = ({ user, setIsSettingsModalOpen }: ProfileMenuProps) => {
 
         <MenuItem onClick={logout}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <LogoutIcon sx={{ marginRight: 2 }} />
+            <LogoutIcon sx={{ marginRight: 1 }} />
             <Typography>
               Sign out
             </Typography>

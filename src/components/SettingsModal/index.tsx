@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.css';
-import {Dialog, DialogContent, Button, Typography} from "@mui/material";
+import {Dialog, DialogContent, Button, Typography, Box} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import LockResetIcon from '@mui/icons-material/LockReset';
 
@@ -17,22 +17,26 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
       PaperProps={{ className: 'settings-dialog-paper' }}
     >
       <DialogContent>
-        <Typography>Settings</Typography>
+        <Typography variant="h5" align="center" component='h1' gutterBottom>
+          Settings
+        </Typography>
 
         <Button
           fullWidth
-          startIcon={<EditIcon />}
+          sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
           onClick={() => {}}
         >
-          Edit Profile
+          <EditIcon />
+          <Box sx={{ ml: 1 }}>Edit Profile</Box>
         </Button>
 
         <Button
           fullWidth
-          startIcon={<LockResetIcon />}
+          sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
           onClick={() => {}}
         >
-          Reset Password
+          <LockResetIcon />
+          <Box sx={{ ml: 1 }}>Reset Password</Box>
         </Button>
       </DialogContent>
     </Dialog>
