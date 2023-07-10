@@ -22,7 +22,7 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
     <Dialog
       open={isOpen}
       onClose={() => setIsOpen(false)}
-      PaperProps={{ className: 'dialogPaper' }}
+      PaperProps={{ className: 'admin-dialog-paper' }}
     >
       <DialogContent>
         <Tabs
