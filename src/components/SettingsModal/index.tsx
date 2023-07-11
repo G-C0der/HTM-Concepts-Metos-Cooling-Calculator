@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './style.css';
 import {Dialog, DialogContent, Button, Typography, Box, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -6,6 +6,7 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
+import {UserContext} from "../../contexts";
 const packageJson = require('../../../package.json');
 
 interface SettingsModalProps {
@@ -18,9 +19,17 @@ type PendingAction = 'editProfile' | 'resetPassword';
 const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
 
+  const { resetPassword } = useContext(UserContext);
+
   const actionTitleMap: Record<PendingAction, string> = {
     editProfile: 'Profile Edit',
     resetPassword: 'Password Reset'
+  };
+
+  const handlePasswordResetClick = async (password: string) => {
+    const passwordResetResponse = await resetPassword(password);
+
+
   };
 
   return (

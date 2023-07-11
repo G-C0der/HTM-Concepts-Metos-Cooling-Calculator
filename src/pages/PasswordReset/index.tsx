@@ -55,7 +55,7 @@ const ResetPassword = () => {
   };
 
   const handlePasswordResetClick = async (password: string) => {
-    const passwordResetResponse = await resetPassword(token!, password);
+    const passwordResetResponse = await resetPassword(password, token);
 
     if (passwordResetResponse.success) setStatus('passwordResetSuccess');
     else {

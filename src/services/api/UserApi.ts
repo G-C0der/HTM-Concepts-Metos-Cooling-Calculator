@@ -29,7 +29,7 @@ class UserApi extends Api {
     return data;
   };
 
-  resetPassword = async (token: string, password: string) => {
+  resetPassword = async (password: string, token?: string) => {
     const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
     return data;
   };

@@ -7,7 +7,7 @@ type UserContextType = {
   verify: (token: string) => Promise<ApiResponse>;
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
   verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
-  resetPassword: (token: string, password: string) => Promise<ApiResponse>;
+  resetPassword: (password: string, token?: string) => Promise<ApiResponse>;
 };
 
 const UserContext = createContext({

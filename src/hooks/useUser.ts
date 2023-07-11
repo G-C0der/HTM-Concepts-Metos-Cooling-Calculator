@@ -54,9 +54,9 @@ const useUser = () => {
     }
   };
 
-  const resetPassword = async (token: string, password: string) => {
+  const resetPassword = async (password: string, token?: string) => {
     try {
-      await userApi.resetPassword(token, password);
+      await userApi.resetPassword(password, token);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
