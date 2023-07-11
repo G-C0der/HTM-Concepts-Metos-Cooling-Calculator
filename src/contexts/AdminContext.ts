@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import {ApiDataAuditLogList, ApiDataEmailSent, ApiDataUserList, ApiResponse} from "../types";
+import {ContextProviderError} from "../errors";
 
 type AdminContextType = {
   listUsers: () => Promise<ApiResponse<ApiDataUserList>>;
@@ -8,15 +9,12 @@ type AdminContextType = {
   listAuditLogs: () => Promise<ApiResponse<ApiDataAuditLogList>>;
 };
 
+const providerName = 'AdminProvider';
 const AdminContext = createContext({
-  listUsers: () =>
-  { throw new Error('listUsers: AdminProvider is not set up. Wrap the app with an AdminProvider.'); },
-  activateUser: () =>
-  { throw new Error('activateUser: AdminProvider is not set up. Wrap the app with an AdminProvider.'); },
-  deactivateUser: () =>
-  { throw new Error('deactivateUser: AdminProvider is not set up. Wrap the app with an AdminProvider.'); },
-  listAuditLogs: () =>
-  { throw new Error('listAuditLogs: AdminProvider is not set up. Wrap the app with an AdminProvider.'); }
+  listUsers: () => { throw new ContextProviderError(providerName, 'listUsers'); },
+  activateUser: () => { throw new ContextProviderError(providerName, 'activateUser'); },
+  deactivateUser: () => { throw new ContextProviderError(providerName, 'deactivateUser'); },
+  listAuditLogs: () => { throw new ContextProviderError(providerName, 'listAuditLogs'); }
 } as AdminContextType);
 
 export {

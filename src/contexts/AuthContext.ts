@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import {ApiResponse, Credentials, User} from "../types";
+import {ContextProviderError} from "../errors";
 
 type AuthContextType = {
   authenticatedUser: User | null;
@@ -8,13 +9,12 @@ type AuthContextType = {
   logout: () => void;
 };
 
+const providerName = 'AuthProvider';
 const AuthContext = createContext({
   authenticatedUser: null,
   token: null,
-  login: () =>
-  { throw new Error('login: AuthProvider is not set up. Wrap the app with an AuthProvider.'); },
-  logout: () =>
-  { throw new Error('logout: AuthProvider is not set up. Wrap the app with an AuthProvider.'); }
+  login: () => { throw new ContextProviderError(providerName, 'login'); },
+  logout: () => { throw new ContextProviderError(providerName, 'logout'); }
 } as AuthContextType);
 
 export {

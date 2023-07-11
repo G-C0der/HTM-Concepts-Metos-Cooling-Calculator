@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import {ApiDataEmailSent, ApiResponse, UserForm, UserFormCredLess} from "../types";
+import {ContextProviderError} from "../errors";
 
 type UserContextType = {
   register: (form: UserForm) => Promise<ApiResponse<ApiDataEmailSent>>;
@@ -11,21 +12,15 @@ type UserContextType = {
   editProfile: (form: UserFormCredLess) => Promise<ApiResponse>;
 };
 
+const providerName = 'UserProvider';
 const UserContext = createContext({
-  register: () =>
-  { throw new Error('register: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  sendVerificationEmail: () =>
-  { throw new Error('sendVerificationEmail: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  verify: () =>
-  { throw new Error('verify: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  sendResetPasswordEmail: () =>
-  { throw new Error('sendResetPasswordEmail: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  verifyResetPasswordToken: () =>
-  { throw new Error('verifyResetPasswordToken: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  resetPassword: () =>
-  { throw new Error('resetPassword: UserProvider is not set up. Wrap the app with an UserProvider.'); },
-  editProfile: () =>
-  { throw new Error('editProfile: UserProvider is not set up. Wrap the app with an UserProvider.'); }
+  register: () => { throw new ContextProviderError(providerName, 'register'); },
+  sendVerificationEmail: () => { throw new ContextProviderError(providerName, 'sendVerificationEmail'); },
+  verify: () => { throw new ContextProviderError(providerName, 'verify'); },
+  sendResetPasswordEmail: () => { throw new ContextProviderError(providerName, 'sendResetPasswordEmail'); },
+  verifyResetPasswordToken: () => { throw new ContextProviderError(providerName, 'verifyResetPasswordToken'); },
+  resetPassword: () => { throw new ContextProviderError(providerName, 'resetPassword'); },
+  editProfile: () => { throw new ContextProviderError(providerName, 'editProfile'); }
 } as UserContextType);
 
 export {
