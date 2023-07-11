@@ -46,7 +46,7 @@ class UserApi extends Api {
   };
 
   changeActiveState = async (id: string, active: boolean) => {
-    const { data } = await this.api.patch(`${this.basePath}/${id}`, { active });
+    const { data } = await this.api.patch(`${this.basePath}/${id}/state-change`, { active });
     return data;
   };
 }
