@@ -9,7 +9,7 @@ type UserContextType = {
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
   verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
   resetPassword: (password: string, token?: string) => Promise<ApiResponse>;
-  editProfile: (form: UserFormCredLess) => Promise<ApiResponse>;
+  editProfile: (form: UserFormCredLess, id?: string) => Promise<ApiResponse>;
 };
 
 const providerName = 'UserProvider';

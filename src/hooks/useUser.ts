@@ -63,9 +63,9 @@ const useUser = () => {
     }
   };
 
-  const editProfile = async (form: UserFormCredLess) => {
+  const editProfile = async (form: UserFormCredLess, id?: string) => {
     try {
-      await userApi.editProfile(form);
+      await userApi.editProfile(form, id);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));

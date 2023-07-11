@@ -34,8 +34,9 @@ class UserApi extends Api {
     return data;
   };
 
-  editProfile = async (form: UserFormCredLess) => {
-    const { data } = await this.api.patch(`${this.basePath}`, form);
+  editProfile = async (form: UserFormCredLess, id?: string) => {
+    const path = id ? `${this.basePath}/${id}` : this.basePath;
+    const { data } = await this.api.patch(path, form);
     return data;
   };
 
