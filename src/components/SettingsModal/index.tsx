@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {Dialog, DialogContent, Button, Typography, Box, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +7,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {UserContext} from "../../contexts";
+import {ApiResponse} from "../../types";
+import {TempAlert} from "../TempAlert";
+import {htmConceptsEmail} from "../../config";
 const packageJson = require('../../../package.json');
 
 interface SettingsModalProps {
@@ -19,6 +22,11 @@ type PendingAction = 'editProfile' | 'resetPassword';
 const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
 
+  const [passwordResetResponse, setPasswordResetResponse] = useState<ApiResponse>();
+  const [profileEditResponse, setProfileEditResponse] = useState<ApiResponse>();
+
+  const [successMessage, setSuccessMessage] = useState('');
+
   const { resetPassword } = useContext(UserContext);
 
   const actionTitleMap: Record<PendingAction, string> = {
@@ -26,10 +34,21 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
     resetPassword: 'Password Reset'
   };
 
+  useEffect(() => {
+    if (passwordResetResponse?.success || profileEditResponse?.success) setPendingAction(undefined);
+  }, [passwordResetResponse, profileEditResponse]);
+
   const handlePasswordResetClick = async (password: string) => {
     const passwordResetResponse = await resetPassword(password);
+    setPasswordResetResponse(passwordResetResponse);
+    if (passwordResetResponse.success) setSuccessMessage(`Password has been updated.`);
+  };
 
+  const clearResponses = () => {
+    if (passwordResetResponse) setPasswordResetResponse(undefined);
+    if (profileEditResponse) setProfileEditResponse(undefined);
 
+    if (successMessage) setSuccessMessage('');
   };
 
   return (
@@ -97,7 +116,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         }
         {
           pendingAction === 'resetPassword' && (
-            <PasswordResetForm passwordResetCallback={async () => {}} />
+            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} />
           )
         }
       </DialogContent>
@@ -109,6 +128,24 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
       >
         v{packageJson.version}
       </Typography>
+
+      {
+        <TempAlert
+          severity='success'
+          message={successMessage}
+          condition={passwordResetResponse?.success}
+          resetCondition={clearResponses}
+        />
+      }
+      {
+        passwordResetResponse?.error &&
+        <TempAlert
+          severity={passwordResetResponse.error.severity}
+          message={<>{passwordResetResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+          condition={passwordResetResponse.success === false}
+          resetCondition={clearResponses}
+        />
+      }
     </Dialog>
   );
 };
