@@ -1,5 +1,5 @@
 import {Api} from "./Api";
-import {UserForm} from "../../types";
+import {UserForm, UserFormCredLess} from "../../types";
 
 class UserApi extends Api {
   basePath = '/users';
@@ -31,6 +31,11 @@ class UserApi extends Api {
 
   resetPassword = async (password: string, token?: string) => {
     const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
+    return data;
+  };
+
+  editProfile = async (form: UserFormCredLess) => {
+    const { data } = await this.api.patch(`${this.basePath}`, form);
     return data;
   };
 

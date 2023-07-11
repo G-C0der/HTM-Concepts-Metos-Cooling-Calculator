@@ -34,7 +34,10 @@ interface UserForm {
   tnc: boolean;
 }
 
+type UserFormCredLess = Omit<UserForm, 'email' | 'password'>;
+
 export type {
   User,
-  UserForm
+  UserForm,
+  UserFormCredLess
 };

@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {UserContext} from "../../contexts";
-import {ApiResponse} from "../../types";
+import {ApiResponse, UserFormCredLess} from "../../types";
 import {TempAlert} from "../TempAlert";
 import {htmConceptsEmail} from "../../config";
 const packageJson = require('../../../package.json');
@@ -22,12 +22,11 @@ type PendingAction = 'editProfile' | 'resetPassword';
 const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
 
-  const [passwordResetResponse, setPasswordResetResponse] = useState<ApiResponse>();
-  const [profileEditResponse, setProfileEditResponse] = useState<ApiResponse>();
+  const [apiResponse, setApiResponse] = useState<ApiResponse>();
 
   const [successMessage, setSuccessMessage] = useState('');
 
-  const { resetPassword } = useContext(UserContext);
+  const { resetPassword, editProfile } = useContext(UserContext);
 
   const actionTitleMap: Record<PendingAction, string> = {
     editProfile: 'Profile Edit',
@@ -35,18 +34,25 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   };
 
   useEffect(() => {
-    if (passwordResetResponse?.success || profileEditResponse?.success) setPendingAction(undefined);
-  }, [passwordResetResponse, profileEditResponse]);
+    if (apiResponse?.success) setPendingAction(undefined);
+  }, [apiResponse]);
 
   const handlePasswordResetClick = async (password: string) => {
     const passwordResetResponse = await resetPassword(password);
-    setPasswordResetResponse(passwordResetResponse);
-    if (passwordResetResponse.success) setSuccessMessage(`Password has been updated.`);
+    setApiResponse(passwordResetResponse);
+
+    if (passwordResetResponse.success) setSuccessMessage('Password has been updated.');
   };
 
-  const clearResponses = () => {
-    if (passwordResetResponse) setPasswordResetResponse(undefined);
-    if (profileEditResponse) setProfileEditResponse(undefined);
+  const handleProfileEditClick = async (form: UserFormCredLess) => {
+    const profileEditResponse = await editProfile(form);
+    setApiResponse(profileEditResponse);
+    
+    if (profileEditResponse.success) setSuccessMessage('Profile has been updated');
+  };
+
+  const clearResponse = () => {
+    if (apiResponse) setApiResponse(undefined);
 
     if (successMessage) setSuccessMessage('');
   };
@@ -133,17 +139,17 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         <TempAlert
           severity='success'
           message={successMessage}
-          condition={passwordResetResponse?.success}
-          resetCondition={clearResponses}
+          condition={apiResponse?.success}
+          resetCondition={clearResponse}
         />
       }
       {
-        passwordResetResponse?.error &&
+        apiResponse?.error &&
         <TempAlert
-          severity={passwordResetResponse.error.severity}
-          message={<>{passwordResetResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
-          condition={passwordResetResponse.success === false}
-          resetCondition={clearResponses}
+          severity={apiResponse.error.severity}
+          message={<>{apiResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+          condition={apiResponse.success === false}
+          resetCondition={clearResponse}
         />
       }
     </Dialog>

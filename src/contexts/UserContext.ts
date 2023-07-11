@@ -1,13 +1,14 @@
 import { createContext } from "react";
-import {ApiDataEmailSent, ApiResponse, UserForm} from "../types";
+import {ApiDataEmailSent, ApiResponse, UserForm, UserFormCredLess} from "../types";
 
 type UserContextType = {
-  register: (userFormData: UserForm) => Promise<ApiResponse<ApiDataEmailSent>>;
+  register: (form: UserForm) => Promise<ApiResponse<ApiDataEmailSent>>;
   sendVerificationEmail: (email: string) => Promise<ApiResponse>;
   verify: (token: string) => Promise<ApiResponse>;
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
   verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
   resetPassword: (password: string, token?: string) => Promise<ApiResponse>;
+  editProfile: (form: UserFormCredLess) => Promise<ApiResponse>;
 };
 
 const UserContext = createContext({
@@ -23,6 +24,8 @@ const UserContext = createContext({
   { throw new Error('verifyResetPasswordToken: UserProvider is not set up. Wrap the app with an UserProvider.'); },
   resetPassword: () =>
   { throw new Error('resetPassword: UserProvider is not set up. Wrap the app with an UserProvider.'); },
+  editProfile: () =>
+  { throw new Error('editProfile: UserProvider is not set up. Wrap the app with an UserProvider.'); }
 } as UserContextType);
 
 export {
