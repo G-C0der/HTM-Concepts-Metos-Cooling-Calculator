@@ -15,26 +15,21 @@ import {
 } from "../../constants";
 import InfoIcon from "@mui/icons-material/Info";
 import {getCode, getNames} from "country-list";
-import {ErrorAlert} from "../ErrorAlert";
-import {LoadingButton} from "../LoadingButton";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import {FormikProps} from "formik";
-import {ApiError, UserForm as UserFormType, UserFormEdit} from "../../types";
+import {UserForm, UserFormEdit} from "../../types";
 
 interface UserFormProps {
-  formik: FormikProps<UserFormType | UserFormEdit>;
-  isLoading: boolean;
-  error?: ApiError;
+  formik: FormikProps<UserForm | UserFormEdit>;
 }
 
-const UserForm = ({ formik, isLoading, error }: UserFormProps) => {
-  const isUserFormType = (form: FormikProps<any>): form is FormikProps<UserFormType> => ("email" in form.values);
+const UserFormFields = ({ formik }: UserFormProps) => {
+  const isUserFormType = (form: FormikProps<any>): form is FormikProps<UserForm> => ("email" in form.values);
 
   const countries = getNames().sort();
   const titles = ["Mr.", "Ms."];
 
   return (
-    <form onSubmit={formik.handleSubmit} autoComplete="on">
+    <>
       <FormControl fullWidth>
         <InputLabel id="title-label">Title*</InputLabel>
         <Select
@@ -241,25 +236,10 @@ const UserForm = ({ formik, isLoading, error }: UserFormProps) => {
           />
         )
       }
-
-      <ErrorAlert error={error} spaceAbove />
-
-      <LoadingButton
-        fullWidth
-        type="submit"
-        color="primary"
-        variant="contained"
-        style={{ marginTop: 16 }}
-        startIcon={<AppRegistrationIcon />}
-        loading={isLoading}
-        disabled={isUserFormType(formik) ? (!formik.values.tnc || !formik.isValid) : !formik.isValid}
-      >
-        Register
-      </LoadingButton>
-    </form>
+    </>
   );
 };
 
 export {
-  UserForm
+  UserFormFields
 };

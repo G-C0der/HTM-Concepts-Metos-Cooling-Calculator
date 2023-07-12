@@ -16,7 +16,9 @@ import {LoadingButton} from "../../components/LoadingButton";
 import {ApiError, ApiResponse} from "../../types";
 import {TempAlert} from "../../components/TempAlert";
 import SendIcon from "@mui/icons-material/Send";
-import {UserForm} from "../../components/UserForm";
+import {UserFormFields} from "../../components/UserFormFields";
+import {ErrorAlert} from "../../components/ErrorAlert";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 const validationSchema = yup.object({
   title: yup
@@ -206,7 +208,24 @@ const Registration = () => {
             Back to Login
           </Button>
 
-          <UserForm formik={(formik as any)} error={error} isLoading={isLoading} /> {/*TODO: check why not working with given type*/}
+          <form onSubmit={formik.handleSubmit} autoComplete="on">
+            <UserFormFields formik={(formik as any)} /> {/*TODO: check why not working with given type*/}
+
+            <ErrorAlert error={error} spaceAbove />
+
+            <LoadingButton
+              fullWidth
+              type="submit"
+              color="primary"
+              variant="contained"
+              style={{ marginTop: 16 }}
+              startIcon={<AppRegistrationIcon />}
+              loading={isLoading}
+              disabled={!formik.values.tnc || !formik.isValid}
+            >
+              Register
+            </LoadingButton>
+          </form>
 
           {
             <TempAlert
