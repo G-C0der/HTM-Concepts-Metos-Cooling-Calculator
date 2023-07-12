@@ -5,7 +5,7 @@ import {htmConceptsEmail} from "../../config";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
 import {urlExpiredError} from "../../constants";
-import {ApiError} from "../../types";
+import {ApiError, ApiResponse} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
 
 type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
@@ -22,7 +22,7 @@ const ResetPassword = () => {
 
   const { token } = useParams();
 
-  const { verifyResetPasswordToken, resetPassword } = useContext(UserContext);
+  const { verifyResetPasswordToken } = useContext(UserContext);
 
   useEffect(() => {
     const verifyResetUserPasswordToken = async () => {
@@ -47,16 +47,14 @@ const ResetPassword = () => {
           <>To send a new password reset email, return to the login page.<br/></>
         }
         If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank"
-                                                   rel="noreferrer">here</a>.
+          rel="noreferrer">here</a>.
       </>
     );
     
     return error;
   };
 
-  const handlePasswordResetClick = async (password: string) => {
-    const passwordResetResponse = await resetPassword(password, token);
-
+  const handlePasswordResetClick = (passwordResetResponse: ApiResponse) => {
     if (passwordResetResponse.success) setStatus('passwordResetSuccess');
     else {
       setStatus('passwordResetError');
@@ -80,7 +78,7 @@ const ResetPassword = () => {
           }
           {
             (status === 'tokenVerificationSuccess' || status === 'passwordResetError') &&
-            <PasswordResetForm callback={handlePasswordResetClick} error={passwordResetError} />
+            <PasswordResetForm token={token} callback={handlePasswordResetClick} error={passwordResetError} />
           }
           {
             status === 'passwordResetSuccess' &&

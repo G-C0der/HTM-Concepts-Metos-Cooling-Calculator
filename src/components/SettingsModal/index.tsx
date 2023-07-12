@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './style.css';
 import {Dialog, DialogContent, Button, Typography, Box, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -6,7 +6,6 @@ import LockResetIcon from '@mui/icons-material/LockReset';
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
-import {UserContext} from "../../contexts";
 import {ApiDataUserFormEdit, ApiResponse} from "../../types";
 import {TempAlert} from "../TempAlert";
 import {htmConceptsEmail} from "../../config";
@@ -27,8 +26,6 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
 
   const [successMessage, setSuccessMessage] = useState('');
 
-  const { resetPassword } = useContext(UserContext);
-
   const actionTitleMap: Record<PendingAction, string> = {
     editProfile: 'Profile Edit',
     resetPassword: 'Password Reset'
@@ -38,12 +35,10 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
     if (apiResponse?.success) setPendingAction(undefined);
   }, [apiResponse]);
 
-  const handlePasswordResetClick = async (password: string) => {
+  const handlePasswordResetClick = (passwordResetResponse: ApiResponse) => {
     clearResponse();
 
-    const passwordResetResponse = await resetPassword(password);
     setApiResponse(passwordResetResponse);
-
     if (passwordResetResponse.success) setSuccessMessage('Password has been updated.');
   };
 
@@ -59,7 +54,6 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
     clearResponse();
 
     setApiResponse(profileEditResponse);
-    
     if (profileEditResponse.success) setSuccessMessage('Profile has been updated.');
   };
 
