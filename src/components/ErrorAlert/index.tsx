@@ -10,21 +10,20 @@ interface ErrorAlertProps {
 }
 
 const ErrorAlert = ({ error, spaceAbove, spaceBelow, big }: ErrorAlertProps) => {
+  if (!error) return null;
+
+  const errorMessage = error.modifiedMessage ?? error.message;
+
   return (
-    <>
+    <Alert severity={error.severity} sx={{ mt: (spaceAbove ? 2 : 0), mb: (spaceBelow ? 2 : 0) }}>
       {
-        error &&
-        <Alert severity={error.severity} sx={{ mt: (spaceAbove ? 2 : 0), mb: (spaceBelow ? 2 : 0) }}>
-          {
-            big ? (
-              <Typography variant='body1'>{error.modifiedMessage ?? error.message}</Typography>
-            ) : (
-              <>{error.modifiedMessage ?? error.message}</>
-            )
-          }
-        </Alert>
+        big ? (
+          <Typography variant='body1'>{errorMessage}</Typography>
+        ) : (
+          <>{errorMessage}</>
+        )
       }
-    </>
+    </Alert>
   );
 };
 
