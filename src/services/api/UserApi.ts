@@ -1,5 +1,5 @@
 import {Api} from "./Api";
-import {UserForm, UserFormCredLess} from "../../types";
+import {UserForm, UserFormEdit} from "../../types";
 
 class UserApi extends Api {
   basePath = '/users';
@@ -35,7 +35,7 @@ class UserApi extends Api {
     return data;
   };
 
-  editProfile = async (form: UserFormCredLess, id?: string) => {
+  editProfile = async (form: UserFormEdit, id?: string) => {
     const path = id ? `${this.basePath}/${id}` : this.basePath;
     const { data } = await this.api.patch(path, form);
     return data;

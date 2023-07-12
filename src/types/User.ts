@@ -24,6 +24,7 @@ interface UserForm {
   lname: string;
   email: string;
   password: string;
+  passwordRetype: string;
   street: string;
   city: string;
   zip: string;
@@ -34,10 +35,10 @@ interface UserForm {
   tnc: boolean;
 }
 
-type UserFormCredLess = Omit<Partial<UserForm>, 'email' | 'password' | 'tnc'>;
+type UserFormEdit = Omit<Partial<UserForm>, 'email' | 'password' | 'passwordRetype' | 'tnc'>;
 
 export type {
   User,
   UserForm,
-  UserFormCredLess
+  UserFormEdit
 };

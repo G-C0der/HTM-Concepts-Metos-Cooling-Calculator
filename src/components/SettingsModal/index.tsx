@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {UserContext} from "../../contexts";
-import {ApiResponse, UserFormCredLess} from "../../types";
+import {ApiResponse, UserFormEdit} from "../../types";
 import {TempAlert} from "../TempAlert";
 import {htmConceptsEmail} from "../../config";
 const packageJson = require('../../../package.json');
@@ -44,7 +44,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
     if (passwordResetResponse.success) setSuccessMessage('Password has been updated.');
   };
 
-  const handleProfileEditClick = async (form: UserFormCredLess) => {
+  const handleProfileEditClick = async (form: UserFormEdit) => {
     const profileEditResponse = await editProfile(form);
     setApiResponse(profileEditResponse);
     

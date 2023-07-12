@@ -1,4 +1,4 @@
-import {ApiDataEmailSent, UserForm, UserFormCredLess} from "../types";
+import {ApiDataEmailSent, UserForm, UserFormEdit} from "../types";
 import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
@@ -63,7 +63,7 @@ const useUser = () => {
     }
   };
 
-  const editProfile = async (form: UserFormCredLess, id?: string) => {
+  const editProfile = async (form: UserFormEdit, id?: string) => {
     try {
       await userApi.editProfile(form, id);
       return toApiResponse(true);

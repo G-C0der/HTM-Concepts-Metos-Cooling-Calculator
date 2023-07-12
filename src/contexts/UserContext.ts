@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import {ApiDataEmailSent, ApiResponse, UserForm, UserFormCredLess} from "../types";
+import {ApiDataEmailSent, ApiResponse, UserForm, UserFormEdit} from "../types";
 import {ContextProviderError} from "../errors";
 
 type UserContextType = {
@@ -9,7 +9,7 @@ type UserContextType = {
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
   verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
   resetPassword: (password: string, token?: string) => Promise<ApiResponse>;
-  editProfile: (form: UserFormCredLess, id?: string) => Promise<ApiResponse>;
+  editProfile: (form: UserFormEdit, id?: string) => Promise<ApiResponse>;
 };
 
 const providerName = 'UserProvider';
