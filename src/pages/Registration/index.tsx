@@ -3,14 +3,11 @@ import {
   Button, Typography, Grid, Paper, Alert
 } from '@mui/material';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {
-  emailValidationSchema,
-  userFieldLengths,
-  passwordValidationSchema, checkSpamFolderMessage
+  checkSpamFolderMessage, getUserFormValidationSchema
 } from "../../constants";
 import {LoadingButton} from "../../components/LoadingButton";
 import {ApiError, ApiResponse} from "../../types";
@@ -19,57 +16,6 @@ import SendIcon from "@mui/icons-material/Send";
 import {UserFormFields} from "../../components/UserFormFields";
 import {ErrorAlert} from "../../components/ErrorAlert";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-
-const validationSchema = yup.object({
-  title: yup
-    .string()
-    .required('Title is required.')
-    .max(userFieldLengths.title.max, `Title is too long - should be maximum ${userFieldLengths.title.max} characters.`),
-  fname: yup
-    .string()
-    .required('First name is required.')
-    .max(userFieldLengths.fname.max, `First name is too long - should be maximum ${userFieldLengths.fname.max} characters.`),
-  lname: yup
-    .string()
-    .required('Last name is required.')
-    .max(userFieldLengths.lname.max, `Last name is too long - should be maximum ${userFieldLengths.lname.max} characters.`),
-  email: emailValidationSchema,
-  password: passwordValidationSchema,
-  passwordRetype: passwordValidationSchema
-    .oneOf([yup.ref('password')], 'Passwords must match.'),
-  street: yup
-    .string()
-    .required('Street is required.')
-    .max(userFieldLengths.street.max, `Street is too long - should be maximum ${userFieldLengths.street.max} characters.`),
-  city: yup
-    .string()
-    .required('City is required.')
-    .max(userFieldLengths.city.max, `City is too long - should be maximum ${userFieldLengths.city.max} characters.`),
-  zip: yup
-    .string()
-    .required('ZIP code is required.')
-    .max(userFieldLengths.zip.max, `ZIP code is too long - should be maximum ${userFieldLengths.zip.max} characters.`),
-  country: yup
-    .string()
-    .required('Country is required.')
-    .max(userFieldLengths.country.max, `Country is too long - should be maximum ${userFieldLengths.country.max} characters.`),
-  phone: yup
-    .string()
-    .required('Phone number is required.')
-    .max(userFieldLengths.phone.max, `Phone is too long - should be maximum ${userFieldLengths.phone.max} characters.`),
-  company: yup
-    .string()
-    .required('Company name is required.')
-    .max(userFieldLengths.company.max, `Company name is too long - should be maximum ${userFieldLengths.company.max} characters.`),
-  website: yup
-    .string()
-    .required('Website is required.')
-    .max(userFieldLengths.website.max, `Website is too long - should be maximum ${userFieldLengths.website.max} characters.`)
-    .matches(/^(https?:\/\/)?([a-z]+\.)?.+\.[a-z]{2,}(\/.*)*$/i, 'URL is invalid.'),
-  tnc: yup
-    .boolean()
-    .oneOf([true], 'You must accept the terms and conditions.')
-});
 
 const Registration = () => {
   const [error, setError] = useState<ApiError>();
@@ -104,7 +50,7 @@ const Registration = () => {
       website: '',
       tnc: false,
     },
-    validationSchema: validationSchema,
+    validationSchema: getUserFormValidationSchema(false),
     onSubmit: async (values) => {
       setIsLoading(true);
 

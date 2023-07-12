@@ -63,6 +63,15 @@ const useUser = () => {
     }
   };
 
+  const fetchForm = async () => {
+    try {
+      const data = await userApi.fetchForm();
+      return toApiResponse(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   const editProfile = async (form: UserFormEdit, id?: string) => {
     try {
       await userApi.editProfile(form, id);
@@ -79,6 +88,7 @@ const useUser = () => {
     sendResetPasswordEmail,
     verifyResetPasswordToken,
     resetPassword,
+    fetchForm,
     editProfile
   };
 };

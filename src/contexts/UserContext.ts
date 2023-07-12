@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import {ApiDataEmailSent, ApiResponse, UserForm, UserFormEdit} from "../types";
+import {ApiDataEmailSent, ApiDataUserFormEdit, ApiResponse, UserForm, UserFormEdit} from "../types";
 import {ContextProviderError} from "../errors";
 
 type UserContextType = {
@@ -9,6 +9,7 @@ type UserContextType = {
   sendResetPasswordEmail: (email: string) => Promise<ApiResponse>;
   verifyResetPasswordToken: (token: string) => Promise<ApiResponse>;
   resetPassword: (password: string, token?: string) => Promise<ApiResponse>;
+  fetchForm: () => Promise<ApiResponse<ApiDataUserFormEdit>>;
   editProfile: (form: UserFormEdit, id?: string) => Promise<ApiResponse>;
 };
 
@@ -20,6 +21,7 @@ const UserContext = createContext({
   sendResetPasswordEmail: () => { throw new ContextProviderError(providerName, 'sendResetPasswordEmail'); },
   verifyResetPasswordToken: () => { throw new ContextProviderError(providerName, 'verifyResetPasswordToken'); },
   resetPassword: () => { throw new ContextProviderError(providerName, 'resetPassword'); },
+  fetchForm: () => { throw new ContextProviderError(providerName, 'fetchForm') },
   editProfile: () => { throw new ContextProviderError(providerName, 'editProfile'); }
 } as UserContextType);
 

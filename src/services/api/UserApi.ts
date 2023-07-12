@@ -35,6 +35,11 @@ class UserApi extends Api {
     return data;
   };
 
+  fetchForm = async () => {
+    const { data } = await this.api.get('/users/form');
+    return data;
+  };
+
   editProfile = async (form: UserFormEdit, id?: string) => {
     const path = id ? `${this.basePath}/${id}` : this.basePath;
     const { data } = await this.api.patch(path, form);

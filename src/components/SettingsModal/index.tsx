@@ -7,9 +7,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {UserContext} from "../../contexts";
-import {ApiResponse, UserFormEdit} from "../../types";
+import {ApiDataUserFormEdit, ApiResponse} from "../../types";
 import {TempAlert} from "../TempAlert";
 import {htmConceptsEmail} from "../../config";
+import {UserEditForm} from "../UserEditForm";
 const packageJson = require('../../../package.json');
 
 interface SettingsModalProps {
@@ -22,11 +23,11 @@ type PendingAction = 'editProfile' | 'resetPassword';
 const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
 
-  const [apiResponse, setApiResponse] = useState<ApiResponse>();
+  const [apiResponse, setApiResponse] = useState<ApiResponse<never | ApiDataUserFormEdit>>();
 
   const [successMessage, setSuccessMessage] = useState('');
 
-  const { resetPassword, editProfile } = useContext(UserContext);
+  const { resetPassword } = useContext(UserContext);
 
   const actionTitleMap: Record<PendingAction, string> = {
     editProfile: 'Profile Edit',
@@ -38,22 +39,32 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   }, [apiResponse]);
 
   const handlePasswordResetClick = async (password: string) => {
+    clearResponse();
+
     const passwordResetResponse = await resetPassword(password);
     setApiResponse(passwordResetResponse);
 
     if (passwordResetResponse.success) setSuccessMessage('Password has been updated.');
   };
 
-  const handleProfileEditClick = async (form: UserFormEdit) => {
-    const profileEditResponse = await editProfile(form);
+  const handleFetchFormError = (fetchFormErrorResponse: ApiResponse<ApiDataUserFormEdit>) => {
+    clearResponse();
+
+    setPendingAction(undefined);
+
+    setApiResponse(fetchFormErrorResponse);
+  };
+
+  const handleProfileEditClick = (profileEditResponse: ApiResponse) => {
+    clearResponse();
+
     setApiResponse(profileEditResponse);
     
-    if (profileEditResponse.success) setSuccessMessage('Profile has been updated');
+    if (profileEditResponse.success) setSuccessMessage('Profile has been updated.');
   };
 
   const clearResponse = () => {
     if (apiResponse) setApiResponse(undefined);
-
     if (successMessage) setSuccessMessage('');
   };
 
@@ -97,15 +108,17 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
 
               <Button
                 fullWidth
+                variant="outlined"
                 sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
                 onClick={() => setPendingAction('editProfile')}
               >
                 <EditIcon />
-                <Box sx={{ ml: 1 }}>Edit Profile</Box>
+                <Box sx={{ ml: 1 }}>Update Profile</Box>
               </Button>
 
               <Button
                 fullWidth
+                variant="outlined"
                 sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
                 onClick={() => setPendingAction('resetPassword')}
               >
@@ -117,7 +130,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         }
         {
           pendingAction === 'editProfile' && (
-            <></>
+            <UserEditForm fetchFormErrorCallback={handleFetchFormError} editProfileCallback={handleProfileEditClick} />
           )
         }
         {

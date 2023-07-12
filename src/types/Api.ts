@@ -1,5 +1,5 @@
 import React from "react";
-import {AuditLog, User} from ".";
+import {AuditLog, User, UserFormEdit} from ".";
 
 interface ApiResponse<T = never> {
   readonly success?: boolean;
@@ -19,6 +19,10 @@ interface ApiDataEmailSent {
   wasEmailSent: boolean;
 }
 
+interface ApiDataUserFormEdit {
+  form: UserFormEdit;
+}
+
 interface ApiDataUserList {
   users: User[];
 }
@@ -33,6 +37,7 @@ export type {
   ApiErrorSeverity,
 
   ApiDataEmailSent,
+  ApiDataUserFormEdit,
   ApiDataUserList,
   ApiDataAuditLogList
 };
