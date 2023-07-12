@@ -11,7 +11,7 @@ import {ErrorAlert} from "../ErrorAlert";
 import {LoadingButton} from "../LoadingButton";
 
 interface PasswordResetFormProps {
-  passwordResetCallback: (password: string) => Promise<void>;
+  callback: (password: string) => Promise<void>;
   error?: ApiError;
 }
 
@@ -21,7 +21,7 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match.')
 });
 
-const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormProps) => {
+const PasswordResetForm = ({ callback, error }: PasswordResetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -33,7 +33,7 @@ const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormPr
     onSubmit: async (values) => {
       setIsLoading(true);
 
-      await passwordResetCallback(values.password)
+      await callback(values.password)
 
       setIsLoading(false);
     }

@@ -95,8 +95,8 @@ const Verification = () => {
           {
             showResendForm &&
             <SendEmailForm
-              sendEmailCallback={sendVerificationEmail}
-              setSendEmailResponse={setSendEmailResponse}
+              callback={sendVerificationEmail}
+              setResponse={setSendEmailResponse}
               buttonText='Send Verification Email'
               buttonColor='primary'
             />

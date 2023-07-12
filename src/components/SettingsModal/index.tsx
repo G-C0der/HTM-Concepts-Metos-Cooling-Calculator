@@ -122,7 +122,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         }
         {
           pendingAction === 'resetPassword' && (
-            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} />
+            <PasswordResetForm callback={handlePasswordResetClick} />
           )
         }
       </DialogContent>

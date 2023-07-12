@@ -80,7 +80,7 @@ const ResetPassword = () => {
           }
           {
             (status === 'tokenVerificationSuccess' || status === 'passwordResetError') &&
-            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} error={passwordResetError} />
+            <PasswordResetForm callback={handlePasswordResetClick} error={passwordResetError} />
           }
           {
             status === 'passwordResetSuccess' &&

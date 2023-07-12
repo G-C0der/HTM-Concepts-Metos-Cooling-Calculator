@@ -174,8 +174,8 @@ const Login = () => {
           {
             showResetPasswordForm &&
             <SendEmailForm
-              sendEmailCallback={sendResetPasswordEmail}
-              setSendEmailResponse={setSendEmailResponse}
+              callback={sendResetPasswordEmail}
+              setResponse={setSendEmailResponse}
               buttonText='Send Password Reset Email'
               buttonColor='secondary'
             />
