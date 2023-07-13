@@ -30,11 +30,15 @@ const UserEditForm = ({ fetchFormErrorCallback, editProfileCallback }: UserEditF
 
         if (fetchFormResponse.success) setForm(fetchFormResponse.data!.form);
         else fetchFormErrorCallback(fetchFormResponse);
-
-        setIsFetchFormLoading(false);
       };
 
       fetchUserForm();
+    } else {
+      const timer = setTimeout(() => {
+        setIsFetchFormLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
     }
   }, [form]);
 
