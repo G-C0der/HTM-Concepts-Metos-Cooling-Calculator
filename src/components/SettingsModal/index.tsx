@@ -133,15 +133,17 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
           )
         }
       </DialogContent>
-
-      <Typography
-        align="center"
-        gutterBottom
-        sx={{ fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
-      >
-        v{packageJson.version}
-      </Typography>
-
+      {
+        !pendingAction && (
+          <Typography
+            align="center"
+            gutterBottom
+            sx={{ fontSize: "15px" , padding: "0 15px 10px 15px", color: 'grey' }}
+          >
+            v{packageJson.version}
+          </Typography>
+        )
+      }
       {
         <TempAlert
           severity='success'
