@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './style.css';
-import {Dialog, DialogContent, Button, Typography, Box, IconButton} from "@mui/material";
+import {Dialog, DialogContent, Button, Typography, Box, IconButton, Stack} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import CloseIcon from "@mui/icons-material/Close";
@@ -78,29 +78,31 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         {
           !pendingAction && (
             <>
-              <Typography variant="h5" align="center" component='h1' gutterBottom mb={3}>
+              <Typography variant="h5" align="center" component='h1' gutterBottom mb={4}>
                 Settings
               </Typography>
 
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
-                onClick={() => setPendingAction('editProfile')}
-              >
-                <EditIcon />
-                <Box sx={{ ml: 1 }}>Update Profile</Box>
-              </Button>
+              <Stack spacing={1.5}>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
+                    onClick={() => setPendingAction('editProfile')}
+                >
+                  <EditIcon />
+                  <Box sx={{ ml: 1 }}>Update Profile</Box>
+                </Button>
 
-              <Button
-                fullWidth
-                variant="outlined"
-                sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
-                onClick={() => setPendingAction('resetPassword')}
-              >
-                <LockResetIcon />
-                <Box sx={{ ml: 1 }}>Reset Password</Box>
-              </Button>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ justifyContent: 'flex-start', textTransform: 'none', paddingLeft: '26px' }}
+                    onClick={() => setPendingAction('resetPassword')}
+                >
+                  <LockResetIcon />
+                  <Box sx={{ ml: 1 }}>Reset Password</Box>
+                </Button>
+              </Stack>
             </>
           )
         }
@@ -114,7 +116,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
                 <ArrowBackIcon />
               </IconButton>
 
-              <Typography variant="h5" align="center" component='h1' gutterBottom mb={3}>
+              <Typography variant="h5" align="center" component='h1' gutterBottom mb={4}>
                 {actionTitleMap[pendingAction]}
               </Typography>
             </>
