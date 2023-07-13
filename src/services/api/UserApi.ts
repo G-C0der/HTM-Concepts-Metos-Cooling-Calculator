@@ -31,7 +31,7 @@ class UserApi extends Api {
 
   resetPassword = async (password: string, token?: string) => {
     const path = token ? `${this.basePath}/password-reset/${token}` : `${this.basePath}/password-reset`;
-    const { data } = await this.api.patch(path);
+    const { data } = await this.api.patch(path, { password });
     return data;
   };
 
