@@ -75,28 +75,10 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         >
           <CloseIcon />
         </IconButton>
-
-        {
-          pendingAction && (
-            <>
-              <IconButton
-                  sx={{ position: 'absolute', left: 5, top: 5 }}
-                  onClick={() => setPendingAction(undefined)}
-              >
-                <ArrowBackIcon />
-              </IconButton>
-
-              <Typography variant="h5" align="center" component='h1' gutterBottom>
-                {actionTitleMap[pendingAction]}
-              </Typography>
-            </>
-          )
-        }
-
         {
           !pendingAction && (
             <>
-              <Typography variant="h5" align="center" component='h1' gutterBottom>
+              <Typography variant="h5" align="center" component='h1' gutterBottom mb={3}>
                 Settings
               </Typography>
 
@@ -119,6 +101,22 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
                 <LockResetIcon />
                 <Box sx={{ ml: 1 }}>Reset Password</Box>
               </Button>
+            </>
+          )
+        }
+        {
+          pendingAction && (
+            <>
+              <IconButton
+                sx={{ position: 'absolute', left: 5, top: 5 }}
+                onClick={() => setPendingAction(undefined)}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+
+              <Typography variant="h5" align="center" component='h1' gutterBottom mb={3}>
+                {actionTitleMap[pendingAction]}
+              </Typography>
             </>
           )
         }
