@@ -21,6 +21,7 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
 
   const actionDisplayMap = {
     passwordReset: 'password reset',
+    profileEdit: 'profile edit'
   };
 
   const columns: GridColDef[] = [
