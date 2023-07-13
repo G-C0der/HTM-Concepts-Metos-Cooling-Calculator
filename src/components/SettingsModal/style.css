@@ -1,5 +1,5 @@
 .settings-dialog-paper {
-  --width: calc(100% - 55cm);
+  --width: 450px;
   --height: calc(100% - 2cm);
 
   width: var(--width);
