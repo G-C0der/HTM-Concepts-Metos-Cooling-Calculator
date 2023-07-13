@@ -32,8 +32,8 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
   };
 
   useEffect(() => {
-    if (apiResponse?.success) setPendingAction(undefined);
-  }, [apiResponse]);
+    if (!isOpen || apiResponse?.success) setPendingAction(undefined);
+  }, [isOpen, apiResponse]);
 
   const handlePasswordResetClick = (passwordResetResponse: ApiResponse) => {
     clearResponse();
