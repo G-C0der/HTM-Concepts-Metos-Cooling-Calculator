@@ -50,12 +50,13 @@ const UserEditForm = ({ fetchFormErrorCallback, editProfileCallback }: UserEditF
       street: form ? form.street : '',
       city: form ? form.city : '',
       zip: form ? form.zip : '',
-      country: form ? form.country : '',
+      country: form ? form.country!.toUpperCase() : '',
       phone: form ? form.phone : '',
       company: form ? form.company : '',
       website: form ? form.website : '',
     },
     validationSchema: getUserFormValidationSchema(true),
+    enableReinitialize: true,
     onSubmit: async (values) => {
       setIsEditProfileLoading(true);
 
