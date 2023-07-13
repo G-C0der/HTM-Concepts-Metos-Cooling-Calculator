@@ -129,7 +129,9 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         }
         {
           pendingAction === 'resetPassword' && (
-            <PasswordResetForm callback={handlePasswordResetClick} />
+            <Box mt={-2}> {/*TODO: figure actual problem out. workaround since there is for some reason more space between Typography and PasswordResetForm*/}
+              <PasswordResetForm callback={handlePasswordResetClick} />
+            </Box>
           )
         }
       </DialogContent>
