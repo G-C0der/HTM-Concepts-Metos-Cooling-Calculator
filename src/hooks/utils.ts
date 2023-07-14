@@ -4,7 +4,7 @@ import {supportContactMessage, unexpectedError} from "../constants";
 
 const isTokenExpired = (tokenExpiration: string | null) => hasDatePassed(tokenExpiration);
 
-const toApiResponse = (success?: boolean, error?: ApiError, data?: any): ApiResponse => ({
+const toApiResponse = <T = never>(success?: boolean, error?: ApiError, data?: T): ApiResponse<T> => ({
   success,
   error,
   data

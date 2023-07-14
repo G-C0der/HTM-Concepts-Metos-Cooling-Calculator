@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
@@ -174,8 +174,8 @@ const Login = () => {
           {
             showResetPasswordForm &&
             <SendEmailForm
-              sendEmailCallback={sendResetPasswordEmail}
-              setSendEmailResponse={setSendEmailResponse}
+              callback={sendResetPasswordEmail}
+              setResponse={setSendEmailResponse}
               buttonText='Send Password Reset Email'
               buttonColor='secondary'
             />

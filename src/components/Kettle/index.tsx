@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
-import {getEnumNumericValues, getEnumValues} from "../../utils/enum";
+import {getEnumNumericValues, getEnumValues} from "../../utils";
 import CloseIcon from '@mui/icons-material/Close';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";

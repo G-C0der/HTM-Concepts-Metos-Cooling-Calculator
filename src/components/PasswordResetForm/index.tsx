@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import {passwordSpecialCharacters, passwordValidationSchema} from "../../constants";
-import {Button, TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import LockResetIcon from '@mui/icons-material/LockReset';
 import * as yup from "yup";
 import {useFormik} from "formik";
-import {ApiError} from "../../types";
+import {ApiError, ApiResponse} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import {LoadingButton} from "../LoadingButton";
+import {UserContext} from "../../contexts";
 
 interface PasswordResetFormProps {
-  passwordResetCallback: (password: string) => Promise<void>;
+  token?: string;
+  callback: (passwordResetResponse: ApiResponse) => void;
   error?: ApiError;
 }
 
@@ -21,8 +23,10 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match.')
 });
 
-const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormProps) => {
+const PasswordResetForm = ({ token, callback, error }: PasswordResetFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const { resetPassword } = useContext(UserContext);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +37,8 @@ const PasswordResetForm = ({ passwordResetCallback, error }: PasswordResetFormPr
     onSubmit: async (values) => {
       setIsLoading(true);
 
-      await passwordResetCallback(values.password)
+      const passwordResetResponse = await resetPassword(values.password, token);
+      callback(passwordResetResponse);
 
       setIsLoading(false);
     }

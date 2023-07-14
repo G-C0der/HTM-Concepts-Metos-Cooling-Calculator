@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {ApiError, User} from "../../types";
-import {AuthContext, UserContext} from "../../contexts";
+import {AdminContext, AuthContext} from "../../contexts";
 import {CircularProgress} from "@mui/material";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -12,6 +12,9 @@ import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 import {getName} from 'country-list';
 import {ErrorAlert} from "../ErrorAlert";
+import {userFieldLabels} from "../../constants";
+import {UserDetailDataGrid} from "../UserDetailDataGrid";
+import {BooleanIcon} from "../BooleanIcon";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -29,93 +32,93 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [isActiveStateChangeLoading, setIsActiveStateChangeLoading] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
-  const { list, activate, deactivate } = useContext(UserContext);
+  const { listUsers, activateUser, deactivateUser } = useContext(AdminContext);
 
   const columns: GridColDef[] = [
     {
       field: 'company',
-      headerName: 'Company',
+      headerName: userFieldLabels['company'],
       width: 200
     },
     {
       field: 'title',
-      headerName: 'Title',
+      headerName: userFieldLabels['title'],
       width: 60
     },
     {
       field: 'fname',
-      headerName: 'First Name',
+      headerName: userFieldLabels['fname'],
       width: 140
     },
     {
       field: 'lname',
-      headerName: 'Last Name',
+      headerName: userFieldLabels['lname'],
       width: 140
     },
     {
       field: 'verified',
-      headerName: 'Verified',
+      headerName: userFieldLabels['verified'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {
       field: 'active',
-      headerName: 'Active',
+      headerName: userFieldLabels['active'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {
       field: 'admin',
-      headerName: 'Admin',
+      headerName: userFieldLabels['admin'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: userFieldLabels['email'],
       width: 300,
-      renderCell: (params) => (
-        <a href={`mailto:${params.value}`} target="_blank" rel="noreferrer">
-          {params.value}
+      renderCell: ({ value }) => (
+        <a href={`mailto:${value}`} target="_blank" rel="noreferrer">
+          {value}
         </a>
       ),
     },
     {
       field: 'phone',
-      headerName: 'Phone',
+      headerName: userFieldLabels['phone'],
       width: 150
     },
     {
       field: 'website',
-      headerName: 'Website',
+      headerName: userFieldLabels['website'],
       width: 250,
-      renderCell: (params) => (
-        <a href={toAbsoluteUrl(params.value)} target="_blank" rel="noreferrer">
-          {params.value}
+      renderCell: ({ value }) => (
+        <a href={toAbsoluteUrl(value)} target="_blank" rel="noreferrer">
+          {value}
         </a>
       ),
     },
     {
       field: 'country',
-      headerName: 'Country',
+      headerName: userFieldLabels['country'],
       width: 160,
-      valueGetter: (params) => getName(params.value)
+      valueGetter: ({ value }) => getName(value)
     },
     {
       field: 'actions',
       headerName: 'Actions',
       width: 150,
       sortable: false,
-      renderCell: (params) => {
-        const id = params.row.id;
-        const isVerified = params.row.verified;
-        const isActive = params.row.active;
+      renderCell: ({ row }) => {
+        const id = row.id;
+        const isVerified = row.verified;
+        const isActive = row.active;
 
         return (
           <>
@@ -123,15 +126,15 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {
-                setPendingUser(params.row);
+                setPendingUser(row);
                 setPendingAction(() => async () => {
                   setIsActiveStateChangeLoading(true);
 
                   if (isActive) {
-                    const deactivateResponse = await deactivate(id);
+                    const deactivateResponse = await deactivateUser(id);
                     if (deactivateResponse.success) updateUser(id, { active: !isActive });
                   } else {
-                    const activateResponse = await activate(id);
+                    const activateResponse = await activateUser(id);
                     if (activateResponse.success) updateUser(id, { active: !isActive });
                   }
 
@@ -153,12 +156,9 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   useEffect(() => {
     if (isAdminModalOpen) {
       const setUserList = async () => {
-        const userListResponse = await list();
+        const userListResponse = await listUsers();
 
-        if (userListResponse.success) {
-          const { users } = userListResponse.data;
-          setUsers(users);
-        }
+        if (userListResponse.success) setUsers(userListResponse.data!.users);
         else setError(userListResponse.error!);
       }
 
@@ -196,14 +196,16 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
             </Box>
           ) : (
             <>
-              <DataGrid
+              <DataGridPremium
                 rows={users!}
                 columns={columns}
                 sx={{ backgroundColor: '#e3f8fa' }}
                 hideFooter
+                slots={{ toolbar: GridToolbar }}
                 getRowClassName={(params) => (params.row.verified && params.row.active)
                   ? ''
                   : 'data-grid-row-inactive-user'}
+                getDetailPanelContent={({ row }) => <UserDetailDataGrid user={row} />}
               />
 
               {

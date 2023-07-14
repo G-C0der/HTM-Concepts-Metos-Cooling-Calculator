@@ -3,8 +3,8 @@ import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
-import {supportContactMessage, urlExpiredError} from "../../constants";
-import {ApiError} from "../../types";
+import {urlExpiredError} from "../../constants";
+import {ApiError, ApiResponse} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
 import {Message} from "../../components/Message";
 
@@ -22,7 +22,7 @@ const ResetPassword = () => {
 
   const { token } = useParams();
 
-  const { verifyResetPasswordToken, resetPassword } = useContext(UserContext);
+  const { verifyResetPasswordToken } = useContext(UserContext);
 
   useEffect(() => {
     const verifyResetUserPasswordToken = async () => {
@@ -52,9 +52,7 @@ const ResetPassword = () => {
     return error;
   };
 
-  const handlePasswordResetClick = async (password: string) => {
-    const passwordResetResponse = await resetPassword(token!, password);
-
+  const handlePasswordResetClick = (passwordResetResponse: ApiResponse) => {
     if (passwordResetResponse.success) setStatus('passwordResetSuccess');
     else {
       setStatus('passwordResetError');
@@ -78,7 +76,7 @@ const ResetPassword = () => {
           }
           {
             (status === 'tokenVerificationSuccess' || status === 'passwordResetError') &&
-            <PasswordResetForm passwordResetCallback={handlePasswordResetClick} error={passwordResetError} />
+            <PasswordResetForm token={token} callback={handlePasswordResetClick} error={passwordResetError} />
           }
           {
             status === 'passwordResetSuccess' &&

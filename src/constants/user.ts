@@ -13,6 +13,27 @@ const userFieldLengths = {
   website: { max: 512 }
 };
 
+const userFieldLabels = {
+  id: 'ID',
+  email: 'Email',
+  verified: 'Verified',
+  active: 'Active',
+  admin: 'Admin',
+  title: 'Title',
+  fname: 'First Name',
+  lname: 'Last Name',
+  phone: 'Phone',
+  country: 'Country',
+  city: 'City',
+  zip: 'ZIP',
+  street: 'Street',
+  company: 'Company',
+  website: 'Website',
+  createdAt: 'Created at',
+  updatedAt: 'Updated at'
+};
+
 export {
-  userFieldLengths
+  userFieldLengths,
+  userFieldLabels
 };

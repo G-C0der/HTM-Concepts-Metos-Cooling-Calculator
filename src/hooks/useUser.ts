@@ -1,12 +1,12 @@
-import {UserForm} from "../types";
+import {ApiDataEmailSent, UserForm, UserFormEdit} from "../types";
 import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
 const useUser = () => {
   const register = async (form: UserForm) => {
     try {
-      const { wasEmailSent } = await userApi.register(form);
-      return toApiResponse(true, undefined, { wasEmailSent });
+      const data = await userApi.register(form);
+      return toApiResponse<ApiDataEmailSent>(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
@@ -54,36 +54,27 @@ const useUser = () => {
     }
   };
 
-  const resetPassword = async (token: string, password: string) => {
+  const resetPassword = async (password: string, token?: string) => {
     try {
-      await userApi.resetPassword(token, password);
+      await userApi.resetPassword(password, token);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
   };
 
-  const list = async () => {
+  const fetchForm = async () => {
     try {
-      const { users } = await userApi.list();
-      return toApiResponse(true, undefined, { users });
+      const data = await userApi.fetchForm();
+      return toApiResponse(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
   };
 
-  const activate = async (id: string) => {
+  const editProfile = async (form: UserFormEdit, id?: string) => {
     try {
-      const { wasEmailSent } = await userApi.changeActiveState(id, true);
-      return toApiResponse(true, undefined, { wasEmailSent });
-    } catch (err: any) {
-      return toApiResponse(false, toApiError(err));
-    }
-  };
-
-  const deactivate = async (id: string) => {
-    try {
-      await userApi.changeActiveState(id, false);
+      await userApi.editProfile(form, id);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
@@ -97,9 +88,8 @@ const useUser = () => {
     sendResetPasswordEmail,
     verifyResetPasswordToken,
     resetPassword,
-    list,
-    activate,
-    deactivate
+    fetchForm,
+    editProfile
   };
 };
 
