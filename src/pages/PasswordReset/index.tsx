@@ -3,10 +3,10 @@ import {useParams} from "react-router-dom";
 import {UserContext} from "../../contexts";
 import {Alert, Box, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {PasswordResetForm} from "../../components/PasswordResetForm";
-import {urlExpiredError} from "../../constants";
+import {supportContactMessage, urlExpiredError} from "../../constants";
 import {ApiError, ApiResponse} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
-import {Message} from "../../components/Message";
+import {doesMessageContainKeyword, mapMessageKeyword} from "../../utils";
 
 type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
   'passwordResetSuccess' | 'passwordResetError';
@@ -41,11 +41,12 @@ const ResetPassword = () => {
   const setModifiedErrorMessage = (error: ApiError) => {
     error.modifiedMessage = (
       <>
-        {<Message message={error.message} />}
+        {mapMessageKeyword(error.message)}
         {
           (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
           <>To send a new password reset email, return to the login page.<br/></>
         }
+        {!doesMessageContainKeyword(error.message, 'here') && mapMessageKeyword(supportContactMessage)}
       </>
     );
     

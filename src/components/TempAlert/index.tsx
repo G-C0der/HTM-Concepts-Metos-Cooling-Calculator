@@ -4,7 +4,7 @@ import { Snackbar } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import {MessageSeverity} from "../../types";
 import {supportContactMessage} from "../../constants";
-import { Message } from '../Message';
+import {doesMessageContainKeyword, mapMessageKeyword} from "../../utils";
 
 interface TempAlertProps {
   severity: MessageSeverity
@@ -32,7 +32,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
     }
   }, [condition, id]);
 
-  const completeErrorMessage = (message: string) => message.includes('##here##')
+  const completeErrorMessage = (message: string) => doesMessageContainKeyword(message, 'here')
     ? message
     : `${message} ${supportContactMessage}`;
 
@@ -47,7 +47,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
             severity={severity}
             onClose={() => resetCondition()}
           >
-            {isError ? <Message message={completeErrorMessage(message)} /> : message}
+            {isError ? mapMessageKeyword(completeErrorMessage(message)) : message}
           </Alert>
         </Snackbar>
       }
