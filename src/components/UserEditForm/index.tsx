@@ -88,7 +88,7 @@ const UserEditForm = ({ fetchFormErrorCallback, editProfileCallback }: UserEditF
         style={{ marginTop: 16 }}
         startIcon={<SaveAltIcon />}
         loading={isEditProfileLoading}
-        disabled={!formik.isValid}
+        disabled={!formik.isValid || !formik.dirty}
       >
         Update Profile
       </LoadingButton>
