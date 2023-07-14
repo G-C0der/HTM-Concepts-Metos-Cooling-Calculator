@@ -1,5 +1,7 @@
 import React from 'react';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {userFieldLabels} from "../../constants";
+import {userDetailDataGridRenderCell, userDetailDataGridValueGetter} from "../../utils";
 
 interface AuditLogDetailsDataGridProps {
   before: object;
@@ -25,7 +27,7 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       if (afterEntries[i] !== undefined) ([field, valueAfter] = afterEntries[i]);
 
       rows.push({
-        ...(field && { id: i, field }),
+        ...(field && { id: i, field: userFieldLabels[field as keyof typeof userFieldLabels] }),
         ...(valueBefore !== undefined && { valueBefore }),
         ...(valueAfter !== undefined && { valueAfter })
       });
@@ -43,14 +45,20 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
     {
       field: 'valueBefore',
       headerName: 'Before',
-      flex: 1
+      flex: 1,
+      valueGetter: userDetailDataGridValueGetter,
+      renderCell: userDetailDataGridRenderCell
     },
     {
       field: 'valueAfter',
       headerName: 'After',
-      flex: 1
+      flex: 1,
+      valueGetter: userDetailDataGridValueGetter,
+      renderCell: userDetailDataGridRenderCell
     }
   ];
+
+
 
   return (
     <DataGrid

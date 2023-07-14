@@ -14,6 +14,7 @@ const userFieldLengths = {
 };
 
 const userFieldLabels = {
+  id: 'ID',
   email: 'Email',
   verified: 'Verified',
   active: 'Active',
@@ -27,7 +28,9 @@ const userFieldLabels = {
   zip: 'ZIP',
   street: 'Street',
   company: 'Company',
-  website: 'Website'
+  website: 'Website',
+  createdAt: 'Created at',
+  updatedAt: 'Updated at'
 };
 
 export {
