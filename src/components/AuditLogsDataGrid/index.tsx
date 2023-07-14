@@ -7,6 +7,12 @@ import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
 import { AuditLogDetailsDataGrid } from '../AuditLogDetailsDataGrid';
+import EditIcon from '@mui/icons-material/Edit';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import LockResetIcon from '@mui/icons-material/LockReset';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 interface AuditLogsDataGridProps {
   isAdminModalOpen: boolean;
@@ -20,12 +26,12 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
   const { listAuditLogs } = useContext(AdminContext);
 
   const actionDisplayMap = {
-    registration: 'Registration',
-    verification: 'Verification',
-    passwordReset: 'Password Reset',
-    profileEdit: 'Profile Edit',
-    activation: 'Activation',
-    deactivation: 'Deactivation'
+    registration: { name: 'Registration', icon: <AppRegistrationIcon sx={{ fontSize: '1rem', mr: 1 }} />  },
+    verification: { name: 'Verification', icon: <HowToRegIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    passwordReset: { name: 'Password Reset', icon: <LockResetIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    profileEdit: { name: 'Profile Edit', icon: <EditIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    activation: { name: 'Activation', icon: <CheckCircleIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    deactivation: { name: 'Deactivation', icon: <CancelIcon sx={{ fontSize: '1rem', mr: 1 }} /> }
   };
 
   const columns: GridColDef[] = [
@@ -33,25 +39,30 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       field: 'action',
       headerName: 'Action',
       width: 150,
-      valueGetter: (params) => getActionDisplayName(params.value)
+      renderCell: ({ value }) => {
+        const { name, icon } = actionDisplayMap[value as keyof typeof actionDisplayMap];
+        return (
+          <>{icon} {name}</>
+        );
+      }
     },
     {
       field: 'operator',
       headerName: 'Operator',
       width: 300,
-      valueGetter: (params) => params.value.email
+      valueGetter: ({ value }) => value.email
     },
     {
       field: 'user',
       headerName: 'User',
       width: 300,
-      valueGetter: (params) => params.value.email
+      valueGetter: ({ value }) => value.email
     },
     {
       field: 'createdAt',
       headerName: 'Timestamp',
       width: 200,
-      valueGetter: (params) => moment(params.value).format('DD.MM.YYYY HH:mm:ss')
+      valueGetter: ({ value }) => moment(value).format('DD.MM.YYYY HH:mm:ss')
     }
   ];
 
@@ -77,10 +88,6 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       return () => clearTimeout(timer);
     }
   }, [auditLogs]);
-
-  const getActionDisplayName = (action: AuditLogAction) => actionDisplayMap.hasOwnProperty(action)
-    ? actionDisplayMap[action as keyof typeof actionDisplayMap]
-    : action;
 
   return error
     ? (

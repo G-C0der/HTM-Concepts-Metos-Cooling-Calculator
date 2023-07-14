@@ -83,9 +83,9 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       field: 'email',
       headerName: userFieldLabels['email'],
       width: 300,
-      renderCell: (params) => (
-        <a href={`mailto:${params.value}`} target="_blank" rel="noreferrer">
-          {params.value}
+      renderCell: ({ value }) => (
+        <a href={`mailto:${value}`} target="_blank" rel="noreferrer">
+          {value}
         </a>
       ),
     },
@@ -98,9 +98,9 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       field: 'website',
       headerName: userFieldLabels['website'],
       width: 250,
-      renderCell: (params) => (
-        <a href={toAbsoluteUrl(params.value)} target="_blank" rel="noreferrer">
-          {params.value}
+      renderCell: ({ value }) => (
+        <a href={toAbsoluteUrl(value)} target="_blank" rel="noreferrer">
+          {value}
         </a>
       ),
     },
@@ -108,17 +108,17 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       field: 'country',
       headerName: userFieldLabels['country'],
       width: 160,
-      valueGetter: (params) => getName(params.value)
+      valueGetter: ({ value }) => getName(value)
     },
     {
       field: 'actions',
       headerName: 'Actions',
       width: 150,
       sortable: false,
-      renderCell: (params) => {
-        const id = params.row.id;
-        const isVerified = params.row.verified;
-        const isActive = params.row.active;
+      renderCell: ({ row }) => {
+        const id = row.id;
+        const isVerified = row.verified;
+        const isActive = row.active;
 
         return (
           <>
@@ -126,7 +126,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {
-                setPendingUser(params.row);
+                setPendingUser(row);
                 setPendingAction(() => async () => {
                   setIsActiveStateChangeLoading(true);
 
