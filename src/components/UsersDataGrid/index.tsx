@@ -14,6 +14,7 @@ import {getName} from 'country-list';
 import {ErrorAlert} from "../ErrorAlert";
 import {userFieldLabels} from "../../constants";
 import {UserDetailDataGrid} from "../UserDetailDataGrid";
+import {BooleanIcon} from "../BooleanIcon";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -58,24 +59,24 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
       field: 'verified',
       headerName: userFieldLabels['verified'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {
       field: 'active',
       headerName: userFieldLabels['active'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {
       field: 'admin',
       headerName: userFieldLabels['admin'],
       width: 80,
-      renderCell: (params) => (
-        params.value ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />
+      renderCell: ({ value }) => (
+        <BooleanIcon value={value} />
       ),
     },
     {

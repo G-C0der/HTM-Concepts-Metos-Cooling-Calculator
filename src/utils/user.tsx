@@ -1,9 +1,8 @@
 import React from "react";
 import {GridRenderCellParams, GridValueGetterParams} from "@mui/x-data-grid";
 import {getName} from "country-list";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import moment from "moment/moment";
+import {BooleanIcon} from "../components/BooleanIcon";
 
 const userDetailDataGridValueGetter = ({ row, value }: GridValueGetterParams) => {
   if (value === undefined) return;
@@ -25,7 +24,7 @@ const userDetailDataGridRenderCell = ({ row, value }: GridRenderCellParams) => {
     case 'Active':
     case 'Admin':
       return (
-        value ? <CheckCircleIcon color="success" /> : (value === false) && <CancelIcon color="error" />
+        <BooleanIcon value={value} />
       );
   }
 };
