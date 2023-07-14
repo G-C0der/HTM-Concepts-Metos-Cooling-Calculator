@@ -20,8 +20,12 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
   const { listAuditLogs } = useContext(AdminContext);
 
   const actionDisplayMap = {
-    passwordReset: 'password reset',
-    profileEdit: 'profile edit'
+    registration: 'Registration',
+    verification: 'Verification',
+    passwordReset: 'Password Reset',
+    profileEdit: 'Profile Edit',
+    activation: 'Activation',
+    deactivation: 'Deactivation'
   };
 
   const columns: GridColDef[] = [
