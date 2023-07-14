@@ -1,5 +1,5 @@
 import {Api} from "./Api";
-import {UserForm} from "../../types";
+import {UserForm, UserFormEdit} from "../../types";
 
 class UserApi extends Api {
   basePath = '/users';
@@ -29,8 +29,20 @@ class UserApi extends Api {
     return data;
   };
 
-  resetPassword = async (token: string, password: string) => {
-    const { data } = await this.api.patch(`${this.basePath}/password-reset/${token}`, { password });
+  resetPassword = async (password: string, token?: string) => {
+    const path = token ? `${this.basePath}/password-reset/${token}` : `${this.basePath}/password-reset`;
+    const { data } = await this.api.patch(path, { password });
+    return data;
+  };
+
+  fetchForm = async () => {
+    const { data } = await this.api.get('/users/form');
+    return data;
+  };
+
+  editProfile = async (form: UserFormEdit, id?: string) => {
+    const path = id ? `${this.basePath}/${id}` : this.basePath;
+    const { data } = await this.api.patch(path, form);
     return data;
   };
 
@@ -40,7 +52,7 @@ class UserApi extends Api {
   };
 
   changeActiveState = async (id: string, active: boolean) => {
-    const { data } = await this.api.patch(`${this.basePath}/${id}`, { active });
+    const { data } = await this.api.patch(`${this.basePath}/${id}/state-change`, { active });
     return data;
   };
 }

@@ -1,4 +1,4 @@
-import {ApiDataEmailSent, UserForm} from "../types";
+import {ApiDataEmailSent, UserForm, UserFormEdit} from "../types";
 import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
@@ -54,9 +54,27 @@ const useUser = () => {
     }
   };
 
-  const resetPassword = async (token: string, password: string) => {
+  const resetPassword = async (password: string, token?: string) => {
     try {
-      await userApi.resetPassword(token, password);
+      await userApi.resetPassword(password, token);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
+  const fetchForm = async () => {
+    try {
+      const data = await userApi.fetchForm();
+      return toApiResponse(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
+  const editProfile = async (form: UserFormEdit, id?: string) => {
+    try {
+      await userApi.editProfile(form, id);
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
@@ -69,7 +87,9 @@ const useUser = () => {
     verify,
     sendResetPasswordEmail,
     verifyResetPasswordToken,
-    resetPassword
+    resetPassword,
+    fetchForm,
+    editProfile
   };
 };
 

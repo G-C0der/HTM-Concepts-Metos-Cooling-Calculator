@@ -8,8 +8,8 @@ import {ApiResponse} from "../../types";
 import {LoadingButton} from "../LoadingButton";
 
 interface SendEmailFormProps {
-  sendEmailCallback: (email: string) => Promise<any>;
-  setSendEmailResponse: (sendEmailResponse: ApiResponse) => void;
+  callback: (email: string) => Promise<any>;
+  setResponse: (sendEmailResponse: ApiResponse) => void;
   buttonText: string;
   buttonColor: 'primary' | 'secondary';
 }
@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
   email: emailValidationSchema
 });
 
-const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText, buttonColor }: SendEmailFormProps) => {
+const SendEmailForm = ({ callback, setResponse, buttonText, buttonColor }: SendEmailFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -29,8 +29,8 @@ const SendEmailForm = ({ sendEmailCallback, setSendEmailResponse, buttonText, bu
     onSubmit: async (values) => {
       setIsLoading(true);
 
-      const sendEmailResponse = await sendEmailCallback(values.email);
-      setSendEmailResponse(sendEmailResponse);
+      const sendEmailResponse = await callback(values.email);
+      setResponse(sendEmailResponse);
 
       setIsLoading(false);
     }
