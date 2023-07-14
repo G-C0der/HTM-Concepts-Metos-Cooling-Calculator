@@ -22,7 +22,7 @@ class KettleEntity {
   private c2CoolingPercent: number = TapWaterCoolingEntity.maxCoolingPercent;
   
   constructor() {
-    for (const hour of getHoursOfDay()) {
+    for (const hour of getHoursOfDay(6)) {
       this.timeUsageRows.push({ id: hour, time: hour, foodLitres: 0 });
     }
   }
