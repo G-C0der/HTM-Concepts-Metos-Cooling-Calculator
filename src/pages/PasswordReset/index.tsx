@@ -6,7 +6,7 @@ import {PasswordResetForm} from "../../components/PasswordResetForm";
 import {supportContactMessage, urlExpiredError} from "../../constants";
 import {ApiError, ApiResponse} from "../../types";
 import {ErrorAlert} from "../../components/ErrorAlert";
-import {doesMessageContainKeyword, mapMessageKeyword} from "../../utils";
+import {doesMessageContainKeyword} from "../../utils";
 
 type Status = 'tokenVerificationLoading' | 'tokenVerificationSuccess' | 'tokenVerificationError' |
   'passwordResetSuccess' | 'passwordResetError';
@@ -39,16 +39,13 @@ const ResetPassword = () => {
   }, [token]);
 
   const setModifiedErrorMessage = (error: ApiError) => {
-    error.modifiedMessage = (
-      <>
-        {mapMessageKeyword(error.message)}
-        {
-          (error.message === specificIncompleteErrors.resetPasswordUrlExpired) &&
-          <>To send a new password reset email, return to the login page.<br/></>
-        }
-        {!doesMessageContainKeyword(error.message, 'here') && mapMessageKeyword(supportContactMessage)}
-      </>
-    );
+    error.modifiedMessage = `${error.message}
+      ${(error.message === specificIncompleteErrors.resetPasswordUrlExpired) 
+        ? 'To send a new password reset email, return to the login page.'
+        : ''}
+      ${!doesMessageContainKeyword(error.message, 'here') 
+        ? supportContactMessage 
+        : ''}`;
     
     return error;
   };
