@@ -25,7 +25,7 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
       onClose={() => setIsOpen(false)}
       PaperProps={{ className: 'admin-dialog-paper' }}
     >
-      <DialogContent>
+      <DialogContent sx={{ overflow: 'hidden', pb: 17 }}>
         <IconButton
             sx={{ position: 'absolute', right: 5, top: 5 }}
             onClick={() => setIsOpen(false)}
