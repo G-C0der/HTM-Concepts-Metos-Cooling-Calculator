@@ -6,9 +6,10 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiError, ApiResponse} from "../../types";
-import {urlExpiredError, checkSpamFolderMessage} from "../../constants";
+import {urlExpiredError, checkSpamFolderMessage, supportContactMessage} from "../../constants";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import {doesMessageContainKeyword} from "../../utils";
 
 const specificIncompleteErrors = {
   verificationUrlExpired: urlExpiredError
@@ -40,9 +41,9 @@ const Verification = () => {
 
   const setModifiedErrorMessage = (error: ApiError) => {
     if (!Object.values(specificIncompleteErrors).includes(error.message)) {
-      error.modifiedMessage = (
-        <>{error.message} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.</>
-      );
+      error.modifiedMessage = doesMessageContainKeyword(error.message, 'here')
+        ? error.message
+        : `${error.message} ${supportContactMessage}`;
     }
 
     if (error.message === specificIncompleteErrors.verificationUrlExpired) {
