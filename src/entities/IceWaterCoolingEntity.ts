@@ -30,7 +30,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
   constructor() {
     super();
 
-    for (const hour of getHoursOfDay()) {
+    for (const hour of getHoursOfDay(6)) {
       this.timePowerUsageRows.push({ id: hour, time: hour, powerKW: undefined });
     }
   }

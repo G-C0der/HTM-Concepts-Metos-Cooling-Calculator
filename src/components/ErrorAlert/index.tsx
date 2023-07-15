@@ -1,6 +1,7 @@
 import React from 'react';
 import {ApiError} from "../../types";
 import {Alert, Typography} from "@mui/material";
+import {mapMessageKeyword} from "../../utils";
 
 interface ErrorAlertProps {
   error?: ApiError;
@@ -12,7 +13,8 @@ interface ErrorAlertProps {
 const ErrorAlert = ({ error, spaceAbove, spaceBelow, big }: ErrorAlertProps) => {
   if (!error) return null;
 
-  const errorMessage = error.modifiedMessage ?? error.message;
+  let errorMessage = error.modifiedMessage ?? error.message;
+  if (typeof errorMessage === 'string') errorMessage = mapMessageKeyword(errorMessage);
 
   return (
     <Alert severity={error.severity} sx={{ mt: (spaceAbove ? 2 : 0), mb: (spaceBelow ? 2 : 0) }}>

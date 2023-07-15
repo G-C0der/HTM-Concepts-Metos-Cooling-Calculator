@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 import { v4 as uuid } from 'uuid';
+import {MessageSeverity} from "../../types";
+import {supportContactMessage} from "../../constants";
+import {doesMessageContainKeyword, mapMessageKeyword} from "../../utils";
 
 interface TempAlertProps {
-  severity: 'info' | 'success' | 'error' | 'warning';
-  message: string | React.ReactNode;
+  severity: MessageSeverity
+  message: string;
   condition?: boolean;
   resetCondition: () => void;
   duration?: number;
@@ -29,6 +32,10 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
     }
   }, [condition, id]);
 
+  const completeErrorMessage = (message: string) => doesMessageContainKeyword(message, 'here')
+    ? message
+    : `${message} ${supportContactMessage}`;
+
   return (
     <>
       {
@@ -40,7 +47,7 @@ function TempAlert({ severity, message, condition, resetCondition, duration = 10
             severity={severity}
             onClose={() => resetCondition()}
           >
-            {message}
+            {isError ? mapMessageKeyword(completeErrorMessage(message)) : message}
           </Alert>
         </Snackbar>
       }

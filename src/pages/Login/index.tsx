@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import {
   checkSpamFolderMessage,
   emailValidationSchema,
-  passwordValidationSchema
+  passwordValidationSchema, supportContactMessage
 } from "../../constants";
 import { useFormik } from 'formik';
 import {LoadingButton} from "../../components/LoadingButton";
@@ -19,6 +19,7 @@ import {ErrorAlert} from "../../components/ErrorAlert";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import SendIcon from '@mui/icons-material/Send';
+import {mapMessageKeyword} from "../../utils";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -113,7 +114,10 @@ const Login = () => {
               <ErrorAlert error={{ ...error, modifiedMessage: (
                   <>
                     {error.message} Please click on the "Verify Account" button in the verification email you have got after
-                    your registration. If you need a new verification email, click here:
+                    your registration.
+                    <br/>
+                    {checkSpamFolderMessage}<br/>
+                    If you need a new verification email, click here:
                     <LoadingButton
                       variant="contained"
                       color='secondary'
@@ -124,17 +128,15 @@ const Login = () => {
                     >
                       send verification email
                     </LoadingButton>
+                    <br/>
+                    {mapMessageKeyword(supportContactMessage)}
                   </>
                 ) }} spaceAbove />
             }
             {
               error?.message === incompleteErrors.userAccountNotYetActivated &&
-              <ErrorAlert error={{ ...error, modifiedMessage: (
-                  <>
-                    {error.message} We're reviewing your user account and email you, once your user account has been activated.
-                    If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-                  </>
-                ) }} spaceAbove />
+              <ErrorAlert error={{ ...error, modifiedMessage: `${error.message} We're reviewing your user account and 
+                email you, once your user account has been activated. ${supportContactMessage}` }} spaceAbove />
             }
 
             <LoadingButton
@@ -192,7 +194,7 @@ const Login = () => {
             sendEmailResponse?.error &&
             <TempAlert
               severity={sendEmailResponse.error.severity}
-              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              message={sendEmailResponse.error.message}
               condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />

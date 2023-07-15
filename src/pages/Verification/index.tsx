@@ -6,9 +6,10 @@ import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import {ApiError, ApiResponse} from "../../types";
-import {urlExpiredError, checkSpamFolderMessage} from "../../constants";
+import {urlExpiredError, checkSpamFolderMessage, supportContactMessage} from "../../constants";
 import {TempAlert} from "../../components/TempAlert";
 import {ErrorAlert} from "../../components/ErrorAlert";
+import {doesMessageContainKeyword} from "../../utils";
 
 const specificIncompleteErrors = {
   verificationUrlExpired: urlExpiredError
@@ -40,9 +41,9 @@ const Verification = () => {
 
   const setModifiedErrorMessage = (error: ApiError) => {
     if (!Object.values(specificIncompleteErrors).includes(error.message)) {
-      error.modifiedMessage = (
-        <>{error.message} If you need support, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.</>
-      );
+      error.modifiedMessage = doesMessageContainKeyword(error.message, 'here')
+        ? error.message
+        : `${error.message} ${supportContactMessage}`;
     }
 
     if (error.message === specificIncompleteErrors.verificationUrlExpired) {
@@ -78,13 +79,17 @@ const Verification = () => {
             status === 'success' &&
             <>
               <Alert severity="success" sx={{ mb: 1 }}>
-                Your account has been verified successfully.
+                <Typography variant='body1'>
+                  Your account has been verified successfully.
+                </Typography>
               </Alert>
               <Alert severity="info">
-                Please note that your user account is currently inactive.
-                We will review the provided data and email you, once your user account has been activated.
-                We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
-                questions, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                <Typography variant='body1'>
+                  Please note that your user account is currently inactive.
+                  We will review the provided data and email you, once your user account has been activated.
+                  We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
+                  questions, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                </Typography>
               </Alert>
             </>
           }
@@ -113,7 +118,7 @@ const Verification = () => {
             sendEmailResponse?.error &&
             <TempAlert
               severity={sendEmailResponse.error.severity}
-              message={<>{sendEmailResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+              message={sendEmailResponse.error.message}
               condition={sendEmailResponse.success === false}
               resetCondition={() => setSendEmailResponse(null)}
             />

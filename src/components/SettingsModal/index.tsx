@@ -158,7 +158,7 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
         apiResponse?.error &&
         <TempAlert
           severity={apiResponse.error.severity}
-          message={<>{apiResponse.error.message} If you need support you can contact us <a href={`mailto:${htmConceptsEmail}`}>here</a>.</>}
+          message={apiResponse.error.message}
           condition={apiResponse.success === false}
           resetCondition={clearResponse}
         />
