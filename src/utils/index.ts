@@ -4,6 +4,6 @@ export * from './enum';
 export * from './math';
 export * from './string';
 export * from './time';
-export * from './display';
+export * from './layout';
 export * from './user';
 export * from './message';
