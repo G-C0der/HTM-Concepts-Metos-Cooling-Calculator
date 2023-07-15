@@ -79,13 +79,17 @@ const Verification = () => {
             status === 'success' &&
             <>
               <Alert severity="success" sx={{ mb: 1 }}>
-                Your account has been verified successfully.
+                <Typography variant='body1'>
+                  Your account has been verified successfully.
+                </Typography>
               </Alert>
               <Alert severity="info">
-                Please note that your user account is currently inactive.
-                We will review the provided data and email you, once your user account has been activated.
-                We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
-                questions, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                <Typography variant='body1'>
+                  Please note that your user account is currently inactive.
+                  We will review the provided data and email you, once your user account has been activated.
+                  We aim to complete the activation as soon as possible. If you do not receive an email from us or have any
+                  questions, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                </Typography>
               </Alert>
             </>
           }
