@@ -1,6 +1,6 @@
 {
   "name": "htmconceptsmetoscoolingcalculator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "dev": "react-scripts start",
