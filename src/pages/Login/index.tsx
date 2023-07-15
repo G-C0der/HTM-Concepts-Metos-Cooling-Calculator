@@ -19,6 +19,7 @@ import {ErrorAlert} from "../../components/ErrorAlert";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import SendIcon from '@mui/icons-material/Send';
+import {mapMessageKeyword} from "../../utils";
 
 const incompleteErrors = {
   userAccountNotYetVerified: 'Your user account hasn\'t been verified yet.',
@@ -113,7 +114,10 @@ const Login = () => {
               <ErrorAlert error={{ ...error, modifiedMessage: (
                   <>
                     {error.message} Please click on the "Verify Account" button in the verification email you have got after
-                    your registration. If you need a new verification email, click here:
+                    your registration.
+                    <br/>
+                    {checkSpamFolderMessage}<br/>
+                    If you need a new verification email, click here:
                     <LoadingButton
                       variant="contained"
                       color='secondary'
@@ -124,6 +128,8 @@ const Login = () => {
                     >
                       send verification email
                     </LoadingButton>
+                    <br/>
+                    {mapMessageKeyword(supportContactMessage)}
                   </>
                 ) }} spaceAbove />
             }
