@@ -86,13 +86,14 @@ const PasswordResetForm = ({ token, callback, error }: PasswordResetFormProps) =
         />
       </Tooltip>
 
-      <ErrorAlert error={error} spaceAbove spaceBelow />
+      <ErrorAlert error={error} spaceAbove />
 
       <LoadingButton
         fullWidth
         type='submit'
         color="primary"
         variant="contained"
+        style={{ marginTop: 16 }}
         startIcon={<LockResetIcon />}
         loading={isLoading}
       >
