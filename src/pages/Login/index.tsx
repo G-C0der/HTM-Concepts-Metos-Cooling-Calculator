@@ -129,12 +129,8 @@ const Login = () => {
             }
             {
               error?.message === incompleteErrors.userAccountNotYetActivated &&
-              <ErrorAlert error={{ ...error, modifiedMessage: (
-                  <>
-                    {error.message} We're reviewing your user account and email you, once your user account has been activated.
-                    If you need further information, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
-                  </>
-                ) }} spaceAbove />
+              <ErrorAlert error={{ ...error, modifiedMessage: `${error.message} We're reviewing your user account and 
+                email you, once your user account has been activated. ${supportContactMessage}` }} spaceAbove />
             }
 
             <LoadingButton
