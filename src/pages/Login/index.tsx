@@ -121,6 +121,7 @@ const Login = () => {
                     <LoadingButton
                       variant="contained"
                       color='secondary'
+                      style={{ width: '210px' }}
                       startIcon={<SendIcon />}
                       small
                       onClick={handleSendVerificationEmailClick}

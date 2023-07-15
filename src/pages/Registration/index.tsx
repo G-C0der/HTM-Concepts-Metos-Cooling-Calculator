@@ -117,6 +117,7 @@ const Registration = () => {
                 <LoadingButton
                   variant="contained"
                   color='secondary'
+                  style={{ width: '210px' }}
                   startIcon={<SendIcon />}
                   small
                   onClick={handleSendVerificationEmailClick}
@@ -136,6 +137,7 @@ const Registration = () => {
                 <LoadingButton
                   variant="contained"
                   color='secondary'
+                  style={{ width: '210px' }}
                   startIcon={<SendIcon />}
                   small
                   onClick={handleSendVerificationEmailClick}

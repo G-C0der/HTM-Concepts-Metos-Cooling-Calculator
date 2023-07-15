@@ -11,17 +11,20 @@ interface LoadingButtonProps extends ButtonProps {
 }
 
 const LoadingButton = ({ loading, disabled, startIcon, small, children, ...props }: LoadingButtonProps) => {
+  const { style, ...otherProps } = props;
+
   return (
     <Button
       style={
         small
           ? {
             border: "none", padding: "0 10px", textAlign: "center", textDecoration: "none",
-            display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer"
+            display: "inline-block", fontSize: "12px", margin: "0 0 0 3px", cursor: "pointer",
+            ...style
           }
-          : {}
+          : { ...style }
       }
-      {...props}
+      {...otherProps}
       startIcon={loading
         ? <CircularProgress size={small ? '0.6rem' : '1rem'} />
         : (startIcon
