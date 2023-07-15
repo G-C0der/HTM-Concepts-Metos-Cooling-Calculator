@@ -80,7 +80,9 @@ const ResetPassword = () => {
             status === 'passwordResetSuccess' &&
             <>
               <Alert severity="success" sx={{ mb: 1 }}>
-                Your password has been reset successfully.
+                <Typography variant='body1'>
+                  Your password has been reset successfully.
+                </Typography>
               </Alert>
             </>
           }
