@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {UserContext} from "../../contexts";
 import {htmConceptsEmail} from "../../config";
 import {
-  checkSpamFolderMessage, getUserFormValidationSchema
+  checkSpamFolderMessage, getUserFormValidationSchema, supportContactMessage
 } from "../../constants";
 import {LoadingButton} from "../../components/LoadingButton";
 import {ApiError, ApiResponse} from "../../types";
@@ -16,6 +16,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {UserFormFields} from "../../components/UserFormFields";
 import {ErrorAlert} from "../../components/ErrorAlert";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import {mapMessageKeyword} from "../../utils";
 
 const Registration = () => {
   const [error, setError] = useState<ApiError>();
@@ -124,7 +125,7 @@ const Registration = () => {
                   send verification email
                 </LoadingButton>
                 <br/>
-                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                {mapMessageKeyword(supportContactMessage)}
               </Alert>
           }
           {
@@ -143,7 +144,7 @@ const Registration = () => {
                   send verification email
                 </LoadingButton>
                 .<br/>
-                If you need further assistance, you can contact us <a href={`mailto:${htmConceptsEmail}`} target="_blank" rel="noreferrer">here</a>.
+                {mapMessageKeyword(supportContactMessage)}
               </Alert>
           }
           <Button
