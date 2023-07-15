@@ -48,7 +48,7 @@ const SendEmailForm = ({ callback, setResponse, buttonText, buttonColor }: SendE
         name="email"
         value={formik.values.email}
         onChange={formik.handleChange}
-        sx={{ mt: 3, mb: 2 }}
+        sx={{ mt: 3 }}
       />
       <br/>
 
@@ -57,6 +57,7 @@ const SendEmailForm = ({ callback, setResponse, buttonText, buttonColor }: SendE
         type='submit'
         color={buttonColor}
         variant="contained"
+        style={{ marginTop: 24 }}
         startIcon={<SendIcon />}
         loading={isLoading}
       >
