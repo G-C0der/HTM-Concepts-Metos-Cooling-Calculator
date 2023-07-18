@@ -3,3 +3,14 @@
   align-items: center;
   gap: 20px;
 }
+
+.hamburger {
+  color: #fff;
+  margin-left: 50px;
+}
+
+@media screen and (max-width: 400px) {
+  .hamburger {
+    margin-left: 40px;
+  }
+}

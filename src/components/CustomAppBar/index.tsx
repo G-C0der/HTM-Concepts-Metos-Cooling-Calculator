@@ -46,7 +46,7 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen
               ? (
                 <>
                   <IconButton onClick={handleOpenMenu}>
-                    <MenuIcon sx={{ color: 'white', ml: 7 }} />
+                    <MenuIcon className='hamburger' />
                   </IconButton>
 
                   <Menu
