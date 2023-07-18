@@ -4,12 +4,14 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import {Typography} from '@mui/material';
+import {IconButton, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 import metosLogo from '../../assets/img/metos_logo.png';
 import {User} from "../../types";
 import {htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite} from "../../config";
 import {ProfileMenu} from "../ProfileMenu";
+import MenuIcon from '@mui/icons-material/Menu';
+import { isMobile } from '../../utils';
 
 interface CustomAppBarProps {
   user: User;
@@ -32,45 +34,56 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen
             </a>
           </Box>
 
-          <Button
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2, ml: 7 }}
-            onClick={() => window.open(htmConceptsWebsiteContact, '_blank')}
-          >
-            <Typography
-              component="div"
-              sx={{
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.03rem',
-                color: 'inherit'
-              }}
-            >
-              CONTACT
-            </Typography>
-          </Button>
-
           {
-            user.admin &&
-            <Button
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={() => setIsAdminModalOpen(true)}
-            >
-              <Typography
-                component="div"
-                sx={{
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.03rem',
-                  color: 'inherit'
-                }}
-              >
-                Admin
-              </Typography>
-            </Button>
+            isMobile()
+              ? (
+                <IconButton>
+                  <MenuIcon sx={{ color: 'white', ml: 7 }} />
+                </IconButton>
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2, ml: 7 }}
+                    onClick={() => window.open(htmConceptsWebsiteContact, '_blank')}
+                  >
+                    <Typography
+                      component="div"
+                      sx={{
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        letterSpacing: '.03rem',
+                        color: 'inherit'
+                      }}
+                    >
+                      Contact
+                    </Typography>
+                  </Button>
+
+                  {
+                    user.admin &&
+                    <Button
+                      color="inherit"
+                      aria-label="menu"
+                      sx={{ mr: 2 }}
+                      onClick={() => setIsAdminModalOpen(true)}
+                    >
+                      <Typography
+                        component="div"
+                        sx={{
+                          fontFamily: 'monospace',
+                          fontWeight: 700,
+                          letterSpacing: '.03rem',
+                          color: 'inherit'
+                        }}
+                      >
+                        Admin
+                      </Typography>
+                    </Button>
+                  }
+                </>
+              )
           }
 
           <Box sx={{ flexGrow: 1 }} />
