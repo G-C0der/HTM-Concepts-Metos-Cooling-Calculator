@@ -1,5 +1,5 @@
 import {IceWaterCoolingKw} from "../enums/IceWaterCoolingKw";
-import {getHoursOfDay} from "../utils/time";
+import {getHoursOfDay} from "../utils";
 import {CoolingEntity} from "./CoolingEntity";
 
 interface TimePowerUsage {

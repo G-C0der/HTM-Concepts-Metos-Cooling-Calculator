@@ -1,9 +1,8 @@
 import {KettleSizeLitres} from "../enums/KettleSizeLitres";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {getHoursOfDay} from "../utils/time";
+import {getHoursOfDay, getEnumMinMax} from "../utils";
 import {IceWaterCoolingEntity} from "./IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./TapWaterCoolingEntity";
-import {getEnumMinMax} from "../utils/enum";
 
 interface TimeUsage {
   time: string;
