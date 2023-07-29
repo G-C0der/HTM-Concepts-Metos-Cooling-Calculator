@@ -221,21 +221,6 @@ const UserFormFields = ({ formik }: UserFormProps) => {
         onChange={formik.handleChange}
         margin="normal"
       />
-
-      {
-        isUserFormType(formik) && (
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={formik.values.tnc}
-                onChange={formik.handleChange}
-                name="tnc"
-              />
-            }
-            label="I accept the Terms and Conditions"
-          />
-        )
-      }
     </>
   );
 };

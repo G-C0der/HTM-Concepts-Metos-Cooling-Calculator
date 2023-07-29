@@ -40,10 +40,7 @@ const getUserFormValidationSchema = (edit: boolean) => yup.object({
     email: emailValidationSchema,
     password: passwordValidationSchema,
     passwordRetype: passwordValidationSchema
-      .oneOf([yup.ref('password')], 'Passwords must match.'),
-    tnc: yup
-      .boolean()
-      .oneOf([true], 'You must accept the terms and conditions.')
+      .oneOf([yup.ref('password')], 'Passwords must match.')
   }),
   street: yup
     .string()
