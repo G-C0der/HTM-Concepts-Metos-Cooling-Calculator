@@ -49,7 +49,6 @@ const Registration = () => {
       phone: '',
       company: '',
       website: '',
-      tnc: false,
     },
     validationSchema: getUserFormValidationSchema(false),
     onSubmit: async (values) => {
@@ -170,7 +169,6 @@ const Registration = () => {
               style={{ marginTop: 16 }}
               startIcon={<AppRegistrationIcon />}
               loading={isLoading}
-              disabled={!formik.values.tnc || !formik.isValid}
             >
               Register
             </LoadingButton>

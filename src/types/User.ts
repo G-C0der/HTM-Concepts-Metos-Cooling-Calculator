@@ -32,10 +32,9 @@ interface UserForm {
   phone: string;
   company: string;
   website: string;
-  tnc: boolean;
 }
 
-type UserFormEdit = Omit<Partial<UserForm>, 'email' | 'password' | 'passwordRetype' | 'tnc'>;
+type UserFormEdit = Omit<Partial<UserForm>, 'email' | 'password' | 'passwordRetype'>;
 
 export type {
   User,
