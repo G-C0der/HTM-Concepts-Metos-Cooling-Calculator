@@ -2,6 +2,7 @@ import React from 'react';
 import {TapWaterCoolingEntity} from "../../entities/TapWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
 import {Box, Card, CardContent, TextField} from "@mui/material";
+import {NumberInputField} from "../NumberInputField";
 
 interface WaterFormProps {
   tapWaterCoolingEntity: TapWaterCoolingEntity;
@@ -19,9 +20,14 @@ export const WaterForm = ({
   setWaterLitreCO2
 }: WaterFormProps) => {
   const handleWaterLitreCostChange = (e: any) => {
-    const waterLitreCHF = +e.target.value;
-    setWaterLitreCHF(waterLitreCHF);
-    tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
+    const waterLitreCHF = e.target.value;
+    const numericValue = parseFloat(waterLitreCHF);
+    if (isNaN(numericValue)) {
+      setWaterLitreCHF(0);  // Or set to 0 or another default value
+    } else {
+      setWaterLitreCHF(numericValue);
+    }
+    tapWaterCoolingEntity.waterLitreCHF = numericValue;
   };
 
   const handleWaterLitreCo2Change = (e: any) => {
@@ -39,12 +45,11 @@ export const WaterForm = ({
 
         <Box>
           <Box>
-            <TextField
+            <NumberInputField
               style={{ margin: "5px" }}
               value={waterLitreCHF}
               // error={/* || /[0-9]/.test(foodLitres.toString())*/}
-              type="number"
-              inputProps={{ type: 'number' }}
+              type="text"
               label="CHF/litres"
               variant="outlined"
               onChange={handleWaterLitreCostChange}
