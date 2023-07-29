@@ -169,7 +169,6 @@ const Registration = () => {
               style={{ marginTop: 16 }}
               startIcon={<AppRegistrationIcon />}
               loading={isLoading}
-              disabled={!formik.isValid}
             >
               Register
             </LoadingButton>
