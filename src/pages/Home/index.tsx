@@ -2,15 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import './style.css';
 import { KettleCount } from "../../enums/KettleCount";
 import { KettleContainer } from "../../components/KettleContainer";
-import { Button, CircularProgress, Tooltip } from "@mui/material";
+import {Button, CircularProgress, IconButton, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
+import SaveIcon from '@mui/icons-material/Save';
 import { getEnumMinMax } from "../../utils";
-import { KettleEntity } from "../../entities/KettleEntity";
+import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
 import { WaterForm } from "../../components/WaterForm";
-import { IceWaterCoolingEntity, TimePowerUsageRow } from "../../entities/IceWaterCoolingEntity";
-import { TapWaterCoolingEntity } from "../../entities/TapWaterCoolingEntity";
 import { ElectricityForm } from "../../components/ElectricityForm";
 import { DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements } from "../../services/DataProvider";
 import { MeasurementsTable } from "../../components/MeasurementsTable";
@@ -21,7 +20,7 @@ import { ConsumptionDisplay } from "../../components/ConsumptionDisplay";
 import { ConsumptionResult } from "../../components/ConsumptionDisplay/types";
 import { C5iRecommendationsDataGrid } from "../../components/C5iRecommendationsDataGrid";
 import { CustomAppBar } from "../../components/CustomAppBar";
-import { AuthContext } from "../../contexts";
+import {AuthContext, CalculatorContext} from "../../contexts";
 import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
@@ -73,6 +72,7 @@ const Home = () => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
+  const { save } = useContext(CalculatorContext);
 
   useEffect(() => {
     if (user) {
@@ -123,6 +123,16 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
+  const handleSaveClick = async () => {
+    const saveResponse = await save(iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities);
+
+    if (saveResponse.success) {
+      // TODO: show success temp alert
+    } else {
+      // TODO: show error temp alert
+    }
+  };
+
   return isLoading
     ? (
       <Box style={{
@@ -146,6 +156,10 @@ const Home = () => {
         <Box className="home-content">
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
+
+          <IconButton onClick={handleSaveClick}>
+            <SaveIcon />
+          </IconButton>
 
           <Box className='form-container'>
             <WaterForm
