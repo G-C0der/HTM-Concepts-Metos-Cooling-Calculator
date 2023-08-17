@@ -20,8 +20,8 @@ const useCalculator = () => {
         waterLitreCo2: tapWaterCoolingEntity.waterLitreCo2,
         kwHourCHF: iceWaterCoolingEntity.kwHourCHF,
         kwHourCo2: iceWaterCoolingEntity.kwHourCo2,
-        type1Count: iceWaterCoolingEntity.getType1Count(),
-        type4Count: iceWaterCoolingEntity.getType4Count(),
+        iceWaterCoolingType1Count: iceWaterCoolingEntity.getType1Count(),
+        iceWaterCoolingType4Count: iceWaterCoolingEntity.getType4Count(),
         kettles: kettleEntities.map(kettle => ({
           sizeLitres: kettle.getSizeLitres(),
           coolingMode: kettle.getCoolingMode(),
