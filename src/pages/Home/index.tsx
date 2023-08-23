@@ -52,6 +52,8 @@ const Home = () => {
   const [kWhCHF, setKWhCHF] = useState(0);
   const [kWhCO2, setKWhCO2] = useState(0);
 
+  const [cop, setCop] = useState(1);
+
   const [waterLitreCHF, setWaterLitreCHF] = useState(0);
   const [waterLitreCO2, setWaterLitreCO2] = useState(0);
 
@@ -162,6 +164,8 @@ const Home = () => {
               setKWhCHF={setKWhCHF}
               kWhCO2={kWhCO2}
               setKWhCO2={setKWhCO2}
+              cop={cop}
+              setCop={setCop}
             />
 
             <IceWaterBankTypesForm

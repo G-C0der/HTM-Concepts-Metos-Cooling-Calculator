@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
 import Typography from "@mui/material/Typography";
 import {Card, CardContent, TextField} from "@mui/material";
@@ -10,6 +10,8 @@ interface ElectricityFormProps {
   setKWhCHF: (kWhCHF: number) => void;
   kWhCO2: number;
   setKWhCO2: (kWhCO2: number) => void;
+  cop: number;
+  setCop: (cop: number) => void;
 }
 
 export const ElectricityForm = ({
@@ -17,7 +19,9 @@ export const ElectricityForm = ({
   kWhCHF,
   setKWhCHF,
   kWhCO2,
-  setKWhCO2
+  setKWhCO2,
+  cop,
+  setCop
 }: ElectricityFormProps) => {
   const handleKwHourCostChange = (e: any) => {
     const kwHourCHF = +e.target.value;
@@ -31,8 +35,14 @@ export const ElectricityForm = ({
     iceWaterCoolingEntity.kwHourCo2 = kwHourCo2;
   };
 
+  const handleCopChange = (e: any) => {
+    const cop = +e.target.value;
+    setCop(cop);
+    iceWaterCoolingEntity.setCop(cop);
+  };
+
   return (
-    <Card sx={{ height: 235, width: 240 }}>
+    <Card sx={{ height: 300, width: 240 }}>
       <CardContent>
         <Typography sx={{ mb: 1, pt: 2, pb: 2 }} variant="h6" component="div" style={{ color: "black" }}>
           Electricity C3
@@ -62,6 +72,19 @@ export const ElectricityForm = ({
               label={'CO2g/kW'}
               variant="outlined"
               onChange={handleKwHourCo2Change}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={10}>
+            <TextField
+              style={{ width: "200px", margin: "5px" }}
+              value={cop}
+              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              type="number"
+              inputProps={{ type: 'number' }}
+              label={'COP'}
+              variant="outlined"
+              onChange={handleCopChange}
             />
           </Grid>
         </Grid>
