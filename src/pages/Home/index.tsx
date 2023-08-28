@@ -175,7 +175,7 @@ const Home = () => {
           </Box>
 
           <Box className='recommendation-container'>
-            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
+            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} />
           </Box>
 
           <ConsumptionDisplay
