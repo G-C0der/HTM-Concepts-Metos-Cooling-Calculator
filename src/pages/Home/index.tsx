@@ -51,6 +51,8 @@ const Home = () => {
   const [kWhCHF, setKWhCHF] = useState(0);
   const [kWhCO2, setKWhCO2] = useState(0);
 
+  const [cop, setCop] = useState(1);
+
   const [waterLitreCHF, setWaterLitreCHF] = useState(0);
   const [waterLitreCO2, setWaterLitreCO2] = useState(0);
 
@@ -176,6 +178,8 @@ const Home = () => {
               setKWhCHF={setKWhCHF}
               kWhCO2={kWhCO2}
               setKWhCO2={setKWhCO2}
+              cop={cop}
+              setCop={setCop}
             />
 
             <IceWaterBankTypesForm
@@ -185,7 +189,7 @@ const Home = () => {
           </Box>
 
           <Box className='recommendation-container'>
-            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows()} />
+            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} />
           </Box>
 
           <ConsumptionDisplay

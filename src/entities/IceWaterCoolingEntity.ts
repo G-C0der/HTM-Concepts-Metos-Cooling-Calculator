@@ -20,6 +20,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
   private type1Count: IceWaterCoolingTypeCount = 0;
   private type4Count: IceWaterCoolingTypeCount = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
+  private cop: number = 1;
   static readonly maxPowerKWUsedPerLitre: number = 0.1101001; // TODO: remove workaround, set to 0.11
   static readonly maxPowerKWType1 = 40;
   static readonly maxPowerKWType4 = 80;
@@ -63,6 +64,12 @@ class IceWaterCoolingEntity extends CoolingEntity {
       timePowerUsageRow.powerKW = this.getMaxPowerKW();
     }
   };
+
+  setCop = (cop: number) => {
+    this.cop = cop;
+  };
+
+  getCop = () => this.cop;
 }
 
 export {

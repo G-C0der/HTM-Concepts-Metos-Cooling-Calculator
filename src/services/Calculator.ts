@@ -175,7 +175,7 @@ export class Calculator {
     };
   };
   
-  calculateC5iRecommendationsRows = (): C5iRecommendationsRow[] => {
+  calculateC5iRecommendationsRows = (iceWaterCoolingEntity: IceWaterCoolingEntity): C5iRecommendationsRow[] => {
     // Fill up C5i C3 cooling percent
     const c3CoolingPercents = [];
     const { maxC5iCoolingPercent, minC5iCoolingPercent } = IceWaterCoolingEntity;
@@ -193,7 +193,7 @@ export class Calculator {
       const c2CoolingPercent = 100 - c3CoolingPercent;
 
       const waterLitresUsed = KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
-      const powerKWUsed = KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent);
+      const powerKWUsed = KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent) / iceWaterCoolingEntity.getCop(); // TODO: put COP divisor into kettleEntity.getPowerKWUsedByFoodLitres functions if COP also needed for kettle time usage calculation
 
       const waterCostCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;
       const powerCostCHF = this.iceWaterCoolingEntity.kwHourCHF * powerKWUsed;
