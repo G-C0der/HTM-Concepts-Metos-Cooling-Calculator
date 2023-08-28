@@ -6,16 +6,19 @@ import {CalculationData} from "../types";
 
 const useCalculator = () => {
   const save = async (
+    saveName: string,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     kettleEntities: KettleEntity[]
   ) => {
     try {
       const mapCalculationData = (
+        saveName: string,
         iceWaterCoolingEntity: IceWaterCoolingEntity,
         tapWaterCoolingEntity: TapWaterCoolingEntity,
         kettleEntities: KettleEntity[]
       ): CalculationData => ({
+        name: saveName,
         waterLitreCHF: tapWaterCoolingEntity.waterLitreCHF,
         waterLitreCo2: tapWaterCoolingEntity.waterLitreCo2,
         kwHourCHF: iceWaterCoolingEntity.kwHourCHF,
@@ -34,7 +37,7 @@ const useCalculator = () => {
         }))
       });
 
-      await calculatorApi.save(mapCalculationData(iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities));
+      await calculatorApi.save(mapCalculationData(saveName, iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities));
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));

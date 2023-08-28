@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import './style.css';
 import { KettleCount } from "../../enums/KettleCount";
 import { KettleContainer } from "../../components/KettleContainer";
-import {Button, CircularProgress, IconButton, Tooltip} from "@mui/material";
+import {Button, CircularProgress, IconButton, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
@@ -55,6 +55,8 @@ const Home = () => {
 
   const [waterLitreCHF, setWaterLitreCHF] = useState(0);
   const [waterLitreCO2, setWaterLitreCO2] = useState(0);
+
+  const [saveName, setSaveName] = useState('');
 
   // const dataProvider = new DataProvider(
   //   tapWaterCoolingEntity,
@@ -126,7 +128,7 @@ const Home = () => {
   };
 
   const handleSaveClick = async () => {
-    const saveResponse = await save(iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities);
+    const saveResponse = await save(saveName, iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities);
 
     if (saveResponse.success) {
       // TODO: show success temp alert
@@ -158,6 +160,15 @@ const Home = () => {
         <Box className="home-content">
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
+
+          <TextField
+              style={{ margin: "5px" }}
+              value={saveName}
+              error={saveName.length <= 0 || saveName.length > 50}
+              label="Save Name"
+              variant="outlined"
+              onChange={(e: any) => setSaveName(e.target.value)}
+          />
 
           <IconButton onClick={handleSaveClick}>
             <SaveIcon />

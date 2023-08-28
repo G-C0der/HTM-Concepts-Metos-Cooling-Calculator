@@ -5,6 +5,7 @@ import {TimeUsage} from "../entities";
 type IceWaterCoolingTypeCount = 0 | 1 | 2 | 3 | 4;
 
 interface CalculationData {
+  name: string,
   waterLitreCHF: number,
   waterLitreCo2: number
   kwHourCHF: number,

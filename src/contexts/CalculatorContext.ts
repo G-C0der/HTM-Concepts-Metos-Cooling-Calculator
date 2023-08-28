@@ -5,6 +5,7 @@ import {ContextProviderError} from "../errors";
 
 type CalculatorContextType = {
   save: (
+    saveName: string,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     kettleEntities: KettleEntity[]
