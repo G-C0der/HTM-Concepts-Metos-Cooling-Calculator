@@ -79,7 +79,7 @@ export const ElectricityForm = ({
             <TextField
               style={{ width: "200px", margin: "5px" }}
               value={cop}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={cop <= 0}
               type="number"
               inputProps={{ type: 'number' }}
               label={'COP'}
