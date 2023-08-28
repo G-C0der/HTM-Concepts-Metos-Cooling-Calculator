@@ -11,6 +11,7 @@ interface CalculationData {
   kwHourCo2: number,
   iceWaterCoolingType1Count: IceWaterCoolingTypeCount
   iceWaterCoolingType4Count: IceWaterCoolingTypeCount,
+  cop: number,
   kettles: {
     sizeLitres: KettleSizeLitres,
     coolingMode: KettleCoolingModes,
