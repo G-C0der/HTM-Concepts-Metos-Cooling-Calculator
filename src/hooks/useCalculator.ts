@@ -2,7 +2,7 @@ import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../ent
 import {toApiError, toApiResponse} from "./utils";
 import calculatorApi from "../services/api/CalculatorApi";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {CalculatorParams} from "../types";
+import {CalculatorParamsForm} from "../types";
 
 const useCalculator = () => {
   const save = async (
@@ -12,12 +12,12 @@ const useCalculator = () => {
     kettleEntities: KettleEntity[]
   ) => {
     try {
-      const mapCalculationData = (
+      const mapCalculatorParams = (
         saveName: string,
         iceWaterCoolingEntity: IceWaterCoolingEntity,
         tapWaterCoolingEntity: TapWaterCoolingEntity,
         kettleEntities: KettleEntity[]
-      ): CalculatorParams => ({
+      ): CalculatorParamsForm => ({
         name: saveName,
         waterLitreCHF: tapWaterCoolingEntity.waterLitreCHF,
         waterLitreCo2: tapWaterCoolingEntity.waterLitreCo2,
@@ -37,15 +37,25 @@ const useCalculator = () => {
         }))
       });
 
-      await calculatorApi.save(mapCalculationData(saveName, iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities));
+      await calculatorApi.save(mapCalculatorParams(saveName, iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities));
       return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
   };
 
+  const list = async () => {
+    try {
+      const data = await calculatorApi.list();
+      return toApiResponse(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   return {
-    save
+    save,
+    list
   };
 };
 

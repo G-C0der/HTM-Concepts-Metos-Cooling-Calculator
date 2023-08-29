@@ -1,11 +1,16 @@
 import {Api} from "./Api";
-import {CalculatorParams} from "../../types";
+import {CalculatorParamsForm} from "../../types";
 
 class CalculatorApi extends Api {
   basePath = '/calculations';
 
-  save = async (calculationData: CalculatorParams) => {
-    const { data } = await this.api.post(this.basePath, calculationData);
+  save = async (calculatorParams: CalculatorParamsForm) => {
+    const { data } = await this.api.post(this.basePath, calculatorParams);
+    return data;
+  };
+
+  list = async () => {
+    const { data } = await this.api.get(this.basePath);
     return data;
   };
 }

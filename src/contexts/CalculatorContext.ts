@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../entities";
-import {ApiResponse} from "../types";
+import {ApiResponse, CalculatorParams} from "../types";
 import {ContextProviderError} from "../errors";
 
 type CalculatorContextType = {
@@ -10,11 +10,13 @@ type CalculatorContextType = {
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     kettleEntities: KettleEntity[]
   ) => Promise<ApiResponse>;
+  list: () => Promise<ApiResponse<CalculatorParams>>;
 };
 
 const providerName = 'CalculatorProvider';
 const CalculatorContext = createContext({
-  save: () => { throw new ContextProviderError(providerName, 'save'); }
+  save: () => { throw new ContextProviderError(providerName, 'save'); },
+  list: () => { throw new ContextProviderError(providerName, 'list'); }
 } as CalculatorContextType);
 
 export {

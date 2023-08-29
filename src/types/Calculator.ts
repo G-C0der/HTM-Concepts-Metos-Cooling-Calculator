@@ -5,6 +5,7 @@ import {TimeUsage} from "../entities";
 type IceWaterCoolingTypeCount = 0 | 1 | 2 | 3 | 4;
 
 interface CalculatorParams {
+  id: number;
   name: string,
   waterLitreCHF: number,
   waterLitreCo2: number
@@ -18,10 +19,15 @@ interface CalculatorParams {
     coolingMode: KettleCoolingModes,
     c3CoolingPercent?: number,
     timeUsages: TimeUsage[]
-  }[]
+  }[],
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+type CalculatorParamsForm = Omit<CalculatorParams, 'id' | 'createdAt' | 'updatedAt'>;
 
 export type {
   IceWaterCoolingTypeCount,
-  CalculatorParams
+  CalculatorParams,
+  CalculatorParamsForm
 };
