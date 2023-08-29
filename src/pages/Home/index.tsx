@@ -71,7 +71,8 @@ const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
+  const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
@@ -152,6 +153,7 @@ const Home = () => {
         <Box className="home-header">
           <CustomAppBar
             user={user!}
+            setIsCalculatorParamsModalOpen={setIsCalculatorParamsModalOpen}
             setIsAdminModalOpen={setIsAdminModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
