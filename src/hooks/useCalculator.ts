@@ -2,7 +2,7 @@ import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../ent
 import {toApiError, toApiResponse} from "./utils";
 import calculatorApi from "../services/api/CalculatorApi";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {CalculationData} from "../types";
+import {CalculatorParams} from "../types";
 
 const useCalculator = () => {
   const save = async (
@@ -17,7 +17,7 @@ const useCalculator = () => {
         iceWaterCoolingEntity: IceWaterCoolingEntity,
         tapWaterCoolingEntity: TapWaterCoolingEntity,
         kettleEntities: KettleEntity[]
-      ): CalculationData => ({
+      ): CalculatorParams => ({
         name: saveName,
         waterLitreCHF: tapWaterCoolingEntity.waterLitreCHF,
         waterLitreCo2: tapWaterCoolingEntity.waterLitreCo2,
