@@ -53,7 +53,7 @@ export const ElectricityForm = ({
             <TextField
               style={{ width: "200px", margin: "5px" }}
               value={kWhCHF}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={kWhCHF < 0}
               type="number"
               inputProps={{ step: '0.01' }}
               label="CHF/kWh"
@@ -66,10 +66,10 @@ export const ElectricityForm = ({
             <TextField
               style={{ width: "200px", margin: "5px" }}
               value={kWhCO2}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={kWhCO2 < 0}
               type="number"
               inputProps={{ step: '0.01' }}
-              label={'CO2g/kW'}
+              label={'CO2g/kWh'}
               variant="outlined"
               onChange={handleKwHourCo2Change}
             />

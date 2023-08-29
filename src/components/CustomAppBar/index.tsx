@@ -22,9 +22,9 @@ interface CustomAppBarProps {
 
 export const CustomAppBar = ({
   user,
+  setIsCalculatorParamsModalOpen,
   setIsAdminModalOpen,
-  setIsSettingsModalOpen,
-  setIsCalculatorParamsModalOpen
+  setIsSettingsModalOpen
 }: CustomAppBarProps) => {
   const [anchorElMenu, setAnchorElMenu] = React.useState<null | HTMLElement>(null);
 

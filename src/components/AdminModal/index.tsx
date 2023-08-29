@@ -45,6 +45,7 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
           <Tab icon={<PeopleIcon />} iconPosition='start' label="Users" />
           <Tab icon={<HistoryIcon />} iconPosition='start' label="Log" />
         </Tabs>
+
         {tabIndex === 0 && <UsersDataGrid isAdminModalOpen={isOpen} />}
         {tabIndex === 1 && <AuditLogsDataGrid isAdminModalOpen={isOpen} />}
       </DialogContent>

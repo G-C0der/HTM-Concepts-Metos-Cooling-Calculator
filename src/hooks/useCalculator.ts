@@ -5,7 +5,7 @@ import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {CalculatorParamsForm} from "../types";
 
 const useCalculator = () => {
-  const save = async (
+  const saveCalculatorParams = async (
     saveName: string,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
     tapWaterCoolingEntity: TapWaterCoolingEntity,
@@ -44,7 +44,7 @@ const useCalculator = () => {
     }
   };
 
-  const list = async () => {
+  const listCalculatorParams = async () => {
     try {
       const data = await calculatorApi.list();
       return toApiResponse(true, undefined, data);
@@ -54,8 +54,8 @@ const useCalculator = () => {
   };
 
   return {
-    save,
-    list
+    saveCalculatorParams,
+    listCalculatorParams
   };
 };
 

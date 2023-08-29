@@ -1,5 +1,5 @@
 import React from 'react';
-import {TapWaterCoolingEntity} from "../../entities/TapWaterCoolingEntity";
+import {TapWaterCoolingEntity} from "../../entities";
 import Typography from "@mui/material/Typography";
 import {Box, Card, CardContent, TextField} from "@mui/material";
 
@@ -42,7 +42,7 @@ export const WaterForm = ({
             <TextField
               style={{ margin: "5px" }}
               value={waterLitreCHF}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={waterLitreCHF < 0}
               type="number"
               inputProps={{ step: '0.01' }}
               label="CHF/litres"
@@ -55,7 +55,7 @@ export const WaterForm = ({
             <TextField
               style={{ margin: "5px" }}
               value={waterLitreCO2}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={waterLitreCO2 < 0}
               type="number"
               inputProps={{ step: '0.01' }}
               label={'CO2g/litres'}

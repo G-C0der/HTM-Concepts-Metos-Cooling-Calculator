@@ -1,22 +1,22 @@
 import { createContext } from "react";
 import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../entities";
-import {ApiResponse, CalculatorParams} from "../types";
+import {ApiDataCalculatorParamsList, ApiResponse} from "../types";
 import {ContextProviderError} from "../errors";
 
 type CalculatorContextType = {
-  save: (
+  saveCalculatorParams: (
     saveName: string,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     kettleEntities: KettleEntity[]
   ) => Promise<ApiResponse>;
-  list: () => Promise<ApiResponse<CalculatorParams>>;
+  listCalculatorParams: () => Promise<ApiResponse<ApiDataCalculatorParamsList>>;
 };
 
 const providerName = 'CalculatorProvider';
 const CalculatorContext = createContext({
-  save: () => { throw new ContextProviderError(providerName, 'save'); },
-  list: () => { throw new ContextProviderError(providerName, 'list'); }
+  saveCalculatorParams: () => { throw new ContextProviderError(providerName, 'saveCalculatorParams'); },
+  listCalculatorParams: () => { throw new ContextProviderError(providerName, 'listCalculatorParams'); }
 } as CalculatorContextType);
 
 export {

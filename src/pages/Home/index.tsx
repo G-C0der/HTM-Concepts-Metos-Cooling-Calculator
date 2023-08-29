@@ -24,6 +24,7 @@ import {AuthContext, CalculatorContext} from "../../contexts";
 import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
+import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -77,7 +78,7 @@ const Home = () => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
-  const { save } = useContext(CalculatorContext);
+  const { saveCalculatorParams } = useContext(CalculatorContext);
 
   useEffect(() => {
     if (user) {
@@ -129,7 +130,12 @@ const Home = () => {
   };
 
   const handleSaveClick = async () => {
-    const saveResponse = await save(saveName, iceWaterCoolingEntity, tapWaterCoolingEntity, kettleEntities);
+    const saveResponse = await saveCalculatorParams(
+      saveName,
+      iceWaterCoolingEntity,
+      tapWaterCoolingEntity,
+      kettleEntities
+    );
 
     if (saveResponse.success) {
       // TODO: show success temp alert
@@ -160,6 +166,7 @@ const Home = () => {
         </Box>
 
         <Box className="home-content">
+          <CalculatorParamsModal isOpen={isCalculatorParamsModalOpen} setIsOpen={setIsCalculatorParamsModalOpen} />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
 

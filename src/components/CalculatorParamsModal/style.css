@@ -1,0 +1,13 @@
+.params-dialog-paper {
+  --width: calc(100% - 2cm);
+  --height: calc(100% - 2cm);
+
+  width: var(--width);
+  min-width: var(--width);
+  max-width: var(--width);
+  height: var(--height);
+  min-height: var(--height);
+  max-height: var(--height);
+  margin: 1cm;
+  overflow: auto;
+}
