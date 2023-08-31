@@ -198,12 +198,12 @@ const Home = () => {
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
 
           <TextField
-              style={{ margin: "5px" }}
-              value={saveName}
-              error={saveName.length <= 0 || saveName.length > 50}
-              label="Save Name"
-              variant="outlined"
-              onChange={(e: any) => setSaveName(e.target.value)}
+            style={{ margin: "5px" }}
+            value={saveName}
+            error={saveName.length <= 0 || saveName.length > 50}
+            label="Save Name"
+            variant="outlined"
+            onChange={(e: any) => setSaveName(e.target.value)}
           />
 
           <IconButton onClick={handleSaveClick}>
