@@ -64,7 +64,8 @@ const CalculatorParamsModal = ({ isOpen, setIsOpen }: CalculatorParamsModalProps
     {
       field: 'kettles',
       headerName: 'Kettles',
-      width: 800
+      width: 800,
+      valueGetter: ({ row }) => JSON.stringify(row.kettles)
     }
   ];
 
