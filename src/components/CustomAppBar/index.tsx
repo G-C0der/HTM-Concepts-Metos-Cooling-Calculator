@@ -78,7 +78,7 @@ export const CustomAppBar = ({
                   >
                     {items.map(item => (
                       item.condition &&
-                      <MenuItem onClick={() => {
+                      <MenuItem key={item.display} onClick={() => {
                         item.clickEvent();
 
                         handleCloseMenu();
@@ -105,6 +105,7 @@ export const CustomAppBar = ({
                   {items.map(item => (
                     item.condition &&
                     <Button
+                      key={item.display}
                       color="inherit"
                       aria-label="menu"
                       sx={{ mr: 2 }}
