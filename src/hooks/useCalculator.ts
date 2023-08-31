@@ -2,7 +2,7 @@ import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../ent
 import {toApiError, toApiResponse} from "./utils";
 import calculatorApi from "../services/api/CalculatorApi";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {CalculatorParamsForm} from "../types";
+import {CalculatorParams, CalculatorParamsForm} from "../types";
 
 const useCalculator = () => {
   const saveCalculatorParams = async (
@@ -44,6 +44,15 @@ const useCalculator = () => {
     }
   };
 
+  const updateCalculatorParams = async (calculatorParams: CalculatorParams) => {
+    try {
+      await calculatorApi.save(calculatorParams);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   const listCalculatorParams = async () => {
     try {
       const data = await calculatorApi.list();
@@ -55,7 +64,8 @@ const useCalculator = () => {
 
   return {
     saveCalculatorParams,
-    listCalculatorParams
+    updateCalculatorParams,
+    listCalculatorParams,
   };
 };
 

@@ -13,21 +13,23 @@ import {LoadingButton} from "../LoadingButton";
 interface CalculatorParamsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  currentSaveName: string;
-  handleLoadParamsClick: (params: CalculatorParams) => void;
+  loadParams: (params: CalculatorParams) => void;
 }
 
 const CalculatorParamsModal = ({
   isOpen,
   setIsOpen,
-  currentSaveName,
-  handleLoadParamsClick
+  loadParams
 }: CalculatorParamsModalProps) => {
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { listCalculatorParams, saveCalculatorParams } = useContext(CalculatorContext);
+  const [pendingParams, setPendingParams] = useState<CalculatorParams>();
+
+  const [isLoadLoading, setIsLoadLoading]  = useState(false);
+
+  const { listCalculatorParams, updateCalculatorParams } = useContext(CalculatorContext);
 
   const columns: GridColDef[] = [
     {
@@ -82,7 +84,7 @@ const CalculatorParamsModal = ({
       width: 150,
       sortable: false,
       renderCell: ({ row }) => {
-        const saveName = row.name;
+        const { id, inUse } = row;
 
         return (
           <>
@@ -90,8 +92,8 @@ const CalculatorParamsModal = ({
               className={`action-button`}
               startIcon={<SyncIcon />}
               onClick={() => handleLoadParamsClick(row)}
-              loading={false}
-              disabled={saveName === currentSaveName}
+              loading={isLoadLoading && (pendingParams?.id === id)}
+              disabled={inUse}
             >
               Load
             </LoadingButton>
@@ -125,6 +127,30 @@ const CalculatorParamsModal = ({
       return () => clearTimeout(timer);
     }
   }, [calculatorParamsList]);
+
+  const handleLoadParamsClick = async (params: CalculatorParams) => {
+    setPendingParams(params);
+
+    setIsLoadLoading(true);
+
+    const saveResponse = await updateCalculatorParams(params);
+    if (saveResponse.success) {
+      updateParamsInUse(params.id);
+
+      // TODO: show success temp alert
+    } else {
+      // TODO: show error temp alert
+    }
+
+    loadParams(params);
+
+    setIsLoadLoading(false);
+  };
+
+  const updateParamsInUse = (id: number) =>
+    setCalculatorParamsList(calculatorParamsList!.map(params => params.id === id
+      ? { ...params, inUse: true }
+      : { ...params, inUse: false }));
 
   return (
     <Dialog
@@ -168,7 +194,7 @@ const CalculatorParamsModal = ({
                         sx={{ backgroundColor: '#e3f8fa' }}
                         hideFooter
                         slots={{ toolbar: GridToolbar }}
-                        getRowClassName={({ row }) => (row.name === currentSaveName)
+                        getRowClassName={({ row: { inUse } }) => inUse
                           ? 'data-grid-row-current-row'
                           : ''}
                       />

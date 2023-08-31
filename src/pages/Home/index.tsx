@@ -200,8 +200,7 @@ const Home = () => {
           <CalculatorParamsModal
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
-            currentSaveName={saveName}
-            handleLoadParamsClick={handleLoadParamsClick}
+            loadParams={handleLoadParamsClick}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
