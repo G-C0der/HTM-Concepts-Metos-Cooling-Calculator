@@ -202,8 +202,8 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 sx={{ backgroundColor: '#e3f8fa' }}
                 hideFooter
                 slots={{ toolbar: GridToolbar }}
-                getRowClassName={(params) => (params.row.verified && params.row.active)
-                  ? ''
+                getRowClassName={({ row }) => (row.verified && row.active)
+                  ? (row.id === authenticatedUser!.id ? 'data-grid-row-current-row' : '')
                   : 'data-grid-row-inactive-user'}
                 getDetailPanelContent={({ row }) => <UserDetailDataGrid user={row} />}
               />

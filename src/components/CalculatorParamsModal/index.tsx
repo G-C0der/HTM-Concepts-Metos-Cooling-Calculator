@@ -168,6 +168,9 @@ const CalculatorParamsModal = ({
                         sx={{ backgroundColor: '#e3f8fa' }}
                         hideFooter
                         slots={{ toolbar: GridToolbar }}
+                        getRowClassName={({ row }) => (row.name === currentSaveName)
+                          ? 'data-grid-row-current-row'
+                          : ''}
                       />
                     </>
                   )
