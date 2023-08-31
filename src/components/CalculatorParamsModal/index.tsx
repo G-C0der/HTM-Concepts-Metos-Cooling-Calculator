@@ -14,9 +14,15 @@ interface CalculatorParamsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   currentSaveName: string;
+  handleLoadParamsClick: (params: CalculatorParams) => void;
 }
 
-const CalculatorParamsModal = ({ isOpen, setIsOpen, currentSaveName }: CalculatorParamsModalProps) => {
+const CalculatorParamsModal = ({
+  isOpen,
+  setIsOpen,
+  currentSaveName,
+  handleLoadParamsClick
+}: CalculatorParamsModalProps) => {
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +89,7 @@ const CalculatorParamsModal = ({ isOpen, setIsOpen, currentSaveName }: Calculato
             <LoadingButton
               className={`action-button`}
               startIcon={<SyncIcon />}
-              onClick={() => {}}
+              onClick={() => handleLoadParamsClick(row)}
               loading={false}
               disabled={saveName === currentSaveName}
             >

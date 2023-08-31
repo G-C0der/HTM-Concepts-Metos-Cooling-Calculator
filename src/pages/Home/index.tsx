@@ -25,6 +25,8 @@ import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
 import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
+import {CalculatorParams} from "../../types";
+import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -52,10 +54,13 @@ const Home = () => {
   const [kWhCHF, setKWhCHF] = useState(0);
   const [kWhCO2, setKWhCO2] = useState(0);
 
-  const [cop, setCop] = useState(1);
-
   const [waterLitreCHF, setWaterLitreCHF] = useState(0);
   const [waterLitreCO2, setWaterLitreCO2] = useState(0);
+
+  const [type1Count, setType1Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
+  const [type4Count, setType4Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
+
+  const [cop, setCop] = useState(1);
 
   const [saveName, setSaveName] = useState('');
 
@@ -144,6 +149,23 @@ const Home = () => {
     }
   };
 
+  const handleLoadParamsClick = (params: CalculatorParams) => {
+    setSaveName(params.name);
+    setWaterLitreCHF(params.waterLitreCHF);
+    setWaterLitreCO2(params.waterLitreCo2);
+    setKWhCHF(params.kwHourCHF);
+    setKWhCO2(params.kwHourCo2);
+    setType1Count(params.iceWaterCoolingType1Count);
+    setType4Count(params.iceWaterCoolingType4Count);
+    setCop(params.cop);
+    setKettleEntities(params.kettles.map(kettleParams => new KettleEntity(
+      kettleParams.sizeLitres,
+      kettleParams.coolingMode,
+      kettleParams.c3CoolingPercent,
+      kettleParams.timeUsages
+    )));
+  };
+
   return isLoading
     ? (
       <Box style={{
@@ -170,6 +192,7 @@ const Home = () => {
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
             currentSaveName={saveName}
+            handleLoadParamsClick={handleLoadParamsClick}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
@@ -209,6 +232,10 @@ const Home = () => {
             <IceWaterBankTypesForm
               iceWaterCoolingEntity={iceWaterCoolingEntity}
               setTimePowerUsageRows={setTimePowerUsageRows}
+              type1Count={type1Count}
+              setType1Count={setType1Count}
+              type4Count={type4Count}
+              setType4Count={setType4Count}
             />
           </Box>
 

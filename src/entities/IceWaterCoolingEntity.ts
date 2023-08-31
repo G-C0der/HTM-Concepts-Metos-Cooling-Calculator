@@ -65,9 +65,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
     }
   };
 
-  setCop = (cop: number) => {
-    this.cop = cop;
-  };
+  setCop = (cop: number) => this.cop = cop;
 
   getCop = () => this.cop;
 }
