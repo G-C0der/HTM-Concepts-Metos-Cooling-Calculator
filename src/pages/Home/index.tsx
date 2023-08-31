@@ -151,13 +151,22 @@ const Home = () => {
 
   const handleLoadParamsClick = (params: CalculatorParams) => {
     setSaveName(params.name);
+
+    tapWaterCoolingEntity.waterLitreCHF = params.waterLitreCHF;
     setWaterLitreCHF(params.waterLitreCHF);
+    tapWaterCoolingEntity.waterLitreCo2 = params.waterLitreCo2;
     setWaterLitreCO2(params.waterLitreCo2);
+    iceWaterCoolingEntity.kwHourCHF = params.kwHourCHF;
     setKWhCHF(params.kwHourCHF);
+    iceWaterCoolingEntity.kwHourCo2 = params.kwHourCo2;
     setKWhCO2(params.kwHourCo2);
+    iceWaterCoolingEntity.setType1Count(params.iceWaterCoolingType1Count);
     setType1Count(params.iceWaterCoolingType1Count);
+    iceWaterCoolingEntity.setType4Count(params.iceWaterCoolingType4Count);
     setType4Count(params.iceWaterCoolingType4Count);
+    iceWaterCoolingEntity.setCop(params.cop);
     setCop(params.cop);
+
     setKettleEntities(params.kettles.map(kettleParams => new KettleEntity(
       kettleParams.sizeLitres,
       kettleParams.coolingMode,
