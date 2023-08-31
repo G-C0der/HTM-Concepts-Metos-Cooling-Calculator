@@ -5,7 +5,7 @@ import {ApiError, CalculatorParams} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress, Dialog, DialogContent, IconButton, Typography} from "@mui/material";
-import {GridColDef, DataGridPremium, GridToolbar} from "@mui/x-data-grid-premium";
+import {GridColDef, DataGrid, GridToolbar} from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface CalculatorParamsModalProps {
@@ -130,7 +130,7 @@ const CalculatorParamsModal = ({ isOpen, setIsOpen }: CalculatorParamsModalProps
                     </Box>
                   ) : (
                     <>
-                      <DataGridPremium
+                      <DataGrid
                         rows={calculatorParamsList!}
                         columns={columns}
                         sx={{ backgroundColor: '#e3f8fa' }}
