@@ -166,7 +166,11 @@ const Home = () => {
         </Box>
 
         <Box className="home-content">
-          <CalculatorParamsModal isOpen={isCalculatorParamsModalOpen} setIsOpen={setIsCalculatorParamsModalOpen} />
+          <CalculatorParamsModal
+            isOpen={isCalculatorParamsModalOpen}
+            setIsOpen={setIsCalculatorParamsModalOpen}
+            currentSaveName={saveName}
+          />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
 

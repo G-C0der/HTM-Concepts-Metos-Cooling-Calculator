@@ -7,13 +7,16 @@ import Box from "@mui/material/Box";
 import {CircularProgress, Dialog, DialogContent, IconButton, Typography} from "@mui/material";
 import {GridColDef, DataGrid, GridToolbar} from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
+import SyncIcon from '@mui/icons-material/Sync';
+import {LoadingButton} from "../LoadingButton";
 
 interface CalculatorParamsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  currentSaveName: string;
 }
 
-const CalculatorParamsModal = ({ isOpen, setIsOpen }: CalculatorParamsModalProps) => {
+const CalculatorParamsModal = ({ isOpen, setIsOpen, currentSaveName }: CalculatorParamsModalProps) => {
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
@@ -64,8 +67,31 @@ const CalculatorParamsModal = ({ isOpen, setIsOpen }: CalculatorParamsModalProps
     {
       field: 'kettles',
       headerName: 'Kettles',
-      width: 800,
+      width: 500,
       valueGetter: ({ row }) => JSON.stringify(row.kettles)
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 150,
+      sortable: false,
+      renderCell: ({ row }) => {
+        const saveName = row.name;
+
+        return (
+          <>
+            <LoadingButton
+              className={`action-button`}
+              startIcon={<SyncIcon />}
+              onClick={() => {}}
+              loading={false}
+              disabled={saveName === currentSaveName}
+            >
+              Load
+            </LoadingButton>
+          </>
+        );
+      }
     }
   ];
 
