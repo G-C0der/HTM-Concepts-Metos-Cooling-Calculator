@@ -8,6 +8,7 @@ import {CircularProgress, Dialog, DialogContent, IconButton, Typography} from "@
 import {GridColDef, DataGrid, GridToolbar} from "@mui/x-data-grid";
 import CloseIcon from "@mui/icons-material/Close";
 import SyncIcon from '@mui/icons-material/Sync';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
 
 interface CalculatorParamsModalProps {
@@ -25,52 +26,69 @@ const CalculatorParamsModal = ({
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [pendingParams, setPendingParams] = useState<CalculatorParams>();
+  const [pendingParamsList, setPendingParamsList] = useState<CalculatorParams[]>([]);
 
-  const [isLoadLoading, setIsLoadLoading]  = useState(false);
+  const [isLoadLoading, setIsLoadLoading] = useState(false);
+  const [isDeletionLoading, setIsDeletionLoading] = useState(false);
 
-  const { listCalculatorParams, updateCalculatorParams } = useContext(CalculatorContext);
+
+  const { listCalculatorParams, updateCalculatorParams, deleteCalculatorParams } = useContext(CalculatorContext);
 
   const columns: GridColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
-      width: 300
+      width: 300,
+      editable: true
     },
     {
       field: 'waterLitreCHF',
       headerName: 'CHF/litres',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'waterLitreCo2',
       headerName: 'CO2g/litres',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'kwHourCHF',
       headerName: 'CHF/kWh',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'kwHourCo2',
       headerName: 'CO2g/kWh',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'iceWaterCoolingType1Count',
       headerName: 'Type 1 Count',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'iceWaterCoolingType4Count',
       headerName: 'Type 4 Count',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'cop',
       headerName: 'COP',
-      width: 100
+      width: 100,
+      editable: true,
+      type: 'number'
     },
     {
       field: 'kettles',
@@ -81,21 +99,41 @@ const CalculatorParamsModal = ({
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      width: 250,
       sortable: false,
-      renderCell: ({ row }) => {
+      renderCell: (params) => {
+        const { row } = params;
         const { id, inUse } = row;
+        const isPendingRow = !!pendingParamsList.find(pendingParams => pendingParams.id === id);
+        const isRowLoadLoading = isLoadLoading && isPendingRow;
+        const isRowDeletionLoading = isDeletionLoading && isPendingRow;
+        const isRowDirty = undefined; // TODO: check if row dirty
 
         return (
           <>
             <LoadingButton
-              className={`action-button`}
+              className='action-button'
               startIcon={<SyncIcon />}
               onClick={() => handleLoadParamsClick(row)}
-              loading={isLoadLoading && (pendingParams?.id === id)}
-              disabled={inUse}
+              loading={isRowLoadLoading}
+              disabled={(inUse && !isRowDirty) || isRowDeletionLoading}
             >
               Load
+            </LoadingButton>
+
+            <LoadingButton
+              className='action-button'
+              sx={{
+                borderColor: 'red',
+                color: 'red',
+                ml: 2
+              }}
+              startIcon={<DeleteIcon />}
+              onClick={() => handleDeleteParamsClick(row)}
+              loading={isRowDeletionLoading}
+              disabled={isRowLoadLoading}
+            >
+              Delete
             </LoadingButton>
           </>
         );
@@ -129,8 +167,7 @@ const CalculatorParamsModal = ({
   }, [calculatorParamsList]);
 
   const handleLoadParamsClick = async (params: CalculatorParams) => {
-    setPendingParams(params);
-
+    setPendingParamsList([...pendingParamsList, params]);
     setIsLoadLoading(true);
 
     const saveResponse = await updateCalculatorParams(params);
@@ -145,12 +182,31 @@ const CalculatorParamsModal = ({
     loadParams(params);
 
     setIsLoadLoading(false);
+    setPendingParamsList([]);
   };
 
-  const updateParamsInUse = (id: number) =>
-    setCalculatorParamsList(calculatorParamsList!.map(params => params.id === id
+  const handleDeleteParamsClick = async (params: CalculatorParams) => {
+    setPendingParamsList([...pendingParamsList, params]);
+    setIsDeletionLoading(true);
+
+    const deleteResponse = await deleteCalculatorParams(params.id);
+    if (deleteResponse.success) {
+      deleteParams(params.id);
+
+      // TODO: show success temp alert
+    } else {
+      // TODO: show error temp alert
+    }
+
+    setIsDeletionLoading(false);
+    setPendingParamsList([]);
+  };
+
+  const updateParamsInUse = (id: number) => setCalculatorParamsList(calculatorParamsList!.map(params => params.id === id
       ? { ...params, inUse: true }
       : { ...params, inUse: false }));
+
+  const deleteParams = (id: number) => setCalculatorParamsList(calculatorParamsList!.filter(params => params.id !== id));
 
   return (
     <Dialog

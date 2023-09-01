@@ -62,10 +62,20 @@ const useCalculator = () => {
     }
   };
 
+  const deleteCalculatorParams = async (id: number) => {
+    try {
+      await calculatorApi.delete(id);
+      return toApiResponse(true);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   return {
     saveCalculatorParams,
     updateCalculatorParams,
     listCalculatorParams,
+    deleteCalculatorParams
   };
 };
 

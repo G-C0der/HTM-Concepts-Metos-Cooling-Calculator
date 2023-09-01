@@ -12,6 +12,7 @@ type CalculatorContextType = {
   ) => Promise<ApiResponse>;
   updateCalculatorParams: (calculatorParams: CalculatorParams) => Promise<ApiResponse>;
   listCalculatorParams: () => Promise<ApiResponse<ApiDataCalculatorParamsList>>;
+  deleteCalculatorParams: (id: number) => Promise<ApiResponse>;
 };
 
 const providerName = 'CalculatorProvider';
@@ -19,6 +20,7 @@ const CalculatorContext = createContext({
   saveCalculatorParams: () => { throw new ContextProviderError(providerName, 'saveCalculatorParams'); },
   updateCalculatorParams: () => { throw new ContextProviderError(providerName, 'updateCalculatorParams'); },
   listCalculatorParams: () => { throw new ContextProviderError(providerName, 'listCalculatorParams'); },
+  deleteCalculatorParams: () => { throw new ContextProviderError(providerName, 'deleteCalculatorParams'); },
 } as CalculatorContextType);
 
 export {
