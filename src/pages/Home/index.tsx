@@ -77,23 +77,37 @@ const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
 
   const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
-  const { saveCalculatorParams } = useContext(CalculatorContext);
+  const { saveCalculatorParams, fetchSelectedCalculatorParams } = useContext(CalculatorContext);
 
   useEffect(() => {
     if (user) {
+      const fetchCalculatorParams = async () => {
+        const fetchSelectedParamsResponse = await fetchSelectedCalculatorParams();
+        if (fetchSelectedParamsResponse.success) loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
+
+        setIsSelectedParamsLoadFinished(true);
+      };
+
+      fetchCalculatorParams();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (isSelectedParamsLoadFinished) {
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [user]);
+  }, [isSelectedParamsLoadFinished]);
 
   const handleKettleAddClick = () => {
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
@@ -149,7 +163,7 @@ const Home = () => {
     }
   };
 
-  const handleLoadParamsClick = (params: CalculatorParams) => {
+  const loadParams = (params: CalculatorParams) => {
     setSaveName(params.name);
 
     tapWaterCoolingEntity.waterLitreCHF = params.waterLitreCHF;
@@ -200,7 +214,7 @@ const Home = () => {
           <CalculatorParamsModal
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
-            loadParams={handleLoadParamsClick}
+            loadParams={loadParams}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
