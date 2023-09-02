@@ -62,6 +62,15 @@ const useCalculator = () => {
     }
   };
 
+  const fetchSelectedCalculatorParams = async () => {
+    try {
+      const data = await calculatorApi.fetch();
+      return toApiResponse(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   const deleteCalculatorParams = async (id: number) => {
     try {
       await calculatorApi.delete(id);
@@ -75,6 +84,7 @@ const useCalculator = () => {
     saveCalculatorParams,
     updateCalculatorParams,
     listCalculatorParams,
+    fetchSelectedCalculatorParams,
     deleteCalculatorParams
   };
 };

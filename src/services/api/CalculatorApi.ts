@@ -14,6 +14,11 @@ class CalculatorApi extends Api {
     return data;
   };
 
+  fetch = async () => {
+    const { data } = await this.api.get(`${this.basePath}/in-use`);
+    return data;
+  };
+
   delete = async (id: number) => {
     const { data } = await this.api.delete(`${this.basePath}/${id}`);
     return data;

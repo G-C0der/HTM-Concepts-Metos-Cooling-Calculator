@@ -35,6 +35,10 @@ interface ApiDataCalculatorParamsList {
   calculatorParamsList: CalculatorParams[];
 }
 
+interface ApiDataCalculatorParams {
+  calculatorParams: CalculatorParams;
+}
+
 export type {
   ApiResponse,
   ApiError,
@@ -44,5 +48,6 @@ export type {
   ApiDataUserFormEdit,
   ApiDataUserList,
   ApiDataAuditLogList,
-  ApiDataCalculatorParamsList
+  ApiDataCalculatorParamsList,
+  ApiDataCalculatorParams
 };
