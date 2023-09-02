@@ -90,7 +90,9 @@ const Home = () => {
     if (user) {
       const fetchCalculatorParams = async () => {
         const fetchSelectedParamsResponse = await fetchSelectedCalculatorParams();
-        if (fetchSelectedParamsResponse.success) loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
+        if (fetchSelectedParamsResponse.success && fetchSelectedParamsResponse.data!.calculatorParams) {
+          loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
+        }
 
         setIsSelectedParamsLoadFinished(true);
       };
