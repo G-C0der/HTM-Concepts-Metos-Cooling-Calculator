@@ -1,6 +1,6 @@
 import React from 'react';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {userFieldLabels} from "../../constants";
+import {paramsFieldLabels, userFieldLabels} from "../../constants";
 import {userDetailDataGridRenderCell, userDetailDataGridValueGetter} from "../../utils";
 
 interface AuditLogDetailsDataGridProps {
@@ -26,8 +26,9 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       if (beforeEntries[i] !== undefined) ([field, valueBefore] = beforeEntries[i]);
       if (afterEntries[i] !== undefined) ([field, valueAfter] = afterEntries[i]);
 
+      const auditLogFieldLabels = { ...userFieldLabels, ...paramsFieldLabels };
       rows.push({
-        ...(field && { id: i, field: userFieldLabels[field as keyof typeof userFieldLabels] }),
+        ...(field && { id: i, field: auditLogFieldLabels[field as keyof typeof auditLogFieldLabels] }),
         ...(valueBefore !== undefined && { valueBefore }),
         ...(valueAfter !== undefined && { valueAfter })
       });
@@ -40,7 +41,7 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
     {
       field: 'field',
       headerName: 'Field',
-      width: 100
+      width: 120
     },
     {
       field: 'valueBefore',
@@ -57,8 +58,6 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       renderCell: userDetailDataGridRenderCell
     }
   ];
-
-
 
   return (
     <DataGrid
