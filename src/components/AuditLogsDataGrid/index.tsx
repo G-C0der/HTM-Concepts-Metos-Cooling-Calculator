@@ -53,10 +53,12 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       valueGetter: ({ value }) => value.email
     },
     {
-      field: 'user',
-      headerName: 'User',
+      field: '_',
+      headerName: 'Subject',
       width: 300,
-      valueGetter: ({ value }) => value.email
+      valueGetter: ({ row: { user, params } }) => params?.name
+        ? `Parameters: ${params.name}`
+        : `User: ${user.email}`
     },
     {
       field: 'createdAt',
