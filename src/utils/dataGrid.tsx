@@ -4,12 +4,14 @@ import {getName} from "country-list";
 import moment from "moment/moment";
 import {BooleanIcon} from "../components/BooleanIcon";
 
-const userDetailDataGridValueGetter = ({ row, value }: GridValueGetterParams) => {
+const detailDataGridValueGetter = ({ row, value }: GridValueGetterParams) => {
   if (value === undefined) return;
 
   switch (row.field) {
     case 'Country':
       return getName(value);
+    case 'Kettles':
+      return JSON.stringify(value);
     case 'Created at':
     case 'Updated at':
       return moment(value).format('DD.MM.YYYY HH:mm:ss');
@@ -18,11 +20,12 @@ const userDetailDataGridValueGetter = ({ row, value }: GridValueGetterParams) =>
   }
 };
 
-const userDetailDataGridRenderCell = ({ row, value }: GridRenderCellParams) => {
+const detailDataGridRenderCell = ({ row, value }: GridRenderCellParams) => {
   switch (row.field) {
     case 'Verified':
     case 'Active':
     case 'Admin':
+    case 'In Use':
       return (
         <BooleanIcon value={value} />
       );
@@ -30,6 +33,6 @@ const userDetailDataGridRenderCell = ({ row, value }: GridRenderCellParams) => {
 };
 
 export {
-  userDetailDataGridValueGetter,
-  userDetailDataGridRenderCell
+  detailDataGridValueGetter,
+  detailDataGridRenderCell
 };

@@ -5,5 +5,5 @@ export * from './math';
 export * from './string';
 export * from './time';
 export * from './layout';
-export * from './user';
+export * from './dataGrid';
 export * from './message';

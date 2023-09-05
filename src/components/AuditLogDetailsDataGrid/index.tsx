@@ -1,7 +1,7 @@
 import React from 'react';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {paramsFieldLabels, userFieldLabels} from "../../constants";
-import {userDetailDataGridRenderCell, userDetailDataGridValueGetter} from "../../utils";
+import {detailDataGridRenderCell, detailDataGridValueGetter} from "../../utils";
 
 interface AuditLogDetailsDataGridProps {
   before: object;
@@ -47,15 +47,15 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       field: 'valueBefore',
       headerName: 'Before',
       flex: 1,
-      valueGetter: userDetailDataGridValueGetter,
-      renderCell: userDetailDataGridRenderCell
+      valueGetter: detailDataGridValueGetter,
+      renderCell: detailDataGridRenderCell
     },
     {
       field: 'valueAfter',
       headerName: 'After',
       flex: 1,
-      valueGetter: userDetailDataGridValueGetter,
-      renderCell: userDetailDataGridRenderCell
+      valueGetter: detailDataGridValueGetter,
+      renderCell: detailDataGridRenderCell
     }
   ];
 

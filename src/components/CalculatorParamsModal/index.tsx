@@ -93,7 +93,7 @@ const CalculatorParamsModal = ({
     {
       field: 'kettles',
       headerName: 'Kettles',
-      width: 500,
+      flex: 1,
       valueGetter: ({ row }) => JSON.stringify(row.kettles)
     },
     {
