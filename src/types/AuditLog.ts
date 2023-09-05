@@ -12,7 +12,7 @@ interface AuditLog {
 }
 
 type AuditLogAction = 'registration' | 'verification' | 'passwordReset' | 'profileEdit' | 'activation' | 'deactivation' |
-  'save' | 'override' | 'delete';
+  'save' | 'delete';
 
 export type {
   AuditLog,

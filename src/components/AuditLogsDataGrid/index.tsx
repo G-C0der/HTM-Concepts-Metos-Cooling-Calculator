@@ -35,7 +35,6 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
     activation: { name: 'Activation', icon: <CheckCircleIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
     deactivation: { name: 'Deactivation', icon: <CancelIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
     save: { name: 'Save', icon: <SaveAltIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
-    override: { name: 'Override', icon: <SaveAltIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
     delete: { name: 'Delete', icon: <DeleteIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
   };
 
