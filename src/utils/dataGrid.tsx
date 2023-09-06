@@ -25,7 +25,6 @@ const detailDataGridRenderCell = ({ row, value }: GridRenderCellParams) => {
     case 'Verified':
     case 'Active':
     case 'Admin':
-    case 'In Use':
       return (
         <BooleanIcon value={value} />
       );

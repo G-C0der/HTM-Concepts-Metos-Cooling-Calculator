@@ -2,7 +2,6 @@ const paramsFieldLabels = {
   id: 'ID',
   userId: 'User ID',
   name: 'Name',
-  inUse: 'In Use',
   waterLitreCHF: 'CHF/litres',
   waterLitreCo2: 'CO2g/litres',
   kwHourCHF: 'CHF/kWh',

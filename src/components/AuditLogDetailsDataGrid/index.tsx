@@ -27,8 +27,11 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       if (afterEntries[i] !== undefined) ([field, valueAfter] = afterEntries[i]);
 
       const auditLogFieldLabels = { ...userFieldLabels, ...paramsFieldLabels };
+      const fieldLabel = field && auditLogFieldLabels[field as keyof typeof auditLogFieldLabels];
+      if (!fieldLabel) continue;
       rows.push({
-        ...(field && { id: i, field: auditLogFieldLabels[field as keyof typeof auditLogFieldLabels] }),
+        id: i,
+        field: fieldLabel,
         ...(valueBefore !== undefined && { valueBefore }),
         ...(valueAfter !== undefined && { valueAfter })
       });
