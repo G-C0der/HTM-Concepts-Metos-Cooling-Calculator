@@ -86,30 +86,40 @@ const Home = () => {
   const { authenticatedUser: user } = useContext(AuthContext);
   const { saveCalculatorParams, fetchSelectedCalculatorParams } = useContext(CalculatorContext);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     const fetchCalculatorParams = async () => {
+  //       const fetchSelectedParamsResponse = await fetchSelectedCalculatorParams();
+  //       if (fetchSelectedParamsResponse.success && fetchSelectedParamsResponse.data!.calculatorParams) {
+  //         loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
+  //       }
+  //
+  //       setIsSelectedParamsLoadFinished(true);
+  //     };
+  //
+  //     fetchCalculatorParams();
+  //   }
+  // }, [user]);
+  //
+  // useEffect(() => {
+  //   if (isSelectedParamsLoadFinished) {
+  //     const timer = setTimeout(() => {
+  //       setIsLoading(false);
+  //     }, 1000);
+  //
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isSelectedParamsLoadFinished]);
+
   useEffect(() => {
     if (user) {
-      const fetchCalculatorParams = async () => {
-        const fetchSelectedParamsResponse = await fetchSelectedCalculatorParams();
-        if (fetchSelectedParamsResponse.success && fetchSelectedParamsResponse.data!.calculatorParams) {
-          loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
-        }
-
-        setIsSelectedParamsLoadFinished(true);
-      };
-
-      fetchCalculatorParams();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (isSelectedParamsLoadFinished) {
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [isSelectedParamsLoadFinished]);
+  }, [user]);
 
   const handleKettleAddClick = () => {
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
