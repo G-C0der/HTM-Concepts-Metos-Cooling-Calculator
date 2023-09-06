@@ -53,9 +53,9 @@ const useCalculator = () => {
     }
   };
 
-  const listCalculatorParams = async () => {
+  const listCalculatorParams = async (initialLoad?: boolean) => {
     try {
-      const data = await calculatorApi.list();
+      const data = await calculatorApi.list(initialLoad);
       return toApiResponse(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));

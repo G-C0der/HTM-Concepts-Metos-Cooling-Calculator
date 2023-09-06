@@ -138,7 +138,8 @@ const CalculatorParamsModal = ({
   useEffect(() => {
     if (isOpen) {
       const setCalculatorParamsLIst = async () => {
-        const listCalculatorParamsResponse = await listCalculatorParams();
+        const initialLoad = !calculatorParamsList;
+        const listCalculatorParamsResponse = await listCalculatorParams(initialLoad);
 
         if (listCalculatorParamsResponse.success) {
           setCalculatorParamsList(listCalculatorParamsResponse.data!.calculatorParamsList);

@@ -9,8 +9,10 @@ class CalculatorApi extends Api {
     return data;
   };
 
-  list = async () => {
-    const { data } = await this.api.get(this.basePath);
+  list = async (initialLoad?: boolean) => {
+    let path = this.basePath;
+    if (initialLoad !== undefined) path += `?initialLoad=${initialLoad}`;
+    const { data } = await this.api.get(path);
     return data;
   };
 
