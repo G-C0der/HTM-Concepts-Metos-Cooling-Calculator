@@ -33,7 +33,7 @@ export const CustomAppBar = ({
   const handleCloseMenu = () => setAnchorElMenu(null);
 
   const items = [
-    { display: 'Parameters', clickEvent: () => setIsCalculatorParamsModalOpen(true), condition: true },
+    { display: 'Saves', clickEvent: () => setIsCalculatorParamsModalOpen(true), condition: true },
     { display: 'Admin', clickEvent: () => setIsAdminModalOpen(true), condition: user.admin },
     { display: 'Contact', clickEvent: () => window.open(htmConceptsWebsiteContact, '_blank'), condition: true }
   ];

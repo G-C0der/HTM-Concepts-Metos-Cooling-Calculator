@@ -223,7 +223,7 @@ const CalculatorParamsModal = ({
         </IconButton>
 
         <Typography variant="h5" align="center" component='h1' gutterBottom mb={4}>
-          Parameters
+          Saves
         </Typography>
 
         {
