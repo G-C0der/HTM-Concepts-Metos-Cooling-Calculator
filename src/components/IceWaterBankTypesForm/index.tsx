@@ -46,8 +46,9 @@ export const IceWaterBankTypesForm = ({
           style={{ width: "200px", margin: "5px" }}
           value={type1Count}
           error={
-            type1Count > IceWaterCoolingCount.IceWaterCoolingCount4
-            || type1Count < IceWaterCoolingCount.IceWaterCoolingCount0
+            (type1Count > IceWaterCoolingCount.IceWaterCoolingCount4
+            || type1Count < IceWaterCoolingCount.IceWaterCoolingCount0) ||
+            (type1Count === 0 && type4Count === 0)
           }
           type="number"
           inputProps={{ type: 'number' }}
@@ -60,8 +61,9 @@ export const IceWaterBankTypesForm = ({
           style={{ width: "200px", margin: "5px" }}
           value={type4Count}
           error={
-            type4Count > IceWaterCoolingCount.IceWaterCoolingCount4
-            || type4Count < IceWaterCoolingCount.IceWaterCoolingCount0
+            (type4Count > IceWaterCoolingCount.IceWaterCoolingCount4
+            || type4Count < IceWaterCoolingCount.IceWaterCoolingCount0) ||
+            (type4Count === 0 && type1Count === 0)
           }
           type="number"
           inputProps={{ type: 'number' }}
