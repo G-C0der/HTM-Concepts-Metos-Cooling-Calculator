@@ -78,11 +78,11 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
 
           <Box sx={{ height: 205 }}>
             <FormControl>
-              <InputLabel className='form-input-label'>Size</InputLabel>
+              <InputLabel className='form-input-label'>Size Proveno 4G</InputLabel>
               <Select
                 style={{ width: "178px", margin: "5px" }}
                 value={sizeLitres}
-                label="Grösse"
+                label="Size Proveno 4G"
                 onChange={handleKettleSizeChange}
               >
                 {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {

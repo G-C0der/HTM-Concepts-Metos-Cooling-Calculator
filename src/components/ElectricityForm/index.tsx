@@ -69,7 +69,7 @@ export const ElectricityForm = ({
               error={kWhCO2 < 0}
               type="number"
               inputProps={{ step: '0.01' }}
-              label={'CO2g/kWh'}
+              label='CO2g/kWh'
               variant="outlined"
               onChange={handleKwHourCo2Change}
             />
@@ -82,7 +82,7 @@ export const ElectricityForm = ({
               error={cop <= 0}
               type="number"
               inputProps={{ step: '0.01' }}
-              label={'COP'}
+              label='COP (Type of refrigerant gas)'
               variant="outlined"
               onChange={handleCopChange}
             />
