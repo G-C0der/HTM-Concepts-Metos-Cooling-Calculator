@@ -72,29 +72,23 @@ const CalculatorParamsModal = ({
     {
       field: 'iceWaterCoolingType1Count',
       headerName: 'Type 1 Count',
-      width: 100,
+      width: 120,
       editable: true,
       type: 'number'
     },
     {
       field: 'iceWaterCoolingType4Count',
       headerName: 'Type 4 Count',
-      width: 100,
+      width: 120,
       editable: true,
       type: 'number'
     },
     {
       field: 'cop',
       headerName: 'COP',
-      width: 100,
+      width: 70,
       editable: true,
       type: 'number'
-    },
-    {
-      field: 'kettles',
-      headerName: 'Kettles',
-      flex: 1,
-      valueGetter: ({ row }) => JSON.stringify(row.kettles)
     },
     {
       field: 'actions',
