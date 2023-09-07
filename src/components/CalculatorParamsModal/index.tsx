@@ -1,16 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
-import './style.css';
 import {CalculatorContext} from "../../contexts";
 import {ApiError, CalculatorParams} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
-import {CircularProgress, Dialog, DialogContent, IconButton, Typography} from "@mui/material";
+import {CircularProgress} from "@mui/material";
 import {GridColDef, DataGrid, GridToolbar} from "@mui/x-data-grid";
-import CloseIcon from "@mui/icons-material/Close";
 import SyncIcon from '@mui/icons-material/Sync';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
 import {ConfirmationDialog} from "../ConfirmationDialog";
+import {Modal} from "../Modal";
 
 interface CalculatorParamsModalProps {
   isOpen: boolean;
@@ -213,70 +212,53 @@ const CalculatorParamsModal = ({
   const deleteParams = (id: number) => setCalculatorParamsList(calculatorParamsList!.filter(params => params.id !== id));
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      PaperProps={{ className: 'params-dialog-paper' }}
-    >
-      <DialogContent sx={{ overflow: 'hidden', pb: 17 }}>
-        <IconButton
-          sx={{ position: 'absolute', right: 5, top: 5 }}
-          onClick={() => setIsOpen(false)}
-        >
-          <CloseIcon />
-        </IconButton>
+    <Modal title='Saves' isOpen={isOpen} setIsOpen={setIsOpen}>
+      {
+        error
+          ? (
+            <ErrorAlert error={error} />
+          ) : (
+            <>
+              {
+                isLoading ? (
+                  <Box style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}>
+                    <CircularProgress size={80} />
+                  </Box>
+                ) : (
+                  <>
+                    <DataGrid
+                      rows={calculatorParamsList!}
+                      columns={columns}
+                      sx={{ backgroundColor: '#e3f8fa' }}
+                      hideFooter
+                      slots={{ toolbar: GridToolbar }}
+                      getRowClassName={({ row: { inUse } }) => inUse
+                        ? 'data-grid-row-current-row'
+                        : ''}
+                    />
 
-        <Typography variant="h5" align="center" component='h1' gutterBottom mb={4}>
-          Saves
-        </Typography>
-
-        {
-          error
-            ? (
-              <ErrorAlert error={error} />
-            ) : (
-              <>
-                {
-                  isLoading ? (
-                    <Box style={{
-                      position: 'fixed',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                    }}>
-                      <CircularProgress size={80} />
-                    </Box>
-                  ) : (
-                    <>
-                      <DataGrid
-                        rows={calculatorParamsList!}
-                        columns={columns}
-                        sx={{ backgroundColor: '#e3f8fa' }}
-                        hideFooter
-                        slots={{ toolbar: GridToolbar }}
-                        getRowClassName={({ row: { inUse } }) => inUse
-                          ? 'data-grid-row-current-row'
-                          : ''}
-                      />
-
-                      {
-                        pendingParams && (
-                          <ConfirmationDialog
-                            text={`Are you sure you want to delete the save "${pendingParams.name}"?`}
-                            pendingAction={() => handleDeleteParamsClick(pendingParams)}
-                            isOpen={isConfirmDialogOpen}
-                            setIsOpen={setIsConfirmDialogOpen}
-                          />
-                        )
-                      }
-                    </>
-                  )
-                }
-              </>
-            )
-        }
-      </DialogContent>
-    </Dialog>
+                    {
+                      pendingParams && (
+                        <ConfirmationDialog
+                          text={`Are you sure you want to delete the save "${pendingParams.name}"?`}
+                          pendingAction={() => handleDeleteParamsClick(pendingParams)}
+                          isOpen={isConfirmDialogOpen}
+                          setIsOpen={setIsConfirmDialogOpen}
+                        />
+                      )
+                    }
+                  </>
+                )
+              }
+            </>
+          )
+      }
+    </Modal>
   );
 };
 
