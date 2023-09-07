@@ -4,7 +4,7 @@ import {ApiError, CalculatorParams} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
-import {GridColDef, DataGrid, GridToolbar} from "@mui/x-data-grid";
+import {GridColDef, DataGrid, GridToolbar, GridRowSelectionModel} from "@mui/x-data-grid";
 import SyncIcon from '@mui/icons-material/Sync';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
@@ -36,6 +36,8 @@ const CalculatorParamsModal = ({
 
   const [isLoadLoading, setIsLoadLoading] = useState(false);
   const [isDeletionLoading, setIsDeletionLoading] = useState(false);
+
+  const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
 
   const { listCalculatorParams, updateCalculatorParams, deleteCalculatorParams } = useContext(CalculatorContext);
 
@@ -197,6 +199,8 @@ const CalculatorParamsModal = ({
     if (updateResponse.success) {
       updateParams(updateResponse.data!.calculatorParams);
 
+      setSelectedRows([]);
+
       // TODO: show success temp alert
     } else {
       // TODO: show error temp alert
@@ -261,6 +265,8 @@ const CalculatorParamsModal = ({
                       getRowClassName={({ row: { inUse } }) => inUse
                         ? 'data-grid-row-current-row'
                         : ''}
+                      rowSelectionModel={selectedRows}
+                      onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
                     />
 
                     {
