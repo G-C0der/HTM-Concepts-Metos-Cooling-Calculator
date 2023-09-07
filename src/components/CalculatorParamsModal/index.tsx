@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
 import {ConfirmationDialog} from "../ConfirmationDialog";
 import {Modal} from "../Modal";
+import {DataGridEditableCell} from "../DataGridEditableCell";
 
 interface CalculatorParamsModalProps {
   isOpen: boolean;
@@ -43,7 +44,15 @@ const CalculatorParamsModal = ({
       field: 'name',
       headerName: 'Name',
       width: 300,
-      editable: true
+      editable: true,
+      // renderCell: ({ value, id, field }) => (
+      //   <DataGridEditableCell
+      //     value={value}
+      //     id={id}
+      //     field={field}
+      //     onEdit={(id: any, field: any, value: any) => handleEditCell(id, field, value)}
+      //   />
+      // )
     },
     {
       field: 'waterLitreCHF',
@@ -173,6 +182,12 @@ const CalculatorParamsModal = ({
       return () => clearTimeout(timer);
     }
   }, [calculatorParamsList]);
+
+  const handleEditCell = (id: any, field: any, value: string | number) => {
+    console.log('id', typeof id, id)
+    console.log('field', typeof field, field)
+    console.log('value', typeof value, value)
+  };
 
   const handleLoadParamsClick = async (params: CalculatorParams) => {
     setPendingParams(params);
