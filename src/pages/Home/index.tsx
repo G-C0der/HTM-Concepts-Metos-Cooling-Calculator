@@ -201,6 +201,7 @@ const Home = () => {
           kettleParams.timeUsages
         ))
       : [new KettleEntity()];
+    const kettleCount = params ? params.kettles.length : 1;
 
     setSaveName(name);
 
@@ -220,6 +221,7 @@ const Home = () => {
     setCop(cop);
 
     setKettleEntities(kettleEntities);
+    setKettleCount(kettleCount);
   };
 
   return isLoading
