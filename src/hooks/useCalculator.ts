@@ -46,8 +46,8 @@ const useCalculator = () => {
 
   const updateCalculatorParams = async (calculatorParams: CalculatorParams) => {
     try {
-      await calculatorApi.save(calculatorParams);
-      return toApiResponse(true);
+      const data = await calculatorApi.save(calculatorParams);
+      return toApiResponse(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }

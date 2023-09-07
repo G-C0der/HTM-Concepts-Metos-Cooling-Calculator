@@ -193,9 +193,9 @@ const CalculatorParamsModal = ({
     setPendingParams(params);
     setIsLoadLoading(true);
 
-    const saveResponse = await updateCalculatorParams(params);
-    if (saveResponse.success) {
-      updateParamsInUse(params.id);
+    const updateResponse = await updateCalculatorParams(params);
+    if (updateResponse.success) {
+      updateParams(updateResponse.data!.calculatorParams);
 
       // TODO: show success temp alert
     } else {
@@ -224,9 +224,11 @@ const CalculatorParamsModal = ({
     setIsDeletionLoading(false);
   };
 
-  const updateParamsInUse = (id: number) => setCalculatorParamsList(calculatorParamsList!.map(params => params.id === id
+  const updateParams = (params: CalculatorParams) => setCalculatorParamsList(
+    calculatorParamsList!.map(_params => _params.id === params.id
       ? { ...params, inUse: true }
-      : { ...params, inUse: false }));
+      : { ..._params, inUse: false })
+  );
 
   const deleteParams = (id: number) => setCalculatorParamsList(calculatorParamsList!.filter(params => params.id !== id));
 

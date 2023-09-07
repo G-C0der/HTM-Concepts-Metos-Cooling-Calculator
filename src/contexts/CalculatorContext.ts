@@ -10,7 +10,7 @@ type CalculatorContextType = {
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     kettleEntities: KettleEntity[]
   ) => Promise<ApiResponse>;
-  updateCalculatorParams: (calculatorParams: CalculatorParams) => Promise<ApiResponse>;
+  updateCalculatorParams: (calculatorParams: CalculatorParams) => Promise<ApiResponse<ApiDataCalculatorParams>>;
   listCalculatorParams: (resetParams?: boolean) => Promise<ApiResponse<ApiDataCalculatorParamsList>>;
   fetchSelectedCalculatorParams: () => Promise<ApiResponse<ApiDataCalculatorParams>>;
   deleteCalculatorParams: (id: number) => Promise<ApiResponse>;
