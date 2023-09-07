@@ -6,6 +6,7 @@ import {Button, CircularProgress, IconButton, TextField, Tooltip} from "@mui/mat
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { getEnumMinMax } from "../../utils";
 import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
@@ -78,6 +79,8 @@ const Home = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   // const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
+
+  const [wereParamsCleared, setWereParamsCleared] = useState(false);
 
   const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
@@ -175,30 +178,48 @@ const Home = () => {
     }
   };
 
-  const loadParams = (params: CalculatorParams) => {
-    setSaveName(params.name);
+  const handleResetParamsClick = () => {
+    loadParams();
 
-    tapWaterCoolingEntity.waterLitreCHF = params.waterLitreCHF;
-    setWaterLitreCHF(params.waterLitreCHF);
-    tapWaterCoolingEntity.waterLitreCo2 = params.waterLitreCo2;
-    setWaterLitreCO2(params.waterLitreCo2);
-    iceWaterCoolingEntity.kwHourCHF = params.kwHourCHF;
-    setKWhCHF(params.kwHourCHF);
-    iceWaterCoolingEntity.kwHourCo2 = params.kwHourCo2;
-    setKWhCO2(params.kwHourCo2);
-    iceWaterCoolingEntity.setType1Count(params.iceWaterCoolingType1Count);
-    setType1Count(params.iceWaterCoolingType1Count);
-    iceWaterCoolingEntity.setType4Count(params.iceWaterCoolingType4Count);
-    setType4Count(params.iceWaterCoolingType4Count);
-    iceWaterCoolingEntity.setCop(params.cop);
-    setCop(params.cop);
+    setWereParamsCleared(true);
+  };
 
-    setKettleEntities(params.kettles.map(kettleParams => new KettleEntity(
-      kettleParams.sizeLitres,
-      kettleParams.coolingMode,
-      kettleParams.c3CoolingPercent,
-      kettleParams.timeUsages
-    )));
+  const loadParams = (params?: CalculatorParams) => {
+    const name = params?.name ?? '';
+    const waterLitreCHF = params?.waterLitreCHF ?? 0;
+    const waterLitreCo2 = params?.waterLitreCo2 ?? 0;
+    const kwHourCHF = params?.kwHourCHF ?? 0;
+    const kwHourCo2 = params?.kwHourCo2 ?? 0;
+    const iceWaterCoolingType1Count = params?.iceWaterCoolingType1Count ?? 0;
+    const iceWaterCoolingType4Count = params?.iceWaterCoolingType4Count ?? 0;
+    const cop = params?.cop ?? 1;
+    const kettleEntities = params
+      ? params.kettles.map(kettleParams => new KettleEntity(
+          kettleParams.sizeLitres,
+          kettleParams.coolingMode,
+          kettleParams.c3CoolingPercent,
+          kettleParams.timeUsages
+        ))
+      : [new KettleEntity()];
+
+    setSaveName(name);
+
+    tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
+    setWaterLitreCHF(waterLitreCHF);
+    tapWaterCoolingEntity.waterLitreCo2 = waterLitreCo2;
+    setWaterLitreCO2(waterLitreCo2);
+    iceWaterCoolingEntity.kwHourCHF = kwHourCHF;
+    setKWhCHF(kwHourCHF);
+    iceWaterCoolingEntity.kwHourCo2 = kwHourCo2;
+    setKWhCO2(kwHourCo2);
+    iceWaterCoolingEntity.setType1Count(iceWaterCoolingType1Count);
+    setType1Count(iceWaterCoolingType1Count);
+    iceWaterCoolingEntity.setType4Count(iceWaterCoolingType4Count);
+    setType4Count(iceWaterCoolingType4Count);
+    iceWaterCoolingEntity.setCop(cop);
+    setCop(cop);
+
+    setKettleEntities(kettleEntities);
   };
 
   return isLoading
@@ -227,6 +248,8 @@ const Home = () => {
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
             loadParams={loadParams}
+            wereParamsCleared={wereParamsCleared}
+            setWereParamsCleared={setWereParamsCleared}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
@@ -240,9 +263,17 @@ const Home = () => {
             onChange={(e: any) => setSaveName(e.target.value)}
           />
 
-          <IconButton onClick={handleSaveClick}>
-            <SaveIcon />
-          </IconButton>
+          <Tooltip title='save parameters'>
+            <IconButton onClick={handleSaveClick}>
+              <SaveIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title='reset parameters'>
+            <IconButton onClick={handleResetParamsClick}>
+              <ClearAllIcon />
+            </IconButton>
+          </Tooltip>
 
           <Box className='form-container'>
             <WaterForm

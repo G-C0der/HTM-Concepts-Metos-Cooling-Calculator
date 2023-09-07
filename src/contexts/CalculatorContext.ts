@@ -11,7 +11,7 @@ type CalculatorContextType = {
     kettleEntities: KettleEntity[]
   ) => Promise<ApiResponse>;
   updateCalculatorParams: (calculatorParams: CalculatorParams) => Promise<ApiResponse>;
-  listCalculatorParams: (initialLoad?: boolean) => Promise<ApiResponse<ApiDataCalculatorParamsList>>;
+  listCalculatorParams: (resetParams?: boolean) => Promise<ApiResponse<ApiDataCalculatorParamsList>>;
   fetchSelectedCalculatorParams: () => Promise<ApiResponse<ApiDataCalculatorParams>>;
   deleteCalculatorParams: (id: number) => Promise<ApiResponse>;
 };

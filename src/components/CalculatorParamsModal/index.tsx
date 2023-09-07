@@ -16,12 +16,16 @@ interface CalculatorParamsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   loadParams: (params: CalculatorParams) => void;
+  wereParamsCleared: boolean;
+  setWereParamsCleared: (wereParamsCleared: boolean) => void;
 }
 
 const CalculatorParamsModal = ({
   isOpen,
   setIsOpen,
-  loadParams
+  loadParams,
+  wereParamsCleared,
+  setWereParamsCleared
 }: CalculatorParamsModalProps) => {
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
@@ -142,11 +146,13 @@ const CalculatorParamsModal = ({
   useEffect(() => {
     if (isOpen) {
       const setCalculatorParamsLIst = async () => {
-        const initialLoad = !calculatorParamsList;
-        const listCalculatorParamsResponse = await listCalculatorParams(initialLoad);
+        const resetParams = wereParamsCleared ? true : !calculatorParamsList;
+        const listCalculatorParamsResponse = await listCalculatorParams(resetParams);
 
         if (listCalculatorParamsResponse.success) {
           setCalculatorParamsList(listCalculatorParamsResponse.data!.calculatorParamsList);
+
+          if (wereParamsCleared) setWereParamsCleared(false);
         }
         else setError(listCalculatorParamsResponse.error);
       };
