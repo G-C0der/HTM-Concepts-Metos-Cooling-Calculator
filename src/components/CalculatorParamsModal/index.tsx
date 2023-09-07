@@ -10,6 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import SyncIcon from '@mui/icons-material/Sync';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
+import {ConfirmationDialog} from "../ConfirmationDialog";
 
 interface CalculatorParamsModalProps {
   isOpen: boolean;
@@ -26,11 +27,11 @@ const CalculatorParamsModal = ({
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [pendingParamsList, setPendingParamsList] = useState<CalculatorParams[]>([]);
+  const [pendingParams, setPendingParams] = useState<CalculatorParams>();
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
   const [isLoadLoading, setIsLoadLoading] = useState(false);
   const [isDeletionLoading, setIsDeletionLoading] = useState(false);
-
 
   const { listCalculatorParams, updateCalculatorParams, deleteCalculatorParams } = useContext(CalculatorContext);
 
@@ -98,7 +99,7 @@ const CalculatorParamsModal = ({
       renderCell: (params) => {
         const { row } = params;
         const { id, inUse } = row;
-        const isPendingRow = !!pendingParamsList.find(pendingParams => pendingParams.id === id);
+        const isPendingRow = pendingParams?.id === id;
         const isRowLoadLoading = isLoadLoading && isPendingRow;
         const isRowDeletionLoading = isDeletionLoading && isPendingRow;
         const isRowDirty = undefined; // TODO: check if row dirty
@@ -123,7 +124,10 @@ const CalculatorParamsModal = ({
                 ml: 2
               }}
               startIcon={<DeleteIcon />}
-              onClick={() => handleDeleteParamsClick(row)}
+              onClick={() => {
+                setPendingParams(row);
+                setIsConfirmDialogOpen(true);
+              }}
               loading={isRowDeletionLoading}
               disabled={isRowLoadLoading}
             >
@@ -162,7 +166,7 @@ const CalculatorParamsModal = ({
   }, [calculatorParamsList]);
 
   const handleLoadParamsClick = async (params: CalculatorParams) => {
-    setPendingParamsList([...pendingParamsList, params]);
+    setPendingParams(params);
     setIsLoadLoading(true);
 
     const saveResponse = await updateCalculatorParams(params);
@@ -177,11 +181,10 @@ const CalculatorParamsModal = ({
     loadParams(params);
 
     setIsLoadLoading(false);
-    setPendingParamsList([]);
+    setPendingParams(undefined);
   };
 
   const handleDeleteParamsClick = async (params: CalculatorParams) => {
-    setPendingParamsList([...pendingParamsList, params]);
     setIsDeletionLoading(true);
 
     const deleteResponse = await deleteCalculatorParams(params.id);
@@ -193,8 +196,8 @@ const CalculatorParamsModal = ({
       // TODO: show error temp alert
     }
 
+    setPendingParams(undefined);
     setIsDeletionLoading(false);
-    setPendingParamsList([]);
   };
 
   const updateParamsInUse = (id: number) => setCalculatorParamsList(calculatorParamsList!.map(params => params.id === id
@@ -249,6 +252,17 @@ const CalculatorParamsModal = ({
                           ? 'data-grid-row-current-row'
                           : ''}
                       />
+
+                      {
+                        pendingParams && (
+                          <ConfirmationDialog
+                            text={`Are you sure you want to delete the save "${pendingParams.name}"?`}
+                            pendingAction={() => handleDeleteParamsClick(pendingParams)}
+                            isOpen={isConfirmDialogOpen}
+                            setIsOpen={setIsConfirmDialogOpen}
+                          />
+                        )
+                      }
                     </>
                   )
                 }
