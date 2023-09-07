@@ -110,11 +110,10 @@ const CalculatorParamsModal = ({
       sortable: false,
       renderCell: (params) => {
         const { row } = params;
-        const { id, inUse } = row;
+        const { id } = row;
         const isPendingRow = pendingParams?.id === id;
         const isRowLoadLoading = isLoadLoading && isPendingRow;
         const isRowDeletionLoading = isDeletionLoading && isPendingRow;
-        const isRowDirty = undefined; // TODO: check if row dirty
 
         return (
           <>
@@ -123,7 +122,8 @@ const CalculatorParamsModal = ({
               startIcon={<SyncIcon />}
               onClick={() => handleLoadParamsClick(row)}
               loading={isRowLoadLoading}
-              disabled={(inUse && !isRowDirty) || isRowDeletionLoading}
+              disabled={isRowDeletionLoading}
+              // disabled={(inUse && !isRowDirty) || isRowDeletionLoading} TODO: not working without listener from MUI DataGridPro or self implemented TextFields for cell rendering
             >
               Load
             </LoadingButton>
