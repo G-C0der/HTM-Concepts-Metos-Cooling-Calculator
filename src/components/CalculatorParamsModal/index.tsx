@@ -145,9 +145,9 @@ const CalculatorParamsModal = ({
   ];
 
   useEffect(() => {
-    if (isOpen) {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    if (isOpen) {
       const setCalculatorParamsLIst = async () => {
         const resetParams = wereParamsCleared ? true : !calculatorParamsList;
         const listCalculatorParamsResponse = await listCalculatorParams(resetParams);
