@@ -77,14 +77,14 @@ const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
+  // const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
 
   const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const { authenticatedUser: user } = useContext(AuthContext);
-  const { saveCalculatorParams, fetchSelectedCalculatorParams } = useContext(CalculatorContext);
+  const { saveCalculatorParams } = useContext(CalculatorContext);
 
   // useEffect(() => {
   //   if (user) {
