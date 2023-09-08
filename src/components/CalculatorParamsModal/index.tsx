@@ -204,12 +204,11 @@ const CalculatorParamsModal = ({
     setIsDeletionLoading(true);
 
     const deleteResponse = await deleteCalculatorParams(params.id);
+    setApiResponse(deleteResponse);
     if (deleteResponse.success) {
-      deleteParams(params.id);
+      setSuccessMessage('Parameters have been deleted.');
 
-      // TODO: show success temp alert
-    } else {
-      // TODO: show error temp alert
+      deleteParams(params.id);
     }
 
     setPendingParams(undefined);
