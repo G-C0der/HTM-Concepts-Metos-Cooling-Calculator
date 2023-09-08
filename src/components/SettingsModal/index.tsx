@@ -8,7 +8,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {ApiDataUserFormEdit, ApiResponse} from "../../types";
 import {TempAlert} from "../TempAlert";
-import {htmConceptsEmail} from "../../config";
 import {UserEditForm} from "../UserEditForm";
 const packageJson = require('../../../package.json');
 
