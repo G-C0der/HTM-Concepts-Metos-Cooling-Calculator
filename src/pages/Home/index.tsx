@@ -32,6 +32,7 @@ import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 import {TempAlert} from "../../components/TempAlert";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import {LoadingButton} from "../../components/LoadingButton";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -82,6 +83,8 @@ const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+  const [isPdfGenerationLoading, setIsPdfGenerationLoading] = useState(false);
   // const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
 
   const [wereParamsSaved, setWereParamsSaved] = useState(false);
@@ -172,6 +175,8 @@ const Home = () => {
   };
 
   const handleSaveClick = async () => {
+    setIsSaveLoading(true);
+
     const saveResponse = await saveCalculatorParams(
       saveName,
       iceWaterCoolingEntity,
@@ -184,6 +189,8 @@ const Home = () => {
       setSuccessMessage('Parameters have been saved.');
       setWereParamsSaved(true);
     }
+
+    setIsSaveLoading(false);
   };
 
   const handleResetParamsClick = () => {
@@ -193,6 +200,8 @@ const Home = () => {
   };
 
   const handleGeneratePdfClick = async () => {
+    setIsPdfGenerationLoading(true);
+
     const content = document.getElementById('home-content');
 
     const canvas = await html2canvas(content!);
@@ -217,6 +226,8 @@ const Home = () => {
 
     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
     window.open(pdf.output('bloburl'), '_blank');
+
+    setIsPdfGenerationLoading(false);
   };
 
   const loadParams = (params?: CalculatorParams) => {
@@ -315,6 +326,39 @@ const Home = () => {
             onChange={(e: any) => setSaveName(e.target.value)}
           />
 
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+          >
+            <LoadingButton
+              className='action-button'
+              startIcon={<SaveIcon />}
+              onClick={handleSaveClick}
+              loading={isSaveLoading}
+            >
+              Save Parameters
+            </LoadingButton>
+
+            <Button
+              className='action-button'
+              startIcon={<ClearAllIcon />}
+              onClick={handleResetParamsClick}
+            >
+              Reset Parameters
+            </Button>
+
+            <LoadingButton
+              className='action-button'
+              startIcon={<PictureAsPdfIcon />}
+              onClick={handleGeneratePdfClick}
+              loading={isPdfGenerationLoading}
+            >
+              Generate PDF
+            </LoadingButton>
+          </Box>
+
           <Tooltip title='save parameters'>
             <IconButton onClick={handleSaveClick}>
               <SaveIcon />
@@ -327,7 +371,7 @@ const Home = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title='generate pdf'>
+          <Tooltip title='generate PDF'>
             <IconButton onClick={handleGeneratePdfClick}>
               <PictureAsPdfIcon />
             </IconButton>
