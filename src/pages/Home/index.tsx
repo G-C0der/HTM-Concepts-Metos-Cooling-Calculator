@@ -282,7 +282,7 @@ const Home = () => {
           <TextField
             style={{ margin: "5px" }}
             value={saveName}
-            error={saveName.length <= 0 || saveName.length > 50}
+            error={!saveName.trim() || saveName.length > 50}
             label="Save Name"
             variant="outlined"
             onChange={(e: any) => setSaveName(e.target.value)}
