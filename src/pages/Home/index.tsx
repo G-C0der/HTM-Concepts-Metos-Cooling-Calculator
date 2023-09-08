@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import PrintIcon from '@mui/icons-material/Print';
 import { getEnumMinMax } from "../../utils";
 import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
@@ -189,6 +190,8 @@ const Home = () => {
     setWereParamsCleared(true);
   };
 
+  const handlePrintClick = () => window.print();
+
   const loadParams = (params?: CalculatorParams) => {
     const name = params?.name ?? '';
     const waterLitreCHF = params?.waterLitreCHF ?? 0;
@@ -294,6 +297,12 @@ const Home = () => {
           <Tooltip title='reset parameters'>
             <IconButton onClick={handleResetParamsClick}>
               <ClearAllIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title='print'>
+            <IconButton onClick={handlePrintClick}>
+              <PrintIcon />
             </IconButton>
           </Tooltip>
 
