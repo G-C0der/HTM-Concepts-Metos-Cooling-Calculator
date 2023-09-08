@@ -15,6 +15,7 @@ interface CalculatorParamsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   loadParams: (params: CalculatorParams) => void;
+  wereParamsSaved: boolean;
   wereParamsCleared: boolean;
   setWereParamsCleared: (wereParamsCleared: boolean) => void;
   setApiResponse: (apiResponse: ApiResponse<never | ApiDataCalculatorParams> | undefined) => void;
@@ -25,6 +26,7 @@ const CalculatorParamsModal = ({
   isOpen,
   setIsOpen,
   loadParams,
+  wereParamsSaved,
   wereParamsCleared,
   setWereParamsCleared,
   setApiResponse,
@@ -153,7 +155,11 @@ const CalculatorParamsModal = ({
 
     if (isOpen) {
       const setCalculatorParamsLIst = async () => {
-        const resetParams = wereParamsCleared ? true : !calculatorParamsList;
+        const resetParams = wereParamsCleared
+            ? true
+            : wereParamsSaved
+              ? false
+              : !calculatorParamsList;
         const listCalculatorParamsResponse = await listCalculatorParams(resetParams);
 
         if (listCalculatorParamsResponse.success) {

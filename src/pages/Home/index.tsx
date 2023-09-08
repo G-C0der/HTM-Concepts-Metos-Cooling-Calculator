@@ -81,6 +81,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   // const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
 
+  const [wereParamsSaved, setWereParamsSaved] = useState(false);
   const [wereParamsCleared, setWereParamsCleared] = useState(false);
 
   const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
@@ -176,7 +177,10 @@ const Home = () => {
     );
 
     setApiResponse(saveResponse);
-    if (saveResponse.success) setSuccessMessage('Parameters have been saved.');
+    if (saveResponse.success) {
+      setSuccessMessage('Parameters have been saved.');
+      setWereParamsSaved(true);
+    }
   };
 
   const handleResetParamsClick = () => {
@@ -256,6 +260,7 @@ const Home = () => {
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
             loadParams={loadParams}
+            wereParamsSaved={wereParamsSaved}
             wereParamsCleared={wereParamsCleared}
             setWereParamsCleared={setWereParamsCleared}
             setApiResponse={setApiResponse}
