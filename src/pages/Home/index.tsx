@@ -224,6 +224,11 @@ const Home = () => {
     setKettleEntities(kettleEntities);
     setKettleCount(kettleCount);
   };
+  
+  const clearApiResponse = () => {
+    setApiResponse(undefined);
+    setSuccessMessage('');
+  };
 
   return isLoading
     ? (
@@ -257,7 +262,14 @@ const Home = () => {
             setSuccessMessage={setSuccessMessage}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
-          <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
+          <SettingsModal
+            isOpen={isSettingsModalOpen}
+            setIsOpen={setIsSettingsModalOpen}
+            apiResponse={apiResponse}
+            setApiResponse={setApiResponse}
+            successMessage={successMessage}
+            setSuccessMessage={setSuccessMessage}
+          />
 
           <TextField
             style={{ margin: "5px" }}
@@ -391,7 +403,7 @@ const Home = () => {
               severity='success'
               message={successMessage}
               condition={apiResponse?.success}
-              resetCondition={() => setApiResponse(undefined)}
+              resetCondition={clearApiResponse}
             />
           }
           {
@@ -400,7 +412,7 @@ const Home = () => {
               severity={apiResponse.error.severity}
               message={apiResponse.error.message}
               condition={apiResponse.success === false}
-              resetCondition={() => setApiResponse(undefined)}
+              resetCondition={clearApiResponse}
             />
           }
         </Box>

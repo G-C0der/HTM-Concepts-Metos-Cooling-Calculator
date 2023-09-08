@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {CalculatorContext} from "../../contexts";
-import {ApiError, ApiResponse, CalculatorParams} from "../../types";
+import {ApiDataCalculatorParams, ApiError, ApiResponse, CalculatorParams} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
@@ -17,7 +17,7 @@ interface CalculatorParamsModalProps {
   loadParams: (params: CalculatorParams) => void;
   wereParamsCleared: boolean;
   setWereParamsCleared: (wereParamsCleared: boolean) => void;
-  setApiResponse: (apiResponse: ApiResponse<unknown>) => void;
+  setApiResponse: (apiResponse: ApiResponse<never | ApiDataCalculatorParams> | undefined) => void;
   setSuccessMessage: (successMessage: string) => void;
 }
 
