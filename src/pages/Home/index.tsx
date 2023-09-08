@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
-import PrintIcon from '@mui/icons-material/Print';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
 import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
@@ -30,6 +30,8 @@ import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
 import {ApiResponse, CalculatorParams} from "../../types";
 import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 import {TempAlert} from "../../components/TempAlert";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -190,7 +192,32 @@ const Home = () => {
     setWereParamsCleared(true);
   };
 
-  const handlePrintClick = () => window.print();
+  const handleGeneratePdfClick = async () => {
+    const content = document.getElementById('home-content');
+
+    const canvas = await html2canvas(content!);
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF({
+      orientation: "landscape",
+    });
+
+    const imgProps = pdf.getImageProperties(imgData);
+
+    // Determine whether to fit the content width-wise or height-wise
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    let imgWidth = pageWidth;
+    let imgHeight = (imgWidth / imgProps.width) * imgProps.height;
+
+    if (imgHeight > pageHeight) {
+      imgHeight = pageHeight;
+      imgWidth = (imgHeight / imgProps.height) * imgProps.width;
+    }
+
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    window.open(pdf.output('bloburl'), '_blank');
+  };
 
   const loadParams = (params?: CalculatorParams) => {
     const name = params?.name ?? '';
@@ -248,8 +275,8 @@ const Home = () => {
         <CircularProgress size={80} />
       </Box>
     ) : (
-      <Box className="home">
-        <Box className="home-header">
+      <Box id="home">
+        <Box id="home-header">
           <CustomAppBar
             user={user!}
             setIsCalculatorParamsModalOpen={setIsCalculatorParamsModalOpen}
@@ -258,7 +285,7 @@ const Home = () => {
           />
         </Box>
 
-        <Box className="home-content">
+        <Box id="home-content">
           <CalculatorParamsModal
             isOpen={isCalculatorParamsModalOpen}
             setIsOpen={setIsCalculatorParamsModalOpen}
@@ -300,13 +327,13 @@ const Home = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title='print'>
-            <IconButton onClick={handlePrintClick}>
-              <PrintIcon />
+          <Tooltip title='generate pdf'>
+            <IconButton onClick={handleGeneratePdfClick}>
+              <PictureAsPdfIcon />
             </IconButton>
           </Tooltip>
 
-          <Box className='form-container'>
+          <Box id='form-container'>
             <WaterForm
               tapWaterCoolingEntity={tapWaterCoolingEntity}
               waterLitreCHF={waterLitreCHF}
@@ -335,7 +362,7 @@ const Home = () => {
             />
           </Box>
 
-          <Box className='recommendation-container'>
+          <Box id='recommendation-container'>
             <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} />
           </Box>
 
@@ -343,14 +370,14 @@ const Home = () => {
             consumptionResult={consumptionResult}
           />
 
-          <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
-            <Box className='button-grid-container'>
-              <Box className='data-grid'>
+          <Box id={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
+            <Box id='button-grid-container'>
+              <Box id='data-grid'>
                 <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
               </Box>
-              <Box className='button-container'>
+              <Box id='button-container'>
 
-                <Box className='kettle-button'>
+                <Box id='kettle-button'>
                   <Tooltip title='add kettle'>
                     <Button
                       style={{
@@ -364,7 +391,7 @@ const Home = () => {
                   </Tooltip>
                 </Box>
 
-                <Box className='calculate-button'>
+                <Box id='calculate-button'>
                   <Tooltip title='calculate'>
                     <Button
                       style={{
@@ -411,25 +438,25 @@ const Home = () => {
           {/*    }*/}
           {/*  </Grid>*/}
           {/*</Grid>*/}
-
-          {
-            <TempAlert
-              severity='success'
-              message={successMessage}
-              condition={apiResponse?.success}
-              resetCondition={clearApiResponse}
-            />
-          }
-          {
-            apiResponse?.error &&
-            <TempAlert
-              severity={apiResponse.error.severity}
-              message={apiResponse.error.message}
-              condition={apiResponse.success === false}
-              resetCondition={clearApiResponse}
-            />
-          }
         </Box>
+
+        {
+          <TempAlert
+            severity='success'
+            message={successMessage}
+            condition={apiResponse?.success}
+            resetCondition={clearApiResponse}
+          />
+        }
+        {
+          apiResponse?.error &&
+          <TempAlert
+            severity={apiResponse.error.severity}
+            message={apiResponse.error.message}
+            condition={apiResponse.success === false}
+            resetCondition={clearApiResponse}
+          />
+        }
       </Box>
     );
 };
