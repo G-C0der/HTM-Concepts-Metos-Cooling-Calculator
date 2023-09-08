@@ -317,21 +317,20 @@ const Home = () => {
             setSuccessMessage={setSuccessMessage}
           />
 
-          <TextField
-            style={{ margin: "5px" }}
-            value={saveName}
-            error={!saveName.trim() || saveName.length > 50}
-            label="Save Name"
-            variant="outlined"
-            onChange={(e: any) => setSaveName(e.target.value)}
-          />
-
           <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
+            id='home-actions-container'
+            gap={1}
+            pt={1}
           >
+            <TextField
+              style={{ margin: "5px" }}
+              value={saveName}
+              error={!saveName.trim() || saveName.length > 50}
+              label="Save Name"
+              variant="outlined"
+              onChange={(e: any) => setSaveName(e.target.value)}
+            />
+
             <LoadingButton
               className='action-button'
               startIcon={<SaveIcon />}
