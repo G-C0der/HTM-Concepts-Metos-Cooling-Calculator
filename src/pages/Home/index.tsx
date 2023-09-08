@@ -188,6 +188,7 @@ const Home = () => {
     if (saveResponse.success) {
       setSuccessMessage('Parameters have been saved.');
       setWereParamsSaved(true);
+      if (wereParamsCleared) setWereParamsCleared(false);
     }
 
     setIsSaveLoading(false);
