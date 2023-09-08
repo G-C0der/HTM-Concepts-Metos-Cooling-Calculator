@@ -26,8 +26,9 @@ import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
 import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
-import {CalculatorParams} from "../../types";
+import {ApiResponse, CalculatorParams} from "../../types";
 import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
+import {TempAlert} from "../../components/TempAlert";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -85,6 +86,9 @@ const Home = () => {
   const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  const [apiResponse, setApiResponse] = useState<ApiResponse>();
+  const [successMessage, setSuccessMessage] = useState('');
 
   const { authenticatedUser: user } = useContext(AuthContext);
   const { saveCalculatorParams } = useContext(CalculatorContext);
@@ -171,11 +175,8 @@ const Home = () => {
       kettleEntities
     );
 
-    if (saveResponse.success) {
-      // TODO: show success temp alert
-    } else {
-      // TODO: show error temp alert
-    }
+    setApiResponse(saveResponse);
+    if (saveResponse.success) setSuccessMessage('Parameters have been saved.');
   };
 
   const handleResetParamsClick = () => {
@@ -382,6 +383,24 @@ const Home = () => {
           {/*    }*/}
           {/*  </Grid>*/}
           {/*</Grid>*/}
+
+          {
+            <TempAlert
+              severity='success'
+              message={successMessage}
+              condition={apiResponse?.success}
+              resetCondition={() => setApiResponse(undefined)}
+            />
+          }
+          {
+            apiResponse?.error &&
+            <TempAlert
+              severity={apiResponse.error.severity}
+              message={apiResponse.error.message}
+              condition={apiResponse.success === false}
+              resetCondition={() => setApiResponse(undefined)}
+            />
+          }
         </Box>
       </Box>
     );
