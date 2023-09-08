@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {CalculatorContext} from "../../contexts";
-import {ApiError, CalculatorParams} from "../../types";
+import {ApiError, ApiResponse, CalculatorParams} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
@@ -17,6 +17,8 @@ interface CalculatorParamsModalProps {
   loadParams: (params: CalculatorParams) => void;
   wereParamsCleared: boolean;
   setWereParamsCleared: (wereParamsCleared: boolean) => void;
+  setApiResponse: (apiResponse: ApiResponse<unknown>) => void;
+  setSuccessMessage: (successMessage: string) => void;
 }
 
 const CalculatorParamsModal = ({
@@ -24,7 +26,9 @@ const CalculatorParamsModal = ({
   setIsOpen,
   loadParams,
   wereParamsCleared,
-  setWereParamsCleared
+  setWereParamsCleared,
+  setApiResponse,
+  setSuccessMessage
 }: CalculatorParamsModalProps) => {
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
@@ -181,14 +185,13 @@ const CalculatorParamsModal = ({
     setIsLoadLoading(true);
 
     const updateResponse = await updateCalculatorParams(params);
+    setApiResponse(updateResponse);
     if (updateResponse.success) {
+      setSuccessMessage('Parameters have been saved and loaded.');
+
       updateParams(updateResponse.data!.calculatorParams);
 
       setSelectedRows([]);
-
-      // TODO: show success temp alert
-    } else {
-      // TODO: show error temp alert
     }
 
     loadParams(params);

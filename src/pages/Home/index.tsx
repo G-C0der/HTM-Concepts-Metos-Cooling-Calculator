@@ -87,7 +87,7 @@ const Home = () => {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  const [apiResponse, setApiResponse] = useState<ApiResponse>();
+  const [apiResponse, setApiResponse] = useState<ApiResponse<unknown>>();
   const [successMessage, setSuccessMessage] = useState('');
 
   const { authenticatedUser: user } = useContext(AuthContext);
@@ -253,6 +253,8 @@ const Home = () => {
             loadParams={loadParams}
             wereParamsCleared={wereParamsCleared}
             setWereParamsCleared={setWereParamsCleared}
+            setApiResponse={setApiResponse}
+            setSuccessMessage={setSuccessMessage}
           />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
           <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
