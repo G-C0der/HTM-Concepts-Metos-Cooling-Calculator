@@ -322,6 +322,7 @@ const Home = () => {
             id='home-actions-container'
             gap={1}
             pt={1}
+            sx={{ flexDirection: 'row' }}
           >
             <TextField
               style={{ margin: "5px" }}
@@ -358,24 +359,6 @@ const Home = () => {
               Generate PDF
             </LoadingButton>
           </Box>
-
-          <Tooltip title='save parameters'>
-            <IconButton onClick={handleSaveClick}>
-              <SaveIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title='reset parameters'>
-            <IconButton onClick={handleResetParamsClick}>
-              <ClearAllIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title='generate PDF'>
-            <IconButton onClick={handleGeneratePdfClick}>
-              <PictureAsPdfIcon />
-            </IconButton>
-          </Tooltip>
 
           <Box id='form-container'>
             <WaterForm
