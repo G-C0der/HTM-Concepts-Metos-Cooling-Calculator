@@ -2,7 +2,7 @@ import {IceWaterCoolingEntity, KettleEntity, TapWaterCoolingEntity} from "../ent
 import {toApiError, toApiResponse} from "./utils";
 import calculatorApi from "../services/api/CalculatorApi";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {CalculatorParams, CalculatorParamsForm} from "../types";
+import {ApiDataCalculatorParams, ApiDataCalculatorParamsList, CalculatorParams, CalculatorParamsForm} from "../types";
 
 const useCalculator = () => {
   const saveCalculatorParams = async (
@@ -47,7 +47,7 @@ const useCalculator = () => {
   const updateCalculatorParams = async (calculatorParams: CalculatorParams) => {
     try {
       const data = await calculatorApi.save(calculatorParams);
-      return toApiResponse(true, undefined, data);
+      return toApiResponse<ApiDataCalculatorParams>(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
@@ -56,7 +56,7 @@ const useCalculator = () => {
   const listCalculatorParams = async (resetParams?: boolean) => {
     try {
       const data = await calculatorApi.list(resetParams);
-      return toApiResponse(true, undefined, data);
+      return toApiResponse<ApiDataCalculatorParamsList>(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
@@ -65,7 +65,7 @@ const useCalculator = () => {
   const fetchSelectedCalculatorParams = async () => {
     try {
       const data = await calculatorApi.fetch();
-      return toApiResponse(true, undefined, data);
+      return toApiResponse<ApiDataCalculatorParams>(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }

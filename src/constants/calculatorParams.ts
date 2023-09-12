@@ -16,7 +16,20 @@ const paramsFieldLabels = {
   kettles: 'Kettles',
 };
 
+const paramsKettlesFieldLabels = {
+  sizeLitres: 'Size Proveno 4G',
+  coolingMode: 'Cooling Mode',
+  c3CoolingPercent: 'C3 Cooling %'
+};
+
+const paramsKettleTimeUsagesLabels = {
+  time: 'Time',
+  foodLitres: 'Food Litres'
+};
+
 export {
   paramsFieldLengths,
-  paramsFieldLabels
+  paramsFieldLabels,
+  paramsKettlesFieldLabels,
+  paramsKettleTimeUsagesLabels
 };

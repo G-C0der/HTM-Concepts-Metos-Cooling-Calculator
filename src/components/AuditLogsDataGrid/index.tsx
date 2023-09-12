@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ApiError, AuditLog} from "../../types";
-import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
+import {DataGridPro, GridColDef, GridToolbar} from "@mui/x-data-grid-pro";
 import moment from "moment";
 import {AdminContext} from "../../contexts";
 import {ErrorAlert} from "../ErrorAlert";
@@ -57,7 +57,7 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       valueGetter: ({ value }) => value.email
     },
     {
-      field: '_',
+      field: 'subject',
       headerName: 'Subject',
       width: 400,
       valueGetter: ({ row: { user, params } }) => params?.name
@@ -111,7 +111,7 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
               <CircularProgress size={80} />
             </Box>
           ) : (
-            <DataGridPremium
+            <DataGridPro
               rows={auditLogs!}
               columns={columns}
               density='compact'

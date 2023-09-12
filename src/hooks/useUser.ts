@@ -1,4 +1,4 @@
-import {ApiDataEmailSent, UserForm, UserFormEdit} from "../types";
+import {ApiDataEmailSent, ApiDataUserFormEdit, UserForm, UserFormEdit} from "../types";
 import {toApiError, toApiResponse} from "./utils";
 import {userApi} from "../services/api";
 
@@ -66,7 +66,7 @@ const useUser = () => {
   const fetchForm = async () => {
     try {
       const data = await userApi.fetchForm();
-      return toApiResponse(true, undefined, data);
+      return toApiResponse<ApiDataUserFormEdit>(true, undefined, data);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
