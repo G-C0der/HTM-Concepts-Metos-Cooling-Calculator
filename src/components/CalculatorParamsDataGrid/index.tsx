@@ -23,8 +23,8 @@ import SyncIcon from '@mui/icons-material/Sync';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
 import {ConfirmationDialog} from "../ConfirmationDialog";
-import {CalculatorParamsDetailDataGrid} from "../CalculatorParamsDetailDataGrid";
-import {userFieldLabels} from "../../constants";
+import {CalculatorParamsKettlesDataGrid} from "../CalculatorParamsKettlesDataGrid";
+import {paramsFieldLabels, userFieldLabels} from "../../constants";
 
 interface CalculatorParamsDataGridProps {
   isModalOpen: boolean;
@@ -85,55 +85,55 @@ const CalculatorParamsDataGrid = ({
     ] : []),
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: paramsFieldLabels['name'],
       width: 300,
       editable: true
     },
     {
       field: 'waterLitreCHF',
-      headerName: 'CHF/litres',
+      headerName: paramsFieldLabels['waterLitreCHF'],
       width: 100,
       editable: true,
       type: 'number'
     },
     {
       field: 'waterLitreCo2',
-      headerName: 'CO2g/litres',
+      headerName: paramsFieldLabels['waterLitreCo2'],
       width: 100,
       editable: true,
       type: 'number'
     },
     {
       field: 'kwHourCHF',
-      headerName: 'CHF/kWh',
+      headerName: paramsFieldLabels['kwHourCHF'],
       width: 100,
       editable: true,
       type: 'number'
     },
     {
       field: 'kwHourCo2',
-      headerName: 'CO2g/kWh',
+      headerName: paramsFieldLabels['kwHourCo2'],
       width: 100,
       editable: true,
       type: 'number'
     },
     {
       field: 'iceWaterCoolingType1Count',
-      headerName: 'Type 1 Count',
+      headerName: paramsFieldLabels['iceWaterCoolingType1Count'],
       width: 120,
       editable: true,
       type: 'number'
     },
     {
       field: 'iceWaterCoolingType4Count',
-      headerName: 'Type 4 Count',
+      headerName: paramsFieldLabels['iceWaterCoolingType4Count'],
       width: 120,
       editable: true,
       type: 'number'
     },
     {
       field: 'cop',
-      headerName: 'COP',
+      headerName: paramsFieldLabels['cop'],
       width: 70,
       editable: true,
       type: 'number'
@@ -304,7 +304,7 @@ const CalculatorParamsDataGrid = ({
                               : ''}
                             rowSelectionModel={selectedRows}
                             onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
-                            getDetailPanelContent={({ row }) => isAdminMode && <CalculatorParamsDetailDataGrid params={row} />}
+                            getDetailPanelContent={({ row }) => isAdminMode && <CalculatorParamsKettlesDataGrid kettles={row.kettles} />}
                           />
                         ) : (
                           <DataGrid
