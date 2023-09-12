@@ -57,7 +57,7 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
 
   return (
     <Box>
-      <Typography>
+      <Typography sx={{ color: '#000' }}>
         Recommendations Metos Proveno 4G 200l C5i
       </Typography>
 
