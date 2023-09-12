@@ -1,7 +1,7 @@
 import React from 'react';
 import {ApiDataCalculatorParams, ApiResponse, CalculatorParams} from "../../types";
 import {Modal} from "../Modal";
-import {CalculatorParamsGrid} from "../CalculatorParamsDataGrid";
+import {CalculatorParamsDataGrid} from "../CalculatorParamsDataGrid";
 
 interface CalculatorParamsModalProps {
   isOpen: boolean;
@@ -17,23 +17,13 @@ interface CalculatorParamsModalProps {
 const CalculatorParamsModal = ({
   isOpen,
   setIsOpen,
-  loadParams,
-  wereParamsSaved,
-  wereParamsCleared,
-  setWereParamsCleared,
-  setApiResponse,
-  setSuccessMessage
+  ...props
 }: CalculatorParamsModalProps) => {
   return (
     <Modal title='Saves' isOpen={isOpen} setIsOpen={setIsOpen}>
-      <CalculatorParamsGrid
-        isOpen={isOpen}
-        loadParams={loadParams}
-        wereParamsSaved={wereParamsSaved}
-        wereParamsCleared={wereParamsCleared}
-        setWereParamsCleared={setWereParamsCleared}
-        setApiResponse={setApiResponse}
-        setSuccessMessage={setSuccessMessage}
+      <CalculatorParamsDataGrid
+        isModalOpen={isOpen}
+        {...props}
       />
     </Modal>
   );

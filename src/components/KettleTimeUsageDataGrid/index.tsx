@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
+import {KettleEntity, TimeUsageRow} from "../../entities";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 

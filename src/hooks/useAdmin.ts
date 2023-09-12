@@ -1,6 +1,12 @@
 import {auditLogApi, userApi} from "../services/api";
 import {toApiError, toApiResponse} from "./utils";
-import {ApiDataAuditLogList, ApiDataEmailSent, ApiDataUserList} from "../types";
+import {
+  ApiDataAllCalculatorParamsList,
+  ApiDataAuditLogList,
+  ApiDataEmailSent,
+  ApiDataUserList
+} from "../types";
+import calculatorApi from "../services/api/CalculatorApi";
 
 const useAdmin = () => {
   const listUsers = async () => {
@@ -39,11 +45,21 @@ const useAdmin = () => {
     }
   };
 
+  const listAllCalculatorParams = async () => {
+    try {
+      const data = await calculatorApi.listAll();
+      return toApiResponse<ApiDataAllCalculatorParamsList>(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
   return {
     listUsers,
     activateUser,
     deactivateUser,
-    listAuditLogs
+    listAuditLogs,
+    listAllCalculatorParams
   }
 };
 

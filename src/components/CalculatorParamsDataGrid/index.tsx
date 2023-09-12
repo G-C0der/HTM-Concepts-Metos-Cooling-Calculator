@@ -1,34 +1,52 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {CalculatorContext} from "../../contexts";
-import {ApiDataCalculatorParams, ApiError, ApiResponse, CalculatorParams} from "../../types";
+import {AdminContext, CalculatorContext} from "../../contexts";
+import {
+  ApiDataAllCalculatorParamsList,
+  ApiDataCalculatorParams, ApiDataCalculatorParamsList,
+  ApiError,
+  ApiResponse,
+  CalculatorParams
+} from "../../types";
 import {ErrorAlert} from "../ErrorAlert";
 import Box from "@mui/material/Box";
 import {CircularProgress} from "@mui/material";
-import {GridColDef, DataGrid, GridToolbar, GridRowSelectionModel} from "@mui/x-data-grid";
+import {
+  GridColDef,
+  DataGrid,
+  GridToolbar,
+  GridRowSelectionModel,
+  GridValueGetterParams,
+  GridRenderCellParams
+} from "@mui/x-data-grid";
+import {DataGridPro} from "@mui/x-data-grid-pro";
 import SyncIcon from '@mui/icons-material/Sync';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {LoadingButton} from "../LoadingButton";
 import {ConfirmationDialog} from "../ConfirmationDialog";
+import {CalculatorParamsDetailDataGrid} from "../CalculatorParamsDetailDataGrid";
+import {userFieldLabels} from "../../constants";
 
-interface CalculatorParamsGridProps {
-  isOpen: boolean;
-  loadParams: (params: CalculatorParams) => void;
-  wereParamsSaved: boolean;
-  wereParamsCleared: boolean;
-  setWereParamsCleared: (wereParamsCleared: boolean) => void;
-  setApiResponse: (apiResponse: ApiResponse<never | ApiDataCalculatorParams> | undefined) => void;
-  setSuccessMessage: (successMessage: string) => void;
+interface CalculatorParamsDataGridProps {
+  isModalOpen: boolean;
+  loadParams?: (params: CalculatorParams) => void;
+  wereParamsSaved?: boolean;
+  wereParamsCleared?: boolean;
+  setWereParamsCleared?: (wereParamsCleared: boolean) => void;
+  setApiResponse?: (apiResponse: ApiResponse<never | ApiDataCalculatorParams> | undefined) => void;
+  setSuccessMessage?: (successMessage: string) => void;
 }
 
-const CalculatorParamsGrid = ({
-  isOpen,
+const CalculatorParamsDataGrid = ({
+  isModalOpen,
   loadParams,
   wereParamsSaved,
   wereParamsCleared,
   setWereParamsCleared,
   setApiResponse,
   setSuccessMessage
-}: CalculatorParamsGridProps) => {
+}: CalculatorParamsDataGridProps) => {
+  const isAdminMode = !loadParams;
+
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
@@ -42,8 +60,29 @@ const CalculatorParamsGrid = ({
   const [selectedRows, setSelectedRows] = useState<GridRowSelectionModel>([]);
 
   const { listCalculatorParams, updateCalculatorParams, deleteCalculatorParams } = useContext(CalculatorContext);
+  const { listAllCalculatorParams } = useContext(AdminContext);
 
   const columns: GridColDef[] = [
+    ...(isAdminMode ? [
+      {
+        field: 'company',
+        headerName: userFieldLabels['company'],
+        width: 200,
+        valueGetter: ({ row }: GridValueGetterParams) => row.user.company
+      },
+      {
+        field: 'fname',
+        headerName: userFieldLabels['fname'],
+        width: 140,
+        valueGetter: ({ row }: GridValueGetterParams) => row.user.fname
+      },
+      {
+        field: 'lname',
+        headerName: userFieldLabels['lname'],
+        width: 140,
+        valueGetter: ({ row }: GridValueGetterParams) => row.user.lname
+      }
+    ] : []),
     {
       field: 'name',
       headerName: 'Name',
@@ -99,12 +138,12 @@ const CalculatorParamsGrid = ({
       editable: true,
       type: 'number'
     },
-    {
+    ...(isAdminMode ? [] : [{
       field: 'actions',
       headerName: 'Actions',
       width: 250,
       sortable: false,
-      renderCell: (params) => {
+      renderCell: (params: GridRenderCellParams) => {
         const { row } = params;
         const { id } = row;
         const isPendingRow = pendingParams?.id === id;
@@ -144,34 +183,39 @@ const CalculatorParamsGrid = ({
           </>
         );
       }
-    }
+    }])
   ];
 
   useEffect(() => {
     setIsLoading(true);
 
-    if (isOpen) {
+    if (isModalOpen) {
       const setCalculatorParamsLIst = async () => {
         const resetParams = wereParamsCleared
           ? true
           : wereParamsSaved
             ? false
             : !calculatorParamsList;
-        const listCalculatorParamsResponse = await listCalculatorParams(resetParams);
+        const listCalculatorParamsResponse = isAdminMode
+          ? await listAllCalculatorParams()
+          : await listCalculatorParams(resetParams);
 
         if (listCalculatorParamsResponse.success) {
           setError(undefined);
 
-          setCalculatorParamsList(listCalculatorParamsResponse.data!.calculatorParamsList);
+          const paramsList = isAdminMode
+            ? (listCalculatorParamsResponse.data as ApiDataAllCalculatorParamsList).allCalculatorParamsList
+            : (listCalculatorParamsResponse.data as ApiDataCalculatorParamsList).calculatorParamsList;
+          setCalculatorParamsList(paramsList);
 
-          if (wereParamsCleared) setWereParamsCleared(false);
+          if (!isAdminMode && wereParamsCleared) setWereParamsCleared!(false);
         }
         else setError(listCalculatorParamsResponse.error);
       };
 
       setCalculatorParamsLIst();
     }
-  }, [isOpen]);
+  }, [isModalOpen, isAdminMode]);
 
   useEffect(() => {
     if (calculatorParamsList) {
@@ -188,16 +232,16 @@ const CalculatorParamsGrid = ({
     setIsLoadLoading(true);
 
     const updateResponse = await updateCalculatorParams(params);
-    setApiResponse(updateResponse);
+    setApiResponse!(updateResponse);
     if (updateResponse.success) {
-      setSuccessMessage('Parameters have been saved and loaded.');
+      setSuccessMessage!('Parameters have been saved and loaded.');
 
       updateParams(updateResponse.data!.calculatorParams);
 
       setSelectedRows([]);
     }
 
-    loadParams(params);
+    loadParams!(params);
 
     setIsLoadLoading(false);
     setPendingParams(undefined);
@@ -207,9 +251,9 @@ const CalculatorParamsGrid = ({
     setIsDeletionLoading(true);
 
     const deleteResponse = await deleteCalculatorParams(params.id);
-    setApiResponse(deleteResponse);
+    setApiResponse!(deleteResponse);
     if (deleteResponse.success) {
-      setSuccessMessage('Parameters have been deleted.');
+      setSuccessMessage!('Parameters have been deleted.');
 
       deleteParams(params.id);
     }
@@ -246,19 +290,37 @@ const CalculatorParamsGrid = ({
                   </Box>
                 ) : (
                   <>
-                    <DataGrid
-                      rows={calculatorParamsList!}
-                      columns={columns}
-                      sx={{ backgroundColor: '#e3f8fa' }}
-                      hideFooter
-                      slots={{ toolbar: GridToolbar }}
-                      getRowClassName={({ row: { inUse } }) => inUse
-                        ? 'data-grid-row-current-row'
-                        : ''}
-                      rowSelectionModel={selectedRows}
-                      onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
-                    />
-
+                    {
+                      isAdminMode
+                        ? (
+                          <DataGridPro
+                            rows={calculatorParamsList!}
+                            columns={columns}
+                            sx={{ backgroundColor: '#e3f8fa' }}
+                            hideFooter
+                            slots={{ toolbar: GridToolbar }}
+                            getRowClassName={({ row: { inUse } }) => !isAdminMode && inUse
+                              ? 'data-grid-row-current-row'
+                              : ''}
+                            rowSelectionModel={selectedRows}
+                            onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
+                            getDetailPanelContent={({ row }) => isAdminMode && <CalculatorParamsDetailDataGrid params={row} />}
+                          />
+                        ) : (
+                          <DataGrid
+                            rows={calculatorParamsList!}
+                            columns={columns}
+                            sx={{ backgroundColor: '#e3f8fa' }}
+                            hideFooter
+                            slots={{ toolbar: GridToolbar }}
+                            getRowClassName={({ row: { inUse } }) => !isAdminMode && inUse
+                              ? 'data-grid-row-current-row'
+                              : ''}
+                            rowSelectionModel={selectedRows}
+                            onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
+                          />
+                        )
+                    }
                     {
                       pendingParams && (
                         <ConfirmationDialog
@@ -280,5 +342,5 @@ const CalculatorParamsGrid = ({
 };
 
 export {
-  CalculatorParamsGrid
+  CalculatorParamsDataGrid
 };

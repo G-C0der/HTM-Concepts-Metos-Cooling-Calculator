@@ -3,7 +3,7 @@ import './style.css';
 import {ApiError, User} from "../../types";
 import {AdminContext, AuthContext} from "../../contexts";
 import {CircularProgress} from "@mui/material";
-import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
+import {DataGridPro, GridColDef, GridToolbar} from "@mui/x-data-grid-pro";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -198,7 +198,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
             </Box>
           ) : (
             <>
-              <DataGridPremium
+              <DataGridPro
                 rows={users!}
                 columns={columns}
                 sx={{ backgroundColor: '#e3f8fa' }}
