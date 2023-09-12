@@ -2,6 +2,7 @@ import React from 'react';
 import {CalculatorParamsKettle} from "../../types";
 import {DataGridPro, GridColDef} from "@mui/x-data-grid-pro";
 import {paramsKettlesFieldLabels} from "../../constants";
+import { CalculatorParamsKettleTimeUsagesDataGrid } from '../CalculatorParamsKettleTimeUsagesDataGrid';
 
 interface CalculatorParamsKettlesDataGridProps {
   kettles: CalculatorParamsKettle[];
@@ -55,7 +56,7 @@ const CalculatorParamsKettlesDataGrid = ({ kettles }: CalculatorParamsKettlesDat
       columns={columns}
       sx={{ backgroundColor: '#e3f8fa' }}
       hideFooter
-      // getDetailPanelContent={({ row }) => isAdminMode && <CalculatorParamsKettlesDataGrid kettles={row.kettles} />}
+      getDetailPanelContent={({ row }) => <CalculatorParamsKettleTimeUsagesDataGrid timeUsages={row.timeUsages} />}
     />
   );
 };

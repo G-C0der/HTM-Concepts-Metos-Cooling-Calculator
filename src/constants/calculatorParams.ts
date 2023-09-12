@@ -22,8 +22,14 @@ const paramsKettlesFieldLabels = {
   c3CoolingPercent: 'C3 Cooling %'
 };
 
+const paramsKettleTimeUsagesLabels = {
+  time: 'Time',
+  foodLitres: 'Food Litres'
+};
+
 export {
   paramsFieldLengths,
   paramsFieldLabels,
-  paramsKettlesFieldLabels
+  paramsKettlesFieldLabels,
+  paramsKettleTimeUsagesLabels
 };
