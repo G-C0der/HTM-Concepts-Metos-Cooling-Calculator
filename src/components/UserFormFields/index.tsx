@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Checkbox,
   FormControl,
-  FormControlLabel,
   FormHelperText,
   InputLabel,
   MenuItem,
