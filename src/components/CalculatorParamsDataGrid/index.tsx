@@ -30,6 +30,8 @@ interface CalculatorParamsDataGridProps {
   isModalOpen: boolean;
   isAdminMode?: boolean;
   loadParams?: (params: CalculatorParams) => void;
+  initialParamsLoadDone?: boolean;
+  setInitialParamsLoadDone?: (hasRenderedOnce: boolean) => void;
   wereParamsSaved?: boolean;
   wereParamsCleared?: boolean;
   setWereParamsCleared?: (wereParamsCleared: boolean) => void;
@@ -41,6 +43,8 @@ const CalculatorParamsDataGrid = ({
   isModalOpen,
   isAdminMode,
   loadParams,
+  initialParamsLoadDone,
+  setInitialParamsLoadDone,
   wereParamsSaved,
   wereParamsCleared,
   setWereParamsCleared,
@@ -195,7 +199,7 @@ const CalculatorParamsDataGrid = ({
           ? true
           : wereParamsSaved
             ? false
-            : !calculatorParamsList;
+            : !initialParamsLoadDone;
         const listCalculatorParamsResponse = isAdminMode
           ? await listAllCalculatorParams()
           : await listCalculatorParams(resetParams);
@@ -208,7 +212,10 @@ const CalculatorParamsDataGrid = ({
             : (listCalculatorParamsResponse.data as ApiDataCalculatorParamsList).calculatorParamsList;
           setCalculatorParamsList(paramsList);
 
-          if (!isAdminMode && wereParamsCleared) setWereParamsCleared!(false);
+          if (!isAdminMode) {
+            if (!initialParamsLoadDone) setInitialParamsLoadDone!(true);
+            if (wereParamsCleared) setWereParamsCleared!(false);
+          }
         }
         else setError(listCalculatorParamsResponse.error);
       };
@@ -299,12 +306,9 @@ const CalculatorParamsDataGrid = ({
                             sx={{ backgroundColor: '#e3f8fa' }}
                             hideFooter
                             slots={{ toolbar: GridToolbar }}
-                            getRowClassName={({ row: { inUse } }) => !isAdminMode && inUse
-                              ? 'data-grid-row-current-row'
-                              : ''}
                             rowSelectionModel={selectedRows}
                             onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
-                            getDetailPanelContent={({ row }) => isAdminMode && <CalculatorParamsKettlesDataGrid kettles={row.kettles} />}
+                            getDetailPanelContent={({ row }) => <CalculatorParamsKettlesDataGrid kettles={row.kettles} />}
                           />
                         ) : (
                           <DataGrid
@@ -313,7 +317,7 @@ const CalculatorParamsDataGrid = ({
                             sx={{ backgroundColor: '#e3f8fa' }}
                             hideFooter
                             slots={{ toolbar: GridToolbar }}
-                            getRowClassName={({ row: { inUse } }) => !isAdminMode && inUse
+                            getRowClassName={({ row: { inUse } }) => inUse
                               ? 'data-grid-row-current-row'
                               : ''}
                             rowSelectionModel={selectedRows}

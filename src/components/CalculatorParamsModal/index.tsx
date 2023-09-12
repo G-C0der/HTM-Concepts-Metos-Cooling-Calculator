@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ApiDataCalculatorParams, ApiResponse, CalculatorParams} from "../../types";
 import {Modal} from "../Modal";
 import {CalculatorParamsDataGrid} from "../CalculatorParamsDataGrid";
@@ -19,10 +19,14 @@ const CalculatorParamsModal = ({
   setIsOpen,
   ...props
 }: CalculatorParamsModalProps) => {
+  const [initialParamsLoadDone, setInitialParamsLoadDone] = useState(false);
+
   return (
     <Modal title='Saves' isOpen={isOpen} setIsOpen={setIsOpen}>
       <CalculatorParamsDataGrid
         isModalOpen={isOpen}
+        initialParamsLoadDone={initialParamsLoadDone}
+        setInitialParamsLoadDone={setInitialParamsLoadDone}
         {...props}
       />
     </Modal>
