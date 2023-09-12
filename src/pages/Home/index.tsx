@@ -26,7 +26,7 @@ import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
 import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
-import {ApiResponse, CalculatorParams} from "../../types";
+import {ApiResponse, CalculatorParams, CalculatorParamsKettle} from "../../types";
 import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
 import {TempAlert} from "../../components/TempAlert";
 import { jsPDF } from "jspdf";
@@ -254,8 +254,11 @@ const Home = () => {
     const iceWaterCoolingType1Count = params?.iceWaterCoolingType1Count ?? 0;
     const iceWaterCoolingType4Count = params?.iceWaterCoolingType4Count ?? 0;
     const cop = params?.cop ?? 1;
-    const kettleEntities = params
-      ? params.kettles.map(kettleParams => new KettleEntity(
+    const kettles = params
+      ? (typeof params.kettles === 'string') ? JSON.parse(params.kettles) : params.kettles // Parse `kettles` into JSON objects if they're strings. This happens on heroku prod system
+      : null;
+    const kettleEntities = kettles
+      ? kettles.map((kettleParams: CalculatorParamsKettle) => new KettleEntity(
           kettleParams.sizeLitres,
           kettleParams.coolingMode,
           kettleParams.c3CoolingPercent,

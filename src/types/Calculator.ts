@@ -15,14 +15,16 @@ interface CalculatorParams {
   iceWaterCoolingType1Count: IceWaterCoolingTypeCount;
   iceWaterCoolingType4Count: IceWaterCoolingTypeCount;
   cop: number;
-  kettles: {
-    sizeLitres: KettleSizeLitres;
-    coolingMode: KettleCoolingModes;
-    c3CoolingPercent?: number;
-    timeUsages: TimeUsage[];
-  }[];
+  kettles: CalculatorParamsKettle[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface CalculatorParamsKettle {
+  sizeLitres: KettleSizeLitres;
+  coolingMode: KettleCoolingModes;
+  c3CoolingPercent?: number;
+  timeUsages: TimeUsage[];
 }
 
 type CalculatorParamsForm = Omit<CalculatorParams, 'id' | 'inUse' | 'createdAt' | 'updatedAt'>;
@@ -30,5 +32,6 @@ type CalculatorParamsForm = Omit<CalculatorParams, 'id' | 'inUse' | 'createdAt' 
 export type {
   IceWaterCoolingTypeCount,
   CalculatorParams,
+  CalculatorParamsKettle,
   CalculatorParamsForm
 };
