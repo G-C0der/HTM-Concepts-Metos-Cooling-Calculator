@@ -12,7 +12,7 @@ const useAdmin = () => {
     }
   };
 
-  const activateUser = async (id: string) => {
+  const activateUser = async (id: number) => {
     try {
       const data = await userApi.changeActiveState(id, true);
       return toApiResponse<ApiDataEmailSent>(true, undefined, data);
@@ -21,7 +21,7 @@ const useAdmin = () => {
     }
   };
 
-  const deactivateUser = async (id: string) => {
+  const deactivateUser = async (id: number) => {
     try {
       await userApi.changeActiveState(id, false);
       return toApiResponse(true);

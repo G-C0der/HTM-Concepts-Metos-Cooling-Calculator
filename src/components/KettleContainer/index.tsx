@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import {Kettle} from "../Kettle";
+import {Kettle} from "../KettleForm";
 import {KettleEntity} from "../../entities/KettleEntity";
 
 interface KettleContainerProps {

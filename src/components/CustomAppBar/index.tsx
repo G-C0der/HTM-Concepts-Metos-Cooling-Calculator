@@ -12,20 +12,31 @@ import {htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite} from "../..
 import {ProfileMenu} from "../ProfileMenu";
 import MenuIcon from '@mui/icons-material/Menu';
 import { isMobile } from '../../utils';
-import SettingsIcon from "@mui/icons-material/Settings";
 
 interface CustomAppBarProps {
   user: User;
+  setIsCalculatorParamsModalOpen: (isCalculatorParamsModalOpen: boolean) => void;
   setIsAdminModalOpen: (isAdminModalOpen: boolean) => void;
   setIsSettingsModalOpen: (isSettingsModalOpen: boolean) => void;
 }
 
-export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen }: CustomAppBarProps) => {
+export const CustomAppBar = ({
+  user,
+  setIsCalculatorParamsModalOpen,
+  setIsAdminModalOpen,
+  setIsSettingsModalOpen
+}: CustomAppBarProps) => {
   const [anchorElMenu, setAnchorElMenu] = React.useState<null | HTMLElement>(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElMenu(event.currentTarget);
 
   const handleCloseMenu = () => setAnchorElMenu(null);
+
+  const items = [
+    { display: 'Saves', clickEvent: () => setIsCalculatorParamsModalOpen(true), condition: true },
+    { display: 'Admin', clickEvent: () => setIsAdminModalOpen(true), condition: user.admin },
+    { display: 'Contact', clickEvent: () => window.open(htmConceptsWebsiteContact, '_blank'), condition: true }
+  ];
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -65,25 +76,13 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen
                     open={Boolean(anchorElMenu)}
                     onClose={handleCloseMenu}
                   >
-                    <MenuItem onClick={() => window.open(htmConceptsWebsiteContact, '_blank')}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography
-                          component="div"
-                          sx={{
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.03rem',
-                            color: 'inherit'
-                          }}
-                        >
-                          Contact
-                        </Typography>
-                      </Box>
-                    </MenuItem>
+                    {items.map(item => (
+                      item.condition &&
+                      <MenuItem key={item.display} onClick={() => {
+                        item.clickEvent();
 
-                    {
-                      user.admin &&
-                      <MenuItem onClick={() => setIsAdminModalOpen(true)}>
+                        handleCloseMenu();
+                      }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <Typography
                             component="div"
@@ -94,41 +93,23 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen
                               color: 'inherit'
                             }}
                           >
-                            Admin
+                            {item.display}
                           </Typography>
                         </Box>
                       </MenuItem>
-                    }
+                    ))}
                   </Menu>
                 </>
               ) : (
                 <>
-                  <Button
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2, ml: 7 }}
-                    onClick={() => window.open(htmConceptsWebsiteContact, '_blank')}
-                  >
-                    <Typography
-                      component="div"
-                      sx={{
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.03rem',
-                        color: 'inherit'
-                      }}
-                    >
-                      Contact
-                    </Typography>
-                  </Button>
-
-                  {
-                    user.admin &&
+                  {items.map(item => (
+                    item.condition &&
                     <Button
+                      key={item.display}
                       color="inherit"
                       aria-label="menu"
                       sx={{ mr: 2 }}
-                      onClick={() => setIsAdminModalOpen(true)}
+                      onClick={item.clickEvent}
                     >
                       <Typography
                         component="div"
@@ -139,10 +120,10 @@ export const CustomAppBar = ({ user, setIsAdminModalOpen, setIsSettingsModalOpen
                           color: 'inherit'
                         }}
                       >
-                        Admin
+                        {item.display}
                       </Typography>
                     </Button>
-                  }
+                  ))}
                 </>
               )
           }

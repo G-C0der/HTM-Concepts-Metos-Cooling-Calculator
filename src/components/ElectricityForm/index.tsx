@@ -53,9 +53,9 @@ export const ElectricityForm = ({
             <TextField
               style={{ width: "200px", margin: "5px" }}
               value={kWhCHF}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={kWhCHF < 0}
               type="number"
-              inputProps={{ step: '0.001' }}
+              inputProps={{ step: '0.01' }}
               label="CHF/kWh"
               variant="outlined"
               onChange={handleKwHourCostChange}
@@ -66,10 +66,10 @@ export const ElectricityForm = ({
             <TextField
               style={{ width: "200px", margin: "5px" }}
               value={kWhCO2}
-              // error={/* || /[0-9]/.test(foodLitres.toString())*/}
+              error={kWhCO2 < 0}
               type="number"
-              inputProps={{ step: '0.001' }}
-              label={'CO2g/kW'}
+              inputProps={{ step: '0.01' }}
+              label='CO2g/kWh'
               variant="outlined"
               onChange={handleKwHourCo2Change}
             />
@@ -81,8 +81,8 @@ export const ElectricityForm = ({
               value={cop}
               error={cop <= 0}
               type="number"
-              inputProps={{ step: '0.001' }}
-              label={'COP'}
+              inputProps={{ step: '0.01' }}
+              label='COP (Type of refrigerant gas)'
               variant="outlined"
               onChange={handleCopChange}
             />

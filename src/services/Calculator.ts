@@ -154,6 +154,7 @@ export class Calculator {
       waterLitresUsed += kettleEntity.getDayWaterLitresUsed();
       powerKWUsed += kettleEntity.getDayPowerKWUsed();
     }
+    powerKWUsed /= this.iceWaterCoolingEntity.getCop();
 
     // Calculate cost, co2 & time
     waterConsumption.costCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;

@@ -20,10 +20,20 @@ class KettleEntity {
   private c3CoolingPercent: number = IceWaterCoolingEntity.minCoolingPercent;
   private c2CoolingPercent: number = TapWaterCoolingEntity.maxCoolingPercent;
   
-  constructor() {
+  constructor(
+    sizeLitres?: KettleSizeLitres,
+    coolingMode?: KettleCoolingModes,
+    coolingPercent?: number,
+    timeUsages?: TimeUsage[]
+  ) {
+    if (sizeLitres) this.sizeLitres = sizeLitres;
+    if (coolingMode) this.setCoolingMode(coolingMode);
+    if (coolingPercent) this.setCoolingPercent(coolingPercent);
+
     for (const hour of getHoursOfDay(6)) {
       this.timeUsageRows.push({ id: hour, time: hour, foodLitres: 0 });
     }
+    if (timeUsages) this.setTimeUsageRows(timeUsages);
   }
 
   setSizeLitres = (sizeLitres: number) => {
@@ -62,6 +72,12 @@ class KettleEntity {
   };
 
   getC3CoolingPercent = () => this.c3CoolingPercent;
+
+  setTimeUsageRows = (timeUsages: TimeUsage[]) => this.timeUsageRows = this.timeUsageRows.map(timeUsageRow => {
+    const timeUsage = timeUsages.find(timeUsage => timeUsage.time === timeUsageRow.time);
+
+    return timeUsage ? { id: timeUsage.time, ...timeUsage } : timeUsageRow;
+  });
 
   getTimeUsages = (): TimeUsage[] => this.timeUsageRows
     .filter(row => row.foodLitres > 0).map(({ id, ...props }) => props);

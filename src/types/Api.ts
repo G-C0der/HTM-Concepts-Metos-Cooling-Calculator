@@ -1,5 +1,5 @@
 import React from "react";
-import {AuditLog, User, UserFormEdit} from ".";
+import {AuditLog, CalculatorParams, User, UserFormEdit} from ".";
 
 interface ApiResponse<T = never> {
   readonly success?: boolean;
@@ -31,6 +31,14 @@ interface ApiDataAuditLogList {
   auditLogs: AuditLog[];
 }
 
+interface ApiDataCalculatorParamsList {
+  calculatorParamsList: CalculatorParams[];
+}
+
+interface ApiDataCalculatorParams {
+  calculatorParams: CalculatorParams;
+}
+
 export type {
   ApiResponse,
   ApiError,
@@ -39,5 +47,7 @@ export type {
   ApiDataEmailSent,
   ApiDataUserFormEdit,
   ApiDataUserList,
-  ApiDataAuditLogList
+  ApiDataAuditLogList,
+  ApiDataCalculatorParamsList,
+  ApiDataCalculatorParams
 };

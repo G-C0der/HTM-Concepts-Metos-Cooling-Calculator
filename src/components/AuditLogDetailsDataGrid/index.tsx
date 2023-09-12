@@ -1,7 +1,7 @@
 import React from 'react';
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {userFieldLabels} from "../../constants";
-import {userDetailDataGridRenderCell, userDetailDataGridValueGetter} from "../../utils";
+import {paramsFieldLabels, userFieldLabels} from "../../constants";
+import {detailDataGridRenderCell, detailDataGridValueGetter} from "../../utils";
 
 interface AuditLogDetailsDataGridProps {
   before: object;
@@ -26,8 +26,12 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
       if (beforeEntries[i] !== undefined) ([field, valueBefore] = beforeEntries[i]);
       if (afterEntries[i] !== undefined) ([field, valueAfter] = afterEntries[i]);
 
+      const auditLogFieldLabels = { ...userFieldLabels, ...paramsFieldLabels };
+      const fieldLabel = field && auditLogFieldLabels[field as keyof typeof auditLogFieldLabels];
+      if (!fieldLabel) continue;
       rows.push({
-        ...(field && { id: i, field: userFieldLabels[field as keyof typeof userFieldLabels] }),
+        id: i,
+        field: fieldLabel,
         ...(valueBefore !== undefined && { valueBefore }),
         ...(valueAfter !== undefined && { valueAfter })
       });
@@ -40,25 +44,23 @@ const AuditLogDetailsDataGrid = ({ before, after }: AuditLogDetailsDataGridProps
     {
       field: 'field',
       headerName: 'Field',
-      width: 100
+      width: 120
     },
     {
       field: 'valueBefore',
       headerName: 'Before',
       flex: 1,
-      valueGetter: userDetailDataGridValueGetter,
-      renderCell: userDetailDataGridRenderCell
+      valueGetter: detailDataGridValueGetter,
+      renderCell: detailDataGridRenderCell
     },
     {
       field: 'valueAfter',
       headerName: 'After',
       flex: 1,
-      valueGetter: userDetailDataGridValueGetter,
-      renderCell: userDetailDataGridRenderCell
+      valueGetter: detailDataGridValueGetter,
+      renderCell: detailDataGridRenderCell
     }
   ];
-
-
 
   return (
     <DataGrid

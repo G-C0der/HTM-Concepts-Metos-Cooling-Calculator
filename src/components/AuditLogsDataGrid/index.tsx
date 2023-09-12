@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ApiError, AuditLog, AuditLogAction} from "../../types";
+import {ApiError, AuditLog} from "../../types";
 import {DataGridPremium, GridColDef, GridToolbar} from "@mui/x-data-grid-premium";
 import moment from "moment";
 import {AdminContext} from "../../contexts";
@@ -13,6 +13,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import LockResetIcon from '@mui/icons-material/LockReset';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 interface AuditLogsDataGridProps {
   isAdminModalOpen: boolean;
@@ -31,7 +33,9 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
     passwordReset: { name: 'Password Reset', icon: <LockResetIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
     profileEdit: { name: 'Profile Edit', icon: <EditIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
     activation: { name: 'Activation', icon: <CheckCircleIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
-    deactivation: { name: 'Deactivation', icon: <CancelIcon sx={{ fontSize: '1rem', mr: 1 }} /> }
+    deactivation: { name: 'Deactivation', icon: <CancelIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    save: { name: 'Save', icon: <SaveAltIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
+    delete: { name: 'Delete', icon: <DeleteIcon sx={{ fontSize: '1rem', mr: 1 }} /> },
   };
 
   const columns: GridColDef[] = [
@@ -53,10 +57,12 @@ const AuditLogsDataGrid = ({ isAdminModalOpen }: AuditLogsDataGridProps) => {
       valueGetter: ({ value }) => value.email
     },
     {
-      field: 'user',
-      headerName: 'User',
-      width: 300,
-      valueGetter: ({ value }) => value.email
+      field: '_',
+      headerName: 'Subject',
+      width: 400,
+      valueGetter: ({ row: { user, params } }) => params?.name
+        ? `Save: "${params.name}"`
+        : `User: "${user.email}"`
     },
     {
       field: 'createdAt',

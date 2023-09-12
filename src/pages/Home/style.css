@@ -1,13 +1,31 @@
-.home {
+#home {
   text-align: center;
 }
 
-.home-content {
+#home-content {
   background-color: #a3c0e5;
   width: 100%;
   height: 100%;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding-top: 10px;
+  padding-bottom: 35px;
+}
+
+#home-actions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /*margin-left: 560px;*/
+}
+
+@media screen and (max-width: 480px) {
+  #home-actions-container {
+    flex-direction: column;
+    /*margin-left: 0;*/
+  }
 }
 
 label {
@@ -23,7 +41,7 @@ img.logo {
   padding: 20px;
 }
 
-.form-container {
+#form-container {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -33,19 +51,14 @@ img.logo {
   padding-top: 20px
 }
 
-.water-form-container {
-  display: flex;
-  background-color: green;
-}
-
-.recommendation-container {
+#recommendation-container {
   display: flex;
   overflow: auto;
   justify-content: center;
   padding-top: 20px;
 }
 
-.calculate-container-mobile {
+#calculate-container-mobile {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -54,7 +67,7 @@ img.logo {
   overflow: auto;
 }
 
-.calculate-container-desktop {
+#calculate-container-desktop {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -64,11 +77,11 @@ img.logo {
   justify-content: center;
 }
 
-.button-container {
+#button-container {
   justify-self: center;
 }
 
-.button-grid-container {
+#button-grid-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;

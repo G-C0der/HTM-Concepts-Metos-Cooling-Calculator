@@ -9,6 +9,12 @@
   margin-left: 50px;
 }
 
+@media screen and (min-width: 401px) {
+  .logo-container {
+    margin-right: 60px;
+  }
+}
+
 @media screen and (max-width: 400px) {
   .hamburger {
     margin-left: 40px;

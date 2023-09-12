@@ -7,24 +7,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {PasswordResetForm} from "../PasswordResetForm";
 import {ApiDataUserFormEdit, ApiResponse} from "../../types";
-import {TempAlert} from "../TempAlert";
-import {htmConceptsEmail} from "../../config";
 import {UserEditForm} from "../UserEditForm";
 const packageJson = require('../../../package.json');
 
 interface SettingsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  apiResponse?: ApiResponse<unknown>;
+  setApiResponse: (apiResponse: ApiResponse<never | ApiDataUserFormEdit> | undefined) => void;
+  successMessage: string;
+  setSuccessMessage: (successMessage: string) => void;
 }
 
 type PendingAction = 'editProfile' | 'resetPassword';
 
-const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
+const SettingsModal = ({
+  isOpen,
+  setIsOpen,
+  apiResponse,
+  setApiResponse,
+  successMessage,
+  setSuccessMessage
+}: SettingsModalProps) => {
   const [pendingAction, setPendingAction] = useState<PendingAction>();
-
-  const [apiResponse, setApiResponse] = useState<ApiResponse<never | ApiDataUserFormEdit>>();
-
-  const [successMessage, setSuccessMessage] = useState('');
 
   const actionTitleMap: Record<PendingAction, string> = {
     editProfile: 'Profile Edit',
@@ -145,23 +150,6 @@ const SettingsModal = ({ isOpen, setIsOpen }: SettingsModalProps) => {
             v{packageJson.version}
           </Typography>
         )
-      }
-      {
-        <TempAlert
-          severity='success'
-          message={successMessage}
-          condition={apiResponse?.success}
-          resetCondition={clearResponse}
-        />
-      }
-      {
-        apiResponse?.error &&
-        <TempAlert
-          severity={apiResponse.error.severity}
-          message={apiResponse.error.message}
-          condition={apiResponse.success === false}
-          resetCondition={clearResponse}
-        />
       }
     </Dialog>
   );

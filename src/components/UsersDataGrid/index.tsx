@@ -27,7 +27,6 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
 
   const [pendingUser, setPendingUser] = useState<User>();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [pendingAction, setPendingAction] = useState(() => () => {});
 
   const [isActiveStateChangeLoading, setIsActiveStateChangeLoading] = useState(false);
 
@@ -127,19 +126,6 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
               onClick={() => {
                 setPendingUser(row);
-                setPendingAction(() => async () => {
-                  setIsActiveStateChangeLoading(true);
-
-                  if (isActive) {
-                    const deactivateResponse = await deactivateUser(id);
-                    if (deactivateResponse.success) updateUser(id, { active: !isActive });
-                  } else {
-                    const activateResponse = await activateUser(id);
-                    if (activateResponse.success) updateUser(id, { active: !isActive });
-                  }
-
-                  setIsActiveStateChangeLoading(false);
-                });
                 setIsConfirmDialogOpen(true);
               }}
               loading={isActiveStateChangeLoading && (pendingUser?.id === id)}
@@ -176,6 +162,22 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     }
   }, [users]);
 
+  const handleUserStateChangeClick = async (user: User) => {
+    setIsActiveStateChangeLoading(true);
+    const { id, active: isActive } = user;
+
+    if (isActive) {
+      const deactivateResponse = await deactivateUser(id);
+      if (deactivateResponse.success) updateUser(id, { active: !isActive });
+    } else {
+      const activateResponse = await activateUser(id);
+      if (activateResponse.success) updateUser(id, { active: !isActive });
+    }
+
+    setPendingUser(undefined);
+    setIsActiveStateChangeLoading(false);
+  };
+
   const updateUser = (id: number, props: Partial<User>) =>
     setUsers(users!.map(user => user.id === id ? { ...user, ...props } : user));
 
@@ -202,8 +204,8 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 sx={{ backgroundColor: '#e3f8fa' }}
                 hideFooter
                 slots={{ toolbar: GridToolbar }}
-                getRowClassName={(params) => (params.row.verified && params.row.active)
-                  ? ''
+                getRowClassName={({ row }) => (row.verified && row.active)
+                  ? (row.id === authenticatedUser!.id ? 'data-grid-row-current-row' : '')
                   : 'data-grid-row-inactive-user'}
                 getDetailPanelContent={({ row }) => <UserDetailDataGrid user={row} />}
               />
@@ -212,8 +214,8 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 pendingUser && (
                   <ConfirmationDialog
                     text={`Are you sure you want to ${pendingUser.active ? 'deactivate' : 'activate'} 
-                      user ${pendingUser.email}?`}
-                    pendingAction={pendingAction}
+                      the user "${pendingUser.email}"?`}
+                    pendingAction={() => handleUserStateChangeClick(pendingUser)}
                     isOpen={isConfirmDialogOpen}
                     setIsOpen={setIsConfirmDialogOpen}
                   />

@@ -2,7 +2,7 @@ import React from 'react';
 import {User} from "../../types";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {userFieldLabels} from "../../constants";
-import {userDetailDataGridRenderCell, userDetailDataGridValueGetter} from "../../utils";
+import {detailDataGridRenderCell, detailDataGridValueGetter} from "../../utils";
 
 interface UserDetailDataGridProps {
   user: User;
@@ -34,8 +34,8 @@ const UserDetailDataGrid = ({ user }: UserDetailDataGridProps)  => {
       field: 'value',
       headerName: 'Value',
       flex: 1,
-      valueGetter: userDetailDataGridValueGetter,
-      renderCell: userDetailDataGridRenderCell
+      valueGetter: detailDataGridValueGetter,
+      renderCell: detailDataGridRenderCell
     }
   ];
 

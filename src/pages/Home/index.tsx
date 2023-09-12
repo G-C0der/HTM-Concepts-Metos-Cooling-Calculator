@@ -2,15 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import './style.css';
 import { KettleCount } from "../../enums/KettleCount";
 import { KettleContainer } from "../../components/KettleContainer";
-import { Button, CircularProgress, Tooltip } from "@mui/material";
+import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
-import { KettleEntity } from "../../entities/KettleEntity";
+import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
 import { WaterForm } from "../../components/WaterForm";
-import { IceWaterCoolingEntity, TimePowerUsageRow } from "../../entities/IceWaterCoolingEntity";
-import { TapWaterCoolingEntity } from "../../entities/TapWaterCoolingEntity";
 import { ElectricityForm } from "../../components/ElectricityForm";
 import { DataProvider, IceWaterCoolingMeasurements, TapWaterCoolingMeasurements } from "../../services/DataProvider";
 import { MeasurementsTable } from "../../components/MeasurementsTable";
@@ -21,10 +21,20 @@ import { ConsumptionDisplay } from "../../components/ConsumptionDisplay";
 import { ConsumptionResult } from "../../components/ConsumptionDisplay/types";
 import { C5iRecommendationsDataGrid } from "../../components/C5iRecommendationsDataGrid";
 import { CustomAppBar } from "../../components/CustomAppBar";
-import { AuthContext } from "../../contexts";
+import {AuthContext, CalculatorContext} from "../../contexts";
 import { isMobile } from "../../utils";
 import {AdminModal} from "../../components/AdminModal";
 import {SettingsModal} from "../../components/SettingsModal";
+import {CalculatorParamsModal} from "../../components/CalculatorParamsModal";
+import {ApiResponse, CalculatorParams} from "../../types";
+import {IceWaterCoolingCount} from "../../enums/IceWaterCoolingCount";
+import {TempAlert} from "../../components/TempAlert";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+import {LoadingButton} from "../../components/LoadingButton";
+import {useFormik} from "formik";
+import * as yup from "yup";
+import {paramsFieldLengths} from "../../constants";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -52,10 +62,13 @@ const Home = () => {
   const [kWhCHF, setKWhCHF] = useState(0);
   const [kWhCO2, setKWhCO2] = useState(0);
 
-  const [cop, setCop] = useState(1);
-
   const [waterLitreCHF, setWaterLitreCHF] = useState(0);
   const [waterLitreCO2, setWaterLitreCO2] = useState(0);
+
+  const [type1Count, setType1Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
+  const [type4Count, setType4Count] = useState<IceWaterCoolingCount>(IceWaterCoolingCount.IceWaterCoolingCount0);
+
+  const [cop, setCop] = useState(1);
 
   // const dataProvider = new DataProvider(
   //   tapWaterCoolingEntity,
@@ -70,11 +83,81 @@ const Home = () => {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
+  const [isPdfGenerationLoading, setIsPdfGenerationLoading] = useState(false);
+  // const [isSelectedParamsLoadFinished, setIsSelectedParamsLoadFinished] = useState(false);
+
+  const [wereParamsSaved, setWereParamsSaved] = useState(false);
+  const [wereParamsCleared, setWereParamsCleared] = useState(false);
+
+  const [isCalculatorParamsModalOpen, setIsCalculatorParamsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
+  const [apiResponse, setApiResponse] = useState<ApiResponse<unknown>>();
+  const [successMessage, setSuccessMessage] = useState('');
+
   const { authenticatedUser: user } = useContext(AuthContext);
+  const { saveCalculatorParams } = useContext(CalculatorContext);
+
+  const validationSchema = yup.object({
+    saveName: yup
+      .string()
+      .transform(value => value.trim())
+      .required('Save name is required.')
+      .max(paramsFieldLengths.saveName, `Save name is too long - should be maximum ${paramsFieldLengths.saveName} characters.`)
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      saveName: ''
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setIsSaveLoading(true);
+
+      const saveResponse = await saveCalculatorParams(
+        values.saveName,
+        iceWaterCoolingEntity,
+        tapWaterCoolingEntity,
+        kettleEntities
+      );
+
+      setApiResponse(saveResponse);
+      if (saveResponse.success) {
+        setSuccessMessage('Parameters have been saved.');
+        setWereParamsSaved(true);
+        if (wereParamsCleared) setWereParamsCleared(false);
+      }
+
+      setIsSaveLoading(false);
+    }
+  });
+
+  // useEffect(() => {
+  //   if (user) {
+  //     const fetchCalculatorParams = async () => {
+  //       const fetchSelectedParamsResponse = await fetchSelectedCalculatorParams();
+  //       if (fetchSelectedParamsResponse.success && fetchSelectedParamsResponse.data!.calculatorParams) {
+  //         loadParams(fetchSelectedParamsResponse.data!.calculatorParams);
+  //       }
+  //
+  //       setIsSelectedParamsLoadFinished(true);
+  //     };
+  //
+  //     fetchCalculatorParams();
+  //   }
+  // }, [user]);
+  //
+  // useEffect(() => {
+  //   if (isSelectedParamsLoadFinished) {
+  //     const timer = setTimeout(() => {
+  //       setIsLoading(false);
+  //     }, 1000);
+  //
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isSelectedParamsLoadFinished]);
 
   useEffect(() => {
     if (user) {
@@ -125,6 +208,88 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
+  const handleResetParamsClick = () => {
+    loadParams();
+
+    setWereParamsCleared(true);
+  };
+
+  const handleGeneratePdfClick = async () => {
+    setIsPdfGenerationLoading(true);
+
+    const content = document.getElementById('home-content');
+
+    const canvas = await html2canvas(content!);
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF({
+      // orientation: "landscape",
+    });
+
+    const imgProps = pdf.getImageProperties(imgData);
+
+    // Determine whether to fit the content width-wise or height-wise
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    let imgWidth = pageWidth;
+    let imgHeight = (imgWidth / imgProps.width) * imgProps.height;
+
+    if (imgHeight > pageHeight) {
+      imgHeight = pageHeight;
+      imgWidth = (imgHeight / imgProps.height) * imgProps.width;
+    }
+
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    window.open(pdf.output('bloburl'), '_blank');
+
+    setIsPdfGenerationLoading(false);
+  };
+
+  const loadParams = (params?: CalculatorParams) => {
+    const name = params?.name ?? '';
+    const waterLitreCHF = params?.waterLitreCHF ?? 0;
+    const waterLitreCo2 = params?.waterLitreCo2 ?? 0;
+    const kwHourCHF = params?.kwHourCHF ?? 0;
+    const kwHourCo2 = params?.kwHourCo2 ?? 0;
+    const iceWaterCoolingType1Count = params?.iceWaterCoolingType1Count ?? 0;
+    const iceWaterCoolingType4Count = params?.iceWaterCoolingType4Count ?? 0;
+    const cop = params?.cop ?? 1;
+    const kettleEntities = params
+      ? params.kettles.map(kettleParams => new KettleEntity(
+          kettleParams.sizeLitres,
+          kettleParams.coolingMode,
+          kettleParams.c3CoolingPercent,
+          kettleParams.timeUsages
+        ))
+      : [new KettleEntity()];
+    const kettleCount = params ? params.kettles.length : 1;
+
+    formik.setFieldValue('saveName', name);
+
+    tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
+    setWaterLitreCHF(waterLitreCHF);
+    tapWaterCoolingEntity.waterLitreCo2 = waterLitreCo2;
+    setWaterLitreCO2(waterLitreCo2);
+    iceWaterCoolingEntity.kwHourCHF = kwHourCHF;
+    setKWhCHF(kwHourCHF);
+    iceWaterCoolingEntity.kwHourCo2 = kwHourCo2;
+    setKWhCO2(kwHourCo2);
+    iceWaterCoolingEntity.setType1Count(iceWaterCoolingType1Count);
+    setType1Count(iceWaterCoolingType1Count);
+    iceWaterCoolingEntity.setType4Count(iceWaterCoolingType4Count);
+    setType4Count(iceWaterCoolingType4Count);
+    iceWaterCoolingEntity.setCop(cop);
+    setCop(cop);
+
+    setKettleEntities(kettleEntities);
+    setKettleCount(kettleCount);
+  };
+  
+  const clearApiResponse = () => {
+    setApiResponse(undefined);
+    setSuccessMessage('');
+  };
+
   return isLoading
     ? (
       <Box style={{
@@ -136,20 +301,87 @@ const Home = () => {
         <CircularProgress size={80} />
       </Box>
     ) : (
-      <Box className="home">
-        <Box className="home-header">
+      <Box id="home">
+        <Box id="home-header">
           <CustomAppBar
             user={user!}
+            setIsCalculatorParamsModalOpen={setIsCalculatorParamsModalOpen}
             setIsAdminModalOpen={setIsAdminModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Box>
 
-        <Box className="home-content">
+        <Box id="home-content">
+          <CalculatorParamsModal
+            isOpen={isCalculatorParamsModalOpen}
+            setIsOpen={setIsCalculatorParamsModalOpen}
+            loadParams={loadParams}
+            wereParamsSaved={wereParamsSaved}
+            wereParamsCleared={wereParamsCleared}
+            setWereParamsCleared={setWereParamsCleared}
+            setApiResponse={setApiResponse}
+            setSuccessMessage={setSuccessMessage}
+          />
           <AdminModal isOpen={isAdminModalOpen} setIsOpen={setIsAdminModalOpen} />
-          <SettingsModal isOpen={isSettingsModalOpen} setIsOpen={setIsSettingsModalOpen} />
+          <SettingsModal
+            isOpen={isSettingsModalOpen}
+            setIsOpen={setIsSettingsModalOpen}
+            apiResponse={apiResponse}
+            setApiResponse={setApiResponse}
+            successMessage={successMessage}
+            setSuccessMessage={setSuccessMessage}
+          />
 
-          <Box className='form-container'>
+          <form onSubmit={formik.handleSubmit}>
+            <Box
+              id='home-actions-container'
+              gap={1}
+              pt={1}
+              sx={{ flexDirection: 'row', alignItems: 'flex-start' }}
+            >
+              <Box height="80px" display="flex" flexDirection="column" justifyContent="center">
+                <TextField
+                  style={{ margin: "5px" }}
+                  name='saveName'
+                  label="Save Name"
+                  variant="outlined"
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.saveName && Boolean(formik.errors.saveName)}
+                  helperText={formik.touched.saveName && formik.errors.saveName}
+                  value={formik.values.saveName}
+                  onChange={formik.handleChange}
+                />
+              </Box>
+
+              <LoadingButton
+                className='action-button'
+                startIcon={<SaveAltIcon />}
+                loading={isSaveLoading}
+                type='submit'
+              >
+                Save Parameters
+              </LoadingButton>
+
+              <Button
+                className='action-button'
+                startIcon={<RestartAltIcon />}
+                onClick={handleResetParamsClick}
+              >
+                Reset Parameters
+              </Button>
+
+              <LoadingButton
+                className='action-button'
+                startIcon={<PictureAsPdfIcon />}
+                onClick={handleGeneratePdfClick}
+                loading={isPdfGenerationLoading}
+              >
+                Generate PDF
+              </LoadingButton>
+            </Box>
+          </form>
+
+          <Box id='form-container'>
             <WaterForm
               tapWaterCoolingEntity={tapWaterCoolingEntity}
               waterLitreCHF={waterLitreCHF}
@@ -171,10 +403,14 @@ const Home = () => {
             <IceWaterBankTypesForm
               iceWaterCoolingEntity={iceWaterCoolingEntity}
               setTimePowerUsageRows={setTimePowerUsageRows}
+              type1Count={type1Count}
+              setType1Count={setType1Count}
+              type4Count={type4Count}
+              setType4Count={setType4Count}
             />
           </Box>
 
-          <Box className='recommendation-container'>
+          <Box id='recommendation-container'>
             <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} />
           </Box>
 
@@ -182,14 +418,14 @@ const Home = () => {
             consumptionResult={consumptionResult}
           />
 
-          <Box className={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
-            <Box className='button-grid-container'>
-              <Box className='data-grid'>
+          <Box id={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
+            <Box id='button-grid-container'>
+              <Box id='data-grid'>
                 <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
               </Box>
-              <Box className='button-container'>
+              <Box id='button-container'>
 
-                <Box className='kettle-button'>
+                <Box id='kettle-button'>
                   <Tooltip title='add kettle'>
                     <Button
                       style={{
@@ -203,7 +439,7 @@ const Home = () => {
                   </Tooltip>
                 </Box>
 
-                <Box className='calculate-button'>
+                <Box id='calculate-button'>
                   <Tooltip title='calculate'>
                     <Button
                       style={{
@@ -251,6 +487,24 @@ const Home = () => {
           {/*  </Grid>*/}
           {/*</Grid>*/}
         </Box>
+
+        {
+          <TempAlert
+            severity='success'
+            message={successMessage}
+            condition={apiResponse?.success}
+            resetCondition={clearApiResponse}
+          />
+        }
+        {
+          apiResponse?.error &&
+          <TempAlert
+            severity={apiResponse.error.severity}
+            message={apiResponse.error.message}
+            condition={apiResponse.success === false}
+            resetCondition={clearApiResponse}
+          />
+        }
       </Box>
     );
 };

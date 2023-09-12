@@ -4,8 +4,8 @@ import {ContextProviderError} from "../errors";
 
 type AdminContextType = {
   listUsers: () => Promise<ApiResponse<ApiDataUserList>>;
-  activateUser: (id: string) => Promise<ApiResponse<ApiDataEmailSent>>;
-  deactivateUser: (id: string) => Promise<ApiResponse>;
+  activateUser: (id: number) => Promise<ApiResponse<ApiDataEmailSent>>;
+  deactivateUser: (id: number) => Promise<ApiResponse>;
   listAuditLogs: () => Promise<ApiResponse<ApiDataAuditLogList>>;
 };
 

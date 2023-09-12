@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import {Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import {AuthContext, UserContext} from "../../contexts";
 import {useNavigate} from "react-router-dom";
-import {htmConceptsEmail} from "../../config";
 import {SendEmailForm} from "../../components/SendEmailForm";
 import * as yup from 'yup';
 import {
