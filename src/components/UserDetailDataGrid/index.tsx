@@ -43,6 +43,7 @@ const UserDetailDataGrid = ({ user }: UserDetailDataGridProps)  => {
     <DataGrid
       rows={rows!}
       columns={columns}
+      sx={{ backgroundColor: '#e3f8fa', ml: 2 }}
       hideFooter
     />
   );
