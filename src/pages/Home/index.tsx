@@ -5,7 +5,7 @@ import { KettleContainer } from "../../components/KettleContainer";
 import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
-import SaveIcon from '@mui/icons-material/Save';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
@@ -356,7 +356,7 @@ const Home = () => {
 
               <LoadingButton
                 className='action-button'
-                startIcon={<SaveIcon />}
+                startIcon={<SaveAltIcon />}
                 loading={isSaveLoading}
                 type='submit'
               >
