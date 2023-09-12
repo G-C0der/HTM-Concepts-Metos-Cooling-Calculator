@@ -1,3 +1,7 @@
+const paramsFieldLengths = {
+  saveName: 50
+};
+
 const paramsFieldLabels = {
   id: 'ID',
   userId: 'User ID',
@@ -13,5 +17,6 @@ const paramsFieldLabels = {
 };
 
 export {
+  paramsFieldLengths,
   paramsFieldLabels
 };

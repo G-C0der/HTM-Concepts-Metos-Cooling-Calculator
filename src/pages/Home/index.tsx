@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import './style.css';
 import { KettleCount } from "../../enums/KettleCount";
 import { KettleContainer } from "../../components/KettleContainer";
-import {Button, CircularProgress, IconButton, TextField, Tooltip} from "@mui/material";
+import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveIcon from '@mui/icons-material/Save';
@@ -33,6 +33,9 @@ import {TempAlert} from "../../components/TempAlert";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import {LoadingButton} from "../../components/LoadingButton";
+import {useFormik} from "formik";
+import * as yup from "yup";
+import {paramsFieldLengths} from "../../constants";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
@@ -68,8 +71,6 @@ const Home = () => {
 
   const [cop, setCop] = useState(1);
 
-  const [saveName, setSaveName] = useState('');
-
   // const dataProvider = new DataProvider(
   //   tapWaterCoolingEntity,
   //   iceWaterCoolingEntity
@@ -99,6 +100,40 @@ const Home = () => {
 
   const { authenticatedUser: user } = useContext(AuthContext);
   const { saveCalculatorParams } = useContext(CalculatorContext);
+
+  const validationSchema = yup.object({
+    saveName: yup
+      .string()
+      .transform(value => value.trim())
+      .required('Save name is required.')
+      .max(paramsFieldLengths.saveName, `Save name is too long - should be maximum ${paramsFieldLengths.saveName} characters.`)
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      saveName: ''
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setIsSaveLoading(true);
+
+      const saveResponse = await saveCalculatorParams(
+        values.saveName,
+        iceWaterCoolingEntity,
+        tapWaterCoolingEntity,
+        kettleEntities
+      );
+
+      setApiResponse(saveResponse);
+      if (saveResponse.success) {
+        setSuccessMessage('Parameters have been saved.');
+        setWereParamsSaved(true);
+        if (wereParamsCleared) setWereParamsCleared(false);
+      }
+
+      setIsSaveLoading(false);
+    }
+  });
 
   // useEffect(() => {
   //   if (user) {
@@ -174,26 +209,6 @@ const Home = () => {
     setConsumptionResult(consumptionResult);
   };
 
-  const handleSaveClick = async () => {
-    setIsSaveLoading(true);
-
-    const saveResponse = await saveCalculatorParams(
-      saveName,
-      iceWaterCoolingEntity,
-      tapWaterCoolingEntity,
-      kettleEntities
-    );
-
-    setApiResponse(saveResponse);
-    if (saveResponse.success) {
-      setSuccessMessage('Parameters have been saved.');
-      setWereParamsSaved(true);
-      if (wereParamsCleared) setWereParamsCleared(false);
-    }
-
-    setIsSaveLoading(false);
-  };
-
   const handleResetParamsClick = () => {
     loadParams();
 
@@ -250,7 +265,7 @@ const Home = () => {
       : [new KettleEntity()];
     const kettleCount = params ? params.kettles.length : 1;
 
-    setSaveName(name);
+    formik.setFieldValue('saveName', name);
 
     tapWaterCoolingEntity.waterLitreCHF = waterLitreCHF;
     setWaterLitreCHF(waterLitreCHF);
@@ -318,47 +333,54 @@ const Home = () => {
             setSuccessMessage={setSuccessMessage}
           />
 
-          <Box
-            id='home-actions-container'
-            gap={1}
-            pt={1}
-            sx={{ flexDirection: 'row' }}
-          >
-            <TextField
-              style={{ margin: "5px" }}
-              value={saveName}
-              error={!saveName.trim() || saveName.length > 50}
-              label="Save Name"
-              variant="outlined"
-              onChange={(e: any) => setSaveName(e.target.value)}
-            />
-
-            <LoadingButton
-              className='action-button'
-              startIcon={<SaveIcon />}
-              onClick={handleSaveClick}
-              loading={isSaveLoading}
+          <form onSubmit={formik.handleSubmit}>
+            <Box
+              id='home-actions-container'
+              gap={1}
+              pt={1}
+              sx={{ flexDirection: 'row', alignItems: 'flex-start' }}
             >
-              Save Parameters
-            </LoadingButton>
+              <Box height="80px" display="flex" flexDirection="column" justifyContent="center">
+                <TextField
+                  style={{ margin: "5px" }}
+                  name='saveName'
+                  label="Save Name"
+                  variant="outlined"
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.saveName && Boolean(formik.errors.saveName)}
+                  helperText={formik.touched.saveName && formik.errors.saveName}
+                  value={formik.values.saveName}
+                  onChange={formik.handleChange}
+                />
+              </Box>
 
-            <Button
-              className='action-button'
-              startIcon={<ClearAllIcon />}
-              onClick={handleResetParamsClick}
-            >
-              Reset Parameters
-            </Button>
+              <LoadingButton
+                className='action-button'
+                startIcon={<SaveIcon />}
+                loading={isSaveLoading}
+                type='submit'
+              >
+                Save Parameters
+              </LoadingButton>
 
-            <LoadingButton
-              className='action-button'
-              startIcon={<PictureAsPdfIcon />}
-              onClick={handleGeneratePdfClick}
-              loading={isPdfGenerationLoading}
-            >
-              Generate PDF
-            </LoadingButton>
-          </Box>
+              <Button
+                className='action-button'
+                startIcon={<ClearAllIcon />}
+                onClick={handleResetParamsClick}
+              >
+                Reset Parameters
+              </Button>
+
+              <LoadingButton
+                className='action-button'
+                startIcon={<PictureAsPdfIcon />}
+                onClick={handleGeneratePdfClick}
+                loading={isPdfGenerationLoading}
+              >
+                Generate PDF
+              </LoadingButton>
+            </Box>
+          </form>
 
           <Box id='form-container'>
             <WaterForm
