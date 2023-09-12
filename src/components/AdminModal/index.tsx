@@ -33,7 +33,7 @@ const AdminModal = ({ isOpen, setIsOpen }: AdminModalProps) => {
       </Tabs>
 
       {tabIndex === 0 && <UsersDataGrid isAdminModalOpen={isOpen} />}
-      {tabIndex === 1 && <CalculatorParamsDataGrid isModalOpen={isOpen} />}
+      {tabIndex === 1 && <CalculatorParamsDataGrid isModalOpen={isOpen} isAdminMode />}
       {tabIndex === 2 && <AuditLogsDataGrid isAdminModalOpen={isOpen} />}
     </Modal>
   );

@@ -28,6 +28,7 @@ import {userFieldLabels} from "../../constants";
 
 interface CalculatorParamsDataGridProps {
   isModalOpen: boolean;
+  isAdminMode?: boolean;
   loadParams?: (params: CalculatorParams) => void;
   wereParamsSaved?: boolean;
   wereParamsCleared?: boolean;
@@ -38,6 +39,7 @@ interface CalculatorParamsDataGridProps {
 
 const CalculatorParamsDataGrid = ({
   isModalOpen,
+  isAdminMode,
   loadParams,
   wereParamsSaved,
   wereParamsCleared,
@@ -45,8 +47,6 @@ const CalculatorParamsDataGrid = ({
   setApiResponse,
   setSuccessMessage
 }: CalculatorParamsDataGridProps) => {
-  const isAdminMode = !loadParams;
-
   const [calculatorParamsList, setCalculatorParamsList] = useState<CalculatorParams[]>();
   const [error, setError] = useState<ApiError>();
   const [isLoading, setIsLoading] = useState(true);
