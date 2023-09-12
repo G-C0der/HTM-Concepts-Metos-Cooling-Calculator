@@ -3,6 +3,7 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import {C5iRecommendationsRow} from "./types";
 import {round} from "../../utils/math";
+import Typography from "@mui/material/Typography";
 
 interface C5iRecommendationsDataGridProps {
   rows: C5iRecommendationsRow[]
@@ -55,13 +56,18 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
   ];
 
   return (
-    <Box sx={{ height: 260, width: 555 }}>
+    <Box>
+      <Typography>
+        Recommendations C5i 200l Proveno 4G
+      </Typography>
+
       <DataGrid
         rows={rows}
         columns={columns}
         density='compact'
         sx={{ backgroundColor: '#E4E4E4' }}
         hideFooter
+        autoHeight
       />
     </Box>
   );
