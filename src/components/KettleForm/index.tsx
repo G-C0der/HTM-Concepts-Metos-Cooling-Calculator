@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KettleEntity, TimeUsageRow} from "../../entities/KettleEntity";
+import {KettleEntity, TimeUsageRow, IceWaterCoolingEntity} from "../../entities";
 import {
   Button,
   Card,
@@ -15,11 +15,10 @@ import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils";
 import CloseIcon from '@mui/icons-material/Close';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
-import {IceWaterCoolingEntity} from "../../entities/IceWaterCoolingEntity";
-import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 interface KettleProps {
   kettleEntity: KettleEntity;
@@ -127,14 +126,14 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
             }
           </Box>
 
-          <Tooltip title='clear usages'>
+          <Tooltip title='reset usages'>
             <Button
               style={{
                 padding: '0 0 0 0'
               }}
               variant="outlined"
               onClick={handleClearUsagesClick}
-            ><ClearAllIcon /></Button>
+            ><RestartAltIcon /></Button>
           </Tooltip>
         </CardContent>
       </Card>

@@ -6,8 +6,7 @@ import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
 import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
@@ -365,7 +364,7 @@ const Home = () => {
 
               <Button
                 className='action-button'
-                startIcon={<ClearAllIcon />}
+                startIcon={<RestartAltIcon />}
                 onClick={handleResetParamsClick}
               >
                 Reset Parameters
