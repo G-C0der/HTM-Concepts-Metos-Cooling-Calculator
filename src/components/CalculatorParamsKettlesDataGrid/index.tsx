@@ -29,13 +29,7 @@ const CalculatorParamsKettlesDataGrid = ({ kettles }: CalculatorParamsKettlesDat
     {
       field: 'name',
       headerName: 'Kettle',
-      width: 120
-    },
-    {
-      field: 'sizeLitres',
-      headerName: paramsKettlesFieldLabels['sizeLitres'],
-      width: 120,
-      type: 'number'
+      width: 100
     },
     {
       field: 'coolingMode',
@@ -46,6 +40,12 @@ const CalculatorParamsKettlesDataGrid = ({ kettles }: CalculatorParamsKettlesDat
       field: 'c3CoolingPercent',
       headerName: paramsKettlesFieldLabels['c3CoolingPercent'],
       width: 120,
+      type: 'number'
+    },
+    {
+      field: 'sizeLitres',
+      headerName: paramsKettlesFieldLabels['sizeLitres'],
+      width: 150,
       type: 'number'
     }
   ];
