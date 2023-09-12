@@ -308,7 +308,9 @@ const CalculatorParamsDataGrid = ({
                             slots={{ toolbar: GridToolbar }}
                             rowSelectionModel={selectedRows}
                             onRowSelectionModelChange={(rowSelectionModel) => setSelectedRows(rowSelectionModel)}
-                            getDetailPanelContent={({ row }) => <CalculatorParamsKettlesDataGrid kettles={row.kettles} />}
+                            getDetailPanelContent={({ row }) => <CalculatorParamsKettlesDataGrid
+                              kettles={(typeof row.kettles === 'string') ? JSON.parse(row.kettles) : row.kettles}
+                            />}  // Parse `kettles` into JSON objects if they're strings. This happens on heroku prod system
                           />
                         ) : (
                           <DataGrid
