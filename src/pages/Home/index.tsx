@@ -223,7 +223,7 @@ const Home = () => {
     const imgData = canvas.toDataURL('image/png');
 
     const pdf = new jsPDF({
-      orientation: "landscape",
+      // orientation: "landscape",
     });
 
     const imgProps = pdf.getImageProperties(imgData);
