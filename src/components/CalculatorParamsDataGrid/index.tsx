@@ -91,55 +91,55 @@ const CalculatorParamsDataGrid = ({
       field: 'name',
       headerName: paramsFieldLabels['name'],
       width: 300,
-      editable: true
+      editable: !isAdminMode
     },
     {
       field: 'waterLitreCHF',
       headerName: paramsFieldLabels['waterLitreCHF'],
       width: 100,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'waterLitreCo2',
       headerName: paramsFieldLabels['waterLitreCo2'],
       width: 100,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'kwHourCHF',
       headerName: paramsFieldLabels['kwHourCHF'],
       width: 100,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'kwHourCo2',
       headerName: paramsFieldLabels['kwHourCo2'],
       width: 100,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'iceWaterCoolingType1Count',
       headerName: paramsFieldLabels['iceWaterCoolingType1Count'],
       width: 120,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'iceWaterCoolingType4Count',
       headerName: paramsFieldLabels['iceWaterCoolingType4Count'],
       width: 120,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     {
       field: 'cop',
       headerName: paramsFieldLabels['cop'],
       width: 70,
-      editable: true,
+      editable: !isAdminMode,
       type: 'number'
     },
     ...(isAdminMode ? [] : [{
