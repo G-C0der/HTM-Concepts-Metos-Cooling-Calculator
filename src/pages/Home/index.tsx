@@ -186,7 +186,7 @@ const Home = () => {
 
     // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
     const consumptionResult = calculator.calculateConsumption();
-    setConsumptionResult(consumptionResult);
+    if (consumptionResult) setConsumptionResult(consumptionResult);
   }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities]);
 
   const handleKettleAddClick = () => {

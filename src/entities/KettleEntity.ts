@@ -94,12 +94,16 @@ class KettleEntity {
     return powerKWUsedPerLitre * foodLitres;
   };
 
+  isC3CoolingPercentInvalid = () => {
+    return this.coolingMode === KettleCoolingModes.C5i
+      && (this.c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
+        || this.c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent);
+  };
+
   getPowerKWUsedByFoodLitres = (foodLitres: number) => {
     if (this.coolingMode === KettleCoolingModes.C2) return 0;
 
-    if (this.coolingMode === KettleCoolingModes.C5i
-      && (this.c3CoolingPercent > IceWaterCoolingEntity.maxC5iCoolingPercent
-      || this.c3CoolingPercent < IceWaterCoolingEntity.minC5iCoolingPercent)) {
+    if (this.isC3CoolingPercentInvalid()) {
       throw new Error(`c3CoolingPercent has to be between ${IceWaterCoolingEntity.minC5iCoolingPercent} and ${IceWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c3CoolingPercent}".`);
     }
 
