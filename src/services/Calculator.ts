@@ -5,12 +5,10 @@ import {
   Measurements,
   TapWaterCoolingMeasurements
 } from "./DataProvider";
-import {KettleEntity} from "../entities/KettleEntity";
-import {IceWaterCoolingEntity, TimePowerUsageRow} from "../entities/IceWaterCoolingEntity";
+import {KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity} from "../entities";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {sortArrayOfObjectsByProperty} from "../utils/array";
+import {sortArrayOfObjectsByProperty} from "../utils";
 import {Consumption} from "../components/ConsumptionDisplay/types";
-import {TapWaterCoolingEntity} from "../entities/TapWaterCoolingEntity";
 import {C5iRecommendationsRow} from "../components/C5iRecommendationsDataGrid/types";
 
 export class Calculator {
@@ -32,6 +30,8 @@ export class Calculator {
     this.iceWaterCoolingEntity = iceWaterCoolingEntity;
     this.timePowerUsageRows = timePowerUsageRows;
   }
+
+  areKettleEntitiesInvalid = () => this.kettleEntities.some(kettleEntity => kettleEntity.isC3CoolingPercentInvalid());
 
   setTapWaterCoolingMeasurements = (tapWaterCoolingMeasurements: TapWaterCoolingMeasurements) =>
     this.tapWaterCoolingMeasurements = tapWaterCoolingMeasurements;
@@ -71,12 +71,13 @@ export class Calculator {
     const iceWaterCoolingType1Count = this.iceWaterCoolingEntity.getType1Count();
     const iceWaterCoolingType4Count = this.iceWaterCoolingEntity.getType4Count();
     if (
-      (iceWaterCoolingType1Count === 0
-      && iceWaterCoolingType4Count === 0)
-      || (iceWaterCoolingType1Count > 4
-      || iceWaterCoolingType4Count > 4)
-      || (iceWaterCoolingType1Count < 0
-      || iceWaterCoolingType4Count < 0)
+      ((iceWaterCoolingType1Count === 0 &&
+        iceWaterCoolingType4Count === 0) ||
+        (iceWaterCoolingType1Count > 4 ||
+        iceWaterCoolingType4Count > 4) ||
+        (iceWaterCoolingType1Count < 0 ||
+        iceWaterCoolingType4Count < 0)) ||
+      this.areKettleEntitiesInvalid()
     ) return;
 
     // Set all rows to default value
@@ -140,6 +141,8 @@ export class Calculator {
   };
 
   calculateConsumption = () => {
+    if (this.areKettleEntitiesInvalid()) return;
+
     const waterConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
     const electricityConsumption: Consumption = { costCHF: 0, co2Grams: 0 };
     const totalConsumption: Consumption = { costCHF: 0, co2Grams: 0 };

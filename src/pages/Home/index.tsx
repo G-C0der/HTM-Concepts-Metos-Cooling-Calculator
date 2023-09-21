@@ -4,7 +4,6 @@ import { KettleCount } from "../../enums/KettleCount";
 import { KettleContainer } from "../../components/KettleContainer";
 import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import CalculateIcon from '@mui/icons-material/Calculate';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
@@ -169,25 +168,7 @@ const Home = () => {
     }
   }, [user]);
 
-  const handleKettleAddClick = () => {
-    const maxKettleCount = getEnumMinMax(KettleCount)[1];
-
-    if (kettleCount >= maxKettleCount) return;
-
-    setKettleEntities([...kettleEntities, new KettleEntity()]);
-
-    setKettleCount(kettleCount + 1);
-  };
-
-  const handleKettleDeleteClick = (kettleNr: number) => {
-    if (kettleCount <= 1) return;
-
-    setKettleEntities(kettleEntities.filter((_, idx) => idx + 1 !== kettleNr));
-
-    setKettleCount(kettleCount - 1);
-  };
-
-  const handleCalculateClick = () => {
+  useEffect(() => {
     // Fetch newest measurements
     // let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
     // calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
@@ -205,7 +186,25 @@ const Home = () => {
 
     // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
     const consumptionResult = calculator.calculateConsumption();
-    setConsumptionResult(consumptionResult);
+    if (consumptionResult) setConsumptionResult(consumptionResult);
+  }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities]);
+
+  const handleKettleAddClick = () => {
+    const maxKettleCount = getEnumMinMax(KettleCount)[1];
+
+    if (kettleCount >= maxKettleCount) return;
+
+    setKettleEntities([...kettleEntities, new KettleEntity()]);
+
+    setKettleCount(kettleCount + 1);
+  };
+
+  const handleKettleDeleteClick = (kettleNr: number) => {
+    if (kettleCount <= 1) return;
+
+    setKettleEntities(kettleEntities.filter((_, idx) => idx + 1 !== kettleNr));
+
+    setKettleCount(kettleCount - 1);
   };
 
   const handleResetParamsClick = () => {
@@ -433,26 +432,13 @@ const Home = () => {
                     <Button
                       style={{
                         margin: '40px',
+                        marginTop: '80px',
                         padding: '15px 0 15px 0',
                         backgroundColor: "white",
                       }}
                       variant="outlined"
                       onClick={handleKettleAddClick}
                     ><AddIcon /></Button>
-                  </Tooltip>
-                </Box>
-
-                <Box id='calculate-button'>
-                  <Tooltip title='calculate'>
-                    <Button
-                      style={{
-                        margin: '40px',
-                        padding: '15px 0 15px 0',
-                        backgroundColor: "white",
-                      }}
-                      variant="outlined"
-                      onClick={handleCalculateClick}
-                    ><CalculateIcon /></Button>
                   </Tooltip>
                 </Box>
               </Box>
@@ -462,6 +448,7 @@ const Home = () => {
               <KettleContainer
                 kettleEntities={kettleEntities}
                 handleKettleDeleteClick={handleKettleDeleteClick}
+                setKettleEntities={setKettleEntities}
               />
             </Box>
           </Box>
