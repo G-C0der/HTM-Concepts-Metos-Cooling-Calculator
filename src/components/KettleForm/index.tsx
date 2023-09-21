@@ -24,9 +24,10 @@ interface KettleProps {
   kettleEntity: KettleEntity;
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
+  setKettleEntities: React.Dispatch<React.SetStateAction<KettleEntity[]>>;
 }
 
-export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: KettleProps) => {
+export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
@@ -43,24 +44,28 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
     const sizeLitres = +e.target.value;
     setSizeLitres(sizeLitres);
     kettleEntity.setSizeLitres(sizeLitres);
+    setKettleEntities(currentKettleEntities => [...currentKettleEntities]);
   };
 
   const handleKettleCoolingModeChange = (e: any) => {
     const coolingMode = e.target.value;
     setCoolingMode(coolingMode);
     kettleEntity.setCoolingMode(coolingMode);
+    setKettleEntities(currentKettleEntities => [...currentKettleEntities]);
   };
 
   const handleC3CoolingPercentChange = (e: any) => {
     const c3CoolingPercent = +e.target.value;
     setC3CoolingPercent(c3CoolingPercent);
     kettleEntity.setCoolingPercent(c3CoolingPercent);
+    setKettleEntities(currentKettleEntities => [...currentKettleEntities]);
   };
 
   const handleClearUsagesClick = () => {
     const clearedTimeUsageRows = kettleEntity.timeUsageRows.map((row: TimeUsageRow) => ({ ...row, foodLitres: 0 }));
     kettleEntity.timeUsageRows = clearedTimeUsageRows;
     setTimeUsageRows(clearedTimeUsageRows);
+    setKettleEntities(currentKettleEntities => [...currentKettleEntities]);
   };
 
   return (
@@ -143,6 +148,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick }: Kettle
           kettleEntity={kettleEntity}
           rows={timeUsageRows}
           setRows={setTimeUsageRows}
+          setKettleEntities={setKettleEntities}
         />
       </Box>
     </Box>

@@ -7,9 +7,15 @@ interface KettleTimeUsageDataGridProps {
   kettleEntity: KettleEntity;
   rows: TimeUsageRow[];
   setRows: (rows: any[]) => void;
+  setKettleEntities: React.Dispatch<React.SetStateAction<KettleEntity[]>>;
 }
 
-export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleTimeUsageDataGridProps) => {
+export const KettleTimeUsageDataGrid = ({
+  kettleEntity,
+  rows,
+  setRows,
+  setKettleEntities
+}: KettleTimeUsageDataGridProps) => {
   const columns: GridColDef[] = [
     { field: 'time', headerName: 'Time', width: 80 },
     { field: 'foodLitres', headerName: 'Food Litres', width: 100, editable: true }
@@ -28,6 +34,8 @@ export const KettleTimeUsageDataGrid = ({ kettleEntity, rows, setRows }: KettleT
     setRows(newRows);
 
     kettleEntity.timeUsageRows = rows;
+
+    setKettleEntities(currentKettleEntities => [...currentKettleEntities]);
   };
 
   return (
