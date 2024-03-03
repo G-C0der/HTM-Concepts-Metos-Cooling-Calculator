@@ -190,10 +190,10 @@ const Home = () => {
   }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities]);
 
   const handleKettleAddClick = () => {
-    console.log('add kettle before',kettleEntities)
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
-    console.log('kettle cnt', kettleCount, maxKettleCount, kettleCount >= maxKettleCount)
+
     if (kettleCount >= maxKettleCount) return;
+    console.log('add kettle before',kettleEntities)
     setKettleEntities([...kettleEntities, new KettleEntity()]);
     console.log('add kettle after',[...kettleEntities, new KettleEntity()])
 
