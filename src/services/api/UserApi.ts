@@ -36,7 +36,7 @@ class UserApi extends Api {
   };
 
   fetchForm = async () => {
-    const { data } = await this.api.get('/users/form');
+    const { data } = await this.api.get(`${this.basePath}/form`);
     return data;
   };
 
