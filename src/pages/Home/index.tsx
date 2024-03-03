@@ -264,7 +264,7 @@ const Home = () => {
           kettleParams.timeUsages
         ))
       : [new KettleEntity()];
-    const kettleCount = params ? params.kettles.length : 1;
+    const kettleCount = params ? kettles.length : 1;
 
     formik.setFieldValue('saveName', name);
 
@@ -286,7 +286,7 @@ const Home = () => {
     setKettleEntities(kettleEntities);
     setKettleCount(kettleCount);
   };
-  
+
   const clearApiResponse = () => {
     setApiResponse(undefined);
     setSuccessMessage('');
