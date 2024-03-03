@@ -5,7 +5,7 @@ const htmConceptsWebsite = process.env.HTM_CONCEPTS_WEBSITE || 'https://www.htm-
 const htmConceptsWebsiteContact = new URL(process.env.HTM_CONCEPTS_WEBSITE_CONTACT_PATH || '/kontakt',
   htmConceptsWebsite).toString();
 
-const metosWebsite = process.env.METOS_WEBSITE || 'https://www.metos.com/metosfront.htm';
+const metosWebsite = process.env.METOS_WEBSITE || 'https://www.metos.com';
 
 export {
   serverAPIBaseURL,
