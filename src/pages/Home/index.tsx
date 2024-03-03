@@ -193,8 +193,9 @@ const Home = () => {
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
 
     if (kettleCount >= maxKettleCount) return;
-
+    console.log('add kettle before',kettleEntities)
     setKettleEntities([...kettleEntities, new KettleEntity()]);
+    console.log('add kettle after',[...kettleEntities, new KettleEntity()])
 
     setKettleCount(kettleCount + 1);
   };
@@ -264,6 +265,7 @@ const Home = () => {
           kettleParams.timeUsages
         ))
       : [new KettleEntity()];
+    console.log('loaded kettles', kettleEntities)
     const kettleCount = params ? params.kettles.length : 1;
 
     formik.setFieldValue('saveName', name);
@@ -286,7 +288,7 @@ const Home = () => {
     setKettleEntities(kettleEntities);
     setKettleCount(kettleCount);
   };
-  
+
   const clearApiResponse = () => {
     setApiResponse(undefined);
     setSuccessMessage('');
