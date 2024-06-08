@@ -16,6 +16,7 @@ const userFieldLengths = {
 const userFieldLabels = {
   id: 'ID',
   email: 'Email',
+  mode: 'Modus',
   verified: 'Verified',
   active: 'Active',
   admin: 'Admin',
