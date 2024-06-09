@@ -121,7 +121,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
         const isPendingUser = () => pendingUser?.id === id;
         return (
           <>
-            {(isModeChangeLoading && isPendingUser()) ? <CircularProgress size={80} /> : (
+            {(isModeChangeLoading && isPendingUser()) ? (
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mr: 8.3, mb: 2, ml: 3 }}>
+                <CircularProgress />
+              </Box>
+              ) : (
               <Select
                 label="Modus"
                 id="mode"
@@ -131,7 +135,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                   setPendingUser(row);
                   handeUserModeChangeClick(id, event.target.value);
                 }}
-                style={{ marginRight: 20 }}
+                style={{ margin: '0 20px 0 5px', width: 105, height: 30 }}
                 disabled={isActiveStateChangeLoading && isPendingUser()}
               >
                 {Object.values(UserMode).map((userMode) => (
