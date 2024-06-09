@@ -1,8 +1,9 @@
-import {KettleSizeLitres} from "../enums/KettleSizeLitres";
+import {KettleSizeLitresElro, KettleSizeLitresMetos} from "../enums/KettleSizeLitres";
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {getHoursOfDay, getEnumMinMax} from "../utils";
 import {IceWaterCoolingEntity} from "./IceWaterCoolingEntity";
 import {TapWaterCoolingEntity} from "./TapWaterCoolingEntity";
+import {UserMode} from "../enums/UserMode";
 
 interface TimeUsage {
   time: string;
@@ -14,14 +15,17 @@ interface TimeUsageRow extends TimeUsage {
 }
 
 class KettleEntity {
-  private sizeLitres: KettleSizeLitres = KettleSizeLitres.KettleSizeLitres200;
+  private sizeLitres: KettleSizeLitresMetos | KettleSizeLitresElro = this.mode === UserMode.UserModeElro
+    ? KettleSizeLitresElro.KettleSizeLitres500
+    : KettleSizeLitresMetos.KettleSizeLitres200;
   private coolingMode: KettleCoolingModes = KettleCoolingModes.C2;
   timeUsageRows: TimeUsageRow[] = [];
   private c3CoolingPercent: number = IceWaterCoolingEntity.minCoolingPercent;
   private c2CoolingPercent: number = TapWaterCoolingEntity.maxCoolingPercent;
-  
+
   constructor(
-    sizeLitres?: KettleSizeLitres,
+    private readonly mode: UserMode,
+    sizeLitres?: KettleSizeLitresMetos | KettleSizeLitresElro,
     coolingMode?: KettleCoolingModes,
     coolingPercent?: number,
     timeUsages?: TimeUsage[]
@@ -119,8 +123,10 @@ class KettleEntity {
    * One degree Celsius here equals one percent cooled by C2
    * @param foodLitres
    */
-  private static getWaterLitresUsedPerDegreeCelsius = (foodLitres: number) => {
-    const [, maxKettleSizeLitres] = getEnumMinMax(KettleSizeLitres);
+  private static getWaterLitresUsedPerDegreeCelsius = (foodLitres: number, mode: UserMode) => {
+    const [, maxKettleSizeLitres] = getEnumMinMax(mode === UserMode.UserModeElro
+      ? KettleSizeLitresElro
+      : KettleSizeLitresMetos);
     if (foodLitres > maxKettleSizeLitres || foodLitres < 1) {
       throw new Error(`foodLitres has to be between 1 and 400, "${foodLitres}" provided.`);
     }
@@ -133,8 +139,8 @@ class KettleEntity {
     if (foodLitres >= 1) return 5;
   };
 
-  static getWaterLitresUsedByFoodLitres = (foodLitres: number, c2CoolingPercent: number) => {
-    let waterLitresUsedPerDegreeCelsius = this.getWaterLitresUsedPerDegreeCelsius(foodLitres);
+  static getWaterLitresUsedByFoodLitres = (foodLitres: number, c2CoolingPercent: number, mode: UserMode) => {
+    let waterLitresUsedPerDegreeCelsius = this.getWaterLitresUsedPerDegreeCelsius(foodLitres, mode);
 
     return waterLitresUsedPerDegreeCelsius! * c2CoolingPercent;
   };
@@ -148,7 +154,7 @@ class KettleEntity {
       throw new Error(`c2CoolingPercent has to be between ${TapWaterCoolingEntity.minC5iCoolingPercent} and ${TapWaterCoolingEntity.maxC5iCoolingPercent}, it is "${this.c2CoolingPercent}".`);
     }
 
-    return KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, this.c2CoolingPercent);
+    return KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, this.c2CoolingPercent, this.mode);
   };
 
   /**

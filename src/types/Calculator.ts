@@ -1,5 +1,5 @@
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {KettleSizeLitres} from "../enums/KettleSizeLitres";
+import {KettleSizeLitresElro, KettleSizeLitresMetos} from "../enums/KettleSizeLitres";
 import {TimeUsage} from "../entities";
 import {IceWaterCoolingCount} from "../enums/IceWaterCoolingCount";
 
@@ -20,7 +20,7 @@ interface CalculatorParams {
 }
 
 interface CalculatorParamsKettle {
-  sizeLitres: KettleSizeLitres;
+  sizeLitres: KettleSizeLitresMetos | KettleSizeLitresElro;
   coolingMode: KettleCoolingModes;
   c3CoolingPercent?: number;
   timeUsages: TimeUsage[];

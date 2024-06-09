@@ -12,7 +12,7 @@ import {
   TextField, Tooltip
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
+import {KettleSizeLitresElro, KettleSizeLitresMetos} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils";
 import CloseIcon from '@mui/icons-material/Close';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -31,12 +31,16 @@ interface KettleProps {
 }
 
 export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities, user }: KettleProps) => {
-  const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
+  const isElroMode = user.mode === UserMode.UserModeElro;
+
+  const [sizeLitres, setSizeLitres] = useState<KettleSizeLitresMetos | KettleSizeLitresElro>(isElroMode
+    ? KettleSizeLitresElro.KettleSizeLitres500
+    : KettleSizeLitresMetos.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
   const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
 
-  const kettleSizeLabel = user!.mode === UserMode.UserModeElro
+  const kettleSizeLabel = isElroMode
     ? 'Size Kettle'
     : 'Size Proveno 4G';
 
@@ -96,7 +100,9 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
                 label={kettleSizeLabel}
                 onChange={handleKettleSizeChange}
               >
-                {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
+                {getEnumNumericValues(isElroMode
+                  ? KettleSizeLitresElro
+                  : KettleSizeLitresMetos).map((kettleSize: KettleSizeLitresMetos | KettleSizeLitresElro) => {
                   return (
                     <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
                   );

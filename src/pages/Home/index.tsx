@@ -5,7 +5,8 @@ import { KettleContainer } from "../../components/KettleContainer";
 import {Button, CircularProgress, TextField, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { getEnumMinMax } from "../../utils";
 import { KettleEntity, IceWaterCoolingEntity, TimePowerUsageRow, TapWaterCoolingEntity } from "../../entities";
 import { Calculator } from "../../services/Calculator";
@@ -37,7 +38,7 @@ import {paramsFieldLengths} from "../../constants";
 
 const Home = () => {
   const [kettleCount, setKettleCount] = useState<KettleCount>(1);
-  const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([new KettleEntity()]);
+  const [kettleEntities, setKettleEntities] = useState<KettleEntity[]>([]);
   const [tapWaterCoolingEntity] = useState<TapWaterCoolingEntity>(new TapWaterCoolingEntity());
   const [iceWaterCoolingEntity] = useState<IceWaterCoolingEntity>(new IceWaterCoolingEntity());
 
@@ -75,6 +76,7 @@ const Home = () => {
   // );
 
   const calculator = new Calculator(
+    user!.mode,
     kettleEntities,
     tapWaterCoolingEntity,
     iceWaterCoolingEntity,
@@ -160,6 +162,8 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
+      setKettleEntities([new KettleEntity(user.mode)]);
+
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 1000);
@@ -194,7 +198,7 @@ const Home = () => {
 
     if (kettleCount >= maxKettleCount) return;
 
-    setKettleEntities([...kettleEntities, new KettleEntity()]);
+    setKettleEntities([...kettleEntities, new KettleEntity(user!.mode)]);
 
     setKettleCount(kettleCount + 1);
   };
@@ -258,12 +262,13 @@ const Home = () => {
       : null;
     const kettleEntities = kettles
       ? kettles.map((kettleParams: CalculatorParamsKettle) => new KettleEntity(
+          user!.mode,
           kettleParams.sizeLitres,
           kettleParams.coolingMode,
           kettleParams.c3CoolingPercent,
           kettleParams.timeUsages
         ))
-      : [new KettleEntity()];
+      : [new KettleEntity(user!.mode)];
     const kettleCount = params ? kettles.length : 1;
 
     formik.setFieldValue('saveName', name);
