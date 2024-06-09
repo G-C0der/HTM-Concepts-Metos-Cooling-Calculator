@@ -1,7 +1,7 @@
 import {IceWaterCoolingKw} from "../enums/IceWaterCoolingKw";
 import {getHoursOfDay} from "../utils";
 import {CoolingEntity} from "./CoolingEntity";
-import {IceWaterCoolingTypeCount} from "../types";
+import {IceWaterCoolingCount} from "../enums/IceWaterCoolingCount";
 
 interface TimePowerUsage {
   time: string;
@@ -17,8 +17,8 @@ class IceWaterCoolingEntity extends CoolingEntity {
   static readonly kwHour: number = 1;
   kwHourCHF: number = 0;
   kwHourCo2: number = 0;
-  private type1Count: IceWaterCoolingTypeCount = 0;
-  private type4Count: IceWaterCoolingTypeCount = 0;
+  private type1Count: IceWaterCoolingCount = 0;
+  private type4Count: IceWaterCoolingCount = 0;
   timePowerUsageRows: TimePowerUsageRow[] = [];
   private cop: number = 1;
   static readonly maxPowerKWUsedPerLitre: number = 0.1101001; // TODO: remove workaround, set to 0.11
@@ -37,7 +37,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
     }
   }
 
-  setType1Count = (type1Count: IceWaterCoolingTypeCount) => {
+  setType1Count = (type1Count: IceWaterCoolingCount) => {
     this.type1Count = type1Count;
 
     this.setTimePowerUsageRows();
@@ -45,7 +45,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
 
   getType1Count = () => this.type1Count;
 
-  setType4Count = (type4Count: IceWaterCoolingTypeCount) => {
+  setType4Count = (type4Count: IceWaterCoolingCount) => {
     this.type4Count = type4Count;
 
     this.setTimePowerUsageRows();

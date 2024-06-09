@@ -1,6 +1,9 @@
+import {UserMode} from "../enums/UserMode";
+
 interface User {
   id: number;
   email: string;
+  mode: UserMode;
   verified: boolean;
   active: boolean;
   admin: boolean;

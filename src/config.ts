@@ -6,6 +6,7 @@ const htmConceptsWebsiteContact = new URL(process.env.HTM_CONCEPTS_WEBSITE_CONTA
   htmConceptsWebsite).toString();
 
 const metosWebsite = process.env.METOS_WEBSITE || 'https://www.metos.com';
+const elroWebsite = process.env.ELRO_WEBSITE || 'https://elro.ch'
 
 export {
   serverAPIBaseURL,
@@ -14,5 +15,6 @@ export {
   htmConceptsWebsite,
   htmConceptsWebsiteContact,
 
-  metosWebsite
+  metosWebsite,
+  elroWebsite
 };
