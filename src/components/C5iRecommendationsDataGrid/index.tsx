@@ -4,12 +4,15 @@ import Box from "@mui/material/Box";
 import {C5iRecommendationsRow} from "./types";
 import {round} from "../../utils/math";
 import Typography from "@mui/material/Typography";
+import {User} from "../../types";
+import {UserMode} from "../../enums/UserMode";
 
 interface C5iRecommendationsDataGridProps {
-  rows: C5iRecommendationsRow[]
+  rows: C5iRecommendationsRow[];
+  user: User;
 }
 
-export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridProps) => {
+export const C5iRecommendationsDataGrid = ({ rows, user }: C5iRecommendationsDataGridProps) => {
   const columns: GridColDef[] = [
     {
       field: 'c2CoolingPercent',
@@ -58,7 +61,9 @@ export const C5iRecommendationsDataGrid = ({ rows }: C5iRecommendationsDataGridP
   return (
     <Box>
       <Typography sx={{ color: '#000' }}>
-        Recommendations Metos Proveno 4G 200l C5i
+        Recommendations {user.mode === UserMode.UserModeElro
+          ? '200l Kettle'
+          : 'Metos Proveno 4G 200l C5i'}
       </Typography>
 
       <DataGrid

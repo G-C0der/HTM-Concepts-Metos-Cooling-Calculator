@@ -413,7 +413,7 @@ const Home = () => {
           </Box>
 
           <Box id='recommendation-container'>
-            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} />
+            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} user={user!} />
           </Box>
 
           <ConsumptionDisplay
@@ -449,6 +449,7 @@ const Home = () => {
                 kettleEntities={kettleEntities}
                 handleKettleDeleteClick={handleKettleDeleteClick}
                 setKettleEntities={setKettleEntities}
+                user={user!}
               />
             </Box>
           </Box>

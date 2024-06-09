@@ -19,19 +19,26 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
+import {UserMode} from "../../enums/UserMode";
+import {User} from "../../types";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
   setKettleEntities: React.Dispatch<React.SetStateAction<KettleEntity[]>>;
+  user: User;
 }
 
-export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities }: KettleProps) => {
+export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities, user }: KettleProps) => {
   const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
   const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
+
+  const kettleSizeLabel = user!.mode === UserMode.UserModeElro
+    ? 'Size Kettle'
+    : 'Size Proveno 4G';
 
   useEffect(() => {
     setSizeLitres(kettleEntity.getSizeLitres);
@@ -82,11 +89,11 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
 
           <Box sx={{ height: 205 }}>
             <FormControl>
-              <InputLabel className='form-input-label'>Size Proveno 4G</InputLabel>
+              <InputLabel className='form-input-label'>{kettleSizeLabel}</InputLabel>
               <Select
                 style={{ width: "178px", margin: "5px" }}
                 value={sizeLitres}
-                label="Size Proveno 4G"
+                label={kettleSizeLabel}
                 onChange={handleKettleSizeChange}
               >
                 {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
