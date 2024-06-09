@@ -12,7 +12,7 @@ import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 import {getName} from 'country-list';
 import {ErrorAlert} from "../ErrorAlert";
-import {userFieldLabels} from "../../constants";
+import {userFieldLabels, userModeFieldLabels} from "../../constants";
 import {UserDetailDataGrid} from "../UserDetailDataGrid";
 import {BooleanIcon} from "../BooleanIcon";
 import {UserMode} from "../../enums/UserMode";
@@ -127,7 +127,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
               </Box>
               ) : (
               <Select
-                label="Modus"
+                label="Mode"
                 id="mode"
                 name="mode"
                 value={mode}
@@ -139,7 +139,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 disabled={isActiveStateChangeLoading && isPendingUser()}
               >
                 {Object.values(UserMode).map((userMode) => (
-                  <MenuItem key={userMode} value={userMode}>{userMode}</MenuItem>
+                  <MenuItem key={userMode} value={userMode}>{userModeFieldLabels[userMode]}</MenuItem>
                 ))}
               </Select>
             )}
