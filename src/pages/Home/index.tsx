@@ -48,6 +48,8 @@ const Home = () => {
   const [timePowerUsageRows, setTimePowerUsageRows] =
     useState<TimePowerUsageRow[]>(iceWaterCoolingEntity.timePowerUsageRows);
 
+  const [calculator, setCalculator] = useState<Calculator>();
+
   const initialConsumption = { costCHF: 0, co2Grams: 0 };
   const [consumptionResult, setConsumptionResult] = useState<ConsumptionResult>({
     waterConsumption: initialConsumption,
@@ -74,14 +76,6 @@ const Home = () => {
   //   tapWaterCoolingEntity,
   //   iceWaterCoolingEntity
   // );
-
-  const calculator = new Calculator(
-    user!.mode,
-    kettleEntities,
-    tapWaterCoolingEntity,
-    iceWaterCoolingEntity,
-    timePowerUsageRows
-  );
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSaveLoading, setIsSaveLoading] = useState(false);
@@ -163,6 +157,13 @@ const Home = () => {
   useEffect(() => {
     if (user) {
       setKettleEntities([new KettleEntity(user.mode)]);
+      setCalculator(new Calculator(
+        user.mode,
+        kettleEntities,
+        tapWaterCoolingEntity,
+        iceWaterCoolingEntity,
+        timePowerUsageRows
+      ));
 
       const timer = setTimeout(() => {
         setIsLoading(false);
@@ -173,32 +174,36 @@ const Home = () => {
   }, [user]);
 
   useEffect(() => {
-    // Fetch newest measurements
-    // let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
-    // calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
-    // calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
+    if (calculator) {
+      // Fetch newest measurements
+      // let { tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = dataProvider.fetch();
+      // calculator.setTapWaterCoolingMeasurements(tapWaterCoolingMeasurements);
+      // calculator.setIceWaterCoolingMeasurements(iceWaterCoolingMeasurements);
 
-    // Calculate target row (row with smallest cost difference)
-    // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
-    // const res = calculator.calculateMeasurementsTargetRow();
-    // setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
-    // setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
+      // Calculate target row (row with smallest cost difference)
+      // ({ tapWaterCoolingMeasurements, iceWaterCoolingMeasurements } = calculator.calculateMeasurementsTargetRow()); // TODO: check why this not works
+      // const res = calculator.calculateMeasurementsTargetRow();
+      // setTapWaterCoolingMeasurements(res?.tapWaterCoolingMeasurements);
+      // setIceWaterCoolingMeasurements(res?.iceWaterCoolingMeasurements);
 
-    // Calculate ice water cooling power percentages
-    const timePowerUsageRows = calculator.calculateTimePowerRows();
-    if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
+      // Calculate ice water cooling power percentages
+      const timePowerUsageRows = calculator.calculateTimePowerRows();
+      if (timePowerUsageRows) setTimePowerUsageRows(timePowerUsageRows!);
 
-    // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
-    const consumptionResult = calculator.calculateConsumption();
-    if (consumptionResult) setConsumptionResult(consumptionResult);
+      // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
+      const consumptionResult = calculator.calculateConsumption();
+      if (consumptionResult) setConsumptionResult(consumptionResult);
+    }
   }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities]);
 
   const handleKettleAddClick = () => {
+    if (!user) return;
+
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
 
     if (kettleCount >= maxKettleCount) return;
 
-    setKettleEntities([...kettleEntities, new KettleEntity(user!.mode)]);
+    setKettleEntities([...kettleEntities, new KettleEntity(user.mode)]);
 
     setKettleCount(kettleCount + 1);
   };
@@ -418,7 +423,7 @@ const Home = () => {
           </Box>
 
           <Box id='recommendation-container'>
-            <C5iRecommendationsDataGrid rows={calculator.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} user={user!} />
+            <C5iRecommendationsDataGrid rows={calculator!.calculateC5iRecommendationsRows(iceWaterCoolingEntity)} user={user!} />
           </Box>
 
           <ConsumptionDisplay
