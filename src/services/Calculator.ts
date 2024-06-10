@@ -10,7 +10,6 @@ import {KettleCoolingModes} from "../enums/KettleCoolingModes";
 import {sortArrayOfObjectsByProperty} from "../utils";
 import {Consumption} from "../components/ConsumptionDisplay/types";
 import {C5iRecommendationsRow} from "../components/C5iRecommendationsDataGrid/types";
-import {UserMode} from "../enums/UserMode";
 
 export class Calculator {
   kettleEntities: KettleEntity[];
@@ -21,7 +20,6 @@ export class Calculator {
   timePowerUsageRows: TimePowerUsageRow[];
 
   constructor(
-    private readonly mode: UserMode,
     kettleEntities: KettleEntity[],
     tapWaterCoolingEntity: TapWaterCoolingEntity,
     iceWaterCoolingEntity: IceWaterCoolingEntity,
@@ -180,7 +178,7 @@ export class Calculator {
       foodLitresTotal
     };
   };
-
+  
   calculateC5iRecommendationsRows = (iceWaterCoolingEntity: IceWaterCoolingEntity): C5iRecommendationsRow[] => {
     // Fill up C5i C3 cooling percent
     const c3CoolingPercents = [];
@@ -198,7 +196,7 @@ export class Calculator {
     for (const c3CoolingPercent of c3CoolingPercents) {
       const c2CoolingPercent = 100 - c3CoolingPercent;
 
-      const waterLitresUsed = KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent, this.mode);
+      const waterLitresUsed = KettleEntity.getWaterLitresUsedByFoodLitres(foodLitres, c2CoolingPercent);
       const powerKWUsed = KettleEntity.getPowerKWUsedByFoodLitres(foodLitres, c3CoolingPercent) / iceWaterCoolingEntity.getCop(); // TODO: put COP divisor into kettleEntity.getPowerKWUsedByFoodLitres functions if COP also needed for kettle time usage calculation
 
       const waterCostCHF = this.tapWaterCoolingEntity.waterLitreCHF * waterLitresUsed;

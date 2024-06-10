@@ -1,4 +1,4 @@
-export enum KettleSizeLitresMetos {
+export enum KettleSizeLitres {
   KettleSizeLitres40 = 40,
   KettleSizeLitres60 = 60,
   KettleSizeLitres80 = 80,
@@ -7,8 +7,5 @@ export enum KettleSizeLitresMetos {
   KettleSizeLitres200 = 200,
   KettleSizeLitres300 = 300,
   KettleSizeLitres400 = 400,
-}
-
-export enum KettleSizeLitresElro {
   KettleSizeLitres500 = 500,
 }
