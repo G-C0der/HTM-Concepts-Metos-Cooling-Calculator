@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import './style.css';
 import {ApiError, User} from "../../types";
 import {AdminContext, AuthContext} from "../../contexts";
-import {CircularProgress} from "@mui/material";
+import {CircularProgress, MenuItem, Select} from "@mui/material";
 import {DataGridPro, GridColDef, GridToolbar} from "@mui/x-data-grid-pro";
 import Box from "@mui/material/Box";
 import {toAbsoluteUrl} from "../../utils/url";
@@ -12,9 +12,10 @@ import {ConfirmationDialog} from "../ConfirmationDialog";
 import {LoadingButton} from "../LoadingButton";
 import {getName} from 'country-list';
 import {ErrorAlert} from "../ErrorAlert";
-import {userFieldLabels} from "../../constants";
+import {userFieldLabels, userModeFieldLabels} from "../../constants";
 import {UserDetailDataGrid} from "../UserDetailDataGrid";
 import {BooleanIcon} from "../BooleanIcon";
+import {UserMode} from "../../enums/UserMode";
 
 interface UsersDataGridProps {
   isAdminModalOpen: boolean;
@@ -28,10 +29,11 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   const [pendingUser, setPendingUser] = useState<User>();
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
+  const [isModeChangeLoading, setIsModeChangeLoading] = useState(false);
   const [isActiveStateChangeLoading, setIsActiveStateChangeLoading] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
-  const { listUsers, activateUser, deactivateUser } = useContext(AdminContext);
+  const { listUsers, changeUserMode, activateUser, deactivateUser } = useContext(AdminContext);
 
   const columns: GridColDef[] = [
     {
@@ -112,15 +114,36 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 150,
+      width: 270,
       sortable: false,
       renderCell: ({ row }) => {
-        const id = row.id;
-        const isVerified = row.verified;
-        const isActive = row.active;
-
+        const { id, mode, verified: isVerified, active: isActive } = row;
+        const isPendingUser = () => pendingUser?.id === id;
         return (
           <>
+            {(isModeChangeLoading && isPendingUser()) ? (
+              <Box display="flex" justifyContent="center" alignItems="center" sx={{ mr: 8.3, mb: 2, ml: 3 }}>
+                <CircularProgress />
+              </Box>
+              ) : (
+              <Select
+                label="Mode"
+                id="mode"
+                name="mode"
+                value={mode}
+                onChange={(event) => {
+                  setPendingUser(row);
+                  handeUserModeChangeClick(id, event.target.value);
+                }}
+                style={{ margin: '0 20px 0 5px', width: 105, height: 30 }}
+                disabled={isActiveStateChangeLoading && isPendingUser()}
+              >
+                {Object.values(UserMode).map((userMode) => (
+                  <MenuItem key={userMode} value={userMode}>{userModeFieldLabels[userMode]}</MenuItem>
+                ))}
+              </Select>
+            )}
+
             <LoadingButton
               className={`action-button ${isActive ? 'deactivate' : 'activate'}`}
               startIcon={isActive ? <CancelIcon /> : <CheckCircleIcon />}
@@ -128,8 +151,8 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 setPendingUser(row);
                 setIsConfirmDialogOpen(true);
               }}
-              loading={isActiveStateChangeLoading && (pendingUser?.id === id)}
-              disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive)}
+              loading={isActiveStateChangeLoading && isPendingUser()}
+              disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive) || (isModeChangeLoading && isPendingUser())}
             >
               {isActive ? 'Deactivate' : 'Activate'}
             </LoadingButton>
@@ -162,6 +185,18 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     }
   }, [users]);
 
+  const handeUserModeChangeClick = async (id: number, mode: UserMode) => {
+    setIsModeChangeLoading(true);
+
+    const modeChangeResponse = await changeUserMode(id, mode);
+    if (modeChangeResponse.success) {
+      setUsers(prevUsers => prevUsers!.map(user => user.id === id ? { ...user, mode } : user));
+    }
+
+    setPendingUser(undefined);
+    setIsModeChangeLoading(false);
+  };
+
   const handleUserStateChangeClick = async (user: User) => {
     setIsActiveStateChangeLoading(true);
     const { id, active: isActive } = user;
@@ -179,7 +214,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
   };
 
   const updateUser = (id: number, props: Partial<User>) =>
-    setUsers(users!.map(user => user.id === id ? { ...user, ...props } : user));
+    setUsers(prevUsers => prevUsers!.map(user => user.id === id ? { ...user, ...props } : user));
 
   return error
     ? (

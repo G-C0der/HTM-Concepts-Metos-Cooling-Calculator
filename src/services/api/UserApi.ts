@@ -1,5 +1,6 @@
 import {Api} from "./Api";
 import {UserForm, UserFormEdit} from "../../types";
+import {UserMode} from "../../enums/UserMode";
 
 class UserApi extends Api {
   basePath = '/users';
@@ -48,6 +49,11 @@ class UserApi extends Api {
 
   list = async () => {
     const { data } = await this.api.get(this.basePath);
+    return data;
+  };
+
+  changeMode = async (id: number, mode: UserMode) => {
+    const { data } = await this.api.patch(`${this.basePath}/${id}/mode-change`, { mode });
     return data;
   };
 

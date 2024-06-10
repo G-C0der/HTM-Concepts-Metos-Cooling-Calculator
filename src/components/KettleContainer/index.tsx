@@ -3,14 +3,16 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {Kettle} from "../KettleForm";
 import {KettleEntity} from "../../entities";
+import {User} from "../../types";
 
 interface KettleContainerProps {
   kettleEntities: KettleEntity[];
   handleKettleDeleteClick: (kettleNr: number) => void;
   setKettleEntities: React.Dispatch<React.SetStateAction<KettleEntity[]>>;
+  user: User;
 }
 
-export function KettleContainer({ kettleEntities, handleKettleDeleteClick, setKettleEntities }: KettleContainerProps) {
+export function KettleContainer({ kettleEntities, handleKettleDeleteClick, setKettleEntities, user }: KettleContainerProps) {
   let kettleNr = 1;
 
   return (
@@ -27,6 +29,7 @@ export function KettleContainer({ kettleEntities, handleKettleDeleteClick, setKe
             number={kettleNr}
             handleKettleDeleteClick={handleKettleDeleteClick}
             setKettleEntities={setKettleEntities}
+            user={user}
           />
         </Grid>
       ))}

@@ -7,11 +7,13 @@ import Button from '@mui/material/Button';
 import {IconButton, Menu, MenuItem, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 import metosLogo from '../../assets/img/metos_logo.png';
+import elroLogo from '../../assets/img/ELRO_logo_new.png';
 import {User} from "../../types";
-import {htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite} from "../../config";
+import {elroWebsite, metosWebsite, htmConceptsWebsite, htmConceptsWebsiteContact} from "../../config";
 import {ProfileMenu} from "../ProfileMenu";
 import MenuIcon from '@mui/icons-material/Menu';
-import { isMobile } from '../../utils';
+import {isMobile} from '../../utils';
+import {UserMode} from "../../enums/UserMode";
 
 interface CustomAppBarProps {
   user: User;
@@ -47,8 +49,10 @@ export const CustomAppBar = ({
               <img src={htmConceptsLogo} width={70} />
             </a>
 
-            <a href={metosWebsite} target="_blank" rel="noreferrer">
-              <img src={metosLogo} width={110} />
+            <a href={user.mode === UserMode.UserModeElro ? elroWebsite : metosWebsite} target="_blank" rel="noreferrer">
+              {user.mode === UserMode.UserModeElro
+                ? <img src={elroLogo} width={130} style={{ marginLeft: 25 }} />
+                : <img src={metosLogo} width={110} />}
             </a>
           </Box>
 

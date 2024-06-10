@@ -11,7 +11,7 @@ interface AuditLog {
   updatedAt: Date;
 }
 
-type AuditLogAction = 'registration' | 'verification' | 'passwordReset' | 'profileEdit' | 'activation' | 'deactivation' |
+type AuditLogAction = 'registration' | 'verification' | 'passwordReset' | 'profileEdit' | 'modeChange' | 'activation' | 'deactivation' |
   'save' | 'delete';
 
 export type {

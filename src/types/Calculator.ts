@@ -1,8 +1,7 @@
 import {KettleCoolingModes} from "../enums/KettleCoolingModes";
-import {KettleSizeLitres} from "../enums/KettleSizeLitres";
+import {KettleSizeLitresElro, KettleSizeLitresMetos} from "../enums/KettleSizeLitres";
 import {TimeUsage} from "../entities";
-
-type IceWaterCoolingTypeCount = 0 | 1 | 2 | 3 | 4;
+import {IceWaterCoolingCount} from "../enums/IceWaterCoolingCount";
 
 interface CalculatorParams {
   id: number;
@@ -12,8 +11,8 @@ interface CalculatorParams {
   waterLitreCo2: number;
   kwHourCHF: number;
   kwHourCo2: number;
-  iceWaterCoolingType1Count: IceWaterCoolingTypeCount;
-  iceWaterCoolingType4Count: IceWaterCoolingTypeCount;
+  iceWaterCoolingType1Count: IceWaterCoolingCount;
+  iceWaterCoolingType4Count: IceWaterCoolingCount;
   cop: number;
   kettles: CalculatorParamsKettle[];
   createdAt: Date;
@@ -21,7 +20,7 @@ interface CalculatorParams {
 }
 
 interface CalculatorParamsKettle {
-  sizeLitres: KettleSizeLitres;
+  sizeLitres: KettleSizeLitresMetos | KettleSizeLitresElro;
   coolingMode: KettleCoolingModes;
   c3CoolingPercent?: number;
   timeUsages: TimeUsage[];
@@ -30,7 +29,6 @@ interface CalculatorParamsKettle {
 type CalculatorParamsForm = Omit<CalculatorParams, 'id' | 'inUse' | 'createdAt' | 'updatedAt'>;
 
 export type {
-  IceWaterCoolingTypeCount,
   CalculatorParams,
   CalculatorParamsKettle,
   CalculatorParamsForm

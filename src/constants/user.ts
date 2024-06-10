@@ -16,6 +16,7 @@ const userFieldLengths = {
 const userFieldLabels = {
   id: 'ID',
   email: 'Email',
+  mode: 'Mode',
   verified: 'Verified',
   active: 'Active',
   admin: 'Admin',
@@ -33,7 +34,13 @@ const userFieldLabels = {
   updatedAt: 'Updated at'
 };
 
+const userModeFieldLabels = {
+  METOS: 'metos',
+  ELRO: 'ELRO'
+};
+
 export {
   userFieldLengths,
-  userFieldLabels
+  userFieldLabels,
+  userModeFieldLabels
 };

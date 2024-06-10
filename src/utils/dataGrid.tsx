@@ -3,11 +3,14 @@ import {GridRenderCellParams, GridValueGetterParams} from "@mui/x-data-grid";
 import {getName} from "country-list";
 import moment from "moment/moment";
 import {BooleanIcon} from "../components/BooleanIcon";
+import {userModeFieldLabels} from "../constants";
 
 const detailDataGridValueGetter = ({ row, value }: GridValueGetterParams) => {
   if (value === undefined) return;
 
   switch (row.field) {
+    case 'Mode':
+      return userModeFieldLabels[value as keyof typeof userModeFieldLabels];
     case 'Country':
       return getName(value);
     case 'Kettles':

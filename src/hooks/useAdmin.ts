@@ -7,12 +7,22 @@ import {
   ApiDataUserList
 } from "../types";
 import calculatorApi from "../services/api/CalculatorApi";
+import {UserMode} from "../enums/UserMode";
 
 const useAdmin = () => {
   const listUsers = async () => {
     try {
       const data = await userApi.list();
       return toApiResponse<ApiDataUserList>(true, undefined, data);
+    } catch (err: any) {
+      return toApiResponse(false, toApiError(err));
+    }
+  };
+
+  const changeUserMode = async (id: number, mode: UserMode) => {
+    try {
+      await userApi.changeMode(id, mode);
+      return toApiResponse(true);
     } catch (err: any) {
       return toApiResponse(false, toApiError(err));
     }
@@ -56,6 +66,7 @@ const useAdmin = () => {
 
   return {
     listUsers,
+    changeUserMode,
     activateUser,
     deactivateUser,
     listAuditLogs,

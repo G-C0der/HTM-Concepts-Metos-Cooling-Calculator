@@ -12,26 +12,37 @@ import {
   TextField, Tooltip
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
+import {KettleSizeLitresElro, KettleSizeLitresMetos} from "../../enums/KettleSizeLitres";
 import {getEnumNumericValues, getEnumValues} from "../../utils";
 import CloseIcon from '@mui/icons-material/Close';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
+import {UserMode} from "../../enums/UserMode";
+import {User} from "../../types";
 
 interface KettleProps {
   kettleEntity: KettleEntity;
   number: number;
   handleKettleDeleteClick: (kettleNr: number) => void;
   setKettleEntities: React.Dispatch<React.SetStateAction<KettleEntity[]>>;
+  user: User;
 }
 
-export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities }: KettleProps) => {
-  const [sizeLitres, setSizeLitres] = useState<KettleSizeLitres>(KettleSizeLitres.KettleSizeLitres200);
+export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettleEntities, user }: KettleProps) => {
+  const isElroMode = user.mode === UserMode.UserModeElro;
+
+  const [sizeLitres, setSizeLitres] = useState<KettleSizeLitresMetos | KettleSizeLitresElro>(isElroMode
+    ? KettleSizeLitresElro.KettleSizeLitres500
+    : KettleSizeLitresMetos.KettleSizeLitres200);
   const [coolingMode, setCoolingMode] = useState<KettleCoolingModes>(KettleCoolingModes.C2);
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
   const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
+
+  const kettleSizeLabel = isElroMode
+    ? 'Size Kettle'
+    : 'Size Proveno 4G';
 
   useEffect(() => {
     setSizeLitres(kettleEntity.getSizeLitres);
@@ -82,14 +93,16 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
 
           <Box sx={{ height: 205 }}>
             <FormControl>
-              <InputLabel className='form-input-label'>Size Proveno 4G</InputLabel>
+              <InputLabel className='form-input-label'>{kettleSizeLabel}</InputLabel>
               <Select
                 style={{ width: "178px", margin: "5px" }}
                 value={sizeLitres}
-                label="Size Proveno 4G"
+                label={kettleSizeLabel}
                 onChange={handleKettleSizeChange}
               >
-                {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
+                {getEnumNumericValues(isElroMode
+                  ? KettleSizeLitresElro
+                  : KettleSizeLitresMetos).map((kettleSize: KettleSizeLitresMetos | KettleSizeLitresElro) => {
                   return (
                     <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
                   );
