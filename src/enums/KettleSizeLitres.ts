@@ -7,4 +7,5 @@ export enum KettleSizeLitres {
   KettleSizeLitres200 = 200,
   KettleSizeLitres300 = 300,
   KettleSizeLitres400 = 400,
+  KettleSizeLitres500 = 500,
 }

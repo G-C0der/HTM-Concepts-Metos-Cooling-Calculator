@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KettleEntity, TimeUsageRow, IceWaterCoolingEntity} from "../../entities";
+import {IceWaterCoolingEntity, KettleEntity, TimeUsageRow} from "../../entities";
 import {
   Button,
   Card,
@@ -9,7 +9,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField, Tooltip
+  TextField,
+  Tooltip
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
@@ -97,7 +98,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
                 onChange={handleKettleSizeChange}
               >
                 {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
-                  return (
+                  return +kettleSize === KettleSizeLitres.KettleSizeLitres500 && user!.mode === UserMode.UserModeMetos ? null : (
                     <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
                   );
                 })}
