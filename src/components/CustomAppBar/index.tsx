@@ -41,13 +41,17 @@ export const CustomAppBar = ({
     { display: 'Contact', clickEvent: () => window.open(htmConceptsWebsiteContact, '_blank'), condition: true }
   ];
 
+  const isMob = isMobile();
+
   let logoConfig = { img: metosLogo, url: metosWebsite, width: 110, style: {} };
   switch (user.mode) {
     case UserMode.UserModeElro:
       logoConfig = { img: elroLogo, url: elroWebsite, width: 130, style: { marginLeft: 25 } };
       break;
     case UserMode.UserModeSchmolke:
-      logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 180, style: { marginLeft: 25 } };
+      logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 180, style: isMob
+        ? { marginRight: -30 }
+        : { marginLeft: 25 } };
       break;
   }
 
@@ -66,7 +70,7 @@ export const CustomAppBar = ({
           </Box>
 
           {
-            isMobile()
+            isMob
               ? (
                 <>
                   <IconButton onClick={handleOpenMenu}>
