@@ -36,7 +36,8 @@ const userFieldLabels = {
 
 const userModeFieldLabels = {
   METOS: 'metos',
-  ELRO: 'ELRO'
+  ELRO: 'ELRO',
+  SCHMOLKE: 'Schmolke'
 };
 
 export {

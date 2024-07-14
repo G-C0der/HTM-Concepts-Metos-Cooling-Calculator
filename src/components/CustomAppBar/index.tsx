@@ -8,8 +8,9 @@ import {IconButton, Menu, MenuItem, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 import metosLogo from '../../assets/img/metos_logo.png';
 import elroLogo from '../../assets/img/ELRO_logo_new.png';
+import schmolkeLogo from '../../assets/img/Schmolke_logo.png';
 import {User} from "../../types";
-import {elroWebsite, metosWebsite, htmConceptsWebsite, htmConceptsWebsiteContact} from "../../config";
+import {elroWebsite, htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite, schmolkeWebsite} from "../../config";
 import {ProfileMenu} from "../ProfileMenu";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobile} from '../../utils';
@@ -40,6 +41,16 @@ export const CustomAppBar = ({
     { display: 'Contact', clickEvent: () => window.open(htmConceptsWebsiteContact, '_blank'), condition: true }
   ];
 
+  let logoConfig = { img: metosLogo, url: metosWebsite, width: 110, style: {} };
+  switch (user.mode) {
+    case UserMode.UserModeElro:
+      logoConfig = { img: elroLogo, url: elroWebsite, width: 130, style: { marginLeft: 25 } };
+      break;
+    case UserMode.UserModeSchmolke:
+      logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 110, style: {} };
+      break;
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: '#004d87' }}>
@@ -49,10 +60,8 @@ export const CustomAppBar = ({
               <img src={htmConceptsLogo} width={70} />
             </a>
 
-            <a href={user.mode === UserMode.UserModeElro ? elroWebsite : metosWebsite} target="_blank" rel="noreferrer">
-              {user.mode === UserMode.UserModeElro
-                ? <img src={elroLogo} width={130} style={{ marginLeft: 25 }} />
-                : <img src={metosLogo} width={110} />}
+            <a href={logoConfig.url} target="_blank" rel="noreferrer">
+              <img src={logoConfig.img} width={logoConfig.width} style={logoConfig.style} />
             </a>
           </Box>
 
