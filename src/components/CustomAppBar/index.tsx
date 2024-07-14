@@ -47,7 +47,7 @@ export const CustomAppBar = ({
       logoConfig = { img: elroLogo, url: elroWebsite, width: 130, style: { marginLeft: 25 } };
       break;
     case UserMode.UserModeSchmolke:
-      logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 110, style: {} };
+      logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 180, style: { marginLeft: 25 } };
       break;
   }
 
