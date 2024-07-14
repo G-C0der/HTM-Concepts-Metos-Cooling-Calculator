@@ -135,7 +135,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                   setPendingUser(row);
                   handeUserModeChangeClick(id, event.target.value);
                 }}
-                style={{ margin: '0 20px 0 5px', width: 105, height: 30 }}
+                style={{ margin: '0 20px 0 5px', width: 125, height: 30 }}
                 disabled={isActiveStateChangeLoading && isPendingUser()}
               >
                 {Object.values(UserMode).map((userMode) => (
