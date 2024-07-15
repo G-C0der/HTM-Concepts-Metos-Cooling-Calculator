@@ -8,7 +8,7 @@ import {IconButton, Menu, MenuItem, Typography} from '@mui/material';
 import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.png";
 import metosLogo from '../../assets/img/metos_logo.png';
 import elroLogo from '../../assets/img/ELRO_logo_new.png';
-import schmolkeLogo from '../../assets/img/Schmolke_logo.png';
+import schmolkeLogo from '../../assets/img/Schmolke_logo_new.jpeg';
 import {User} from "../../types";
 import {elroWebsite, htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite, schmolkeWebsite} from "../../config";
 import {ProfileMenu} from "../ProfileMenu";
