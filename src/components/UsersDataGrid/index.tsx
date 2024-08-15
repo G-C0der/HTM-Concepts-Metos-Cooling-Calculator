@@ -114,7 +114,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 270,
+      width: 290,
       sortable: false,
       renderCell: ({ row }) => {
         const { id, mode, verified: isVerified, active: isActive } = row;
