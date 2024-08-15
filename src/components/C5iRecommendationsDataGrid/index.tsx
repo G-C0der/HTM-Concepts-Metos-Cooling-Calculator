@@ -5,7 +5,6 @@ import {C5iRecommendationsRow} from "./types";
 import {round} from "../../utils/math";
 import Typography from "@mui/material/Typography";
 import {User} from "../../types";
-import {UserMode} from "../../enums/UserMode";
 
 interface C5iRecommendationsDataGridProps {
   rows: C5iRecommendationsRow[];
@@ -61,9 +60,7 @@ export const C5iRecommendationsDataGrid = ({ rows, user }: C5iRecommendationsDat
   return (
     <Box>
       <Typography sx={{ color: '#000' }}>
-        Recommendations {user.mode === UserMode.UserModeElro
-          ? '200l Kettle'
-          : 'Metos Proveno 4G 200l C5i'}
+        Recommendations 200l Kettle
       </Typography>
 
       <DataGrid
