@@ -20,7 +20,6 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {KettleCoolingModes} from "../../enums/KettleCoolingModes";
 import Box from "@mui/material/Box";
 import {KettleTimeUsageDataGrid} from "../KettleTimeUsageDataGrid";
-import {UserMode} from "../../enums/UserMode";
 import {User} from "../../types";
 
 interface KettleProps {
@@ -37,9 +36,7 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
   const [timeUsageRows, setTimeUsageRows] = useState<TimeUsageRow[]>(kettleEntity.timeUsageRows);
   const [c3CoolingPercent, setC3CoolingPercent] = useState<number>(IceWaterCoolingEntity.maxC5iCoolingPercent);
 
-  const kettleSizeLabel = user!.mode === UserMode.UserModeElro
-    ? 'Size Kettle'
-    : 'Size Proveno 4G';
+  const kettleSizeLabel ='Size Kettle';
 
   useEffect(() => {
     setSizeLitres(kettleEntity.getSizeLitres);
@@ -97,11 +94,9 @@ export const Kettle = ({ kettleEntity, number, handleKettleDeleteClick, setKettl
                 label={kettleSizeLabel}
                 onChange={handleKettleSizeChange}
               >
-                {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => {
-                  return +kettleSize === KettleSizeLitres.KettleSizeLitres500 && user!.mode === UserMode.UserModeMetos ? null : (
-                    <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
-                  );
-                })}
+                {getEnumNumericValues(KettleSizeLitres).map((kettleSize: KettleSizeLitres) => (
+                  <MenuItem value={kettleSize} key={kettleSize}>{kettleSize}</MenuItem>
+                ))}
               </Select>
             </FormControl>
 
