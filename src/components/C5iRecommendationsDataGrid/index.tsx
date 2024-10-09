@@ -60,7 +60,7 @@ export const C5iRecommendationsDataGrid = ({ rows, user }: C5iRecommendationsDat
   return (
     <Box>
       <Typography sx={{ color: '#000' }}>
-        Recommendations 200l Kettle
+        Example 200l Kettle
       </Typography>
 
       <DataGrid
