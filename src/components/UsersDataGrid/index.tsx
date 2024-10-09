@@ -152,7 +152,7 @@ const UsersDataGrid = ({ isAdminModalOpen }: UsersDataGridProps) => {
                 setIsConfirmDialogOpen(true);
               }}
               loading={isActiveStateChangeLoading && isPendingUser()}
-              disabled={(id === authenticatedUser!.id) || (!isVerified && !isActive) || (isModeChangeLoading && isPendingUser())}
+              disabled={(id === authenticatedUser!.id) /*|| (!isVerified && !isActive) */|| (isModeChangeLoading && isPendingUser())}
             >
               {isActive ? 'Deactivate' : 'Activate'}
             </LoadingButton>
