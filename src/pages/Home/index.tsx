@@ -187,7 +187,7 @@ const Home = () => {
     // Calculate water litres used, power kW used, cost, CO2 & time consumptionResults
     const consumptionResult = calculator.calculateConsumption();
     if (consumptionResult) setConsumptionResult(consumptionResult);
-  }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities]);
+  }, [waterLitreCHF, waterLitreCO2, kWhCHF, kWhCO2, cop, type1Count, type4Count, kettleEntities, timePowerUsageRows]);
 
   const handleKettleAddClick = () => {
     const maxKettleCount = getEnumMinMax(KettleCount)[1];
@@ -423,7 +423,11 @@ const Home = () => {
           <Box id={`calculate-container-${(isMobile() ? 'mobile' : 'desktop')}`}>
             <Box id='button-grid-container'>
               <Box id='data-grid'>
-                <TimePowerDataGrid rows={timePowerUsageRows} iceWaterCoolingEntity={iceWaterCoolingEntity} />
+                <TimePowerDataGrid
+                  rows={timePowerUsageRows}
+                  setRows={setTimePowerUsageRows}
+                  iceWaterCoolingEntity={iceWaterCoolingEntity}
+                />
               </Box>
               <Box id='button-container'>
 

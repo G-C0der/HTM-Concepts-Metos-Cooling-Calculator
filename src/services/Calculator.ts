@@ -117,12 +117,12 @@ export class Calculator {
     const usedPowerRowIndexes = timeIndexUsedPowerMap.map(timeIndexUsedPowerEntry => timeIndexUsedPowerEntry.rowIndex);
     const maxTimeIndex = 23;
     const maxPowerKW = this.iceWaterCoolingEntity.getMaxPowerKW();
-    const rechargeRateKW = this.iceWaterCoolingEntity.getRechargeRateKW();
 
     let lastRowPowerKW;
     for (let rowIndex = timeIndexUsedPowerMap[0].rowIndex; rowIndex <= maxTimeIndex; rowIndex++) {
       // Recharge
       if (lastRowPowerKW && lastRowPowerKW < maxPowerKW) {
+        const rechargeRateKW = this.iceWaterCoolingEntity.getRechargeRateKW(this.timePowerUsageRows[rowIndex - 1].id);
         const powerKWAfterRecharge = lastRowPowerKW + rechargeRateKW;
         this.timePowerUsageRows[rowIndex].powerKW! = powerKWAfterRecharge;
         if (powerKWAfterRecharge > maxPowerKW) this.timePowerUsageRows[rowIndex].powerKW! = maxPowerKW;
@@ -178,7 +178,7 @@ export class Calculator {
       foodLitresTotal
     };
   };
-  
+
   calculateC5iRecommendationsRows = (iceWaterCoolingEntity: IceWaterCoolingEntity): C5iRecommendationsRow[] => {
     // Fill up C5i C3 cooling percent
     const c3CoolingPercents = [];

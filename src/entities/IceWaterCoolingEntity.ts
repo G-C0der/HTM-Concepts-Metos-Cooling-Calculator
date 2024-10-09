@@ -2,8 +2,10 @@ import {IceWaterCoolingKw} from "../enums/IceWaterCoolingKw";
 import {getHoursOfDay} from "../utils";
 import {CoolingEntity} from "./CoolingEntity";
 import {IceWaterCoolingCount} from "../enums/IceWaterCoolingCount";
+import {KettlePowerRegenPercent} from "../enums/KettlePowerRegenPercent";
 
 interface TimePowerUsage {
+  powerRegenPercent: number;
   time: string;
   powerKW?: number;
 }
@@ -33,7 +35,7 @@ class IceWaterCoolingEntity extends CoolingEntity {
     super();
 
     for (const hour of getHoursOfDay(6)) {
-      this.timePowerUsageRows.push({ id: hour, time: hour, powerKW: undefined });
+      this.timePowerUsageRows.push({ id: hour, powerRegenPercent: KettlePowerRegenPercent.Percent100 / 100, time: hour, powerKW: undefined });
     }
   }
 
@@ -56,8 +58,8 @@ class IceWaterCoolingEntity extends CoolingEntity {
   getMaxPowerKW = () => (this.type1Count * IceWaterCoolingEntity.maxPowerKWType1) +
     (this.type4Count * IceWaterCoolingEntity.maxPowerKWType4);
 
-  getRechargeRateKW = () => (this.type1Count * IceWaterCoolingEntity.rechargeRateKWType1) +
-    (this.type4Count * IceWaterCoolingEntity.rechargeRateKWType4);
+  getRechargeRateKW = (timePowerUsageRowId: string) => ((this.type1Count * IceWaterCoolingEntity.rechargeRateKWType1) +
+    (this.type4Count * IceWaterCoolingEntity.rechargeRateKWType4)) * this.timePowerUsageRows.find(row => row.id === timePowerUsageRowId)!.powerRegenPercent;
 
   setTimePowerUsageRows = () => {
     for (const timePowerUsageRow of this.timePowerUsageRows) {
