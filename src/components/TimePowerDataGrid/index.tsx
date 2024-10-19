@@ -18,7 +18,7 @@ export const TimePowerDataGrid = ({ rows, setRows, iceWaterCoolingEntity }: Time
   const columns: GridColDef[] = [
     {
       field: 'powerRegenPercent',
-      headerName: 'Power Regen. %',
+      headerName: 'Power Regen.',
       width: 140,
       renderCell: ({ row: { id, powerRegenPercent } }: GridCellParams) => (
         <Select
@@ -51,7 +51,7 @@ export const TimePowerDataGrid = ({ rows, setRows, iceWaterCoolingEntity }: Time
     },
     {
       field: 'powerKW',
-      headerName: 'Power kW',
+      headerName: 'Rest Power',
       width: 80,
       valueGetter: (params) => params.value
         ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.value)}%`
