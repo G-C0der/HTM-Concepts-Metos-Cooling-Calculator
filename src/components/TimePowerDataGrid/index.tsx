@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import {IceWaterCoolingEntity, TimePowerUsageRow} from "../../entities/IceWaterCoolingEntity";
 import {getEnumNumericValues, round} from "../../utils";
 import './style.css';
-import {KettleSizeLitres} from "../../enums/KettleSizeLitres";
 import {MenuItem, Select} from "@mui/material";
 import {KettlePowerRegenPercent} from "../../enums/KettlePowerRegenPercent";
 
@@ -52,7 +51,6 @@ export const TimePowerDataGrid = ({ rows, setRows, iceWaterCoolingEntity }: Time
     {
       field: 'powerKW',
       headerName: 'Rest Power',
-      width: 80,
       valueGetter: (params) => params.value
         ? `${round(100 / iceWaterCoolingEntity.getMaxPowerKW() * params.value)}%`
         : '-',
@@ -72,7 +70,7 @@ export const TimePowerDataGrid = ({ rows, setRows, iceWaterCoolingEntity }: Time
   };
 
   return (
-    <Box sx={{ height: 910, width: 350 }}>
+    <Box sx={{ height: 910, width: 360 }}>
       <DataGrid
         rows={rows}
         columns={columns}
