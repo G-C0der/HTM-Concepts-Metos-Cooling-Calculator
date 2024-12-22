@@ -9,8 +9,9 @@ import htmConceptsLogo from "../../assets/img/HTM_Concepts_AG_Logo_2019_white.pn
 import metosLogo from '../../assets/img/metos_logo.png';
 import elroLogo from '../../assets/img/ELRO_logo_new.png';
 import schmolkeLogo from '../../assets/img/Schmolke_logo_new.jpeg';
+import stierlenLogo from '../../assets/img/Stierlen_logo.png';
 import {User} from "../../types";
-import {elroWebsite, htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite, schmolkeWebsite} from "../../config";
+import {elroWebsite, htmConceptsWebsite, htmConceptsWebsiteContact, metosWebsite, schmolkeWebsite, stierlenWebsite} from "../../config";
 import {ProfileMenu} from "../ProfileMenu";
 import MenuIcon from '@mui/icons-material/Menu';
 import {isMobile} from '../../utils';
@@ -50,6 +51,11 @@ export const CustomAppBar = ({
       break;
     case UserMode.UserModeSchmolke:
       logoConfig = { img: schmolkeLogo, url: schmolkeWebsite, width: 180, style: isMob
+        ? { marginRight: -30 }
+        : { marginLeft: 25 } };
+      break;
+    case UserMode.UserModeStierlen:
+      logoConfig = { img: stierlenLogo, url: stierlenWebsite, width: isMob ? 180 : 230, style: isMob
         ? { marginRight: -30 }
         : { marginLeft: 25 } };
       break;
